@@ -1,6 +1,6 @@
 package com.ssafy.soyu.item;
 
-import com.ssafy.soyu.member.Member;
+import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

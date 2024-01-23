@@ -1,6 +1,6 @@
 package com.ssafy.soyu.notice;
 
-import com.ssafy.soyu.member.Member;
+import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 

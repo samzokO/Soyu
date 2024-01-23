@@ -2,7 +2,7 @@ package com.ssafy.soyu.message;
 
 import com.ssafy.soyu.chat.Chat;
 import com.ssafy.soyu.file.File;
-import com.ssafy.soyu.member.Member;
+import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 
