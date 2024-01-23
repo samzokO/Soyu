@@ -4,6 +4,8 @@ spring:
     url: jdbc:mysql://localhost:3306/soyu
     username: root
     password: 1234
+  profiles:
+    include: auth
 
   jpa:
     hibernate:
@@ -16,6 +18,6 @@ spring:
 
 
 logging:
-  leve  l:
+  level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace # log 단계에서 쿼리문을 나타낸다 !
