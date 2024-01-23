@@ -1,6 +1,7 @@
 package com.ssafy.soyu.member.controller;
 
-import com.ssafy.soyu.member.service.MemberService;
+import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.service.MemberServiceImpl;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.naver.dto.NaverProfile;
 import com.ssafy.soyu.util.naver.dto.request.NaverLoginRequest;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/naver")
 public class NaverController {
-    private final MemberService authService;
+    private final MemberServiceImpl memberService;
     private final NaverAuthService naverAuthService;
 
     //네이버 로그인
@@ -29,7 +30,13 @@ public class NaverController {
 
         //사용자 정보 가져오거나 회원가입
         NaverProfile profile = naverAuthService.getUserInfo(naverAccessToken); //발급 받은 토큰으로 사용자 프로필 조회
-        TokenResponse token = authService.login(profile); //사용자 프로필 기반 로그인 or 회원가입
+
+        Member member = memberService.findByEmail(profile.getEmail()).orElseGet(()-> naverSignUp(profile));
+        TokenResponse token = memberService.login(member, profile.getEmail()); //사용자 프로필 기반 로그인 or 회원가입
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);
+    }
+
+    private Member naverSignUp(NaverProfile profile){
+        return memberService.signUp(naverAuthService.makeNewUser(profile));
     }
 }
