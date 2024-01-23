@@ -32,14 +32,4 @@ public class CommonResponseEntity {
                         .message(sc.getMessage())
                         .build());
     }
-
-    public static ResponseEntity<CommonResponseEntity> getResponseEntity(ErrorCode ec) {
-        return ResponseEntity
-                .status(ec.getHttpStatus())
-                .body(CommonResponseEntity.builder()
-                        .statusCode(ec.getHttpStatus().value())
-                        .statusName(ec.name())
-                        .message(ec.getMessage())
-                        .build());
-    }
 }
