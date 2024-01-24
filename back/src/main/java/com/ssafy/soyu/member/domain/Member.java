@@ -24,15 +24,17 @@ public class Member {
     private String email;
     private String nickName;
     private String name;
+    private String mobile;
     private String credit_name;
     private String credit_info;
     private Boolean isWithdraw;
 
     @Builder
-    public Member(String email, String name ,String nickname) {
+    public Member(String email, String name , String nickname, String mobile) {
         this.email = email;
         this.name = name;
         this.nickName = nickname;
+        this.mobile = mobile;
     }
 
 }

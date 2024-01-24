@@ -15,6 +15,7 @@ public class NaverProfile {
         private String email;
         private String nickname;
         private String name;
+        private String mobile;
     }
 
     public String getEmail() {
@@ -27,6 +28,10 @@ public class NaverProfile {
 
     public String getName(){
         return response.name;
+    }
+
+    public String getMobile(){
+        return response.mobile;
     }
 
 }

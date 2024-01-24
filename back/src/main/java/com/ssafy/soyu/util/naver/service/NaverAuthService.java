@@ -78,6 +78,7 @@ public class NaverAuthService {
                 .email(profile.getEmail())
                 .nickname(profile.getNickname())
                 .name(profile.getName())
+                .mobile(profile.getMobile())
                 .build();
        return newMember;
     }
