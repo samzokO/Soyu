@@ -6,13 +6,17 @@ import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.domain.Notice;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
+import com.ssafy.soyu.notice.dto.response.NoticeResponseDto;
 import com.ssafy.soyu.notice.repository.NoticeRepository;
 import com.ssafy.soyu.util.fcm.domain.Fcm;
 import com.ssafy.soyu.util.fcm.dto.FcmMessage;
 import com.ssafy.soyu.util.fcm.repository.FcmRepository;
 import com.ssafy.soyu.util.fcm.service.FcmService;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,5 +58,24 @@ public class NoticeService {
             throw new RuntimeException(e);
           }
         });
+  }
+
+  public List<NoticeResponseDto> findNotice(Long memberId) {
+    return noticeRepository.findByMemberId(memberId)
+        .stream()
+        .map(n -> new NoticeResponseDto(n))
+        .collect(Collectors.toList());
+  }
+
+  @Modifying
+  @Transactional
+  public void readNotice(Long noticeId){
+    noticeRepository.readNoticeByNoticeId(noticeId);
+  }
+
+  @Modifying
+  @Transactional
+  public void deleteNotice(Long noticeId){
+    noticeRepository.deleteNoticeByNoticeId(noticeId);
   }
 }
