@@ -26,7 +26,7 @@ public class MemberController {
         if (bearerToken.startsWith("Bearer"))
             refreshToken = bearerToken.substring(7);
         //리프레시토큰 -> 토큰 검증 -> 토큰 재발급 -> db저장
-        TokenResponse token = memberService.recreateToken(refreshToken, request);
+        TokenResponse token = memberService.recreateToken(refreshToken);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);
     }
 }

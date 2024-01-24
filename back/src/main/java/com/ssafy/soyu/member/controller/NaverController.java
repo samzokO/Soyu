@@ -32,7 +32,7 @@ public class NaverController {
         NaverProfile profile = naverAuthService.getUserInfo(naverAccessToken); //발급 받은 토큰으로 사용자 프로필 조회
 
         Member member = memberService.findByEmail(profile.getEmail()).orElseGet(()-> naverSignUp(profile));
-        TokenResponse token = memberService.login(member, profile.getEmail()); //사용자 프로필 기반 로그인 or 회원가입
+        TokenResponse token = memberService.login(member); //사용자 프로필 기반 로그인 or 회원가입
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);
     }
 

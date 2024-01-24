@@ -6,21 +6,11 @@ import com.ssafy.soyu.util.response.exception.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -35,40 +25,22 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generate(String subject, Date expiredAt) {
-        return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(expiredAt)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
-    }
-
-    public TokenResponse createToken(Authentication authentication, String memberId) {
-        // 사용자의 권한 정보 가져오기
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-        if(authorities.isEmpty())
-            authorities = null;
-
-
+    public TokenResponse createToken(Long memberId) {
         long now = (new Date()).getTime();
         Date accessTokenExpiredAt = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         Date refreshTokenExpiredAt = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
 
-
+        String id = memberId.toString();
         // Access Token 생성
         String accessToken = Jwts.builder()
-                .claim("auth", authorities)
-                .claim("memberId", memberId)
+                .setSubject(id)
                 .setExpiration(accessTokenExpiredAt)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .claim("auth", authorities)
-                .claim("memberId", memberId)
+                .setSubject(id)
                 .setExpiration(refreshTokenExpiredAt)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
@@ -76,24 +48,9 @@ public class JwtTokenProvider {
         return TokenResponse.of(accessToken, refreshToken, BEARER_TYPE);
     }
 
-    public Authentication getAuthentication(String accessToken, ServletRequest request) {
-        // 토큰 복호화
+    public String getSubject(String accessToken) {
         Claims claims = parseClaims(accessToken);
-
-        if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-        }
-
-        // 클레임에서 권한 정보 가져오기
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-
-        // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = new User(claims.get("memberId",String.class), "", authorities);
-        request.setAttribute("memberId", claims.get("memberId"));
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return claims.getSubject();
     }
 
 //     토큰 검증
