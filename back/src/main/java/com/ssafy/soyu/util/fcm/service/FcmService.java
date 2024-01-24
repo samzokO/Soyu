@@ -37,7 +37,7 @@ public class FcmService {
    * @return 성공 URL
    * @throws FirebaseMessagingException
    */
-  public String sendNotification(FcmMessage fcmMessage) throws FirebaseMessagingException {
+  public String sendNotice(FcmMessage fcmMessage) throws FirebaseMessagingException {
     Message message = Message.builder()
         .setToken(fcmMessage.getToken())
         .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
