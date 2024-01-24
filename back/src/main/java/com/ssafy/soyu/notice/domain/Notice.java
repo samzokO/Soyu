@@ -3,12 +3,15 @@ package com.ssafy.soyu.notice.domain;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "notice")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice {
   @Id
   @GeneratedValue
@@ -34,6 +37,6 @@ public class Notice {
     this.title = noticeRequestDto.getTitle();
     this.content = noticeRequestDto.getContent();
     this.type = noticeRequestDto.getNoticeType();
-    this.status = NoticeStatus.valueOf("RECEIVE");
+    this.status = NoticeStatus.RECEIVE;
   }
 }
