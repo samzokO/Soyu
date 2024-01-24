@@ -3,6 +3,7 @@ package com.ssafy.soyu.member.controller;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.service.MemberServiceImpl;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
+import com.ssafy.soyu.util.naver.NaverProperties;
 import com.ssafy.soyu.util.naver.dto.NaverProfile;
 import com.ssafy.soyu.util.naver.dto.request.NaverLoginRequest;
 import com.ssafy.soyu.util.naver.service.NaverAuthService;
@@ -10,10 +11,9 @@ import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URLEncoder;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class NaverController {
     private final MemberServiceImpl memberService;
     private final NaverAuthService naverAuthService;
+    private final NaverProperties naverProperties;
+
+    @GetMapping("")
+    public String naver() throws Exception {
+        return "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" + naverProperties.getClientId()
+                + "&state=" + naverProperties.getState()
+                + "&redirect_uri=" + naverProperties.getRedirectUri();
+    }
 
     //네이버 로그인
     @PostMapping("/login")

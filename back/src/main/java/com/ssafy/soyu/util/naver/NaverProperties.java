@@ -12,4 +12,6 @@ public class NaverProperties {
     private String clientId;
     private String clientSecret;
     private String authorizationGrantType;
+    private String state;
+    private String redirectUri;
 }
