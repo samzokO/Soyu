@@ -66,8 +66,8 @@ public class MemberServiceImpl implements MemberService {
 
         //db에 있는 토큰과 일치하면 토큰 재발급
         TokenResponse token = jwtTokenProvider.createToken(memberId);
-        RefreshToken rToken = RefreshToken.createRefreshToken(member, token.getRefreshToken());
+        RefreshToken rToken = authRepository.findByMemberId(memberId).get().updateRefreshToken(token.getRefreshToken());
         authRepository.save(rToken);
-        return null;
+        return token;
     }
 }
