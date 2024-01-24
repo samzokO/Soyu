@@ -52,21 +52,16 @@ public class MemberServiceImpl implements MemberService {
         }
 
         Long memberId = Long.parseLong(jwtTokenProvider.getSubject(refreshToken));
-        Member member = memberRepository.findById(memberId).get();
 
-        //들어온 refreshToken으로 유저를 찾을 수 없을 때
-        if(member == null){
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
-
-        //유저가 있다면 -> db에 있는 토큰과 비교
-        if(!refreshToken.equals(authRepository.findByMemberId(memberId).get().getToken())){
+        //들어온 refreshToken으로 저장된 값이 없을 때
+        RefreshToken rToken = authRepository.findByToken(refreshToken).get();
+        if(rToken == null){
             throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
         }
 
         //db에 있는 토큰과 일치하면 토큰 재발급
         TokenResponse token = jwtTokenProvider.createToken(memberId);
-        RefreshToken rToken = authRepository.findByMemberId(memberId).get().updateRefreshToken(token.getRefreshToken());
+        rToken.updateRefreshToken(token.getRefreshToken());
         authRepository.save(rToken);
         return token;
     }
