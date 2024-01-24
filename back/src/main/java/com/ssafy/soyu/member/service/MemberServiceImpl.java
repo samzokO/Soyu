@@ -8,6 +8,7 @@ import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.jwt.repository.AuthRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,19 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
+    @Transactional
     public TokenResponse login(Member member) {
         //accessToken, refreshToken 발급
         TokenResponse token = jwtTokenProvider.createToken(member.getId());
 
-        //DB에 refreshToken 저장
-        RefreshToken refreshToken = RefreshToken.createRefreshToken(member, token.getRefreshToken());
-        authRepository.save(refreshToken);
+        // DB에서 해당 member의 refreshToken을 새 토큰으로 업데이트
+        int updatedRows = authRepository.updateRefreshTokenFindByMember(member, token.getRefreshToken());
+
+        // 업데이트된 행이 없다면 새 refreshToken 생성 및 저장 == 회원가입한 유저
+        if (updatedRows == 0) {
+            RefreshToken newRefreshToken = RefreshToken.createRefreshToken(member, token.getRefreshToken());
+            authRepository.save(newRefreshToken);
+        }
         return token;
     }
 
@@ -43,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public TokenResponse recreateToken(String refreshToken) {
         //유효성 검사
         try{
@@ -53,16 +61,17 @@ public class MemberServiceImpl implements MemberService {
 
         Long memberId = Long.parseLong(jwtTokenProvider.getSubject(refreshToken));
 
-        //들어온 refreshToken으로 저장된 값이 없을 때
-        Optional<RefreshToken> refresh = authRepository.findByToken(refreshToken);
-        if(!refresh.isPresent()){
+        // 새로운 토큰 생성
+        TokenResponse token = jwtTokenProvider.createToken(memberId);
+
+        // DB에서 refreshToken을 새 토큰으로 업데이트
+        int updatedRows = authRepository.updateRefreshTokenFindByToken(refreshToken, token.getRefreshToken());
+
+        // 업데이트된 행이 없다면, 유효하지 않은 refreshToken
+        if (updatedRows == 0) {
             throw new CustomException(ErrorCode.INVALID_AUTH_TOKEN);
         }
-        RefreshToken rToken = refresh.get();
-        //db에 있는 토큰과 일치하면 토큰 재발급
-        TokenResponse token = jwtTokenProvider.createToken(memberId);
-        rToken.updateRefreshToken(token.getRefreshToken());
-        authRepository.save(rToken);
+
         return token;
     }
 }
