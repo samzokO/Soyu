@@ -5,7 +5,9 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushNotification;
+import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.util.fcm.domain.Fcm;
 import com.ssafy.soyu.util.fcm.dto.FcmMessage;
 import com.ssafy.soyu.util.fcm.repository.FcmRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +21,19 @@ public class FcmService {
   private final MemberRepository memberRepository;
   private final FirebaseMessaging firebaseMessaging;
 
-//  /**
-//   * FCM 토큰을 유저에 매칭해서 DB에 저장
-//   * @param memberId 유저 식별자
-//   * @param token 등록할 토큰
-//   */
-//  public void register(final Long memberId, final String token) {
-//    Member member = memberRepository.findOne(memberId);
-//    Fcm fcm = Fcm.createFcm(member, token);
-//    fcmRepository.save(fcm);
-//  }
+  /**
+   * FCM 토큰을 유저에 매칭해서 DB에 저장
+   * @param memberId 유저 식별자
+   * @param token 등록할 토큰
+   */
+  public void register(final Long memberId, final String token) {
+    Member member = memberRepository.getOne(memberId);
+    Fcm fcm = Fcm.createFcm(member, token);
+    fcmRepository.save(fcm);
+  }
 
   /**
    * FcmMessage 전송
-   *
    * @param fcmMessage
    * @return 성공 URL
    * @throws FirebaseMessagingException
