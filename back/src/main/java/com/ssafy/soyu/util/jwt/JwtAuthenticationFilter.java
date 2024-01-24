@@ -1,10 +1,14 @@
 package com.ssafy.soyu.util.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -34,16 +38,36 @@ public class JwtAuthenticationFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+
         try{
             String accessToken = Optional.ofNullable(resolveToken((HttpServletRequest) request))
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_AUTH_TOKEN));
 
-            if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
+            if (!(accessToken != null && jwtTokenProvider.validateToken(accessToken))) {
                 // 토큰이 유효할 경우
                 chain.doFilter(request, response);
             }
         }catch (StringIndexOutOfBoundsException e) {
             throw new CustomException(ErrorCode.NOT_FOUND_AUTH_TOKEN);
+        } catch (CustomException e) {
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            setErrorResponse(httpServletResponse, e.getErrorCode());
+        }
+    }
+
+    private void setErrorResponse(HttpServletResponse response, ErrorCode ec) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.setStatus(ec.getHttpStatus().value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8");
+        ErrorResponseEntity errorResponseEntity = ErrorResponseEntity.builder()
+                .statusCode(ec.getHttpStatus().value())
+                .statusName(ec.name())
+                .message(ec.getMessage())
+                .build();
+        try {
+            response.getWriter().write(objectMapper.writeValueAsString(errorResponseEntity));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

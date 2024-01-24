@@ -54,11 +54,11 @@ public class MemberServiceImpl implements MemberService {
         Long memberId = Long.parseLong(jwtTokenProvider.getSubject(refreshToken));
 
         //들어온 refreshToken으로 저장된 값이 없을 때
-        RefreshToken rToken = authRepository.findByToken(refreshToken).get();
-        if(rToken == null){
-            throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
+        Optional<RefreshToken> refresh = authRepository.findByToken(refreshToken);
+        if(!refresh.isPresent()){
+            throw new CustomException(ErrorCode.INVALID_AUTH_TOKEN);
         }
-
+        RefreshToken rToken = refresh.get();
         //db에 있는 토큰과 일치하면 토큰 재발급
         TokenResponse token = jwtTokenProvider.createToken(memberId);
         rToken.updateRefreshToken(token.getRefreshToken());
