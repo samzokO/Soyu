@@ -2,15 +2,10 @@ package com.ssafy.soyu.util.jwt;
 
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,38 +13,40 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter implements Filter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final static String main = "/";
     private final static List<String> whiteList = new ArrayList<>();
     static {
         whiteList.add("/naver");
+        whiteList.add("/member/token");
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+
+        String requestURI = httpServletRequest.getRequestURI();
+
+        //main url 이거나 whiteList url이면 다음 필터로
         if (requestURI.equals(main) || checkWhiteList(requestURI)) {
-            filterChain.doFilter(request, response);
+            chain.doFilter(request, response);
             return;
         }
-
         try{
-            String accesstoken = Optional.ofNullable(resolveToken((HttpServletRequest) request))
+            String accessToken = Optional.ofNullable(resolveToken((HttpServletRequest) request))
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_AUTH_TOKEN));
 
-            if (accesstoken != null && jwtTokenProvider.validateToken(accesstoken)) {
-                // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
-
-                Authentication authentication = jwtTokenProvider.getAuthentication(accesstoken, request);
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
+                // 토큰이 유효할 경우
+                chain.doFilter(request, response);
             }
-        } catch (StringIndexOutOfBoundsException e) {
+        }catch (StringIndexOutOfBoundsException e) {
             throw new CustomException(ErrorCode.NOT_FOUND_AUTH_TOKEN);
         }
     }
+
 
     // 헤더에서 토큰 추출
     private String resolveToken(HttpServletRequest request) {
@@ -68,4 +65,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return false;
     }
+
 }
