@@ -20,15 +20,15 @@ public class MessageController {
   private final MessageRepository messageRepository;
 
   // ws 요청
-  // 메세지 pub 요청 받고 sub 로 뿌려주기 ( 내부에 메시지 DB 에 저장하는 로직 추가)
+  // 메세지 sub 요청 받고 pub 로 뿌려주기 ( 내부에 메시지 DB 에 저장하는 로직 추가)
   // sub/message
-  @MessageMapping("message")
+  @MessageMapping("/message")
   public void message (@RequestBody MessageRequest messageRequest) {
     // 들어온 메세지 DB 저장
     messageService.save(messageRequest);
 
-    // sub 로 들어온 요청 pub 으로 뿌려주기
-    template.convertAndSend("pub/message/" + messageRequest.chatId, messageRequest);
+    // pub 로 들어온 요청 sub 으로 뿌려주기
+    template.convertAndSend("sub/message/" + messageRequest.chatId, messageRequest);
   }
 
   // http 요청
