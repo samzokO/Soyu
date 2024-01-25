@@ -40,11 +40,19 @@ public class JwtAuthenticationFilter implements Filter {
         }
 
         try{
-            String accessToken = Optional.ofNullable(resolveToken((HttpServletRequest) request))
-                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_AUTH_TOKEN));
+            String accessToken = resolveToken((HttpServletRequest) request);
+            Long memberId = null;
 
-            if (!(accessToken != null && jwtTokenProvider.validateToken(accessToken))) {
+            //비회원인 경우
+            if(accessToken == null){
+                request.setAttribute("memberId", memberId);
+                chain.doFilter(request,response);
+            }
+            //회원인 경우
+            if (accessToken != null && jwtTokenProvider.validateToken(accessToken)) {
                 // 토큰이 유효할 경우
+                memberId = jwtTokenProvider.getMemberIdFromToken(accessToken);
+                request.setAttribute("memberId", memberId);
                 chain.doFilter(request, response);
             }
         }catch (StringIndexOutOfBoundsException e) {

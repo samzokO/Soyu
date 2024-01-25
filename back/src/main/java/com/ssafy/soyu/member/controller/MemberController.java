@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
-    //토큰 재발급
+    //토큰 재발급 == filter 안거침 == 헤더에서 직접 가져와야함.
     @PostMapping("/token")
     public ResponseEntity<?> recreateToken
-            (@RequestHeader(value = "Authorization", required = false) String bearerToken, HttpServletRequest request) {
+            (@RequestHeader(value = "Authorization", required = false) String bearerToken) {
         String refreshToken = memberService.getToken(bearerToken);
 
         //리프레시토큰 -> 토큰 검증 -> 토큰 재발급 -> db저장

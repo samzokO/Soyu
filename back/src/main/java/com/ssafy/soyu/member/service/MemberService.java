@@ -49,11 +49,7 @@ public class MemberService {
     @Transactional
     public TokenResponse recreateToken(String refreshToken) {
         //유효성 검사
-        try{
-            if (!jwtTokenProvider.validateToken(refreshToken)) return null;
-        } catch (Exception e) {
-            throw new CustomException(ErrorCode.EXPIRED_AUTH_TOKEN);
-        }
+        if (!jwtTokenProvider.validateToken(refreshToken)) return null;
 
         Long memberId = jwtTokenProvider.getMemberIdFromToken(refreshToken);
 
