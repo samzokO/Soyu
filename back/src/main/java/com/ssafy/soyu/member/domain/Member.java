@@ -25,8 +25,8 @@ public class Member {
     private String nickName;
     private String name;
     private String mobile;
-    private String credit_name;
-    private String credit_info;
+    private String bank_name;
+    private String account_number;
     private Boolean isWithdraw;
 
     @Builder
