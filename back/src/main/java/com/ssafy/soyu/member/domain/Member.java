@@ -2,6 +2,7 @@ package com.ssafy.soyu.member.domain;
 
 import com.ssafy.soyu.file.File;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "member")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
     @GeneratedValue
@@ -23,15 +24,17 @@ public class Member {
     private String email;
     private String nickName;
     private String name;
+    private String mobile;
     private String credit_name;
     private String credit_info;
     private Boolean isWithdraw;
 
     @Builder
-    public Member(String email, String name ,String nickname) {
+    public Member(String email, String name , String nickname, String mobile) {
         this.email = email;
         this.name = name;
         this.nickName = nickname;
+        this.mobile = mobile;
     }
 
 }
