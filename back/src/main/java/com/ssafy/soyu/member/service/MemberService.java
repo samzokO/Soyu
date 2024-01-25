@@ -1,6 +1,7 @@
 package com.ssafy.soyu.member.service;
 
 import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.util.jwt.JwtTokenProvider;
 import com.ssafy.soyu.util.jwt.domain.RefreshToken;
@@ -72,5 +73,10 @@ public class MemberService {
         if (bearerToken.startsWith("Bearer"))
             token = bearerToken.substring(7);
         return token;
+    }
+
+    @Transactional
+    public void updateAccount(Long memberId, AccountDto accountDto) {
+        memberRepository.updateAccount(memberId, accountDto.getBankName(), accountDto.getAccountNumber());
     }
 }
