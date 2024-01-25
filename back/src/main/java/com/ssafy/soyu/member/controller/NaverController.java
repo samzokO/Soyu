@@ -1,7 +1,7 @@
 package com.ssafy.soyu.member.controller;
 
 import com.ssafy.soyu.member.domain.Member;
-import com.ssafy.soyu.member.service.MemberServiceImpl;
+import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.naver.NaverProperties;
 import com.ssafy.soyu.util.naver.dto.NaverProfile;
@@ -13,13 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URLEncoder;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/naver")
 public class NaverController {
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
     private final NaverAuthService naverAuthService;
     private final NaverProperties naverProperties;
 
