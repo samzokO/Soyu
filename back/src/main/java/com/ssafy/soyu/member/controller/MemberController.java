@@ -10,6 +10,8 @@ import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,11 +32,12 @@ public class MemberController {
     }
 
     @PatchMapping("/account")
-    public ResponseEntity<?> registrationAccount(@RequestBody AccountDto accountDto, HttpServletRequest request){
+    public ResponseEntity<?> registrationAccount(@Validated @RequestBody AccountDto accountDto, BindingResult bindingResult, HttpServletRequest request){
         // HttpServletRequest에서  멤버 id 가져오기
         Long memberId = (Long) request.getAttribute("memberId");
-        System.out.println(memberId);
         if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        if (bindingResult.hasErrors())
+            throw new CustomException(ErrorCode.INPUT_EXCEPTION);
         memberService.updateAccount(memberId, accountDto);
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
@@ -42,9 +45,7 @@ public class MemberController {
 
     @DeleteMapping("/account")
     public ResponseEntity<?> deleteAccount(HttpServletRequest request){
-        // HttpServletRequest에서  멤버 id 가져오기
         Long memberId = (Long) request.getAttribute("memberId");
-        System.out.println(memberId);
         if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
         memberService.deleteAccount(memberId);
 
