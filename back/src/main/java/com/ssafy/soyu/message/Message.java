@@ -4,13 +4,16 @@ import com.ssafy.soyu.chat.Chat;
 import com.ssafy.soyu.file.File;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "message")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Message {
     @Id
     @GeneratedValue
@@ -29,7 +32,13 @@ public class Message {
     @JoinColumn(name = "file_id")
     private File file;
 
-    LocalDateTime regDate;
     private String content;
 
+    LocalDateTime regDate;
+
+    public Message(Chat chat, Member member, String content) {
+        this.chat = chat;
+        this.member = member;
+        this.content = content;
+    }
 }
