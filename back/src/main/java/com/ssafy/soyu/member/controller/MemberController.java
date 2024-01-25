@@ -39,4 +39,17 @@ public class MemberController {
 
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
+
+    @DeleteMapping("/account")
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request){
+        // HttpServletRequest에서  멤버 id 가져오기
+        Long memberId = (Long) request.getAttribute("memberId");
+        System.out.println(memberId);
+        if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        memberService.deleteAccount(memberId);
+
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
+
+
 }

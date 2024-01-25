@@ -79,4 +79,9 @@ public class MemberService {
     public void updateAccount(Long memberId, AccountDto accountDto) {
         memberRepository.updateAccount(memberId, accountDto.getBankName(), accountDto.getAccountNumber());
     }
+
+    @Transactional
+    public void deleteAccount(Long memberId) {
+        memberRepository.updateAccount(memberId, null, null);
+    }
 }
