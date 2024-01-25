@@ -22,9 +22,8 @@ public class MemberController {
     @PostMapping("/token")
     public ResponseEntity<?> recreateToken
             (@RequestHeader(value = "Authorization", required = false) String bearerToken, HttpServletRequest request) {
-        String refreshToken = null;
-        if (bearerToken.startsWith("Bearer"))
-            refreshToken = bearerToken.substring(7);
+        String refreshToken = memberService.getToken(bearerToken);
+
         //리프레시토큰 -> 토큰 검증 -> 토큰 재발급 -> db저장
         TokenResponse token = memberService.recreateToken(refreshToken);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);

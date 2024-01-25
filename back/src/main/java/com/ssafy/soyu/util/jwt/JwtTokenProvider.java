@@ -53,6 +53,10 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
+    public Long getMemberIdFromToken(String token) {
+        return Long.parseLong(getSubject(token));
+    }
+
 //     토큰 검증
     public boolean validateToken(String token) {
         try {

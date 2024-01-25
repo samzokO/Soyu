@@ -55,7 +55,7 @@ public class MemberService {
             throw new CustomException(ErrorCode.EXPIRED_AUTH_TOKEN);
         }
 
-        Long memberId = Long.parseLong(jwtTokenProvider.getSubject(refreshToken));
+        Long memberId = jwtTokenProvider.getMemberIdFromToken(refreshToken);
 
         // 새로운 토큰 생성
         TokenResponse token = jwtTokenProvider.createToken(memberId);
@@ -68,6 +68,13 @@ public class MemberService {
             throw new CustomException(ErrorCode.INVALID_AUTH_TOKEN);
         }
 
+        return token;
+    }
+
+    public String getToken(String bearerToken) {
+        String token = null;
+        if (bearerToken.startsWith("Bearer"))
+            token = bearerToken.substring(7);
         return token;
     }
 }
