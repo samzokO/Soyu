@@ -1,4 +1,4 @@
-package com.ssafy.soyu.history;
+package com.ssafy.soyu.history.domain;
 
 import com.ssafy.soyu.item.Item;
 import com.ssafy.soyu.member.domain.Member;
@@ -25,4 +25,6 @@ public class History {
     private Member member;
 
     LocalDateTime regDate;
+
+    private boolean is_Delete;
 }
