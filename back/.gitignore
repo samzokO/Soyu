@@ -26,6 +26,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 application-auth.properties
+firebase-service-account.json
 
 ### NetBeans ###
 /nbproject/private/
