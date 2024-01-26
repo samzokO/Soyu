@@ -13,6 +13,7 @@ import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.JwtTokenProvider;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Item 컨트롤러", description = "Item API 입니다.")
 @RestController
 @RequiredArgsConstructor
 @Slf4j

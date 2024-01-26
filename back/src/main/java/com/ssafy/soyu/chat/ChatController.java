@@ -2,6 +2,7 @@ package com.ssafy.soyu.chat;
 
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Chat 컨트롤러", description = "Chat API 입니다.")
 public class ChatController {
 
   private final ChatRepository chatRepository;

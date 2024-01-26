@@ -2,6 +2,7 @@ package com.ssafy.soyu.notice.controller;
 
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.fcm.service.FcmService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/notice")
 @RequiredArgsConstructor
+@Tag(name = "Notice 컨트롤러", description = "Notice API 입니다.")
 public class NoticeController {
 
   private final FcmService fcmService;

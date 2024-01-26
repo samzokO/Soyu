@@ -9,6 +9,7 @@ import com.ssafy.soyu.util.naver.dto.request.NaverLoginRequest;
 import com.ssafy.soyu.util.naver.service.NaverAuthService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/naver")
+@Tag(name = "Naver 컨트롤러", description = "Naver API 입니다.")
 public class NaverController {
     private final MemberService memberService;
     private final NaverAuthService naverAuthService;

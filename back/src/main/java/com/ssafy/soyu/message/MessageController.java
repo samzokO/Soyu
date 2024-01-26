@@ -2,6 +2,7 @@ package com.ssafy.soyu.message;
 
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
+@Tag(name = "Message 컨트롤러", description = "Message API 입니다.")
 public class MessageController {
 
   private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
