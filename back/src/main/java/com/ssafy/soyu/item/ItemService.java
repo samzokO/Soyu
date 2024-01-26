@@ -1,5 +1,9 @@
 package com.ssafy.soyu.item;
 
+import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.ChatRepository;
+import com.ssafy.soyu.history.domain.History;
+import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -12,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class ItemService {
   private final ItemRepository itemRepository;
   private final MemberRepository memberRepository;
+  private final ChatRepository chatRepository;
+  private final HistoryRepository historyRepository;
 
   public void save(Long memberId, ItemCreateRequest itemRequest) {
     Member member = memberRepository.getReferenceById(memberId);
@@ -35,5 +41,20 @@ public class ItemService {
 
     // 더티 체킹을 통한 upaate
     item.updateItemStatus(itemStatusRequest.getItemStatus());
+  }
+
+  @Transactional
+  public void makeReserve(Long chatId){
+    Chat chat = chatRepository.findById(chatId).get();
+    Item item = chat.getItem();
+    ItemStatus status = ItemStatus.from("reserve");
+    itemRepository.updateStatus(item.getId(), status); //아이템 상태 변경
+    History history = new History(item, chat.getBuyer());
+
+    //구매내역에 추가
+    historyRepository.save(history);
+
+    //payAction API
+
   }
 }

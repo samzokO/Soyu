@@ -7,6 +7,9 @@ import com.ssafy.soyu.util.response.SuccessCode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,12 +84,11 @@ public class ItemController {
 
   // 아이템 생성
   @PostMapping("item")
-  public ResponseEntity<?> createItem(@RequestHeader(value = "Authorization", required = false) String bearerToken,
+  public ResponseEntity<?> createItem(HttpServletRequest request,
                                       @RequestBody ItemCreateRequest itemRequest) {
-    Long memberId = jwtTokenProvider.getMemberIdFromToken(memberService.getToken(bearerToken));
+    Long memberId = (Long) request.getAttribute("memberId");
 
     itemService.save(memberId, itemRequest);
-
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
@@ -124,5 +126,12 @@ public class ItemController {
   // 찜한 아이템 조회
 
   // 찜한 아이템 삭제
+
+  // 거래 약속 잡기
+  @PostMapping("/item/reserve")
+  public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest reserveItemRequest){
+    itemService.makeReserve(reserveItemRequest.getChatId());
+    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+  }
 
 }
