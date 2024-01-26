@@ -25,6 +25,11 @@ public class HistoryService {
   private final ItemFileRepository itemFileRepository;
   private final MemberRepository memberRepository;
 
+  /**
+   * 구매 내역 생성<br/>
+   * memberId & itemId 필요
+   * @param request HistoryRequestDto
+   */
   @Transactional
   public void creatHistory(HistoryRequestDto request){
     Member member = memberRepository.getOne(request.getMemberId());
@@ -35,6 +40,11 @@ public class HistoryService {
     historyRepository.save(history);
   }
 
+  /**
+   * history 테이블에서 조회하는 구매 내역
+   * @param memberId 사용자 식별자
+   * @return PurchaseResponseDto
+   */
   public List<PurchaseResponseDto> getPurchaseHistory(Long memberId) {
     return historyRepository.findByMemberId(memberId)
         .stream()
@@ -42,6 +52,11 @@ public class HistoryService {
         .collect(Collectors.toList());
   }
 
+  /**
+   * item 테이블에서 조회하는 구매 내역
+   * @param memberId 사용자 식별자
+   * @return SaleResponseDto
+   */
   public List<SaleResponseDto> getSaleHistory(Long memberId) {
     return itemRepository.findByMemberId(memberId)
         .stream()
