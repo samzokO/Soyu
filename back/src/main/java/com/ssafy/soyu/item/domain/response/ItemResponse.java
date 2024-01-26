@@ -4,8 +4,10 @@ import com.ssafy.soyu.item.domain.ItemCategories;
 import com.ssafy.soyu.item.domain.ItemStatus;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @AllArgsConstructor
+@Data
 public class ItemResponse {
   Long itemId;
   Long memberId;
