@@ -21,6 +21,8 @@ public class NonMemberExceptionFilter implements Filter {
         //비회원도 접근 가능한 uri는 추가
         whiteList.add("/naver");
         whiteList.add("/member/token");
+        whiteList.add("/swagger-ui");
+        whiteList.add("/v3/api-docs");
     }
 
     @Override

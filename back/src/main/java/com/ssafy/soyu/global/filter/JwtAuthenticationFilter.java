@@ -26,6 +26,8 @@ public class JwtAuthenticationFilter implements Filter {
     static {
         whiteList.add("/naver");
         whiteList.add("/member/token");
+        whiteList.add("/swagger-ui");
+        whiteList.add("/v3/api-docs");
     }
 
     @Override
