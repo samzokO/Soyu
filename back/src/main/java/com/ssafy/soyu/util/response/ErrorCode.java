@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     /* 예시 필요한 것 추가해서 사용*/
     TEST_NOT_FOUND(HttpStatus.NOT_FOUND, "전달할 메시지"),
+    EMPTY_REQUEST_VALUE(HttpStatus.BAD_REQUEST, "request 값이 비어있습니다."),
 
     //회원 관련 예외
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 정보의 사용자를 찾을 수 없습니다."),

@@ -2,10 +2,13 @@ package com.ssafy.soyu.history.controller;
 
 import com.ssafy.soyu.history.service.HistoryService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
+import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +53,11 @@ public class HistoryController {
    * @return
    */
   @DeleteMapping("")
-  public void deleteHistory(@RequestParam List<Long> historyIdList){
+  public ResponseEntity<?> deleteHistory(@RequestParam(value = "historyId") List<Long> historyIdList){
+    if(historyIdList == null || historyIdList.isEmpty())
+      return ErrorResponseEntity.toResponseEntity(ErrorCode.EMPTY_REQUEST_VALUE);
+
     historyService.deleteHistory(historyIdList);
+    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 }
