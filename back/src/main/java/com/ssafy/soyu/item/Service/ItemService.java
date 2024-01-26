@@ -26,6 +26,7 @@ public class ItemService {
   private final HistoryRepository historyRepository;
 
   public void save(Long memberId, ItemCreateRequest itemRequest) {
+
     Member member = memberRepository.getReferenceById(memberId);
 
     Item item = new Item(member, itemRequest.getTitle(), itemRequest.getContent(), itemRequest.getPrice(), itemRequest.getItemCategories());
@@ -36,14 +37,14 @@ public class ItemService {
 
   public void update(ItemUpdateRequest itemUpdateRequest) {
     // 바꾸려는 아이템 객체를 가져온다
-    Item item = itemRepository.findById(itemUpdateRequest.getItemId()).get();
+    Item item = itemRepository.getReferenceById(itemUpdateRequest.getItemId());
 
     // item 의 값을 변경해서 더티체킹을 통한 업데이트를 진행한다
     item.updateItem(itemUpdateRequest.getTitle(), itemUpdateRequest.getContent(), itemUpdateRequest.getPrice(), itemUpdateRequest.getItemCategories());
   }
 
   public void updateStatus(ItemStatusRequest itemStatusRequest) {
-    Item item = itemRepository.findById(itemStatusRequest.getItemId()).get();
+    Item item = itemRepository.getReferenceById(itemStatusRequest.getItemId());
 
     // 더티 체킹을 통한 upaate
     item.updateItemStatus(itemStatusRequest.getItemStatus());
