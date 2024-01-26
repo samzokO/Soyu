@@ -1,13 +1,11 @@
 package com.ssafy.soyu.history.domain;
 
-import com.ssafy.soyu.history.dto.request.HistoryRequestDto;
-import com.ssafy.soyu.item.Item;
+import com.ssafy.soyu.item.domain.Item;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
 
 @Entity

@@ -1,7 +1,7 @@
 package com.ssafy.soyu.global.config;
 
 
-import com.ssafy.soyu.item.ItemCategories;
+import com.ssafy.soyu.item.domain.ItemCategories;
 import org.springframework.core.convert.converter.Converter;
 
 public class StringToEnumConverter implements Converter<String, ItemCategories> {

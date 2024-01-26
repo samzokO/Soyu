@@ -1,20 +1,17 @@
-package com.ssafy.soyu.item;
+package com.ssafy.soyu.item.domain.request;
 
-import java.time.LocalDateTime;
+import com.ssafy.soyu.item.domain.ItemCategories;
 import lombok.Getter;
 
 @Getter
-public class ItemCreateRequest {
-  Long memberId;
+public class ItemUpdateRequest {
+  Long itemId;
 
   private String title;
 
   private String content;
 
-  private LocalDateTime regDate;
-
   private Integer price;
 
   private ItemCategories itemCategories;
-
 }

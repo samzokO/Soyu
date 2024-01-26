@@ -1,4 +1,4 @@
-package com.ssafy.soyu.item;
+package com.ssafy.soyu.item.domain;
 
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.Column;

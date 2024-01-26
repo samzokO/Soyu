@@ -1,9 +1,15 @@
-package com.ssafy.soyu.item;
+package com.ssafy.soyu.item.Service;
 
 import com.ssafy.soyu.chat.Chat;
 import com.ssafy.soyu.chat.ChatRepository;
 import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
+import com.ssafy.soyu.item.domain.Item;
+import com.ssafy.soyu.item.domain.request.ItemCreateRequest;
+import com.ssafy.soyu.item.domain.ItemStatus;
+import com.ssafy.soyu.item.domain.request.ItemStatusRequest;
+import com.ssafy.soyu.item.domain.request.ItemUpdateRequest;
+import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;

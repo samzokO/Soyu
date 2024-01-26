@@ -1,7 +1,7 @@
 package com.ssafy.soyu.global;
 
-import com.ssafy.soyu.item.Item;
-import com.ssafy.soyu.item.ItemCategories;
+import com.ssafy.soyu.item.domain.Item;
+import com.ssafy.soyu.item.domain.ItemCategories;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;

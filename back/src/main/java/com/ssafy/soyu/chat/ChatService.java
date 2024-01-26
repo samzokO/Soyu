@@ -1,10 +1,9 @@
 package com.ssafy.soyu.chat;
-import com.ssafy.soyu.item.Item;
-import com.ssafy.soyu.item.ItemRepository;
+import com.ssafy.soyu.item.domain.Item;
+import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

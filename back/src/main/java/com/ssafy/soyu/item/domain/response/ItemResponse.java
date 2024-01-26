@@ -1,11 +1,9 @@
-package com.ssafy.soyu.item;
+package com.ssafy.soyu.item.domain.response;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.ssafy.soyu.item.domain.ItemCategories;
+import com.ssafy.soyu.item.domain.ItemStatus;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 public class ItemResponse {

@@ -1,7 +1,7 @@
 package com.ssafy.soyu.itemfile;
 
 import com.ssafy.soyu.file.File;
-import com.ssafy.soyu.item.Item;
+import com.ssafy.soyu.item.domain.Item;
 import jakarta.persistence.*;
 import lombok.Getter;
 

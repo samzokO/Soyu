@@ -1,6 +1,6 @@
 package com.ssafy.soyu.chat;
 
-import com.ssafy.soyu.item.Item;
+import com.ssafy.soyu.item.domain.Item;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
