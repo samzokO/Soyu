@@ -64,4 +64,11 @@ public class HistoryService {
         .collect(Collectors.toList());
   }
 
+  /**
+   * history 테이블의 is_delete = true
+   * @param historyIdList 구매 내역의 식별자 목록
+   */
+  public void deleteHistory(List<Long> historyIdList) {
+    historyRepository.updateIsDelete(historyIdList);
+  }
 }
