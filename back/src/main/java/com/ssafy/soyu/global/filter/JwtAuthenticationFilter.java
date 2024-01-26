@@ -1,6 +1,7 @@
-package com.ssafy.soyu.util.jwt;
+package com.ssafy.soyu.global.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.soyu.util.jwt.JwtTokenProvider;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.exception.CustomException;

@@ -1,4 +1,4 @@
-package com.ssafy.soyu.config;
+package com.ssafy.soyu.global.config;
 
 
 import com.ssafy.soyu.item.ItemCategories;

@@ -1,4 +1,4 @@
-package com.ssafy.soyu;
+package com.ssafy.soyu.global;
 
 import com.ssafy.soyu.item.Item;
 import com.ssafy.soyu.item.ItemCategories;

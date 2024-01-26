@@ -1,4 +1,4 @@
-package com.ssafy.soyu.util.response.config;
+package com.ssafy.soyu.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

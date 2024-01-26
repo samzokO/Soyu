@@ -1,4 +1,4 @@
-package com.ssafy.soyu.config;
+package com.ssafy.soyu.global.config;
 
 import org.springframework.format.FormatterRegistry;
 import org.springframework.context.annotation.Configuration;
