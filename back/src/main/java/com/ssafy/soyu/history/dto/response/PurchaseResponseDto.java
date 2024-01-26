@@ -4,6 +4,7 @@ import com.ssafy.soyu.file.File;
 import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.item.ItemStatus;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.Data;
 
 /**
@@ -30,10 +31,9 @@ public class PurchaseResponseDto {
   public PurchaseResponseDto(History h, File f) {
     this.itemId = h.getItem().getId();
     this.price = h.getItem().getPrice();
-    this.fileName = f.getSaveName();
-    this.filepath = f.getSavePath();
     this.sellerNickName = h.getMember().getNickName();
     this.regDate = h.getItem().getRegDate();
     this.itemStatus = h.getItem().getItemStatus();
-  }
+    this.fileName = f.getSaveName();
+    this.filepath = f.getSavePath();}
 }
