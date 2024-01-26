@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ItemController {
 
   private final JwtTokenProvider jwtTokenProvider;
@@ -93,6 +95,7 @@ public class ItemController {
   @PostMapping("item")
   public ResponseEntity<?> createItem(HttpServletRequest request,
                                       @RequestBody ItemCreateRequest itemRequest) {
+    log.info(String.valueOf(itemRequest));
     Long memberId = (Long) request.getAttribute("memberId");
 
     itemService.save(memberId, itemRequest);
@@ -113,6 +116,7 @@ public class ItemController {
   // 아이템 상태 변경 (수정))= 아이템 삭제 ! (enum 타입으로 변경할것이기에 soft delete)
   @PutMapping("item/status")
   public ResponseEntity<?> updateStatus(@RequestBody ItemStatusRequest itemStatusRequest) {
+    log.info(String.valueOf(itemStatusRequest));
     itemService.updateStatus(itemStatusRequest);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
