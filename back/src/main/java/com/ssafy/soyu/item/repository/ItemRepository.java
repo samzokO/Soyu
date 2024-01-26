@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-  @Query("select i from Item i where i.title like %:keyword%")
+  @Query("select i from Item i where i.title like concat('%', :keyword, '%')")
   List<Item> findItemByKeyWord(@Param("keyword") String keyword);
 
   List<Item> findItemByMember(Member member);
