@@ -7,6 +7,7 @@ import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,15 @@ public class ChatService {
   private final ChatRepository chatRepository;
   private final MemberRepository memberRepository;
   private final ItemRepository itemRepository;
+
+  public List<Chat> findChatByUserId(Long memberId) {
+    return chatRepository.findChatByUserId(memberId);
+  }
+
+  public Chat findChatById(Long chatId) {
+    return chatRepository.findChatById(chatId);
+  }
+
   public void save(ChatRequest chatRequest) {
     // 구매자 가져오고, 판매자 가져오고, Item 가져와서 넣는다
     System.out.println(chatRequest.getItemId());

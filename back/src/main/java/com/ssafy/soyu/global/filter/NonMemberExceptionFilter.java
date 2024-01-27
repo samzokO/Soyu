@@ -23,6 +23,8 @@ public class NonMemberExceptionFilter implements Filter {
         whiteList.add("/member/token");
         whiteList.add("/swagger-ui");
         whiteList.add("/v3/api-docs");
+        whiteList.add("/chat");
+        whiteList.add("/chats");
     }
 
     @Override

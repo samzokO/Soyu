@@ -8,10 +8,7 @@ import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
 import com.ssafy.soyu.chat.dto.response.ChatListResponse;
 import com.ssafy.soyu.chat.service.ChatService;
-import com.ssafy.soyu.member.repository.MemberRepository;
-import com.ssafy.soyu.message.Message;
 import com.ssafy.soyu.message.dto.response.MessageResponse;
-import com.ssafy.soyu.message.repository.MessageRepository;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,7 +37,7 @@ public class ChatController {
   @GetMapping("chats")
   public ResponseEntity<?> getChats(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    List<Chat> chats = chatRepository.findChatByUserId(memberId);
+    List<Chat> chats = chatService.findChatByUserId(memberId);
     List<ChatListResponse> chatResponse = getChatResponses(chats);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
@@ -49,11 +46,10 @@ public class ChatController {
   // 이미 생성된 채팅방 가져오기
   @GetMapping("chat/{chatId}")
   public ResponseEntity<?> getChat(@PathVariable("chatId") Long chatId) {
-    Chat chat = chatRepository.findChatById(chatId);
-    log.info("패치조인 완료");
-
+    Chat chat = chatService.findChatById(chatId);
     List<MessageResponse> messageResponses = getMessageResponses(chat.getMessage());
     ChatResponse chatResponse = getResponse(chat, messageResponses);
+
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
   }
 
@@ -61,6 +57,7 @@ public class ChatController {
   @PostMapping("chat")
   public ResponseEntity<?> createChat(@RequestBody ChatRequest chatRequest) {
     chatService.save(chatRequest);
+
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
