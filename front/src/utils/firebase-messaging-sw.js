@@ -1,29 +1,25 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FCM_APIKEY,
-  authDomain: process.env.REACT_APP_FCM_AUTHDOMAIN,
-  projectId: process.env.REACT_APP_FCM_PROJECTID,
-  storageBucket: process.env.REACT_APP_FCM_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_FCM_MESSAGINGSENDERID,
-  appId: process.env.REACT_APP_FCM_APPID,
-  measurementId: process.env.REACT_APP_FCM_MEASUREMENTID,
+  apiKey: String(process.env.REACT_APP_FCM_APIKEY),
+  authDomain: String(process.env.REACT_APP_FCM_AUTHDOMAIN),
+  projectId: String(process.env.REACT_APP_FCM_PROJECTID),
+  storageBucket: String(process.env.REACT_APP_FCM_STORAGEBUCKET),
+  messagingSenderId: String(process.env.REACT_APP_FCM_MESSAGINGSENDERID),
+  appId: String(process.env.REACT_APP_FCM_APPID),
+  measurementId: String(process.env.REACT_APP_FCM_MEASUREMENTID),
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// analytics는 뭘까? 확인 필요
-const analytics = getAnalytics(app);
-
 const messaging = getMessaging(app);
 
+/** 클라이언트에 알림권한 요청하는 함수
+ * @author 호진
+ * @param nothing
+ * @returns 디바이스 토큰
+ */
 async function requestPermission() {
   console.log('권한 요청 중...');
 
@@ -34,17 +30,28 @@ async function requestPermission() {
   }
 
   console.log('알림 권한이 허용됨');
-
-  const token = await getToken(messaging, {
-    vapidKey: process.env.REACT_APP_FCM_VAPID_KEY,
-  });
-
-  if (token) console.log('token: ', token);
-  else console.log('Can not get Token');
+  getToken(messaging, {
+    vapidKey:
+      'BN4n3KsbjmumMA5FlETNrwdrWTN3pw8Ttw08udiBZZr3zlb5ITUNvMy7eUbXmCLr6GCaoIhR-koZFc05Uxbt3Wg',
+  })
+    .then((currentToken) => {
+      if (currentToken) {
+        console.log(currentToken);
+      } else {
+        // Show permission request UI
+        console.log(
+          'No registration token available. Request permission to generate one.',
+        );
+        // ...
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+      // ...
+    });
 
   onMessage(messaging, (payload) => {
     console.log('메시지가 도착했습니다.', payload);
-    // ...
   });
 }
 
