@@ -1,6 +1,6 @@
 package com.ssafy.soyu.favorite;
 
-import com.ssafy.soyu.station.Station;
+import com.ssafy.soyu.station.domain.Station;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
