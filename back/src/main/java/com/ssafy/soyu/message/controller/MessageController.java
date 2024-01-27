@@ -40,14 +40,14 @@ public class MessageController {
 
   // http 요청
   // 채팅방 번호로 모든 메세지 불러오기
-  @GetMapping("/messages/{chatId}")
-  public ResponseEntity<?> getMessages(@PathVariable("chatId") Long chatId) {
-    List<Message> messages = messageRepository.findMessagesByChatId(chatId);
-
-    List<MessageResponse> messageResponses = messages.stream()
-        .map(m -> new MessageResponse(m.getChat().getId(), m.getMember().getId(), m.getContent()))
-        .collect(Collectors.toList());
-
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, messageResponses);
-  }
+//  @GetMapping("/messages/{chatId}")
+//  public ResponseEntity<?> getMessages(@PathVariable("chatId") Long chatId) {
+//    List<Message> messages = messageRepository.findMessagesByChatId(chatId);
+//
+//    List<MessageResponse> messageResponses = messages.stream()
+//        .map(m -> new MessageResponse(m.getChat().getId(), m.getMember().getId(), m.getContent()))
+//        .collect(Collectors.toList());
+//
+//    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, messageResponses);
+//  }
 }

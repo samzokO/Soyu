@@ -1,4 +1,5 @@
 package com.ssafy.soyu.message.repository;
+import com.ssafy.soyu.chat.Chat;
 import com.ssafy.soyu.message.Message;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -8,7 +9,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-  @EntityGraph
-  @Query("select m from Message m where m.chat.id = :chatId")
-  List<Message> findMessagesByChatId(@Param("chatId") Long chatId);
+  List<Message> findMessagesByChat(Chat chat);
 }
