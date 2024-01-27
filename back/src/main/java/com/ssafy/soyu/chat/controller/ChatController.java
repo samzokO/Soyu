@@ -32,12 +32,8 @@ public class ChatController {
   @GetMapping("chats/{userId}")
   public ResponseEntity<?> getChats(@PathVariable Long userId) {
     List<Chat> chats = chatRepository.findChatByUserId(userId);
+    List<ChatResponse> chatResponse = getChatResponses(chats);
 
-    List<ChatResponse> chatResponse = chats.stream()
-        .map(c -> new ChatResponse(c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(), 
-            c.getLastMessage(), c.getLastDate(), c.getIsChecked(), c.getLastChecked()))
-        .collect(Collectors.toList());
-    
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
   }
 
@@ -45,9 +41,7 @@ public class ChatController {
   @GetMapping("chat/{chatId}")
   public ResponseEntity<?> getChat(@PathVariable Long chatId) {
     Chat chat = chatRepository.findChatById(chatId);
-
-    ChatResponse chatResponse = new ChatResponse(chat.getItem().getId(), chat.getBuyer().getId(), chat.getSeller().getId(),
-        chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked());
+    ChatResponse chatResponse = getChatResponse(chat);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
   }
@@ -58,6 +52,20 @@ public class ChatController {
     chatService.save(chatRequest);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+  }
+
+  // make chat Response
+  private static ChatResponse getChatResponse(Chat chat) {
+    return new ChatResponse(chat.getItem().getId(), chat.getBuyer().getId(), chat.getSeller().getId(),
+        chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked());
+  }
+
+  //make chat Responses
+  private static List<ChatResponse> getChatResponses(List<Chat> chats) {
+    return chats.stream()
+        .map(c -> new ChatResponse(c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(),
+            c.getLastMessage(), c.getLastDate(), c.getIsChecked(), c.getLastChecked()))
+        .collect(Collectors.toList());
   }
 
 }

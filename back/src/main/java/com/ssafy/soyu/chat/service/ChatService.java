@@ -22,13 +22,9 @@ public class ChatService {
     // 구매자 가져오고, 판매자 가져오고, Item 가져와서 넣는다
     System.out.println(chatRequest.getItemId());
     Item item = itemRepository.getReferenceById(chatRequest.getItemId());
-
     Member buyer = memberRepository.getReferenceById(chatRequest.getBuyerId());
-
     Member seller = memberRepository.getReferenceById(chatRequest.getSellerId());
-
     Chat chat = new Chat(item, buyer, seller);
-
     chatRepository.save(chat);
   }
 }
