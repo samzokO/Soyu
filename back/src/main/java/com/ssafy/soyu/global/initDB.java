@@ -1,5 +1,6 @@
 package com.ssafy.soyu.global;
 
+import com.ssafy.soyu.chat.Chat;
 import com.ssafy.soyu.item.domain.Item;
 import com.ssafy.soyu.item.domain.ItemCategories;
 import com.ssafy.soyu.member.domain.Member;
@@ -46,6 +47,13 @@ public class initDB {
       em.persist(item4);
       em.persist(item5);
       em.persist(item6);
+
+      Chat chat1 = new Chat(item1, member1, member2);
+      Chat chat2 = new Chat(item3, member2, member3);
+      Chat chat3 = new Chat(item5, member3, member1);
+      em.persist(chat1);
+      em.persist(chat2);
+      em.persist(chat3);
 
     }
   }

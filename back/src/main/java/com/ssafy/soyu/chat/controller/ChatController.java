@@ -30,7 +30,7 @@ public class ChatController {
 
   // 채팅방 목록 조회
   @GetMapping("chats/{userId}")
-  public ResponseEntity<?> getChats(@PathVariable Long userId) {
+  public ResponseEntity<?> getChats(@PathVariable("userId") Long userId) {
     List<Chat> chats = chatRepository.findChatByUserId(userId);
     List<ChatResponse> chatResponse = getChatResponses(chats);
 
@@ -39,7 +39,7 @@ public class ChatController {
 
   // 이미 생성된 채팅방 가져오기
   @GetMapping("chat/{chatId}")
-  public ResponseEntity<?> getChat(@PathVariable Long chatId) {
+  public ResponseEntity<?> getChat(@PathVariable("chatId") Long chatId) {
     Chat chat = chatRepository.findChatById(chatId);
     ChatResponse chatResponse = getChatResponse(chat);
 
