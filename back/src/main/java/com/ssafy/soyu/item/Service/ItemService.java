@@ -12,9 +12,18 @@ import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.util.payaction.PayActionProperties;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +33,7 @@ public class ItemService {
   private final MemberRepository memberRepository;
   private final ChatRepository chatRepository;
   private final HistoryRepository historyRepository;
+  private final PayActionProperties payActionProperties;
 
   public void save(Long memberId, ItemCreateRequest itemRequest) {
 
@@ -54,7 +64,7 @@ public class ItemService {
   public void makeReserve(Long chatId){
     Chat chat = chatRepository.findById(chatId).get();
     Item item = chat.getItem();
-    ItemStatus status = ItemStatus.from("reserve");
+    ItemStatus status = ItemStatus.from("RESERVE");
     itemRepository.updateStatus(item.getId(), status); //아이템 상태 변경
     History history = new History(item, chat.getBuyer());
 
@@ -62,6 +72,33 @@ public class ItemService {
     historyRepository.save(history);
 
     //payAction API
+    String orderUri = payActionProperties.getOrderUri();
+    WebClient webClient = WebClient.create(orderUri);
+    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+    parameters.add("apikey", payActionProperties.getApiKey());
+    parameters.add("secretkey", payActionProperties.getSecretKey());
+    parameters.add("mall_id", payActionProperties.getStoreId());
+    parameters.add("order_number", "1"); // 주문 번호 수정 필요
+    parameters.add("order_amount", item.getPrice().toString());
+    parameters.add("order_date", getCurrentDateTime());
+    parameters.add("orderer_name", chat.getBuyer().getName());
+    parameters.add("orderer_phone_number", chat.getBuyer().getMobile());
+    parameters.add("orderer_email", chat.getBuyer().getEmail());
+    parameters.add("billing_name", chat.getBuyer().getName());
 
+    //payAction에
+    webClient.post()
+            .uri(orderUri)
+            .bodyValue(parameters)
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+  }
+
+  public String getCurrentDateTime() {
+    LocalDateTime now = LocalDateTime.now();
+    ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+    return zonedDateTime.format(formatter);
   }
 }

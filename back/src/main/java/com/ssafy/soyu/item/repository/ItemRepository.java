@@ -25,5 +25,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
   @Modifying
   @Query("UPDATE Item SET itemStatus= :status where id=:itemId")
-  int updateStatus(Long itemId, ItemStatus status);
+  int updateStatus(@Param("itemId") Long itemId, @Param("status") ItemStatus status);
 }
