@@ -1,6 +1,5 @@
 package com.ssafy.soyu.chat.dto.response;
 
-import com.ssafy.soyu.message.Message;
 import com.ssafy.soyu.message.dto.response.MessageResponse;
 import java.time.LocalDateTime;
 import java.util.List;

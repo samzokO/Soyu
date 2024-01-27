@@ -1,5 +1,5 @@
 package com.ssafy.soyu.chat.service;
-import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
 import com.ssafy.soyu.item.domain.Item;

@@ -1,6 +1,6 @@
 package com.ssafy.soyu.item.Service;
 
-import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;

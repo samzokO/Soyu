@@ -1,10 +1,10 @@
 package com.ssafy.soyu.message.service;
 
-import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
-import com.ssafy.soyu.message.Message;
+import com.ssafy.soyu.message.entity.Message;
 import com.ssafy.soyu.message.dto.request.MessageRequest;
 import com.ssafy.soyu.message.repository.MessageRepository;
 import jakarta.transaction.Transactional;

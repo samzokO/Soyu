@@ -1,6 +1,6 @@
-package com.ssafy.soyu.message;
+package com.ssafy.soyu.message.entity;
 
-import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.file.File;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;

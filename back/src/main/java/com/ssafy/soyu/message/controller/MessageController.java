@@ -1,21 +1,16 @@
 package com.ssafy.soyu.message.controller;
 
-import com.ssafy.soyu.message.Message;
+import com.ssafy.soyu.message.entity.Message;
 import com.ssafy.soyu.message.repository.MessageRepository;
 import com.ssafy.soyu.message.dto.request.MessageRequest;
 import com.ssafy.soyu.message.dto.response.MessageResponse;
 import com.ssafy.soyu.message.service.MessageService;
-import com.ssafy.soyu.util.response.CommonResponseEntity;
-import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor

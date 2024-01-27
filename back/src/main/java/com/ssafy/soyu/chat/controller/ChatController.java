@@ -2,7 +2,7 @@ package com.ssafy.soyu.chat.controller;
 
 import static com.ssafy.soyu.message.controller.MessageController.getMessageResponses;
 
-import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.dto.response.ChatResponse;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
