@@ -1,9 +1,10 @@
-package com.ssafy.soyu.message;
+package com.ssafy.soyu.message.dto.request;
 
 import java.time.LocalDateTime;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class MessageRequest {
   Long chatId;
 

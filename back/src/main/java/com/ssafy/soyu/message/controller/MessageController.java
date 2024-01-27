@@ -1,5 +1,10 @@
-package com.ssafy.soyu.message;
+package com.ssafy.soyu.message.controller;
 
+import com.ssafy.soyu.message.Message;
+import com.ssafy.soyu.message.repository.MessageRepository;
+import com.ssafy.soyu.message.dto.request.MessageRequest;
+import com.ssafy.soyu.message.dto.response.MessageResponse;
+import com.ssafy.soyu.message.service.MessageService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +35,7 @@ public class MessageController {
     messageService.save(messageRequest);
 
     // pub 로 들어온 요청 sub 으로 뿌려주기
-    template.convertAndSend("sub/message/" + messageRequest.chatId, messageRequest);
+    template.convertAndSend("sub/message/" + messageRequest.getChatId(), messageRequest);
   }
 
   // http 요청

@@ -1,10 +1,10 @@
-package com.ssafy.soyu.message;
+package com.ssafy.soyu.message.dto.response;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class MessageResponse {
   Long chatId;
   Long memberId;

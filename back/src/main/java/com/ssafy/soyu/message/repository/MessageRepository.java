@@ -1,4 +1,5 @@
-package com.ssafy.soyu.message;
+package com.ssafy.soyu.message.repository;
+import com.ssafy.soyu.message.Message;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
