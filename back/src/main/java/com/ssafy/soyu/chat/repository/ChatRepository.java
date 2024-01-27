@@ -1,5 +1,6 @@
-package com.ssafy.soyu.chat;
+package com.ssafy.soyu.chat.repository;
 
+import com.ssafy.soyu.chat.Chat;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

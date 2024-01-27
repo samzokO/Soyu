@@ -1,11 +1,14 @@
-package com.ssafy.soyu.chat;
+package com.ssafy.soyu.chat.controller;
 
+import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.repository.ChatRepository;
+import com.ssafy.soyu.chat.dto.request.ChatRequest;
+import com.ssafy.soyu.chat.dto.response.ChatResponse;
+import com.ssafy.soyu.chat.service.ChatService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

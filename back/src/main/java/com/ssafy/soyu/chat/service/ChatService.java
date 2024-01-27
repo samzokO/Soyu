@@ -1,4 +1,7 @@
-package com.ssafy.soyu.chat;
+package com.ssafy.soyu.chat.service;
+import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.repository.ChatRepository;
+import com.ssafy.soyu.chat.dto.request.ChatRequest;
 import com.ssafy.soyu.item.domain.Item;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
@@ -17,12 +20,12 @@ public class ChatService {
   private final ItemRepository itemRepository;
   public void save(ChatRequest chatRequest) {
     // 구매자 가져오고, 판매자 가져오고, Item 가져와서 넣는다
-    System.out.println(chatRequest.itemId);
-    Item item = itemRepository.findById(chatRequest.itemId).get();
+    System.out.println(chatRequest.getItemId());
+    Item item = itemRepository.getReferenceById(chatRequest.getItemId());
 
-    Member buyer = memberRepository.findById(chatRequest.buyerId).get();
+    Member buyer = memberRepository.getReferenceById(chatRequest.getBuyerId());
 
-    Member seller = memberRepository.findById(chatRequest.sellerId).get();
+    Member seller = memberRepository.getReferenceById(chatRequest.getSellerId());
 
     Chat chat = new Chat(item, buyer, seller);
 

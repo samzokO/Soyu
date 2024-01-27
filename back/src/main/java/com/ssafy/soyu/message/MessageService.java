@@ -1,8 +1,9 @@
 package com.ssafy.soyu.message;
 
 import com.ssafy.soyu.chat.Chat;
-import com.ssafy.soyu.chat.ChatRepository;
+import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class MessageService {
   private final MessageRepository messageRepository;
   private final ChatRepository chatRepository;
-//  private final MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
   public void save(MessageRequest messageRequest) {
 
     // 각 저장소에서 저장을위해 가져와야 한다
-    Chat chat = chatRepository.findChatById(messageRequest.getChatId());
+    Chat chat = chatRepository.getReferenceById(messageRequest.getChatId());
 
     Member member = null;
 

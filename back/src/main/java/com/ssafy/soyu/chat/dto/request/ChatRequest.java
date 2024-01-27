@@ -1,4 +1,4 @@
-package com.ssafy.soyu.chat;
+package com.ssafy.soyu.chat.dto.request;
 
 import lombok.Data;
 
