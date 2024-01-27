@@ -1,13 +1,13 @@
 package com.ssafy.soyu.item.controller;
-import com.ssafy.soyu.item.domain.request.ItemCreateRequest;
+import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.item.Service.ItemService;
-import com.ssafy.soyu.item.domain.Item;
-import com.ssafy.soyu.item.domain.ItemCategories;
-import com.ssafy.soyu.item.domain.response.ItemResponse;
-import com.ssafy.soyu.item.domain.request.ItemStatusRequest;
-import com.ssafy.soyu.item.domain.request.ItemUpdateRequest;
-import com.ssafy.soyu.item.domain.request.ReserveItemRequest;
+import com.ssafy.soyu.item.entity.Item;
+import com.ssafy.soyu.item.entity.ItemCategories;
+import com.ssafy.soyu.item.dto.response.ItemResponse;
+import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
+import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
+import com.ssafy.soyu.item.dto.request.ReserveItemRequest;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.JwtTokenProvider;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Item 컨트롤러", description = "Item API 입니다.")

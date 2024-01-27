@@ -1,4 +1,4 @@
-package com.ssafy.soyu.item.domain.request;
+package com.ssafy.soyu.item.dto.request;
 
 import lombok.Data;
 

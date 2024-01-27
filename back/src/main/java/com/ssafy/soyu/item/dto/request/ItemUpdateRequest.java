@@ -1,6 +1,6 @@
-package com.ssafy.soyu.item.domain.request;
+package com.ssafy.soyu.item.dto.request;
 
-import com.ssafy.soyu.item.domain.ItemCategories;
+import com.ssafy.soyu.item.entity.ItemCategories;
 import lombok.Getter;
 
 @Getter

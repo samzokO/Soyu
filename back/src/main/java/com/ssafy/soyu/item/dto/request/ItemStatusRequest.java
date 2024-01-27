@@ -1,6 +1,6 @@
-package com.ssafy.soyu.item.domain.request;
+package com.ssafy.soyu.item.dto.request;
 
-import com.ssafy.soyu.item.domain.ItemStatus;
+import com.ssafy.soyu.item.entity.ItemStatus;
 import lombok.Getter;
 import lombok.ToString;
 

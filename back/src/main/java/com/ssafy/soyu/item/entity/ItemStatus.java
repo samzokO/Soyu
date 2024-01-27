@@ -1,4 +1,4 @@
-package com.ssafy.soyu.item.domain;
+package com.ssafy.soyu.item.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

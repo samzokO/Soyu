@@ -5,7 +5,7 @@ import com.ssafy.soyu.history.dto.request.HistoryRequestDto;
 import com.ssafy.soyu.history.dto.response.PurchaseResponseDto;
 import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.history.repository.HistoryRepository;
-import com.ssafy.soyu.item.domain.Item;
+import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.itemfile.ItemFileRepository;
 import com.ssafy.soyu.member.domain.Member;

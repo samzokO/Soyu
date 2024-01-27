@@ -2,7 +2,7 @@ package com.ssafy.soyu.chat.service;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
-import com.ssafy.soyu.item.domain.Item;
+import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;

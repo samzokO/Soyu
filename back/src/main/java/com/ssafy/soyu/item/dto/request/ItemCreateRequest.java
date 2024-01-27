@@ -1,6 +1,6 @@
-package com.ssafy.soyu.item.domain.request;
+package com.ssafy.soyu.item.dto.request;
 
-import com.ssafy.soyu.item.domain.ItemCategories;
+import com.ssafy.soyu.item.entity.ItemCategories;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.ToString;

@@ -1,6 +1,6 @@
 package com.ssafy.soyu.locker;
 
-import com.ssafy.soyu.item.domain.Item;
+import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.station.Station;
 import jakarta.persistence.*;
 import lombok.Getter;

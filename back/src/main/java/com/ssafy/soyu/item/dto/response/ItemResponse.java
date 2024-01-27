@@ -1,7 +1,7 @@
-package com.ssafy.soyu.item.domain.response;
+package com.ssafy.soyu.item.dto.response;
 
-import com.ssafy.soyu.item.domain.ItemCategories;
-import com.ssafy.soyu.item.domain.ItemStatus;
+import com.ssafy.soyu.item.entity.ItemCategories;
+import com.ssafy.soyu.item.entity.ItemStatus;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
