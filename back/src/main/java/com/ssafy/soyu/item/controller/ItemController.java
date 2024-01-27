@@ -63,8 +63,8 @@ public class ItemController {
 
   // 아이템 리스트 조회 {memberId} (회원이 등록한 물건 가져오기)
   @GetMapping("/item/my")
-  public ResponseEntity<?> getItemByMemberId(@RequestHeader(value = "Authorization", required = false) String bearerToken) {
-    Long memberId = jwtTokenProvider.getMemberIdFromToken(memberService.getToken(bearerToken));
+  public ResponseEntity<?> getItemByMemberId(HttpServletRequest request) {
+    Long memberId = (Long) request.getAttribute("memberId");
 
     List<Item> items = itemRepository.findItemByMember(memberRepository.getReferenceById(memberId));
     List<ItemResponse> itemResponses = getItemResponses(items);

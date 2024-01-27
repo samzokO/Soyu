@@ -8,6 +8,7 @@ import com.ssafy.soyu.chat.service.ChatService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,12 @@ public class ChatController {
   private final ChatRepository chatRepository;
   private final ChatService chatService;
 
-  // 채팅방 목록 조회
-  @GetMapping("chats/{userId}")
-  public ResponseEntity<?> getChats(@PathVariable("userId") Long userId) {
-    List<Chat> chats = chatRepository.findChatByUserId(userId);
+  // 유저의 채팅방 목록 조회
+  @GetMapping("chats")
+  public ResponseEntity<?> getChats(HttpServletRequest request) {
+    Long memberId = (Long) request.getAttribute("memberId");
+    memberId = 1L;
+    List<Chat> chats = chatRepository.findChatByUserId(memberId);
     List<ChatResponse> chatResponse = getChatResponses(chats);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
