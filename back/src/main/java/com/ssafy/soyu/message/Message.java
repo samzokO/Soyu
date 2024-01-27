@@ -9,11 +9,13 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "message")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"chat", "member", "file"})
 public class Message {
     @Id
     @GeneratedValue

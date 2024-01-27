@@ -2,18 +2,22 @@ package com.ssafy.soyu.chat;
 
 import com.ssafy.soyu.item.domain.Item;
 import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.message.Message;
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Entity
 @Table(name = "chat")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"item", "buyer", "seller"})
 public class Chat {
     @Id
     @GeneratedValue
@@ -32,6 +36,9 @@ public class Chat {
     @JoinColumn(name = "seller_id")
     private Member seller;
 
+    @OneToMany(mappedBy = "chat")
+    List<Message> message;
+
     private String lastMessage;
 
     private LocalDateTime lastDate;
@@ -44,5 +51,4 @@ public class Chat {
         this.buyer = buyer;
         this.seller = seller;
     }
-
 }

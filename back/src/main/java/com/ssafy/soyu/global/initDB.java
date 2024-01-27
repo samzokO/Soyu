@@ -4,6 +4,7 @@ import com.ssafy.soyu.chat.Chat;
 import com.ssafy.soyu.item.domain.Item;
 import com.ssafy.soyu.item.domain.ItemCategories;
 import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.message.Message;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,14 @@ public class initDB {
       em.persist(chat1);
       em.persist(chat2);
       em.persist(chat3);
+
+      Message message1 = new Message(chat1, member2, "안녕하세요 jun 님" );
+      Message message2 = new Message(chat1, member1, "안녕하세요 sung 님" );
+      Message message3 = new Message(chat1, member2, "물품 구매 희망합니다." );
+
+      em.persist(message1);
+      em.persist(message2);
+      em.persist(message3);
 
     }
   }
