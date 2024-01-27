@@ -1,15 +1,12 @@
 package com.ssafy.soyu.chat.dto.response;
 
-import com.ssafy.soyu.message.Message;
-import com.ssafy.soyu.message.dto.response.MessageResponse;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
 @AllArgsConstructor
-public class ChatResponse {
+@Data
+public class ChatListResponse {
   Long itemId;
 
   Long buyerId;
@@ -22,7 +19,5 @@ public class ChatResponse {
 
   private Boolean isChecked;
   private LocalDateTime lastChecked;
-
-  private List<MessageResponse> messageResponses;
 
 }

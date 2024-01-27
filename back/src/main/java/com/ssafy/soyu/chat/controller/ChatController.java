@@ -1,10 +1,17 @@
 package com.ssafy.soyu.chat.controller;
 
+import static com.ssafy.soyu.message.controller.MessageController.getMessageResponses;
+
 import com.ssafy.soyu.chat.Chat;
+import com.ssafy.soyu.chat.dto.response.ChatResponse;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
-import com.ssafy.soyu.chat.dto.response.ChatResponse;
+import com.ssafy.soyu.chat.dto.response.ChatListResponse;
 import com.ssafy.soyu.chat.service.ChatService;
+import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.message.Message;
+import com.ssafy.soyu.message.dto.response.MessageResponse;
+import com.ssafy.soyu.message.repository.MessageRepository;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,9 +40,8 @@ public class ChatController {
   @GetMapping("chats")
   public ResponseEntity<?> getChats(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    memberId = 1L;
     List<Chat> chats = chatRepository.findChatByUserId(memberId);
-    List<ChatResponse> chatResponse = getChatResponses(chats);
+    List<ChatListResponse> chatResponse = getChatResponses(chats);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
   }
@@ -44,8 +50,10 @@ public class ChatController {
   @GetMapping("chat/{chatId}")
   public ResponseEntity<?> getChat(@PathVariable("chatId") Long chatId) {
     Chat chat = chatRepository.findChatById(chatId);
-    ChatResponse chatResponse = getChatResponse(chat);
+    log.info("패치조인 완료");
 
+    List<MessageResponse> messageResponses = getMessageResponses(chat.getMessage());
+    ChatResponse chatResponse = getResponse(chat, messageResponses);
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
   }
 
@@ -53,22 +61,20 @@ public class ChatController {
   @PostMapping("chat")
   public ResponseEntity<?> createChat(@RequestBody ChatRequest chatRequest) {
     chatService.save(chatRequest);
-
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
   // make chat Response
-  private static ChatResponse getChatResponse(Chat chat) {
+  private static ChatResponse getResponse(Chat chat, List<MessageResponse> messageResponses) {
     return new ChatResponse(chat.getItem().getId(), chat.getBuyer().getId(), chat.getSeller().getId(),
-        chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked());
+        chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked(), messageResponses);
   }
 
   //make chat Responses
-  private static List<ChatResponse> getChatResponses(List<Chat> chats) {
+  private static List<ChatListResponse> getChatResponses(List<Chat> chats) {
     return chats.stream()
-        .map(c -> new ChatResponse(c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(),
+        .map(c -> new ChatListResponse(c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(),
             c.getLastMessage(), c.getLastDate(), c.getIsChecked(), c.getLastChecked()))
         .collect(Collectors.toList());
   }
-
 }

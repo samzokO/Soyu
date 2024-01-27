@@ -44,10 +44,14 @@ public class MessageController {
 //  public ResponseEntity<?> getMessages(@PathVariable("chatId") Long chatId) {
 //    List<Message> messages = messageRepository.findMessagesByChatId(chatId);
 //
-//    List<MessageResponse> messageResponses = messages.stream()
-//        .map(m -> new MessageResponse(m.getChat().getId(), m.getMember().getId(), m.getContent()))
-//        .collect(Collectors.toList());
+//    List<MessageResponse> messageResponses = getMessageResponses(messages);
 //
 //    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, messageResponses);
 //  }
+
+  public static List<MessageResponse> getMessageResponses(List<Message> messages) {
+    return messages.stream()
+        .map(m -> new MessageResponse(m.getChat().getId(), m.getMember().getId(), m.getContent()))
+        .collect(Collectors.toList());
+  }
 }
