@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import GlobalStyles from './styles/GlobalStyles';
+import Router from './router/Router';
 import './utils/firebase-messaging-sw';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
