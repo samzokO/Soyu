@@ -14,4 +14,5 @@ public class PayActionProperties {
     private String secretKey;
     private String storeId;
     private String orderUri;
+    private String orderExcludeUri;
 }
