@@ -20,7 +20,7 @@ public class Locker {
     @JoinColumn(name = "station_id")
     private Station station;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
@@ -28,7 +28,7 @@ public class Locker {
     Boolean isLight;
     Boolean isVisible;
 
-    private LockerStatus isFill;
+    private LockerStatus status;
     private String location;
     private LocalDateTime time;
 }
