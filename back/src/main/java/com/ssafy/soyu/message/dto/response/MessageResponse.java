@@ -6,12 +6,10 @@ import lombok.Setter;
 
 @Data
 public class MessageResponse {
-  Long chatId;
   Long memberId;
   String content;
 
-  public MessageResponse(Long chatId, Long memberId, String content) {
-    this.chatId = chatId;
+  public MessageResponse(Long memberId, String content) {
     this.memberId = memberId;
     this.content = content;
   }
