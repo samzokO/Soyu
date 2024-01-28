@@ -5,6 +5,7 @@ import com.ssafy.soyu.util.jwt.domain.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,10 +15,10 @@ public interface AuthRepository extends JpaRepository<RefreshToken, Long>{
 
     @Modifying
     @Query("update RefreshToken set token = :newToken where member = :member")
-    int updateRefreshTokenFindByMember(Member member, String newToken);
+    int updateRefreshTokenFindByMember(@Param("member") Member member, @Param("newToken") String newToken);
 
 
     @Modifying
     @Query("update RefreshToken set token = :newToken where token = :oldToken")
-    int updateRefreshTokenFindByToken(String oldToken, String newToken);
+    int updateRefreshTokenFindByToken(@Param("oldToken") String oldToken, @Param("newToken") String newToken);
 }
