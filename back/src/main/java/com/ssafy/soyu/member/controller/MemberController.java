@@ -54,5 +54,11 @@ public class MemberController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteMember(HttpServletRequest request){
+        Long memberId = (Long) request.getAttribute("memberId");
+        memberService.deleteMember(memberId);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
 
 }

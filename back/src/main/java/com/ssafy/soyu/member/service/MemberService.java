@@ -1,5 +1,10 @@
 package com.ssafy.soyu.member.service;
 
+import com.ssafy.soyu.history.domain.History;
+import com.ssafy.soyu.history.repository.HistoryRepository;
+import com.ssafy.soyu.item.entity.Item;
+import com.ssafy.soyu.item.entity.ItemStatus;
+import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.repository.MemberRepository;
@@ -13,6 +18,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +28,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AuthRepository authRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final ItemRepository itemRepository;
+    private final HistoryRepository historyRepository;
 
     @Transactional
     public TokenResponse login(Member member) {
@@ -83,5 +91,26 @@ public class MemberService {
     @Transactional
     public void deleteAccount(Long memberId) {
         memberRepository.updateAccount(memberId, null, null);
+    }
+
+    @Transactional
+    public void deleteMember(Long memberId) {
+        // 판매 완료되지 않은 물건이 있으면 안됨
+        List<Item> itemList = itemRepository.findByMemberId(memberId);
+        for (Item item: itemList) {
+            if(item.getItemStatus() != ItemStatus.from("SOLD")){
+                throw new CustomException(ErrorCode.HAS_ACTIVE_ITEM);
+            }
+        }
+
+        //구매자인 경우 예약된 물건이 있으면 안됨
+        Optional<History> history = historyRepository.findByMemberId(memberId);
+        history.ifPresent(historyValue -> {
+            if(historyValue.getItem().getItemStatus() == ItemStatus.RESERVE){
+                throw new CustomException(ErrorCode.HAS_ACTIVE_ITEM);
+            }
+        });
+
+        memberRepository.updateWithDraw(memberId);
     }
 }
