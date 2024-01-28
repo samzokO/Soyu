@@ -3,6 +3,7 @@ package com.ssafy.soyu.global;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
+import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.message.entity.Message;
 import jakarta.annotation.PostConstruct;
@@ -31,16 +32,18 @@ public class initDB {
       Member member1 = new Member("jun", "준영", "팔거에유", "01011111111");
       Member member2 = new Member("sung", "성현", "나만믿어", "01022222222");
       Member member3 = new Member("jin", "진식", "감자스프", "01033333333");
+      Member member4 = new Member("ho", "호진", "경매빌런", "010-4444-4444");
       em.persist(member1);
       em.persist(member2);
       em.persist(member3);
+      em.persist(member4);
 
-      Item item1 = new Item(member1, "아이패드", "아이패드를 판매합니다 새상품 입니다.", 100000, ItemCategories.ELECTRONICS);
-      Item item2 = new Item(member1, "말의 품격", "책을 판매합니다 좋은 책입니다..", 100000, ItemCategories.BOOKS);
-      Item item3 = new Item(member2, "갤럭시패드", "갤럭시패드를 판매합니다 새상품 입니다.", 100000, ItemCategories.ELECTRONICS);
-      Item item4 = new Item(member2, "어린왕자", "책을 판매합니다 어린완자 입니다.", 100000, ItemCategories.BOOKS);
-      Item item5 = new Item(member3, "샤오미패드", "샤오미패드를 판매합니다 새상품 입니다.", 100000, ItemCategories.ELECTRONICS);
-      Item item6 = new Item(member3, "동화책", "책을드를 판매합니다.", 100000, ItemCategories.BOOKS);
+      Item item1 = new Item(member1, "아이패드", "아이패드를 판매합니다 새상품 입니다.", 100000, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
+      Item item2 = new Item(member1, "말의 품격", "책을 판매합니다 좋은 책입니다..", 100000, ItemCategories.BOOKS, ItemStatus.ONLINE);
+      Item item3 = new Item(member2, "갤럭시패드", "갤럭시패드를 판매합니다 새상품 입니다.", 100000, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
+      Item item4 = new Item(member2, "어린왕자", "책을 판매합니다 어린완자 입니다.", 100000, ItemCategories.BOOKS, ItemStatus.ONLINE);
+      Item item5 = new Item(member3, "샤오미패드", "샤오미패드를 판매합니다 새상품 입니다.", 100000, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
+      Item item6 = new Item(member3, "동화책", "책을드를 판매합니다.", 100000, ItemCategories.BOOKS, ItemStatus.ONLINE);
 
       em.persist(item1);
       em.persist(item2);
