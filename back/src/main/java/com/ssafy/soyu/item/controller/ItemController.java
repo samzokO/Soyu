@@ -1,13 +1,10 @@
 package com.ssafy.soyu.item.controller;
-import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
+import com.ssafy.soyu.item.dto.request.*;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.item.Service.ItemService;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.dto.response.ItemResponse;
-import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
-import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
-import com.ssafy.soyu.item.dto.request.ReserveItemRequest;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.JwtTokenProvider;
@@ -21,12 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Item 컨트롤러", description = "Item API 입니다.")
 @RestController
@@ -143,6 +135,12 @@ public class ItemController {
   @PostMapping("/item/reserve")
   public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest reserveItemRequest){
     itemService.makeReserve(reserveItemRequest.getChatId());
+    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+  }
+
+  @DeleteMapping("/item/reserve")
+  public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest){
+    itemService.deleteReserve(deleteReserveRequest.getItemId());
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 

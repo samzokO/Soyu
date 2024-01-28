@@ -101,4 +101,28 @@ public class ItemService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
     return zonedDateTime.format(formatter);
   }
+
+  public void deleteReserve(Long itemId) {
+    ItemStatus status = ItemStatus.from("ONLINE");
+    itemRepository.updateStatus(itemId, status); //아이템 상태 변경
+
+    //histroy 변경
+
+    //payAction 매칭 취소
+    String orderExcludeUri = payActionProperties.getOrderExcludeUri();
+    WebClient webClient = WebClient.create(orderExcludeUri);
+    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+    parameters.add("apikey", payActionProperties.getApiKey());
+    parameters.add("secretkey", payActionProperties.getSecretKey());
+    parameters.add("mall_id", payActionProperties.getStoreId());
+    parameters.add("order_number", "1"); // 주문 번호 수정 필요
+
+    webClient.post()
+            .uri(orderExcludeUri)
+            .bodyValue(parameters)
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+
+  }
 }
