@@ -48,7 +48,7 @@ public class ChatController {
   public ResponseEntity<?> getChat(@PathVariable("chatId") Long chatId) {
     Chat chat = chatService.findChatById(chatId);
     List<MessageResponse> messageResponses = getMessageResponses(chat.getMessage());
-    ChatResponse chatResponse = getResponse(chat, messageResponses);
+    ChatResponse chatResponse = getChatAndMessageResponse(chat, messageResponses);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
   }
@@ -56,13 +56,13 @@ public class ChatController {
   // 새로운 채팅방 만들기
   @PostMapping("chat")
   public ResponseEntity<?> createChat(@RequestBody ChatRequest chatRequest) {
-    chatService.save(chatRequest);
+    Chat chat = chatService.save(chatRequest);
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
   // make chat Response
-  private static ChatResponse getResponse(Chat chat, List<MessageResponse> messageResponses) {
+  private static ChatResponse getChatAndMessageResponse(Chat chat, List<MessageResponse> messageResponses) {
     return new ChatResponse(chat.getItem().getId(), chat.getBuyer().getId(), chat.getSeller().getId(),
         chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked(), messageResponses);
   }

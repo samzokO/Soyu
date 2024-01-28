@@ -7,6 +7,7 @@ import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
+import java.util.EnumMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,22 @@ public class ChatService {
     return chatRepository.findChatById(chatId);
   }
 
-  public void save(ChatRequest chatRequest) {
+  public Chat save(ChatRequest chatRequest) {
     // 구매자 가져오고, 판매자 가져오고, Item 가져와서 넣는다
-    System.out.println(chatRequest.getItemId());
     Item item = itemRepository.getReferenceById(chatRequest.getItemId());
     Member buyer = memberRepository.getReferenceById(chatRequest.getBuyerId());
     Member seller = memberRepository.getReferenceById(chatRequest.getSellerId());
+
+    // 이미 채팅방이 존재하는지 확인 (구매자ID 와 물건ID 를 활용)
+    Chat alreadyChat = chatRepository.findChatByItemAndBuyer(item, buyer);
+
+    // 이미 기록이 존재한다면 !
+    if (alreadyChat != null) {
+      return alreadyChat;
+    }
+
+    // 새로운 채팅방이 생성된다
     Chat chat = new Chat(item, buyer, seller);
-    chatRepository.save(chat);
+    return chatRepository.save(chat);
   }
 }
