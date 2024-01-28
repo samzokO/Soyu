@@ -7,6 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class ChatListResponse {
+  Long chatId;
+
   Long itemId;
 
   Long buyerId;

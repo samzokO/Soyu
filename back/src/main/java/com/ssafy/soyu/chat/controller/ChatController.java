@@ -70,7 +70,7 @@ public class ChatController {
   //make chat Responses
   private static List<ChatListResponse> getChatResponses(List<Chat> chats) {
     return chats.stream()
-        .map(c -> new ChatListResponse(c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(),
+        .map(c -> new ChatListResponse(c.getId(), c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(),
             c.getLastMessage(), c.getLastDate(), c.getIsChecked(), c.getLastChecked()))
         .collect(Collectors.toList());
   }
