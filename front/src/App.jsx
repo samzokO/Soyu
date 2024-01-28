@@ -1,4 +1,5 @@
 import './utils/firebase-messaging-sw';
+
 function App() {
   return (
     <div className="App">

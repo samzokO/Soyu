@@ -32,7 +32,7 @@ async function requestPermission() {
   console.log('알림 권한이 허용됨');
   getToken(messaging, {
     vapidKey:
-      'BN4n3KsbjmumMA5FlETNrwdrWTN3pw8Ttw08udiBZZr3zlb5ITUNvMy7eUbXmCLr6GCaoIhR-koZFc05Uxbt3Wg',
+      'BCWRL1BmNLVyyBhV5HGBXUbuySS4GHSMWXRQFHnsPlJ2EZpJ8dIi2HWu2hLGCUeDjzn92ua3ZlLpxENbclpLLT0',
   })
     .then((currentToken) => {
       if (currentToken) {
