@@ -46,12 +46,13 @@ public class Item {
   @Enumerated(EnumType.STRING)
   private ItemCategories itemCategories;
 
-  public Item(Member member, String title, String content, Integer price, ItemCategories itemCategories ) {
+  public Item(Member member, String title, String content, Integer price, ItemCategories itemCategories, ItemStatus itemStatus ) {
     this.member = member;
     this.title = title;
     this.content = content;
     this.price = price;
     this.itemCategories = itemCategories;
+    this.itemStatus = itemStatus;
   }
 
   public void updateItem(String title, String content, Integer price, ItemCategories itemCategories ) {

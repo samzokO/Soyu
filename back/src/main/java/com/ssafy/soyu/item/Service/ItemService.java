@@ -39,7 +39,7 @@ public class ItemService {
 
     Member member = memberRepository.getReferenceById(memberId);
 
-    Item item = new Item(member, itemRequest.getTitle(), itemRequest.getContent(), itemRequest.getPrice(), itemRequest.getItemCategories());
+    Item item = new Item(member, itemRequest.getTitle(), itemRequest.getContent(), itemRequest.getPrice(), itemRequest.getItemCategories(), ItemStatus.ONLINE);
 
     itemRepository.save(item);
   }
