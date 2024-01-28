@@ -14,8 +14,8 @@ import java.util.Optional;
 public interface AuthRepository extends JpaRepository<RefreshToken, Long>{
 
     @Modifying
-    @Query("update RefreshToken set token = :newToken where member = :member")
-    int updateRefreshTokenFindByMember(@Param("member") Member member, @Param("newToken") String newToken);
+    @Query("update RefreshToken set token = :newToken where member.id = :memberId")
+    int updateRefreshTokenFindByMember(@Param("memberId") Long memberId, @Param("newToken") String newToken);
 
 
     @Modifying

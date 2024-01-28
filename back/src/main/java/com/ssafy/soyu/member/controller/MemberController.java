@@ -33,6 +33,13 @@ public class MemberController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);
     }
 
+    @PostMapping()
+    public ResponseEntity<?> logout(HttpServletRequest request){
+        Long memberId = (Long) request.getAttribute("memberId");
+        memberService.logout(memberId);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
+
     @PatchMapping("/account")
     public ResponseEntity<?> registrationAccount(@Validated @RequestBody AccountDto accountDto, BindingResult bindingResult, HttpServletRequest request){
         // HttpServletRequest에서  멤버 id 가져오기

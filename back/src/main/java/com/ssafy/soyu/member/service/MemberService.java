@@ -37,7 +37,7 @@ public class MemberService {
         TokenResponse token = jwtTokenProvider.createToken(member.getId());
 
         // DB에서 해당 member의 refreshToken을 새 토큰으로 업데이트
-        int updatedRows = authRepository.updateRefreshTokenFindByMember(member, token.getRefreshToken());
+        int updatedRows = authRepository.updateRefreshTokenFindByMember(member.getId(), token.getRefreshToken());
 
         // 업데이트된 행이 없다면 새 refreshToken 생성 및 저장 == 회원가입한 유저
         if (updatedRows == 0) {
@@ -112,5 +112,9 @@ public class MemberService {
         });
 
         memberRepository.updateWithDraw(memberId);
+    }
+    @Transactional
+    public void logout(Long memberId) {
+        authRepository.updateRefreshTokenFindByMember(memberId,null);
     }
 }
