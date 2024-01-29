@@ -46,10 +46,11 @@ public class Item {
   @Enumerated(EnumType.STRING)
   private ItemCategories itemCategories;
 
-  public Item(Member member, String title, String content, Integer price, ItemCategories itemCategories, ItemStatus itemStatus ) {
+  public Item(Member member, String title, String content, LocalDateTime regDate, Integer price, ItemCategories itemCategories, ItemStatus itemStatus ) {
     this.member = member;
     this.title = title;
     this.content = content;
+    this.regDate = regDate;
     this.price = price;
     this.itemCategories = itemCategories;
     this.itemStatus = itemStatus;
