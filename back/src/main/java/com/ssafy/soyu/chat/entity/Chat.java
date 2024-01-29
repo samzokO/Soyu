@@ -46,7 +46,7 @@ public class Chat {
     private Boolean isChecked;
     private LocalDateTime lastChecked;
 
-    public Chat(Item item, Member buyer, Member seller) {
+    public Chat(Item item, Member seller, Member buyer) {
         this.item = item;
         this.buyer = buyer;
         this.seller = seller;
