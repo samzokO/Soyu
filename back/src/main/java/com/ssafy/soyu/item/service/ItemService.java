@@ -89,10 +89,15 @@ public class ItemService {
     Item item = chat.getItem();
     ItemStatus status = ItemStatus.from("RESERVE");
     itemRepository.updateStatus(item.getId(), status); //아이템 상태 변경
+    String today = getCurrentDateTime();
     History history = new History(item, chat.getBuyer());
 
     //구매내역에 추가
     historyRepository.save(history);
+
+    //주문번호 업데이트
+    String orderNumber = today + history.getId();
+    historyRepository.updateOrderNumber(history.getId(), orderNumber);
 
     //payAction API
     String orderUri = payActionProperties.getOrderUri();
@@ -101,9 +106,9 @@ public class ItemService {
     parameters.add("apikey", payActionProperties.getApiKey());
     parameters.add("secretkey", payActionProperties.getSecretKey());
     parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", history.getId().toString()); // 주문 번호 수정 필요
+    parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
     parameters.add("order_amount", item.getPrice().toString());
-    parameters.add("order_date", getCurrentDateTime());
+    parameters.add("order_date", today);
     parameters.add("orderer_name", chat.getBuyer().getName());
     parameters.add("orderer_phone_number", chat.getBuyer().getMobile());
     parameters.add("orderer_email", chat.getBuyer().getEmail());
@@ -140,7 +145,7 @@ public class ItemService {
     parameters.add("apikey", payActionProperties.getApiKey());
     parameters.add("secretkey", payActionProperties.getSecretKey());
     parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", historyId.toString()); // 주문 번호 수정 필요
+    parameters.add("order_number", history.getOrder_number());
 
     webClient.post()
             .uri(orderExcludeUri)
@@ -148,11 +153,10 @@ public class ItemService {
             .retrieve()
             .bodyToMono(String.class)
             .block();
-
   }
 
   public void depositMoney(DepositInfoRequest depositInfoRequest) {
-    Long historyId = depositInfoRequest.getOrder_number();
+    Long historyId = Long.parseLong(depositInfoRequest.getOrder_number().substring(25));
     History history = historyRepository.findById(historyId).get();
     Item item = history.getItem();
 

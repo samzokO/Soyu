@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class DepositInfoRequest {
     String mall_id;
-    Long order_number;
+    String order_number;
     String order_status;
     LocalDateTime processing_date;
 }
