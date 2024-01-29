@@ -4,10 +4,12 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "likes")
 @Getter
+@NoArgsConstructor
 public class Likes {
     @Id
     @GeneratedValue
@@ -22,5 +24,15 @@ public class Likes {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private boolean status;
+    private Boolean status;
+    
+    public Likes(Member member, Item item, Boolean status) {
+        this.member = member;
+        this.item = item;
+        this.status = status;
+    }
+
+    public void changeStatus() {
+      status = !status;
+    }
 }

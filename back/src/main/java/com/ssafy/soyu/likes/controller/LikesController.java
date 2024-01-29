@@ -48,13 +48,15 @@ public class LikesController {
     Long memberId = (Long) request.getAttribute("memberId");
     if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
 
+    likesService.onOff(itemId, memberId);
+
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
   // make get Responses
   private static List<LikesResponse> getLikesResponses(List<Likes> likes) {
     return likes.stream()
-        .map(l -> new LikesResponse(l.getItem(), l.isStatus()))
+        .map(l -> new LikesResponse(l.getItem(), l.getStatus()))
         .collect(Collectors.toList());
   }
 }
