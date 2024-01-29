@@ -7,10 +7,7 @@ import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,12 @@ public class LockerController {
     public ResponseEntity<?> getLockers(@PathVariable("stationId") Long stationId){
         List<LockerListResponse> lockerList = lockerService.getLockers(stationId);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, lockerList);
+    }
+
+    //보관함 상태 확인
+    @GetMapping
+    public ResponseEntity<?> checkLocker(@PathVariable("lockerId") Long lockerId){
+        lockerService.checkLocker(lockerId);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 }

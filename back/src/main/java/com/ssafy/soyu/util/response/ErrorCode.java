@@ -26,8 +26,11 @@ public enum ErrorCode {
 
     INPUT_EXCEPTION(HttpStatus.BAD_REQUEST, "입력값을 확인하세요"),
     STATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 스테이션을 찾을 수 없습니다."),
-    FAVORITE_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 즐겨찾기를 찾을 수 없습니다.");
+    FAVORITE_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 즐겨찾기를 찾을 수 없습니다."),
 
+
+    //보관함 관련 예외
+    IN_USE_LOCKER(HttpStatus.UNAUTHORIZED, "이미 사용 중인 보관함입니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }
