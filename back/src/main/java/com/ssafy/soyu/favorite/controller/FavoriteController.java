@@ -1,5 +1,6 @@
 package com.ssafy.soyu.favorite.controller;
 
+import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
 import com.ssafy.soyu.favorite.service.FavoriteService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -7,9 +8,11 @@ import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,5 +60,19 @@ public class FavoriteController {
       return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
     }
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+  }
+
+  @GetMapping("")
+  public ResponseEntity<?> getList(HttpServletRequest request){
+    Long memberId = (Long) request.getAttribute("memberId");
+    if (memberId == null) {
+      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+    }
+
+    List<FavoriteListResponseDto> result = favoriteService.findByMemberId(memberId);
+    if(result == null || result.size() == 0)
+      return ErrorResponseEntity.toResponseEntity(ErrorCode.FAVORITE_NOT_FOUND);
+
+    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, result);
   }
 }

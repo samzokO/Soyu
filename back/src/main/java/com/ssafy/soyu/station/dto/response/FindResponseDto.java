@@ -1,15 +1,10 @@
 package com.ssafy.soyu.station.dto.response;
 
 import com.ssafy.soyu.item.entity.ItemCategories;
-import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.locker.Locker;
-import com.ssafy.soyu.station.domain.Station;
 import java.time.LocalDateTime;
 
-public class DetailResponseDto {
-
-  private Long stationId;
-  private String stationName;
+public class FindResponseDto {
   private Long lockerId;
   private Long itemId;
   private String status;
@@ -18,12 +13,9 @@ public class DetailResponseDto {
   private Integer price;
   private ItemCategories categories;
 
-
-  public DetailResponseDto(Station s, Locker l, boolean isFavorite) {
-    this.stationId = s.getId();
+  public FindResponseDto(Locker l){
     this.lockerId = l.getId();
     this.itemId = l.getItem().getId();
-    this.stationName = s.getName();
     this.status = l.getStatus().toString();
     this.title = l.getItem().getTitle();
     this.regDate = l.getItem().getRegDate();
