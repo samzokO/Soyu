@@ -34,7 +34,6 @@ public class StationController {
   public ResponseEntity<?> detailStation(HttpServletRequest request, @RequestParam("stationId") Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
     if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
-
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, stationService.findOneStation(memberId, stationId));
   }
 

@@ -22,7 +22,8 @@ public class StationService {
         .map(object -> {
           Station s = (Station) object[0];
           boolean isFavorite = (Boolean) object[1];
-          return new ListResponseDto(s, isFavorite);
+          Integer count = stationRepository.countNotEmptyLocker(s.getId());
+          return new ListResponseDto(s, count, isFavorite);
         })
         .collect(Collectors.toList());
   }
