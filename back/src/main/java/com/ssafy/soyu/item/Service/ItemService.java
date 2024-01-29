@@ -135,6 +135,6 @@ public class ItemService {
     Item item = history.getItem();
 
     // 아이템 판매 완료
-    item.updateItemStatus(ItemStatus.SOLD);
+    itemRepository.updateStatus(item.getId(), ItemStatus.SOLD);
   }
 }
