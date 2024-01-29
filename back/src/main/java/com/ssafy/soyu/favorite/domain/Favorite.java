@@ -1,4 +1,4 @@
-package com.ssafy.soyu.favorite;
+package com.ssafy.soyu.favorite.domain;
 
 import com.ssafy.soyu.station.domain.Station;
 import com.ssafy.soyu.member.domain.Member;
