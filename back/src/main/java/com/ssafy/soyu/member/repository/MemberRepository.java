@@ -19,4 +19,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Query("UPDATE Member SET isWithdraw = true where id = :memberId ")
     void updateWithDraw(@Param("memberId") Long memberId);
+
+    Optional<Member> findByNickName(String nickName);
+
+    @Modifying
+    @Query("UPDATE Member SET nickName = :nickName WHERE id= :memberId")
+    void updateNickName(@Param("memberId") Long memberId, @Param("nickName") String nickName);
 }

@@ -22,6 +22,7 @@ public enum ErrorCode {
     INVALID_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다."),
     NON_MEMBER_ACCESS(HttpStatus.UNAUTHORIZED, "로그인 후 이용 가능합니다."),
     HAS_ACTIVE_ITEM(HttpStatus.CONFLICT, "거래중인 물품이 존재합니다."),
+    DUPLICATE_USER_NICKNAME(HttpStatus.CONFLICT, "중복된 닉네임 입니다."),
 
     INPUT_EXCEPTION(HttpStatus.BAD_REQUEST, "입력값을 확인하세요"),
     STATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 스테이션을 찾을 수 없습니다."),

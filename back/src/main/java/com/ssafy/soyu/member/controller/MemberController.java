@@ -1,5 +1,6 @@
 package com.ssafy.soyu.member.controller;
 
+import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
@@ -68,4 +69,10 @@ public class MemberController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
     }
 
+    @PatchMapping("/nickname")
+    public ResponseEntity<?> makeNickname(@RequestParam("nickName") String nickName, HttpServletRequest request){
+        Long memberId = (Long) request.getAttribute("memberId");
+        memberService.checkNickName(memberId, nickName);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
 }

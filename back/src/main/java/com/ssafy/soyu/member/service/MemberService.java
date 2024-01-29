@@ -117,4 +117,14 @@ public class MemberService {
     public void logout(Long memberId) {
         authRepository.updateRefreshTokenFindByMember(memberId,null);
     }
+
+    @Transactional
+    public void checkNickName(Long memberId, String nickName) {
+        Optional<Member> duplicateMember = memberRepository.findByNickName(nickName);
+        if(duplicateMember.isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
+        }
+
+        memberRepository.updateNickName(memberId, nickName);
+    }
 }
