@@ -4,6 +4,7 @@ import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
+import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.message.entity.Message;
 import jakarta.annotation.PostConstruct;
@@ -56,6 +57,14 @@ public class initDB {
       em.persist(item4);
       em.persist(item5);
       em.persist(item6);
+
+      Likes likes1 = new Likes(member1, item1, true);
+      Likes likes2 = new Likes(member1, item2, true);
+      Likes likes3 = new Likes(member1, item3, true);
+
+      em.persist(likes1);
+      em.persist(likes2);
+      em.persist(likes3);
 
       Chat chat1 = new Chat(item1, member1, member2);
       Chat chat2 = new Chat(item3, member2, member3);
