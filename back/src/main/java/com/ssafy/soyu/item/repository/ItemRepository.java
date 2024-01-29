@@ -13,15 +13,17 @@ import org.springframework.data.repository.query.Param;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-  @Query("select i from Item i where i.title like concat('%', :keyword, '%')")
-  List<Item> findItemByKeyWord(@Param("keyword") String keyword);
+  Item findItemById(Long id);
 
   List<Item> findItemByMember(Member member);
+
+  @Query("select i from Item i where i.title like concat('%', :keyword, '%')")
+  List<Item> findItemByKeyWord(@Param("keyword") String keyword);
 
   List<Item> findItemByItemCategories(ItemCategories itemCategories);
 
   @Query("select i from Item i join fetch i.member m where i.member.id = :memberId")
-  List<Item> findByMemberId(Long memberId);
+  List<Item> findByMemberId(@Param("memberId") Long memberId);
 
   @Modifying
   @Query("UPDATE Item SET itemStatus= :status where id=:itemId")

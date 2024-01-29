@@ -1,4 +1,4 @@
-package com.ssafy.soyu.item.Service;
+package com.ssafy.soyu.item.service;
 
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
@@ -7,6 +7,7 @@ import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
+import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
 import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
@@ -15,6 +16,7 @@ import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.util.payaction.PayActionProperties;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -36,15 +38,35 @@ public class ItemService {
   private final HistoryRepository historyRepository;
   private final PayActionProperties payActionProperties;
 
+
+  public Item getItem(Long itemId) {
+    return itemRepository.findItemById(itemId);
+  }
+
+  public List<Item> getItems() {
+    return itemRepository.findAll();
+  }
+
+  public List<Item> getItemByMemberId(Long memberId) {
+    return itemRepository.findItemByMember(memberRepository.getReferenceById(memberId));
+  }
+
+  public List<Item> getItemByKeyword(String keyword) {
+    return itemRepository.findItemByKeyWord(keyword);
+  }
+
+  public List<Item> getItemByCategory(ItemCategories itemCategories) {
+    return itemRepository.findItemByItemCategories(itemCategories);
+  }
+
   public void save(Long memberId, ItemCreateRequest itemRequest) {
 
     Member member = memberRepository.getReferenceById(memberId);
 
-    Item item = new Item(member, itemRequest.getTitle(), itemRequest.getContent(), itemRequest.getPrice(), itemRequest.getItemCategories(), ItemStatus.ONLINE);
+    Item item = new Item(member, itemRequest.getTitle(), itemRequest.getContent(), LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(), ItemStatus.ONLINE);
 
     itemRepository.save(item);
   }
-
 
   public void update(ItemUpdateRequest itemUpdateRequest) {
     // 바꾸려는 아이템 객체를 가져온다
