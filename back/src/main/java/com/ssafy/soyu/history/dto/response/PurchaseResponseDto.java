@@ -26,7 +26,6 @@ public class PurchaseResponseDto {
   private ItemStatus itemStatus;
   LocalDateTime regDate;
 
-
   public PurchaseResponseDto(History h, File f) {
     this.itemId = h.getItem().getId();
     this.price = h.getItem().getPrice();
