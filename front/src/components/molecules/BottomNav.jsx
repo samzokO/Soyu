@@ -1,4 +1,3 @@
-<<<<<<< PATCH SET (85d335 feat: Bottom Nav amend)
 import styled from 'styled-components';
 import BottomNavBtn from '../atoms/BottomNavBtn';
 import BtnLabel from '../atoms/BtnLabel';
@@ -47,5 +46,3 @@ function BottomNav() {
   );
 }
 export default BottomNav;
-=======
->>>>>>> BASE      (d99123 style: 기본 색상 작성)
