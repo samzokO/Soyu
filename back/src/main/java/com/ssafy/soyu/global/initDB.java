@@ -52,7 +52,7 @@ public class initDB {
       em.persist(item5);
       em.persist(item6);
 
-      Chat chat1 = new Chat(item1, member1, member2);
+      Chat chat1 = new Chat(item1, member1, member4);
       Chat chat2 = new Chat(item3, member2, member3);
       Chat chat3 = new Chat(item5, member3, member1);
       em.persist(chat1);
