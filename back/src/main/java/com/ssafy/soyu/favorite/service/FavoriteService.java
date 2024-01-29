@@ -34,6 +34,9 @@ public class FavoriteService {
 
   @Transactional
   public void deleteFavorite(Long favoriteId){
+    Favorite favorite = favoriteRepository.getOne(favoriteId);
+    if(favorite == null)
+      throw new CustomException(ErrorCode.FAVORITE_NOT_FOUND);
     favoriteRepository.deleteById(favoriteId);
   }
 }

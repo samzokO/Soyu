@@ -24,7 +24,8 @@ public enum ErrorCode {
     HAS_ACTIVE_ITEM(HttpStatus.CONFLICT, "거래중인 물품이 존재합니다."),
 
     INPUT_EXCEPTION(HttpStatus.BAD_REQUEST, "입력값을 확인하세요"),
-    STATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 스테이션을 찾을 수 없습니다.");
+    STATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 스테이션을 찾을 수 없습니다."),
+    FAVORITE_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 즐겨찾기를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
