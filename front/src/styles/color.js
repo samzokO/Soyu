@@ -1,10 +1,4 @@
-<<<<<<< PATCH SET (85d335 feat: Bottom Nav amend)
-import font from './font';
-import color from './color';
-
-const theme = { color, font };
-=======
-export const theme = {
+const color = {
   // 백그라운드 컬러
   bgColor: '#F8F8F8',
 
@@ -28,10 +22,9 @@ export const theme = {
   cancel: '#808080',
   delete: '#FF4B47',
 
-  // 폰트
+  // 폰트 색상
   fontTitle: '#191919',
   fontBody: '#6F6F6F',
 };
->>>>>>> BASE      (d99123 style: 기본 색상 작성)
 
-export default theme;
+export default color;
