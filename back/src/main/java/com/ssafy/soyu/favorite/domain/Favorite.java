@@ -22,4 +22,9 @@ public class Favorite {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "station_id")
     private Station station;
+
+    public Favorite(Member member, Station station) {
+        this.member = member;
+        this.station = station;
+    }
 }
