@@ -1,6 +1,7 @@
 package com.ssafy.soyu.station.service;
 
 import com.ssafy.soyu.locker.Locker;
+import com.ssafy.soyu.locker.LockerRepository;
 import com.ssafy.soyu.station.domain.Station;
 import com.ssafy.soyu.station.dto.response.DetailResponseDto;
 import com.ssafy.soyu.station.dto.response.ListResponseDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class StationService {
 
   private final StationRepository stationRepository;
+  private final LockerRepository lockerRepository;
 
   public List<ListResponseDto> findAllStation(Long memberId) {
     return stationRepository.findAllWithMemberId(memberId)
@@ -22,7 +24,7 @@ public class StationService {
         .map(object -> {
           Station s = (Station) object[0];
           boolean isFavorite = (Boolean) object[1];
-          Integer count = stationRepository.countNotEmptyLocker(s.getId());
+          Integer count = lockerRepository.countNotEmptyLocker(s.getId());
           return new ListResponseDto(s, count, isFavorite);
         })
         .collect(Collectors.toList());
@@ -33,9 +35,9 @@ public class StationService {
         .stream()
         .map(object -> {
           Station s = (Station) object[0];
-          Locker l = (Locker) object[1];
+          List<Locker> ls = (List<Locker>) object[1];
           boolean isFavorite = (Boolean) object[2];
-          return new DetailResponseDto(s, l, isFavorite);
+          return new DetailResponseDto(s, ls, isFavorite);
         })
         .collect(Collectors.toList());
   }

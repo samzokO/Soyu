@@ -24,9 +24,4 @@ public interface StationRepository extends JpaRepository<Station, Long> {
       "LEFT JOIN Favorite f ON s.id = f.station.id AND f.member.id = :memberId " +
       "WHERE s.id = :stationId")
   Optional<Object[]> findOneWithMemberId(Long memberId, Long stationId);
-
-  @Query("SELECT count(*) " +
-      "FROM Locker l " +
-      "WHERE l.station.id = :stationId AND l.status != 'EMPTY'")
-  Integer countNotEmptyLocker(Long stationId);
 }

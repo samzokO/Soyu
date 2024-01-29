@@ -28,6 +28,7 @@ public class Locker {
     Boolean isLight;
     Boolean isVisible;
 
+    @Enumerated(EnumType.STRING)
     private LockerStatus status;
     private String location;
     private LocalDateTime time;

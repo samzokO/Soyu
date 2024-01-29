@@ -3,7 +3,9 @@ package com.ssafy.soyu.station.dto.response;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.locker.Locker;
 import java.time.LocalDateTime;
+import lombok.Data;
 
+@Data
 public class FindResponseDto {
   private Long lockerId;
   private Long itemId;

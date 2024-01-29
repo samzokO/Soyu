@@ -62,6 +62,11 @@ public class FavoriteController {
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
+  /**
+   * 사용자가 즐겨찾기한 목록 조회
+   * @param request 사용자 식별자 토큰
+   * @return USER | FAVORITE_NOT_FOUND || FavoriteListResponseDto
+   */
   @GetMapping("")
   public ResponseEntity<?> getList(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");

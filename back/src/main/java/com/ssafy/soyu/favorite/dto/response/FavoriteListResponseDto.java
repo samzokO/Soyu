@@ -6,7 +6,9 @@ import com.ssafy.soyu.station.domain.Station;
 import com.ssafy.soyu.station.dto.response.FindResponseDto;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Data;
 
+@Data
 public class FavoriteListResponseDto {
 
   private Long favoriteId;
