@@ -33,14 +33,13 @@ public class ItemController {
   @GetMapping("/item/{itemId}")
   public ResponseEntity<?> getItem(@PathVariable("itemId") Long itemId ) {
     Item item = itemService.getItem(itemId);
-    ItemResponse itemResponse = new ItemResponse
-        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(), item.getRegDate()
-        ,item.getPrice(), item.getItemStatus(), item.getItemCategories());
+    ItemResponse itemResponse = getItemResponse(item);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponse);
   }
 
   // 모든 아이템 조회 List<Item>
+
   @GetMapping("/items")
   public ResponseEntity<?> getItems() {
     List<Item> items = itemService.getItems();
@@ -48,8 +47,8 @@ public class ItemController {
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
   }
-
   // 아이템 리스트 조회 {memberId} (회원이 등록한 물건 가져오기)
+
   @GetMapping("/item/my")
   public ResponseEntity<?> getItemByMemberId(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
@@ -59,8 +58,8 @@ public class ItemController {
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
   }
-
   // 아이템 키워드 조회 List<Item>
+
   @GetMapping("/item/keyword/{keyword}")
   public ResponseEntity<?> getItemByKeyWord(@PathVariable("keyword") String keyword) {
     List<Item> items = itemService.getItemByKeyword(keyword);
@@ -68,8 +67,8 @@ public class ItemController {
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
   }
-
   // 아이템 카테고리 별 조회 List<Item>
+
   @GetMapping("/item/category/{category}")
   public ResponseEntity<?> getItemByCategory(@PathVariable("category") ItemCategories itemCategories) {
 
@@ -78,8 +77,8 @@ public class ItemController {
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
   }
-
   // 아이템 생성
+
   @PostMapping("item")
   public ResponseEntity<?> createItem(HttpServletRequest request,
       @Validated @RequestBody ItemCreateRequest itemRequest, BindingResult bindingResult) {
@@ -93,8 +92,8 @@ public class ItemController {
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
-
   // 아이템 수정
+
   @PostMapping("item/update")
   public ResponseEntity<?> updateItem(@Validated @RequestBody ItemUpdateRequest itemUpdateRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
@@ -104,9 +103,9 @@ public class ItemController {
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
-
   // 아이템 삭제 아래랑 같이 구현
   // 아이템 상태 변경 (수정))= 아이템 삭제 ! (enum 타입으로 변경할것이기에 soft delete)
+
   @PutMapping("item/status")
   public ResponseEntity<?> updateStatus(@Validated @RequestBody ItemStatusRequest itemStatusRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
@@ -116,9 +115,15 @@ public class ItemController {
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
-
   // make response List
-  private static List<ItemResponse> getItemResponses(List<Item> items) {
+
+  public static ItemResponse getItemResponse(Item item) {
+    return new ItemResponse
+        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(), item.getRegDate()
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories());
+  }
+
+  public static List<ItemResponse> getItemResponses(List<Item> items) {
     return items.stream()
         .map(i -> new ItemResponse(i.getId(), i.getMember().getId(), i.getTitle(), i.getContent(), i.getRegDate()
             ,i.getPrice(), i.getItemStatus(), i.getItemCategories()))

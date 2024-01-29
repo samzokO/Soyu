@@ -33,6 +33,6 @@ public class Likes {
     }
 
     public void changeStatus() {
-      status = !status;
+      this.status = !status;
     }
 }

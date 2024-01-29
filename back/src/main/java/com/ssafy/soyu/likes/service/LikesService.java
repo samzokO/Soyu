@@ -6,12 +6,14 @@ import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.likes.repository.LikesRepository;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class LikesService {
   final private LikesRepository likesRepository;
   final private ItemRepository itemRepository;
