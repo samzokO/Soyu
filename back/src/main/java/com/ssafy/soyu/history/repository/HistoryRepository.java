@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
@@ -15,4 +16,8 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
   @Modifying
   @Query(value = "UPDATE History h SET h.is_Delete = true WHERE h.id IN :historyIdList")
   void updateIsDelete(List<Long> historyIdList);
+
+  @Modifying
+  @Query(value = "UPDATE History SET is_Delete = true WHERE id =: id")
+  void updateIsDelete(@Param("id") Long id);
 }

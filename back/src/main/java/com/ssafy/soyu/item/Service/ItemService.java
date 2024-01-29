@@ -4,6 +4,7 @@ import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
+import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
 import com.ssafy.soyu.item.entity.ItemStatus;
@@ -78,7 +79,7 @@ public class ItemService {
     parameters.add("apikey", payActionProperties.getApiKey());
     parameters.add("secretkey", payActionProperties.getSecretKey());
     parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", "1"); // 주문 번호 수정 필요
+    parameters.add("order_number", history.getId().toString()); // 주문 번호 수정 필요
     parameters.add("order_amount", item.getPrice().toString());
     parameters.add("order_date", getCurrentDateTime());
     parameters.add("orderer_name", chat.getBuyer().getName());
@@ -102,11 +103,13 @@ public class ItemService {
     return zonedDateTime.format(formatter);
   }
 
-  public void deleteReserve(Long itemId) {
+  public void deleteReserve(Long historyId) {
+    History history = historyRepository.findById(historyId).get();
     ItemStatus status = ItemStatus.from("ONLINE");
-    itemRepository.updateStatus(itemId, status); //아이템 상태 변경
+    itemRepository.updateStatus(history.getItem().getId(), status); //아이템 상태 변경
 
     //histroy 변경
+    historyRepository.updateIsDelete(historyId);
 
     //payAction 매칭 취소
     String orderExcludeUri = payActionProperties.getOrderExcludeUri();
@@ -115,7 +118,7 @@ public class ItemService {
     parameters.add("apikey", payActionProperties.getApiKey());
     parameters.add("secretkey", payActionProperties.getSecretKey());
     parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", "1"); // 주문 번호 수정 필요
+    parameters.add("order_number", historyId.toString()); // 주문 번호 수정 필요
 
     webClient.post()
             .uri(orderExcludeUri)
@@ -124,5 +127,14 @@ public class ItemService {
             .bodyToMono(String.class)
             .block();
 
+  }
+
+  public void depositMoney(DepositInfoRequest depositInfoRequest) {
+    Long historyId = depositInfoRequest.getOrder_number();
+    History history = historyRepository.findById(historyId).get();
+    Item item = history.getItem();
+
+    // 아이템 판매 완료
+    item.updateItemStatus(ItemStatus.SOLD);
   }
 }

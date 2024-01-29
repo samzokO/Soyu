@@ -140,8 +140,14 @@ public class ItemController {
 
   @DeleteMapping("/item/reserve")
   public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest){
-    itemService.deleteReserve(deleteReserveRequest.getItemId());
+    itemService.deleteReserve(deleteReserveRequest.getHistoryId());
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 
+  //입금 매칭
+  @PostMapping("/item/match")
+  public ResponseEntity<?> depositMoney(@RequestBody DepositInfoRequest depositInfoRequest){
+    itemService.depositMoney(depositInfoRequest);
+    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+  }
 }
