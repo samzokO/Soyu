@@ -1,18 +1,22 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
+const Palette = {
+  black: theme.color.grayScale500,
+  gray: theme.color.grayScale300,
+};
+
 const Heart = styled.svg`
     width: 24px;
     height: 24px;
     margin: 0 auto;
-    fill: ${(props) => (props.active ? theme.color.grayScale500 : theme.color.grayScale300)};
+    fill: ${(props) => Palette[props.active]}
     viewBox: 0 0 24 24;
     xmlns: http://www.w3.org/2000/svg;
   `;
 
 const Path = styled.path`
-  fill: ${(props) =>
-    props.active ? theme.color.grayScale500 : theme.color.grayScale300};
+  fill: ${(props) => Palette[props.active]};
 `;
 
 function HeartIcon({ active }) {

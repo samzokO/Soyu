@@ -1,13 +1,18 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
+const Palette = {
+  black: theme.color.grayScale500,
+  gray: theme.color.grayScale300,
+  red: 'red',
+};
+
 const Send = styled.svg`
-  stroke: ${(props) =>
-    props.active ? theme.color.grayScale500 : theme.color.grayScale300};
+  margin: 0 auto;
+  stroke: ${(props) => Palette[props.active]};
 `;
 const IconFill = styled.path`
-  fill: ${(props) =>
-    props.active ? theme.color.grayScale500 : theme.color.grayScale300};
+  fill: ${(props) => Palette[props.active]};
 `;
 
 function SendIcon({ active }) {

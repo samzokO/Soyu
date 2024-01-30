@@ -1,17 +1,22 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
+const Palette = {
+  black: theme.color.grayScale500,
+  gray: theme.color.grayScale300,
+};
+
 const Location = styled.svg`
     width: 25px;
     height: 24px;
-    fill: ${(props) => (props.active ? theme.color.grayScale500 : theme.color.grayScale300)};
+    margin: 0 auto;
+    fill: ${(props) => Palette[props.active]}
     viewBox: 0 0 24 24;
     xmlns: http://www.w3.org/2000/svg;
   `;
 
 const Path = styled.path`
-  fill: ${(props) =>
-    props.active ? theme.color.grayScale500 : theme.color.grayScale300};
+  fill: ${(props) => Palette[props.active]};
 `;
 
 function LocationIcon({ active }) {

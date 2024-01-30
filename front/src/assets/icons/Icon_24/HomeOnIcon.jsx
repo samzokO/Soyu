@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
+const Palette = {
+  black: theme.color.grayScale500,
+  gray: theme.color.grayScale300,
+};
+
 const Home = styled.svg`
     width: 24px;
     height: 24px;
-    fill: ${(props) => (props.active ? theme.color.grayScale500 : theme.color.grayScale300)};
-    stroke:${(props) => (props.active ? theme.color.grayScale500 : theme.color.grayScale300)};
+    margin: 0 auto;
+    fill: ${(props) => Palette[props.active]};
+    stroke:${(props) => Palette[props.active]};
     strokeWidth:2;
     viewBox: 0 0 24 24;
     xmlns: http://www.w3.org/2000/svg;
