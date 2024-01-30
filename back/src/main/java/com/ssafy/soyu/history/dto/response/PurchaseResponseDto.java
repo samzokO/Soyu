@@ -34,4 +34,12 @@ public class PurchaseResponseDto {
     this.itemStatus = h.getItem().getItemStatus();
     this.fileName = f.getSaveName();
     this.filepath = f.getSavePath();}
+
+  public PurchaseResponseDto(History h) {
+    this.itemId = h.getItem().getId();
+    this.price = h.getItem().getPrice();
+    this.sellerNickName = h.getMember().getNickName();
+    this.regDate = h.getItem().getRegDate();
+    this.itemStatus = h.getItem().getItemStatus();
+  }
 }

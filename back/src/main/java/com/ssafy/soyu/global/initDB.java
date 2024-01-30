@@ -1,6 +1,7 @@
 package com.ssafy.soyu.global;
 
 import com.ssafy.soyu.chat.entity.Chat;
+import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
@@ -65,6 +66,13 @@ public class initDB {
       em.persist(likes1);
       em.persist(likes2);
       em.persist(likes3);
+
+      History history1 = new History(item1, member2);
+      History history2 = new History(item2, member3);
+      History history3 = new History(item3, member4);
+      em.persist(history1);
+      em.persist(history2);
+      em.persist(history3);
 
       Chat chat1 = new Chat(item1, member1, member2);
       Chat chat2 = new Chat(item3, member2, member3);
