@@ -6,6 +6,7 @@ const Field = styled.div`
   flex-direction: column;
   max-width: 345px;
   height: 52px;
+  margin-bottom: 10px;
   ${({ theme }) => theme.font.Body2};
 `;
 
