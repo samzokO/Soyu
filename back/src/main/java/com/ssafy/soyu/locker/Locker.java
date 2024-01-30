@@ -33,10 +33,10 @@ public class Locker {
 
     @Enumerated(EnumType.STRING)
     private LockerStatus status;
-    private String location;
+    private Integer location;
     private LocalDateTime time;
 
-    public Locker(Station station, String location){
+    public Locker(Station station, Integer location){
         this.station = station;
         this.status = LockerStatus.AVAILABLE;
         this.location = location;

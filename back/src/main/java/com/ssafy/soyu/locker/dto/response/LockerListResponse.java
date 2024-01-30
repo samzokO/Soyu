@@ -15,6 +15,6 @@ public class LockerListResponse {
     Boolean isLight;
     Boolean isVisible;
     LockerStatus status;
-    String location;
+    Integer location;
     LocalDateTime time;
 }

@@ -96,12 +96,12 @@ public class initDB {
       em.persist(station1);
       em.persist(station2);
 
-      Locker locker1 = new Locker(station1, "1번");
-      Locker locker2 = new Locker(station1, "2번");
-      Locker locker3 = new Locker(station1, "3번");
-      Locker locker4 = new Locker(station2, "1번");
-      Locker locker5 = new Locker(station2, "2번");
-      Locker locker6 = new Locker(station2, "3번");
+      Locker locker1 = new Locker(station1, 1);
+      Locker locker2 = new Locker(station1, 2);
+      Locker locker3 = new Locker(station1, 3);
+      Locker locker4 = new Locker(station2, 1);
+      Locker locker5 = new Locker(station2, 2);
+      Locker locker6 = new Locker(station2, 3);
       em.persist(locker1);
       em.persist(locker2);
       em.persist(locker3);
