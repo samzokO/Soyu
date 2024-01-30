@@ -15,7 +15,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
   @Modifying
   @Query(value = "UPDATE History h SET h.is_Delete = true WHERE h.id IN :historyIdList")
-  void updateIsDelete(List<Long> historyIdList);
+  void updateIsDelete(@Param("historyIdList") List<Long> historyIdList);
 
   @Modifying
   @Query("UPDATE History h SET h.is_Delete = true WHERE h.id = :id")
