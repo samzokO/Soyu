@@ -132,8 +132,8 @@ public class ItemController {
 
   // 거래 약속 잡기
   @PostMapping("/item/reserve")
-  public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest reserveItemRequest){
-    itemService.makeReserve(reserveItemRequest.getChatId());
+  public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest request){
+    itemService.makeReserve(request.getChatId(), request.getLockerId(), request.getReserveTime());
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 

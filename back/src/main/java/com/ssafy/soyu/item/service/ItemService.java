@@ -12,9 +12,17 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
 import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.locker.Locker;
+import com.ssafy.soyu.locker.LockerRepository;
+import com.ssafy.soyu.locker.LockerStatus;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.notice.domain.NoticeType;
+import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
+import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.payaction.PayActionProperties;
+import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +35,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +46,9 @@ public class ItemService {
   private final ChatRepository chatRepository;
   private final HistoryRepository historyRepository;
   private final PayActionProperties payActionProperties;
+  private final LockerRepository lockerRepository;
+
+  private final NoticeService noticeService;
 
 
   public Item getItem(Long itemId) {
@@ -84,13 +96,28 @@ public class ItemService {
   }
 
   @Transactional
-  public void makeReserve(Long chatId){
+  public void makeReserve(Long chatId, Long lockerId, LocalDateTime reserveTime){
     Chat chat = chatRepository.findById(chatId).get();
     Item item = chat.getItem();
-    ItemStatus status = ItemStatus.from("RESERVE");
-    itemRepository.updateStatus(item.getId(), status); //아이템 상태 변경
+
+    //온라인으로 판매중인 물건인지 체크
+    if(item.getItemStatus() != ItemStatus.ONLINE){
+      throw new CustomException(ErrorCode.ITEM_NOT_ONLINE);
+    }
+    //보관함 이용가능한지 상태 확인
+    if(lockerRepository.findById(lockerId).get().getStatus() != LockerStatus.AVAILABLE){
+      throw new CustomException(ErrorCode.IN_USE_LOCKER);
+    }
+
+    //아이템 상태 변경
+    itemRepository.updateStatus(item.getId(), ItemStatus.RESERVE); //아이템 상태 변경
     String today = getCurrentDateTime();
     History history = new History(item, chat.getBuyer());
+
+    String code = generateRandomCode();
+
+    Locker locker = new Locker(item, code, LockerStatus.RESERVED, reserveTime);
+    lockerRepository.save(locker);
 
     //구매내역에 추가
     historyRepository.save(history);
@@ -100,27 +127,29 @@ public class ItemService {
     historyRepository.updateOrderNumber(history.getId(), orderNumber);
 
     //payAction API
-    String orderUri = payActionProperties.getOrderUri();
-    WebClient webClient = WebClient.create(orderUri);
-    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-    parameters.add("apikey", payActionProperties.getApiKey());
-    parameters.add("secretkey", payActionProperties.getSecretKey());
-    parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
-    parameters.add("order_amount", item.getPrice().toString());
-    parameters.add("order_date", today);
-    parameters.add("orderer_name", chat.getBuyer().getName());
-    parameters.add("orderer_phone_number", chat.getBuyer().getMobile());
-    parameters.add("orderer_email", chat.getBuyer().getEmail());
-    parameters.add("billing_name", chat.getBuyer().getName());
-
-    //payAction에
-    webClient.post()
-            .uri(orderUri)
-            .bodyValue(parameters)
-            .retrieve()
-            .bodyToMono(String.class)
-            .block();
+//    String orderUri = payActionProperties.getOrderUri();
+//    WebClient webClient = WebClient.create(orderUri);
+//    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+//    parameters.add("apikey", payActionProperties.getApiKey());
+//    parameters.add("secretkey", payActionProperties.getSecretKey());
+//    parameters.add("mall_id", payActionProperties.getStoreId());
+//    parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
+//    parameters.add("order_amount", item.getPrice().toString());
+//    parameters.add("order_date", today);
+//    parameters.add("orderer_name", chat.getBuyer().getName());
+//    parameters.add("orderer_phone_number", chat.getBuyer().getMobile());
+//    parameters.add("orderer_email", chat.getBuyer().getEmail());
+//    parameters.add("billing_name", chat.getBuyer().getName());
+//
+//    //payAction에
+//    webClient.post()
+//            .uri(orderUri)
+//            .bodyValue(parameters)
+//            .retrieve()
+//            .bodyToMono(String.class)
+//            .block();
+    noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(NoticeType.RESERVE, "거래 예약이 완료 되었습니다", "보관함에 가서 코드를 입력하세요\n코드: "+code));
+    noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(NoticeType.RESERVE, "거래 예약이 완료 되었습니다", "판매자가 물품을 넣은 후 다시 알려드릴게요! :)"));
   }
 
   public String getCurrentDateTime() {
@@ -162,5 +191,19 @@ public class ItemService {
 
     // 아이템 판매 완료
     itemRepository.updateStatus(item.getId(), ItemStatus.SOLD);
+  }
+
+
+  // 6자리 랜덤 숫자 코드를 생성하는 메소드
+  public String generateRandomCode() {
+    Random random = new Random();
+    StringBuilder code = new StringBuilder();
+
+    for (int i = 0; i < 6; i++) {
+      int digit = random.nextInt(10); // 0부터 9까지의 숫자 생성
+      code.append(digit); // 생성된 숫자를 문자열에 추가
+    }
+
+    return code.toString();
   }
 }
