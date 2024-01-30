@@ -23,5 +23,5 @@ public interface StationRepository extends JpaRepository<Station, Long> {
       "LEFT JOIN Locker l ON s.id = l.station.id " +
       "LEFT JOIN Favorite f ON s.id = f.station.id AND f.member.id = :memberId " +
       "WHERE s.id = :stationId")
-  Optional<Object[]> findOneWithMemberId(Long memberId, Long stationId);
+  Optional<Object[]> findOneWithMemberId(@Param("memberId") Long memberId, @Param("stationId") Long stationId);
 }
