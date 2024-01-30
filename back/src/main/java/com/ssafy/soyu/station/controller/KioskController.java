@@ -31,4 +31,10 @@ public class KioskController {
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, response);
     }
 
+    @GetMapping("/withdraw/{code}")
+    public ResponseEntity<?> insertWithdrawCode(@PathVariable("code") String code){
+        lockerService.insertWithdrawCode(code);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
+
 }

@@ -106,4 +106,15 @@ public class LockerService {
         return new LockerBuyResponse(soyuProperties.getBankName(), soyuProperties.getAccountNumber(), locker.getItem().getPrice());
 
     }
+
+    @Transactional
+    public void insertWithdrawCode(String code) {
+        Optional<Locker> optionalLocker = lockerRepository.findByCode(code);
+
+        if(!optionalLocker.isPresent()){
+            throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
+        }
+        Locker locker = optionalLocker.get();
+        lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
+    }
 }
