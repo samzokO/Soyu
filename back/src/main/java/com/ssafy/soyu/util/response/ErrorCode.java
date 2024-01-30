@@ -30,6 +30,9 @@ public enum ErrorCode {
     FAVORITE_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 정보의 즐겨찾기를 찾을 수 없습니다."),
 
 
+    //알림 관련 예외
+    NOT_MATCH_NOTICE(HttpStatus.BAD_REQUEST, "해당하는 정보가 유저의 알림이 아닙니다."),
+
     //보관함 관련 예외
     IN_USE_LOCKER(HttpStatus.UNAUTHORIZED, "이미 사용 중인 보관함입니다.");
     private final HttpStatus httpStatus;

@@ -17,4 +17,7 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
   @Query("update Notice n set n.status = 'READ' where n.id = :noticeId")
   void readNoticeByNoticeId(@Param("noticeId") Long noticeId);
+
+  @Query("select n from Notice n where n.member.id = :memberId AND n.id = :noticeId")
+  Notice checkNoticeMatchMember(@Param("memberId") Long memberId, @Param("noticeId") Long noticeId);
 }

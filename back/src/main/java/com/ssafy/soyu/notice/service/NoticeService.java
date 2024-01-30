@@ -12,6 +12,8 @@ import com.ssafy.soyu.util.fcm.domain.Fcm;
 import com.ssafy.soyu.util.fcm.dto.FcmMessage;
 import com.ssafy.soyu.util.fcm.repository.FcmRepository;
 import com.ssafy.soyu.util.fcm.service.FcmService;
+import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,5 +79,9 @@ public class NoticeService {
   @Transactional
   public void deleteNotice(Long noticeId){
     noticeRepository.deleteNoticeByNoticeId(noticeId);
+  }
+
+  public void checkNotice(Long memberId, Long noticeId) {
+    noticeRepository.checkNoticeMatchMember(memberId, noticeId);
   }
 }
