@@ -23,8 +23,9 @@ public class StationService {
   public List<ListResponseDto> findAllStation(Long memberId) {
     return stationRepository.findAllWithMemberId(memberId)
         .stream()
-        .map(s -> {
-          boolean isFavorite = favoriteRepository.checkIsFavorite(memberId, s.getId());
+        .map(o -> {
+          Station s = (Station) o[0];
+          boolean isFavorite = (Boolean) o[1];
           Integer count = lockerRepository.countNotEmptyLocker(s.getId());
           return new ListResponseDto(s, count, isFavorite);
         })

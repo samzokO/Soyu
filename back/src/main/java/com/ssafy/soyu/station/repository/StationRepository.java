@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
 
-  @Query("SELECT s " +
+  @Query("SELECT s, CASE WHEN f.id IS NOT NULL THEN true ELSE false END AS isFavorite " +
       "FROM Station s " +
-      "JOIN FETCH s.lockers l ")
-  List<Station> findAllWithMemberId(@Param("memberId") Long memberId);
+      "LEFT JOIN Favorite f ON f.member.id = :memberId AND f.station.id = s.id")
+  List<Object[]> findAllWithMemberId(@Param("memberId") Long memberId);
 
   @Query("SELECT DISTINCT s FROM Station s " +
       "JOIN FETCH s.lockers ls " +
