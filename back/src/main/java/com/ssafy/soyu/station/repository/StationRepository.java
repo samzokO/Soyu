@@ -15,8 +15,9 @@ public interface StationRepository extends JpaRepository<Station, Long> {
       "LEFT JOIN Favorite f ON f.member.id = :memberId AND f.station.id = s.id")
   List<Object[]> findAllWithMemberId(@Param("memberId") Long memberId);
 
-  @Query("SELECT DISTINCT s FROM Station s " +
-      "JOIN FETCH s.lockers ls " +
+  @Query("SELECT s, CASE WHEN f.id IS NOT NULL THEN true ELSE false END AS isFavorite " +
+      "FROM Station s " +
+      "LEFT JOIN Favorite f ON f.member.id = :memberId AND f.station.id = s.id " +
       "WHERE s.id = :stationId")
-  Optional<Station> findOneWithMemberId(@Param("stationId") Long stationId);
+  List<Object[]> findOneWithMemberId(@Param("memberId") Long memberId, @Param("stationId") Long stationId);
 }

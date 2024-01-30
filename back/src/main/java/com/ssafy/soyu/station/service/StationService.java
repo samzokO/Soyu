@@ -33,11 +33,12 @@ public class StationService {
   }
 
   public List<DetailResponseDto> findOneStation(Long memberId, Long stationId) {
-    return stationRepository.findOneWithMemberId(stationId)
+    return stationRepository.findOneWithMemberId(memberId, stationId)
         .stream()
-        .map(s -> {
+        .map(o -> {
+          Station s = (Station) o[0];
           List<Locker> ls = s.getLockers();
-          boolean isFavorite = favoriteRepository.checkIsFavorite(memberId, stationId);
+          boolean isFavorite = (Boolean) o[1];
           return new DetailResponseDto(s, ls, isFavorite);
         })
         .collect(Collectors.toList());
