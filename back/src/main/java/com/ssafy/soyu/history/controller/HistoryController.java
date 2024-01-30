@@ -35,6 +35,9 @@ public class HistoryController {
   @GetMapping("/purchase")
   public ResponseEntity<?> purchaseHistory(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
+    if (memberId == null) {
+      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+    }
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, historyService.getPurchaseHistory(memberId));
   }
 
@@ -46,6 +49,9 @@ public class HistoryController {
   @GetMapping("/sale")
   public ResponseEntity<?> saleHistory(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
+    if (memberId == null) {
+      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+    }
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, historyService.getSaleHistory(memberId));
   }
 
