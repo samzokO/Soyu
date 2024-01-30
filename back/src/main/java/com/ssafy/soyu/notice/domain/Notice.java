@@ -1,5 +1,6 @@
 package com.ssafy.soyu.notice.domain;
 
+import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import jakarta.persistence.*;
@@ -22,11 +23,13 @@ public class Notice {
   @JoinColumn(name = "receiver_id")
   private Member member;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "item_id")
+  private Item item;
+
+  private String type;
   private String title;
   private String content;
-
-  @Enumerated(EnumType.STRING)
-  private NoticeType type;
 
   @Enumerated(EnumType.STRING)
   private NoticeStatus status;
@@ -34,6 +37,7 @@ public class Notice {
   @Builder
   public Notice(Member member, NoticeRequestDto noticeRequestDto){
     this.member = member;
+    this.item = noticeRequestDto.getItem();
     this.title = noticeRequestDto.getTitle();
     this.content = noticeRequestDto.getContent();
     this.type = noticeRequestDto.getNoticeType();

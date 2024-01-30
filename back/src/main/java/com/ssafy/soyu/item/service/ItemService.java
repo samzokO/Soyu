@@ -148,8 +148,8 @@ public class ItemService {
 //            .retrieve()
 //            .bodyToMono(String.class)
 //            .block();
-    noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(NoticeType.RESERVE, "거래 예약이 완료 되었습니다", "보관함에 가서 코드를 입력하세요\n코드: "+code));
-    noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(NoticeType.RESERVE, "거래 예약이 완료 되었습니다", "판매자가 물품을 넣은 후 다시 알려드릴게요! :)"));
+    noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(item, NoticeType.RESERVE, code));
+    noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
   }
 
   public String getCurrentDateTime() {

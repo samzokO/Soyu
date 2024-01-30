@@ -49,7 +49,7 @@ public class NoticeService {
         .forEach(fcm -> {
           FcmMessage fcmMessage = FcmMessage.builder()
               .token(fcm.getToken())
-              .title(noticeRequestDto.getTitle())
+              .title(notice.getTitle())
               .content(notice.getContent())
               .build();
           try {
