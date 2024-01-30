@@ -1,5 +1,6 @@
 package com.ssafy.soyu.station.controller;
 
+import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
@@ -22,6 +23,12 @@ public class KioskController {
     public ResponseEntity<?> insertSellCode(@PathVariable("code") String code){
         lockerService.insertSellCode(code);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    }
+
+    @GetMapping("/buy/{stationId}/{code}")
+    public ResponseEntity<?> insertBuyCode(@PathVariable("stationId") Long stationId, @PathVariable("code") String code){
+        LockerBuyResponse response = lockerService.insertBuyCode(stationId, code);
+        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, response);
     }
 
 }

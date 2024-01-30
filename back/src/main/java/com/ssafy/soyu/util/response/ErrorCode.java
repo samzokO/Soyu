@@ -35,6 +35,8 @@ public enum ErrorCode {
 
     //보관함 관련 예외
     IN_USE_LOCKER(HttpStatus.UNAUTHORIZED, "이미 사용 중인 보관함입니다."),
+    NOT_DP_ITEM(HttpStatus.BAD_REQUEST, "DP 판매중인 물건아닙니다. 거래 예약 구매자인 경우 거래 코드를 입력하세요"),
+    EMPTY_ITEM_LOCKER(HttpStatus.BAD_REQUEST, "DP 판매중인 물건이 없는 보관함입니다"),
 
     //아이템 관련 예외
     NO_RESULT_ITEM(HttpStatus.NOT_FOUND, "결과에 해당하는 Item 이 없습니다."),
