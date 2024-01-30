@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface LockerRepository extends JpaRepository<Locker, Long> {
   @Query("SELECT count(*) " +
       "FROM Locker l " +
-      "WHERE l.station.id = :stationId AND l.status != 'EMPTY'")
+      "WHERE l.station.id = :stationId AND l.status != 'AVAILABLE'")
   Integer countNotEmptyLocker(Long stationId);
 
   @Query("SELECT l FROM Locker l WHERE l.station.id = :stationId")

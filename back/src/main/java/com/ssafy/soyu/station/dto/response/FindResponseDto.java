@@ -17,11 +17,13 @@ public class FindResponseDto {
 
   public FindResponseDto(Locker l){
     this.lockerId = l.getId();
-    this.itemId = l.getItem().getId();
     this.status = l.getStatus().toString();
-    this.title = l.getItem().getTitle();
-    this.regDate = l.getItem().getRegDate();
-    this.price = l.getItem().getPrice();
-    this.categories = l.getItem().getItemCategories();
+    if(l.getItem() != null){
+      this.itemId = l.getItem().getId();
+      this.title = l.getItem().getTitle();
+      this.regDate = l.getItem().getRegDate();
+      this.price = l.getItem().getPrice();
+      this.categories = l.getItem().getItemCategories();
+    }
   }
 }

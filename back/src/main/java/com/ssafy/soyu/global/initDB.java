@@ -92,14 +92,22 @@ public class initDB {
       em.persist(message3);
 
       Station station1 = new Station("스테이션1", 36.3552f, 127.298f, "삼성화재 유성연수원");
+      Station station2 = new Station("스테이션2", 36.3552f, 127.298f, "삼성화재 유성연수원");
       em.persist(station1);
+      em.persist(station2);
 
       Locker locker1 = new Locker(station1, "1번");
       Locker locker2 = new Locker(station1, "2번");
       Locker locker3 = new Locker(station1, "3번");
+      Locker locker4 = new Locker(station2, "1번");
+      Locker locker5 = new Locker(station2, "2번");
+      Locker locker6 = new Locker(station2, "3번");
       em.persist(locker1);
       em.persist(locker2);
       em.persist(locker3);
+      em.persist(locker4);
+      em.persist(locker5);
+      em.persist(locker6);
     }
   }
 

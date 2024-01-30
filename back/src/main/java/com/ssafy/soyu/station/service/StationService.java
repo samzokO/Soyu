@@ -1,5 +1,6 @@
 package com.ssafy.soyu.station.service;
 
+import com.ssafy.soyu.favorite.repository.FavoriteRepository;
 import com.ssafy.soyu.locker.Locker;
 import com.ssafy.soyu.locker.LockerRepository;
 import com.ssafy.soyu.station.domain.Station;
@@ -17,13 +18,13 @@ public class StationService {
 
   private final StationRepository stationRepository;
   private final LockerRepository lockerRepository;
+  private final FavoriteRepository favoriteRepository;
 
   public List<ListResponseDto> findAllStation(Long memberId) {
     return stationRepository.findAllWithMemberId(memberId)
         .stream()
-        .map(object -> {
-          Station s = (Station) object[0];
-          boolean isFavorite = (Boolean) object[1];
+        .map(s -> {
+          boolean isFavorite = favoriteRepository.checkIsFavorite(memberId, s.getId());
           Integer count = lockerRepository.countNotEmptyLocker(s.getId());
           return new ListResponseDto(s, count, isFavorite);
         })
@@ -31,12 +32,11 @@ public class StationService {
   }
 
   public List<DetailResponseDto> findOneStation(Long memberId, Long stationId) {
-    return stationRepository.findOneWithMemberId(memberId, stationId)
+    return stationRepository.findOneWithMemberId(stationId)
         .stream()
-        .map(object -> {
-          Station s = (Station) object[0];
-          List<Locker> ls = (List<Locker>) object[1];
-          boolean isFavorite = (Boolean) object[2];
+        .map(s -> {
+          List<Locker> ls = s.getLockers();
+          boolean isFavorite = favoriteRepository.checkIsFavorite(memberId, stationId);
           return new DetailResponseDto(s, ls, isFavorite);
         })
         .collect(Collectors.toList());

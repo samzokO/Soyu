@@ -10,18 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
 
-  @Query("SELECT s, " +
-      "CASE WHEN f.id IS NOT NULL THEN true ELSE false END AS isFavorite " +
+  @Query("SELECT s " +
       "FROM Station s " +
-      "JOIN FETCH s.lockers l " +
-      "LEFT JOIN Favorite f ON s.id = f.station.id AND f.member.id = :memberId " +
-      "GROUP BY s.id")
-  List<Object[]> findAllWithMemberId(@Param("memberId") Long memberId);
+      "JOIN FETCH s.lockers l ")
+  List<Station> findAllWithMemberId(@Param("memberId") Long memberId);
 
-  @Query("SELECT s, l, CASE WHEN f.id IS NOT NULL THEN true ELSE false END AS isFavorite " +
-      "FROM Station s " +
-      "LEFT JOIN Locker l ON s.id = l.station.id " +
-      "LEFT JOIN Favorite f ON s.id = f.station.id AND f.member.id = :memberId " +
+  @Query("SELECT DISTINCT s FROM Station s " +
+      "JOIN FETCH s.lockers ls " +
       "WHERE s.id = :stationId")
-  Optional<Object[]> findOneWithMemberId(@Param("memberId") Long memberId, @Param("stationId") Long stationId);
+  Optional<Station> findOneWithMemberId(@Param("stationId") Long stationId);
 }
