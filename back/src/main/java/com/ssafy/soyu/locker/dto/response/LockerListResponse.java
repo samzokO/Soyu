@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class LockerListResponse {
     Long lockerId;
-    Long itemId;
+    ItemResponse itemResponse;
     String code;
     Boolean isLight;
     Boolean isVisible;
