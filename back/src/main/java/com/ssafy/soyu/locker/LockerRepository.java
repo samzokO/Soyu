@@ -26,4 +26,10 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
   @Query("UPDATE Locker SET status = :status, time = :time, item.id = :itemId, code = :code WHERE id= :lockerId")
   void updateLocker(@Param("lockerId") Long lockerId, @Param("status") LockerStatus status,
                            @Param("time") LocalDateTime time, @Param("itemId") Long itemId, @Param("code") String code);
+
+  @Modifying
+  @Query("UPDATE Locker SET status = :status, code = :code WHERE id= :lockerId")
+  void updateLockerStatusAndCode(@Param("lockerId") Long lockerId, @Param("status") LockerStatus status, @Param("code") String code);
+
+  Optional<Locker> findByCode(String code);
 }
