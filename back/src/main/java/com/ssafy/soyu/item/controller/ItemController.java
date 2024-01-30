@@ -138,8 +138,9 @@ public class ItemController {
   }
 
   @DeleteMapping("/item/reserve")
-  public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest){
-    itemService.deleteReserve(deleteReserveRequest.getHistoryId());
+  public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest, HttpServletRequest request){
+    Long memberId = (Long) request.getAttribute("memberId");
+    itemService.deleteReserve(deleteReserveRequest.getHistoryId(), memberId);
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
 

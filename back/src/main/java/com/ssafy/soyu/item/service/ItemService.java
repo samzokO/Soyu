@@ -35,6 +35,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -111,15 +112,14 @@ public class ItemService {
 
     //아이템 상태 변경
     itemRepository.updateStatus(item.getId(), ItemStatus.RESERVE); //아이템 상태 변경
-    String today = getCurrentDateTime();
-    History history = new History(item, chat.getBuyer());
 
+    //locker 변경
     String code = generateRandomCode();
-
-    Locker locker = new Locker(item, code, LockerStatus.RESERVED, reserveTime);
-    lockerRepository.save(locker);
+    String today = getCurrentDateTime();
+    lockerRepository.updateLocker(lockerId, LockerStatus.RESERVED, reserveTime, item.getId(), code);
 
     //구매내역에 추가
+    History history = new History(item, chat.getBuyer());
     historyRepository.save(history);
 
     //주문번호 업데이트
@@ -127,27 +127,27 @@ public class ItemService {
     historyRepository.updateOrderNumber(history.getId(), orderNumber);
 
     //payAction API
-//    String orderUri = payActionProperties.getOrderUri();
-//    WebClient webClient = WebClient.create(orderUri);
-//    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-//    parameters.add("apikey", payActionProperties.getApiKey());
-//    parameters.add("secretkey", payActionProperties.getSecretKey());
-//    parameters.add("mall_id", payActionProperties.getStoreId());
-//    parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
-//    parameters.add("order_amount", item.getPrice().toString());
-//    parameters.add("order_date", today);
-//    parameters.add("orderer_name", chat.getBuyer().getName());
-//    parameters.add("orderer_phone_number", chat.getBuyer().getMobile());
-//    parameters.add("orderer_email", chat.getBuyer().getEmail());
-//    parameters.add("billing_name", chat.getBuyer().getName());
-//
-//    //payAction에
-//    webClient.post()
-//            .uri(orderUri)
-//            .bodyValue(parameters)
-//            .retrieve()
-//            .bodyToMono(String.class)
-//            .block();
+    String orderUri = payActionProperties.getOrderUri();
+    WebClient webClient = WebClient.create(orderUri);
+    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+    parameters.add("apikey", payActionProperties.getApiKey());
+    parameters.add("secretkey", payActionProperties.getSecretKey());
+    parameters.add("mall_id", payActionProperties.getStoreId());
+    parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
+    parameters.add("order_amount", item.getPrice().toString());
+    parameters.add("order_date", today);
+    parameters.add("orderer_name", chat.getBuyer().getName());
+    parameters.add("orderer_phone_number", chat.getBuyer().getMobile());
+    parameters.add("orderer_email", chat.getBuyer().getEmail());
+    parameters.add("billing_name", chat.getBuyer().getName());
+
+    //payAction에
+    webClient.post()
+            .uri(orderUri)
+            .bodyValue(parameters)
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
     noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(item, NoticeType.RESERVE, code));
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
   }
@@ -159,13 +159,36 @@ public class ItemService {
     return zonedDateTime.format(formatter);
   }
 
-  public void deleteReserve(Long historyId) {
+  @Transactional
+  public void deleteReserve(Long historyId, Long memberId) {
     History history = historyRepository.findById(historyId).get();
-    ItemStatus status = ItemStatus.from("ONLINE");
-    itemRepository.updateStatus(history.getItem().getId(), status); //아이템 상태 변경
+
+    //아이템 상태 변경
+    Item item = history.getItem();
+    itemRepository.updateStatus(item.getId(), ItemStatus.WITHDRAW);
 
     //histroy 변경
     historyRepository.updateIsDelete(historyId);
+
+    //Locker 변경
+    Optional<Locker> optionalLocker = lockerRepository.findByItemId(item.getId());
+    if(optionalLocker.isPresent()){
+      Locker locker = optionalLocker.get();
+      NoticeType noticeType = null;
+
+      if(locker.getStatus() == LockerStatus.READY) {
+        noticeType = NoticeType.CONVERT;
+      }
+      if(locker.getStatus() == LockerStatus.RESERVED){
+        noticeType = NoticeType.RESERVE_CANCEL;
+      }
+
+      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, noticeType)); //판매자에게 알림
+      noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL)); //구매자
+
+      //locker 상태 변경, 코드 삭제 등
+      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, null, item.getId(), null);
+    }
 
     //payAction 매칭 취소
     String orderExcludeUri = payActionProperties.getOrderExcludeUri();
