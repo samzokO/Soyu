@@ -20,14 +20,14 @@ public class LockerController {
     private final LockerService lockerService;
 
     //스테이션 id로 보관함 정보 가져오기
-    @GetMapping("/{stationId}")
+    @GetMapping("/list/{stationId}")
     public ResponseEntity<?> getLockers(@PathVariable("stationId") Long stationId){
         List<LockerListResponse> lockerList = lockerService.getLockers(stationId);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, lockerList);
     }
 
     //보관함 상태 확인
-    @GetMapping
+    @GetMapping("/{lockerId}")
     public ResponseEntity<?> checkLocker(@PathVariable("lockerId") Long lockerId){
         lockerService.checkLocker(lockerId);
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
