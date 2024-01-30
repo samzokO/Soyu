@@ -1,24 +1,6 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-
-const Condition = {
-  1: {
-    bgColor: theme.color.action,
-    textColor: theme.color.white,
-  },
-  2: {
-    bgColor: theme.color.success,
-    textColor: theme.color.grayScale500,
-  },
-  3: {
-    bgColor: theme.color.warning,
-    textColor: theme.color.grayScale500,
-  },
-  4: {
-    bgColor: theme.color.delete,
-    textColor: theme.color.white,
-  },
-};
+import Condition from '../../styles/BadgeCondition';
 
 const BadgeContainer = styled.span`
   background-color: ${(props) => Condition[props.status].bgColor};
@@ -35,7 +17,8 @@ const BadgeContainer = styled.span`
  * 1: 파란색
  * 2: 초록색
  * 3: 노란색
- * 4: 빨간색
+ * 4: 회색
+ * 5: 빨간색
  * @params (number) number - 숫자 입력, 99개 넘어가면 99+로 표시
  */
 function BadgeNotification({ status, number }) {
