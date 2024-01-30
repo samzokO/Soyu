@@ -36,6 +36,14 @@ public class Locker {
     private String location;
     private LocalDateTime time;
 
+    public Locker(Station station, String location){
+        this.station = station;
+        this.status = LockerStatus.AVAILABLE;
+        this.location = location;
+        this.isLight = false;
+        this.isVisible = false;
+    }
+
     public Locker(Item item, String code, LockerStatus status, LocalDateTime reserveTime){
         this.item = item;
         this.code = code;

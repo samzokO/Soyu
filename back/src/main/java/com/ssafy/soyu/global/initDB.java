@@ -6,8 +6,10 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.likes.entity.Likes;
+import com.ssafy.soyu.locker.Locker;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.message.entity.Message;
+import com.ssafy.soyu.station.domain.Station;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -67,12 +69,12 @@ public class initDB {
       em.persist(likes2);
       em.persist(likes3);
 
-      History history1 = new History(item1, member2);
-      History history2 = new History(item2, member3);
-      History history3 = new History(item3, member4);
-      em.persist(history1);
-      em.persist(history2);
-      em.persist(history3);
+//      History history1 = new History(item1, member2);
+//      History history2 = new History(item2, member3);
+//      History history3 = new History(item3, member4);
+//      em.persist(history1);
+//      em.persist(history2);
+//      em.persist(history3);
 
       Chat chat1 = new Chat(item1, member1, member2);
       Chat chat2 = new Chat(item3, member2, member3);
@@ -89,6 +91,15 @@ public class initDB {
       em.persist(message2);
       em.persist(message3);
 
+      Station station1 = new Station("스테이션1", 36.3552f, 127.298f, "삼성화재 유성연수원");
+      em.persist(station1);
+
+      Locker locker1 = new Locker(station1, "1번");
+      Locker locker2 = new Locker(station1, "2번");
+      Locker locker3 = new Locker(station1, "3번");
+      em.persist(locker1);
+      em.persist(locker2);
+      em.persist(locker3);
     }
   }
 
