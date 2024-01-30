@@ -34,7 +34,10 @@ public enum ErrorCode {
     NOT_MATCH_NOTICE(HttpStatus.BAD_REQUEST, "해당하는 정보가 유저의 알림이 아닙니다."),
 
     //보관함 관련 예외
-    IN_USE_LOCKER(HttpStatus.UNAUTHORIZED, "이미 사용 중인 보관함입니다.");
+    IN_USE_LOCKER(HttpStatus.UNAUTHORIZED, "이미 사용 중인 보관함입니다."),
+
+    //아이템 관련 예외
+    NO_RESULT_ITEM(HttpStatus.NOT_FOUND, "결과에 해당하는 Item 이 없습니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }

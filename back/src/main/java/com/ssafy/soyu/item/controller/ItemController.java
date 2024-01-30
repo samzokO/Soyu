@@ -33,8 +33,9 @@ public class ItemController {
   @GetMapping("/item/{itemId}")
   public ResponseEntity<?> getItem(@PathVariable("itemId") Long itemId ) {
     Item item = itemService.getItem(itemId);
+    if(item == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     ItemResponse itemResponse = getItemResponse(item);
-    // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponse);
   }
 
@@ -43,6 +44,7 @@ public class ItemController {
   @GetMapping("/items")
   public ResponseEntity<?> getItems() {
     List<Item> items = itemService.getItems();
+    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
@@ -54,6 +56,7 @@ public class ItemController {
     Long memberId = (Long) request.getAttribute("memberId");
     if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
     List<Item> items = itemService.getItemByMemberId(memberId);
+    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
@@ -63,6 +66,7 @@ public class ItemController {
   @GetMapping("/item/keyword/{keyword}")
   public ResponseEntity<?> getItemByKeyWord(@PathVariable("keyword") String keyword) {
     List<Item> items = itemService.getItemByKeyword(keyword);
+    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
@@ -73,12 +77,13 @@ public class ItemController {
   public ResponseEntity<?> getItemByCategory(@PathVariable("category") ItemCategories itemCategories) {
 
     List<Item> items = itemService.getItemByCategory(itemCategories);
+    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
   }
-  // 아이템 생성
 
+  // 아이템 생성
   @PostMapping("item")
   public ResponseEntity<?> createItem(HttpServletRequest request,
       @Validated @RequestBody ItemCreateRequest itemRequest, BindingResult bindingResult) {
@@ -97,6 +102,7 @@ public class ItemController {
   @PostMapping("item/update")
   public ResponseEntity<?> updateItem(@Validated @RequestBody ItemUpdateRequest itemUpdateRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
+      log.info(bindingResult.toString());
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
     }
     itemService.update(itemUpdateRequest);
@@ -109,6 +115,7 @@ public class ItemController {
   @PutMapping("item/status")
   public ResponseEntity<?> updateStatus(@Validated @RequestBody ItemStatusRequest itemStatusRequest, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
+      log.info(bindingResult.toString());
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
     }
     itemService.updateStatus(itemStatusRequest);
