@@ -37,7 +37,8 @@ public enum ErrorCode {
     IN_USE_LOCKER(HttpStatus.UNAUTHORIZED, "이미 사용 중인 보관함입니다."),
 
     //아이템 관련 예외
-    NO_RESULT_ITEM(HttpStatus.NOT_FOUND, "결과에 해당하는 Item 이 없습니다.");
+    NO_RESULT_ITEM(HttpStatus.NOT_FOUND, "결과에 해당하는 Item 이 없습니다."),
+    NO_MATCH_CATEGORY(HttpStatus.BAD_REQUEST, "매칭되는 CATEGORY 가 존재하지 않습니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }

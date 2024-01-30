@@ -75,7 +75,7 @@ public class ItemController {
 
   @GetMapping("/item/category/{category}")
   public ResponseEntity<?> getItemByCategory(@PathVariable("category") ItemCategories itemCategories) {
-
+    if(itemCategories == null) throw new CustomException(ErrorCode.NO_MATCH_CATEGORY);
     List<Item> items = itemService.getItemByCategory(itemCategories);
     if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
