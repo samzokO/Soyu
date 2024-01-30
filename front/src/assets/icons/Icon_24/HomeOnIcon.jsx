@@ -9,7 +9,6 @@ const Palette = {
 const Home = styled.svg`
     width: 24px;
     height: 24px;
-    margin: 0 auto;
     fill: ${(props) => Palette[props.active]};
     stroke:${(props) => Palette[props.active]};
     strokeWidth:2;

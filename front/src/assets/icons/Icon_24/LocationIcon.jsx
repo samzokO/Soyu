@@ -9,7 +9,6 @@ const Palette = {
 const Location = styled.svg`
     width: 25px;
     height: 24px;
-    margin: 0 auto;
     fill: ${(props) => Palette[props.active]}
     viewBox: 0 0 24 24;
     xmlns: http://www.w3.org/2000/svg;

@@ -9,7 +9,6 @@ const Palette = {
 const Person = styled.svg`
     width: 24px;
     height: 24px;
-    margin: 0 auto;
     fill: "none"
     strokeWidth:1.5;
     viewBox: 0 0 24 24;
@@ -27,7 +26,6 @@ const Path = styled.path`
 `;
 
 function PersonIcon({ active }) {
-  console.log(active);
   return (
     <Person>
       <Circle cx="12.375" cy="7" r="4" active={active} />

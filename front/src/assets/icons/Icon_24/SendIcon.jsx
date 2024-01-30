@@ -8,7 +8,6 @@ const Palette = {
 };
 
 const Send = styled.svg`
-  margin: 0 auto;
   stroke: ${(props) => Palette[props.active]};
 `;
 const IconFill = styled.path`

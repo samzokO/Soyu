@@ -10,7 +10,9 @@ const Palette = {
 const NavBtn = styled(Link)`
   width: 100%;
   padding: 6px 8px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-top: 1px solid ${(props) => Palette[props.active]};
 `;
 

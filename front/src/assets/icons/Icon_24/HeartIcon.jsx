@@ -9,7 +9,6 @@ const Palette = {
 const Heart = styled.svg`
     width: 24px;
     height: 24px;
-    margin: 0 auto;
     fill: ${(props) => Palette[props.active]}
     viewBox: 0 0 24 24;
     xmlns: http://www.w3.org/2000/svg;
