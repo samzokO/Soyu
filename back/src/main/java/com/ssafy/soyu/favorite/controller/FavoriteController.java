@@ -49,13 +49,19 @@ public class FavoriteController {
 
   /**
    * 즐겨찾기 삭제 (Hard Delete)
-   * @param favoriteId
+   * @param request
+   * @param stationId
    * @return FAVORITE_NOT_FOUND || OK
    */
   @DeleteMapping("")
-  public ResponseEntity<?> delete(@RequestParam Long favoriteId){
+  public ResponseEntity<?> delete(HttpServletRequest request, @RequestParam Long stationId){
+    Long memberId = (Long) request.getAttribute("memberId");
+    if (memberId == null) {
+      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+    }
+
     try {
-      favoriteService.deleteFavorite(favoriteId);
+      favoriteService.deleteFavorite(memberId, stationId);
     } catch (CustomException e){
       return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
     }

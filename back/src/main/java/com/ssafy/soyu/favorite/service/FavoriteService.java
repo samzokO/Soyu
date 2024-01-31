@@ -45,8 +45,8 @@ public class FavoriteService {
   }
 
   @Transactional
-  public void deleteFavorite(Long favoriteId) {
-    Optional<Favorite> favorite = favoriteRepository.findById(favoriteId);
+  public void deleteFavorite(Long memberId, Long stationId) {
+    Optional<Favorite> favorite = favoriteRepository.isExist(memberId, stationId);
     if (!favorite.isPresent()) {
       throw new CustomException(ErrorCode.FAVORITE_NOT_FOUND);
     }
