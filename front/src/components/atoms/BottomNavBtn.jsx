@@ -13,7 +13,7 @@ const NavBtn = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 1px solid ${(props) => Palette[props.active]};
+  border-top: 1.5px solid ${(props) => Palette[props.active]};
 `;
 
 /** 하단바 네비 버튼 */
