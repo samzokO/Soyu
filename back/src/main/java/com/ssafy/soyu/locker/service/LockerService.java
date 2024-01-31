@@ -14,6 +14,7 @@ import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.locker.dto.response.ItemResponse;
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
+import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.domain.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
@@ -47,6 +48,7 @@ public class LockerService {
   private final ItemRepository itemRepository;
   private final LockerRepository lockerRepository;
   private final HistoryRepository historyRepository;
+  private final MemberRepository memberRepository;
   // Properties
   private final PayActionProperties payActionProperties;
   private final SoyuProperties soyuProperties;
@@ -149,11 +151,9 @@ public class LockerService {
   }
 
   /**
-   * DP 예약 로직<br/>
-   * 1. DP 조건 충족 & 본인 여부 & 빈자리 여부 확인<br/>
-   * 2. Item, Locker 상태 변경<br/>
-   * 3. payAction 등록<br/>
-   * 4. Notice 전송<br/>
+   * DP 예약 로직<br/> 1. DP 조건 충족 & 본인 여부 & 빈자리 여부 확인<br/> 2. Item, Locker 상태 변경<br/> 3. payAction
+   * 등록<br/> 4. Notice 전송<br/>
+   *
    * @param memberId 판매자 식별자
    * @param dp       ItemId, lockerId
    */
@@ -222,12 +222,10 @@ public class LockerService {
   }
 
   /**
-   * 회수 요청 Service<br/>
-   * 1.오프라인 DP 중이던 물품<br/>
-   * 2.거래 예약이 취소 된 물품<br/>
+   * 회수 요청 Service<br/> 1.오프라인 DP 중이던 물품<br/> 2.거래 예약이 취소 된 물품<br/>
    *
    * @param memberId 판매자 식별자
-   * @param itemId 회수 물품 식별자
+   * @param itemId   회수 물품 식별자
    */
   public void withdrawReserve(Long memberId, Long itemId) {
     Item item = itemRepository.findItemById(itemId);
@@ -249,6 +247,7 @@ public class LockerService {
       itemRepository.updateStatus(itemId, ItemStatus.WITHDRAW);
       //4. 보관함 상태 변경
       lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, now, itemId, code);
+      itemService.deletePayAction(item.getOrderNumber());
     }
     //2-1. DP 중 아니고 회수대기도 아니면 회수 신청 불가능
     else if (!(is.equals(ItemStatus.WITHDRAW) && ls.equals(LockerStatus.WITHDRAW))) {

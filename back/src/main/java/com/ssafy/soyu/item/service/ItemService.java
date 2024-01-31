@@ -124,7 +124,7 @@ public class ItemService {
 
     //주문번호 업데이트
     String orderNumber = today + history.getId();
-    historyRepository.updateOrderNumber(history.getId(), orderNumber);
+    itemRepository.updateOrderNumber(item.getId(), orderNumber);
 
     //payAction API
     String orderUri = payActionProperties.getOrderUri();
@@ -190,21 +190,9 @@ public class ItemService {
       lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, null, item.getId(), null);
     }
 
-    //payAction 매칭 취소
-    String orderExcludeUri = payActionProperties.getOrderExcludeUri();
-    WebClient webClient = WebClient.create(orderExcludeUri);
-    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-    parameters.add("apikey", payActionProperties.getApiKey());
-    parameters.add("secretkey", payActionProperties.getSecretKey());
-    parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", history.getOrder_number());
-
-    webClient.post()
-            .uri(orderExcludeUri)
-            .bodyValue(parameters)
-            .retrieve()
-            .bodyToMono(String.class)
-            .block();
+    //payAction 매칭 취소 후 주문번호 삭제
+    deletePayAction(item.getOrderNumber());
+    itemRepository.deleteOrderNumber(item.getId());
   }
 
   public void depositMoney(DepositInfoRequest depositInfoRequest) {
@@ -228,5 +216,22 @@ public class ItemService {
     }
 
     return code.toString();
+  }
+
+  public void deletePayAction(String orderNumber){
+    String orderExcludeUri = payActionProperties.getOrderExcludeUri();
+    WebClient webClient = WebClient.create(orderExcludeUri);
+    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+    parameters.add("apikey", payActionProperties.getApiKey());
+    parameters.add("secretkey", payActionProperties.getSecretKey());
+    parameters.add("mall_id", payActionProperties.getStoreId());
+    parameters.add("order_number", orderNumber);
+
+    webClient.post()
+        .uri(orderExcludeUri)
+        .bodyValue(parameters)
+        .retrieve()
+        .bodyToMono(String.class)
+        .block();
   }
 }

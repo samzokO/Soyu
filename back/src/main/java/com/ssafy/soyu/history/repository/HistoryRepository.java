@@ -21,10 +21,6 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
   @Query("UPDATE History h SET h.is_Delete = true WHERE h.id = :id")
   void updateIsDelete(@Param("id") Long id);
 
-  @Modifying
-  @Query("UPDATE History h SET h.order_number = :order_number WHERE h.id = :id")
-  void updateOrderNumber(@Param("id") Long id, @Param("order_number") String order_number);
-
   @Query("SELECT h from History h where h.item.id = :id and h.is_Delete = false")
   History findByItemIdNotDeleted(@Param("id") Long id);
 

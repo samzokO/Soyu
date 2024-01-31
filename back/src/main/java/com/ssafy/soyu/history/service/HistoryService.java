@@ -31,7 +31,8 @@ public class HistoryService {
   private final LockerRepository lockerRepository;
 
   /**
-   * 구매 내역 생성<br/> memberId & itemId 필요
+   * 구매 내역 생성<br/>
+   * memberId & itemId 필요
    *
    * @param request HistoryRequestDto
    */

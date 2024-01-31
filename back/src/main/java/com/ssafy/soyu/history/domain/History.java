@@ -28,15 +28,9 @@ public class History {
 
     private boolean is_Delete;
 
-    private String order_number;
-
     public History(Item i, Member m){
         this.item = i;
         this.member = m;
         this.is_Delete = false;
-    }
-
-    public void updateDate(String order_number){
-        this.order_number = order_number;
     }
 }

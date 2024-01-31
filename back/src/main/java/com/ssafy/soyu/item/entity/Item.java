@@ -46,6 +46,8 @@ public class Item {
   @Enumerated(EnumType.STRING)
   private ItemCategories itemCategories;
 
+  private String orderNumber;
+
   public Item(Member member, String title, String content, LocalDateTime regDate, Integer price, ItemCategories itemCategories, ItemStatus itemStatus ) {
     this.member = member;
     this.title = title;
