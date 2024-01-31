@@ -30,9 +30,10 @@ public enum NoticeType {
   CHAT("",""),
   RESERVE("소유박스 예약 완료","소유박스의 예약이 완료되었습니다."),
   BUY("소유박스 보관 완료","판매자가 물품을 소유박스에 보관하였습니다."),
-  RETURN("회수 신천 완료","물품의 회수 신청이 완료되었습니다."),
+  WITHDRAW("회수 신청 완료","물품의 회수 신청이 완료되었습니다."),
   DISCOUNT("DP 물품 할인 안내","DP 중인 물품에 할인이 적용되었습니다."),
-  CHOICE("DP 물품 할인 예정 안내","DP 중인 물품이 3시간 뒤 할인이 적용됩니다.");
+  CHOICE("DP 물품 할인 예정 안내","DP 중인 물품이 3시간 뒤 할인이 적용됩니다."),
+  SELLER_CANCEL("물품 거래 취소", "판매자가 물품의 거래를 취소하였습니다.");
 
   private final String title;
   private final String content;

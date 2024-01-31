@@ -179,7 +179,7 @@ public class ItemService {
       if(locker.getStatus() == LockerStatus.READY) {
         noticeType = NoticeType.CONVERT;
       }
-      if(locker.getStatus() == LockerStatus.RESERVED){
+      else if(locker.getStatus() == LockerStatus.RESERVED){
         noticeType = NoticeType.RESERVE_CANCEL;
       }
 

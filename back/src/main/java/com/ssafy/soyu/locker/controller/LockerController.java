@@ -6,9 +6,7 @@ import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
 import com.ssafy.soyu.locker.dto.request.ReserveDpDto;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
 import com.ssafy.soyu.locker.service.LockerService;
-import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
-import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,10 +45,25 @@ public class LockerController {
     if (memberId == null) {
       throw new CustomException(ErrorCode.USER_NOT_FOUND);
     }
-    try{
+    try {
       lockerService.dpReserve(memberId, dp);
       return getResponseEntity(SuccessCode.OK);
-    } catch (CustomException e){
+    } catch (CustomException e) {
+      return toResponseEntity(e.getErrorCode());
+    }
+  }
+
+  @PostMapping("/withdraw")
+  public ResponseEntity<?> withdrawItem(HttpServletRequest request, @RequestParam Long itemId) {
+    Long memberId = (Long) request.getAttribute("memberId");
+    if (memberId == null) {
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    }
+
+    try {
+      lockerService.withdrawReserve(memberId, itemId);
+      return getResponseEntity(SuccessCode.OK);
+    } catch (CustomException e) {
       return toResponseEntity(e.getErrorCode());
     }
   }

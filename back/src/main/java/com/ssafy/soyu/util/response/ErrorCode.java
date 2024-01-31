@@ -48,7 +48,8 @@ public enum ErrorCode {
     NO_MATCH_HISTORY(HttpStatus.BAD_REQUEST, "해당하는 정보의 내역을 찾을 수 없습니다."),
     NOT_READY_YET(HttpStatus.BAD_REQUEST, "아직 물품이 스테이션에 도착하지 않았습니다."),
 
-    IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다.");
+    IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다."),
+    IMPOSSIBLE_WITHDRAW(HttpStatus.BAD_REQUEST, "회수 할 수 없는 상태입니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }

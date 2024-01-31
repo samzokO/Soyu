@@ -24,6 +24,7 @@ import com.ssafy.soyu.util.soyu.SoyuProperties;
 import jakarta.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -154,7 +155,7 @@ public class LockerService {
    * 3. payAction 등록<br/>
    * 4. Notice 전송<br/>
    * @param memberId 판매자 식별자
-   * @param dp ItemId, lockerId
+   * @param dp       ItemId, lockerId
    */
   @Transactional
   public void dpReserve(Long memberId, ReserveDpDto dp) {
@@ -173,7 +174,7 @@ public class LockerService {
     }
 
     //2. 본인의 물품이 정말 맞는가
-    if (item.getMember().getId() != memberId) {
+    if (!Objects.equals(item.getMember().getId(), memberId)) {
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
     }
 
@@ -218,5 +219,43 @@ public class LockerService {
 
     //7. 알림 전송 해야 됨
     noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE, code));
+  }
+
+  /**
+   * 회수 요청 Service<br/>
+   * 1.오프라인 DP 중이던 물품<br/>
+   * 2.거래 예약이 취소 된 물품<br/>
+   *
+   * @param memberId 판매자 식별자
+   * @param itemId 회수 물품 식별자
+   */
+  public void withdrawReserve(Long memberId, Long itemId) {
+    Item item = itemRepository.findItemById(itemId);
+    Locker locker = lockerRepository.findByItemId(itemId).get();
+    ItemStatus is = item.getItemStatus();
+    LockerStatus ls = locker.getStatus();
+    LocalDateTime now = LocalDateTime.now();
+    String code = itemService.generateRandomCode();
+
+    //1. 유저의 판매 아이템이 맞는지
+    if (item == null || !Objects.equals(item.getMember().getId(), memberId)) {
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    }
+
+    //2. 보관함 상태와 아이템 상태를 비교하여 무결성 확인
+    //2-1. DP 중인 물품인지 확인
+    if (is.equals(ItemStatus.DP) && ls.equals(LockerStatus.DP)) {
+      //3. 아이템 상태 변경
+      itemRepository.updateStatus(itemId, ItemStatus.WITHDRAW);
+      //4. 보관함 상태 변경
+      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, now, itemId, code);
+    }
+    //2-1. DP 중 아니고 회수대기도 아니면 회수 신청 불가능
+    else if (!(is.equals(ItemStatus.WITHDRAW) && ls.equals(LockerStatus.WITHDRAW))) {
+      throw new CustomException(ErrorCode.IMPOSSIBLE_WITHDRAW);
+    }
+
+    //5. 알림 전송(회수 코드 포함)
+    noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.WITHDRAW, code));
   }
 }
