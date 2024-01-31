@@ -26,6 +26,10 @@ const Condition = {
     textColor: theme.color.white,
     content: '판매대기',
   },
+  6: {
+    bgColor: theme.color.white,
+    textColor: theme.color.delete,
+  },
 };
 
 export default Condition;

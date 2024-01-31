@@ -3,21 +3,21 @@ const font = {
     font-family: Pretendard;
     font-size: 24px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 32px;`,
 
   Title: `
     font-family: Pretendard;
     font-size: 18px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 24px;`,
 
   Subtitle: `
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 22px;`,
 
   Body1: `font-family: Pretendard;
