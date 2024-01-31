@@ -37,7 +37,6 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
   Optional<Locker> findByLocation(@Param("stationId") Long stationId, @Param("location") Integer location);
 
   @Query("SELECT l.code FROM Locker l " +
-      "JOIN FETCH l.item i " +
-      "WHERE i.id = :itemId AND l.status = 'READY' ")
-  Optional<String> getCode(Long memberId, Long itemId);
+      "WHERE l.item.id = :itemId AND l.status = 'READY' ")
+  Optional<String> getCode(@Param("itemId") Long itemId);
 }

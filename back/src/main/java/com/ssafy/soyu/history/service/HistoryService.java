@@ -96,7 +96,7 @@ public class HistoryService {
       throw new CustomException(ErrorCode.NO_MATCH_HISTORY);
     }
 
-    Optional<String> code = lockerRepository.getCode(memberId, itemId);
+    Optional<String> code = lockerRepository.getCode(itemId);
     if(code.isPresent()){
       throw new CustomException(ErrorCode.NOT_READY_YET);
     }

@@ -28,7 +28,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
   @Query("SELECT h from History h where h.item.id = :id and h.is_Delete = false")
   History findByItemIdNotDeleted(@Param("id") Long id);
 
-  @Query("SELECT h FROm History h " +
+  @Query("SELECT h FROM History h " +
       "WHERE h.member.id = :memberId AND h.item.id = :itemId AND h.is_Delete = false")
   Optional<History> checkMatchHistory(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
 }
