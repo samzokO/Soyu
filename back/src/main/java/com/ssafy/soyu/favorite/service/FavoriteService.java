@@ -57,7 +57,7 @@ public class FavoriteService {
         .map(object -> {
           Favorite f = (Favorite) object[0];
           Station s = (Station) object[1];
-          List<Locker> ls = (List<Locker>) object[2];
+          List<Locker> ls = s.getLockers();
           return new FavoriteListResponseDto(f, s, ls);
         })
         .collect(Collectors.toList());

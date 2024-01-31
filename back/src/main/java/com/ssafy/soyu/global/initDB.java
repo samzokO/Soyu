@@ -1,6 +1,7 @@
 package com.ssafy.soyu.global;
 
 import com.ssafy.soyu.chat.entity.Chat;
+import com.ssafy.soyu.favorite.domain.Favorite;
 import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
@@ -108,6 +109,13 @@ public class initDB {
       em.persist(locker4);
       em.persist(locker5);
       em.persist(locker6);
+
+      Favorite favorite1 = new Favorite(member1, station1);
+      Favorite favorite2 = new Favorite(member1, station2);
+      Favorite favorite3 = new Favorite(member2, station1);
+      em.persist(favorite1);
+      em.persist(favorite2);
+      em.persist(favorite3);
     }
   }
 
