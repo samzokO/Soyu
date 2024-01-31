@@ -27,3 +27,13 @@
     local('Pretendard-Light'),
     format('woff2');
 }
+
+@font-face {
+  font-family: 'Black Han Sans';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url(./assets/fonts/BlackHanSans-Regular.woff2) local('BlackHanSans Regular'),
+    local('BlackHanSans-Regular'),
+    format('woff2');
+}

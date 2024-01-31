@@ -44,6 +44,14 @@ const font = {
     font-style: normal;
     font-weight: 600;
     line-height: 16px;`,
+
+  Splash: `font-family: Black Han Sans;
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 42px;
+    letter-spacing: -0.84px;
+    `,
 };
 
 export default font;
