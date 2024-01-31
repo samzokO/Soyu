@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-const Label = styled.div`
+function BtnLabel({ content }) {
+  return <SLabel>{content}</SLabel>;
+}
+
+const SLabel = styled.div`
   margin: 2px 0px 0px 0px;
   white-space: nowrap;
 `;
-
-function BtnLabel({ content }) {
-  return <Label>{content}</Label>;
-}
 
 export default BtnLabel;

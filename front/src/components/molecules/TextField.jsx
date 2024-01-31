@@ -1,19 +1,6 @@
 import { styled } from 'styled-components';
 import InputBox from '../atoms/InputBox';
 
-const Field = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 345px;
-  height: 52px;
-  margin-bottom: 10px;
-  ${({ theme }) => theme.font.Body2};
-`;
-
-const Label = styled.div`
-  margin: 0px 0px 0px 3px;
-`;
-
 /** 텍스트 필드 with title
  * @params (string) title - 입력필드 라벨
  * @params (string) type - 입력필드 타입
@@ -24,11 +11,23 @@ const Label = styled.div`
  */
 function TextField({ title, type, id, placeholder, image }) {
   return (
-    <Field>
-      <Label>{title}</Label>
+    <SField>
+      <SLabel>{title}</SLabel>
       <InputBox type={type} id={id} placeholder={placeholder} image={image} />
-    </Field>
+    </SField>
   );
 }
+
+const SField = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 768px;
+  ${({ theme }) => theme.font.Body2};
+`;
+
+const SLabel = styled.div`
+  margin: 0px 0px 0px 3px;
+`;
 
 export default TextField;

@@ -7,18 +7,7 @@ import SendIcon from '../../assets/icons/Icon_24/SendIcon';
 import PersonIcon from '../../assets/icons/Icon_24/PersonIcon';
 import HeartIcon from '../../assets/icons/Icon_24/HeartIcon';
 import LocationIcon from '../../assets/icons/Icon_24/LocationIcon';
-
-const Nav = styled.nav`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-around;
-  ${({ theme }) => theme.font.BtnLabel};
-  @media screen and (min-width: 769px) {
-  }
-`;
+import theme from '../../styles/theme';
 
 const icons = {
   main: { icon: HomeOnIcon, label: '메인', url: '' },
@@ -30,10 +19,11 @@ const icons = {
 
 /** 하단 네비 */
 function BottomNav() {
+  // eslint-disable-next-line
   const [active, setActive] = useState('main');
 
   return (
-    <Nav>
+    <SNav>
       {Object.keys(icons).map((key) => (
         <BottomNavBtn
           key={key}
@@ -46,7 +36,21 @@ function BottomNav() {
           <BtnLabel content={icons[key].label} />
         </BottomNavBtn>
       ))}
-    </Nav>
+    </SNav>
   );
 }
+
+const SNav = styled.nav`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: ${theme.color.bgColor};
+  ${theme.font.BtnLabel};
+  @media screen and (min-width: 769px) {
+  }
+`;
+
 export default BottomNav;

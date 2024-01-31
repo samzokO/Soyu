@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const Btn = styled.button``;
-
-function TextBtn({ content }) {
-  return <Btn>{content}</Btn>;
+function TextBtn({ children }) {
+  return <SBtn>{children}</SBtn>;
 }
+
+const SBtn = styled.button``;
 
 export default TextBtn;
