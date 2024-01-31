@@ -3,6 +3,7 @@ package com.ssafy.soyu.history.dto.response;
 import com.ssafy.soyu.file.File;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.item.entity.ItemStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Data;
 
@@ -16,14 +17,29 @@ import lombok.Data;
  * @regDate = 물품 판매 등록일
  * @itemStatus = 아이템 현재 상태 (RESERVE, COMP)
  */
+@Schema(description = "구매 내역 조회 응답 DTO")
 @Data
 public class PurchaseResponseDto {
+
+  @Schema(description = "물품 ID")
   private Long itemId;
+
+  @Schema(description = "가격")
   private int price;
+
+  @Schema(description = "판매자 별명")
   private String sellerNickName;
+
+  @Schema(description = "이미지 저장 경로")
   private String filepath;
+
+  @Schema(description = "이미지 저장명")
   private String fileName;
+
+  @Schema(description = "물품 상태")
   private ItemStatus itemStatus;
+
+  @Schema(description = "물품 등록일")
   LocalDateTime regDate;
 
   public PurchaseResponseDto(History h, File f) {
@@ -34,12 +50,4 @@ public class PurchaseResponseDto {
     this.itemStatus = h.getItem().getItemStatus();
     this.fileName = f.getSaveName();
     this.filepath = f.getSavePath();}
-
-  public PurchaseResponseDto(History h) {
-    this.itemId = h.getItem().getId();
-    this.price = h.getItem().getPrice();
-    this.sellerNickName = h.getMember().getNickName();
-    this.regDate = h.getItem().getRegDate();
-    this.itemStatus = h.getItem().getItemStatus();
-  }
 }

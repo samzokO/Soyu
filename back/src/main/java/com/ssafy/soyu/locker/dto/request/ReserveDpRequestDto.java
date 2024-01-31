@@ -1,5 +1,6 @@
 package com.ssafy.soyu.locker.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -7,9 +8,14 @@ import lombok.Data;
  * lockerId - 보관함 ID<br/>
  * itemId - 물품 ID
  */
+@Schema(description = "오프라인 DP 예약 요청 DTO")
 @Data
 public class ReserveDpRequestDto {
-  private final Long lockerId;
-  private final Long itemId;
+
+  @Schema(description = "보관함 ID")
+  private Long lockerId;
+
+  @Schema(description = "물품 ID")
+  private Long itemId;
 
 }
