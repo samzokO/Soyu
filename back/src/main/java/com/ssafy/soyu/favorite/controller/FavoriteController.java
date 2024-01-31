@@ -10,6 +10,7 @@ import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/favorite")
+@Tag(name = "Favorite 컨트롤러", description = "Favorite API 입니다.")
 public class FavoriteController {
 
   private final FavoriteService favoriteService;

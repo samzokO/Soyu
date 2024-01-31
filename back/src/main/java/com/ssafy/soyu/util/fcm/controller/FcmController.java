@@ -6,6 +6,7 @@ import com.ssafy.soyu.util.fcm.service.FcmService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/fcm")
+@Tag(name = "Fcm 컨트롤러", description = "Fcm API 입니다.")
 public class FcmController {
   private final FcmService fcmService;
 
