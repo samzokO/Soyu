@@ -5,6 +5,7 @@ import static com.ssafy.soyu.util.response.ErrorResponseEntity.*;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class NoticeController {
   private final NoticeService noticeService;
 
   @GetMapping("")
+  @Operation(summary = "알림 조회", description = "사용자 ID를 이용해 전체 알림을 조회합니다.")
   public ResponseEntity<?> selectNotice(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -42,6 +44,7 @@ public class NoticeController {
    * @param noticeId 확인할 알림의 식별자
    */
   @DeleteMapping("/{noticeId}")
+  @Operation(summary = "알림 삭제", description = "사용자 ID와 알림 ID를 이용해 등록된 알림을 삭제(soft)합니다.")
   public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable Long noticeId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -66,6 +69,7 @@ public class NoticeController {
    * @param noticeId 확인할 알림의 식별자
    */
   @PutMapping("/{noticeId}")
+  @Operation(summary = "알림 확인", description = "사용자 ID와 알림 ID를 이용해 알림을 확인 처리합니다.")
   public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable Long noticeId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {

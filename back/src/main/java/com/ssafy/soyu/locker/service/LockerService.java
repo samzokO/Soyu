@@ -7,14 +7,13 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
-import com.ssafy.soyu.locker.dto.request.ReserveDpDto;
+import com.ssafy.soyu.locker.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.locker.dto.response.ItemResponse;
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
-import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.domain.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
@@ -48,7 +47,6 @@ public class LockerService {
   private final ItemRepository itemRepository;
   private final LockerRepository lockerRepository;
   private final HistoryRepository historyRepository;
-  private final MemberRepository memberRepository;
   // Properties
   private final PayActionProperties payActionProperties;
   private final SoyuProperties soyuProperties;
@@ -158,7 +156,7 @@ public class LockerService {
    * @param dp       ItemId, lockerId
    */
   @Transactional
-  public void dpReserve(Long memberId, ReserveDpDto dp) {
+  public void dpReserve(Long memberId, ReserveDpRequestDto dp) {
     Item item = itemService.getItem(dp.getItemId());
     Locker locker = lockerRepository.findById(dp.getLockerId()).get();
 

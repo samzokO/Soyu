@@ -1,4 +1,5 @@
 package com.ssafy.soyu.item.controller;
+
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.item.dto.request.*;
@@ -7,10 +8,10 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 
-import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,73 +26,91 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Item 컨트롤러", description = "Item API 입니다.")
 @RestController
+@RequestMapping("/item")
 @RequiredArgsConstructor
 @Slf4j
 public class ItemController {
 
   private final ItemService itemService;
 
-  // 아이템 1개 조회 {itemId}
-  @GetMapping("/item/{itemId}")
-  public ResponseEntity<?> getItem(@PathVariable("itemId") Long itemId ) {
+  @GetMapping("/{itemId}")
+  @Operation(summary = "물품 단건 조회", description = "물품 ID를 이용해 세부 정보를 조회합니다.")
+  public ResponseEntity<?> getItem(@PathVariable("itemId") Long itemId) {
     Item item = itemService.getItem(itemId);
-    if(item == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    if (item == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
     ItemResponse itemResponse = getItemResponse(item);
 
     return getResponseEntity(SuccessCode.OK, itemResponse);
   }
 
-  // 모든 아이템 조회 List<Item>
-
   @GetMapping("/items")
+  @Operation(summary = "모든 물품 조회", description = "판매중인 모든 물품을 조회합니다.")
   public ResponseEntity<?> getItems() {
     List<Item> items = itemService.getItems();
-    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    if (items == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
     List<ItemResponse> itemResponses = getItemResponses(items);
-    // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
-  // 아이템 리스트 조회 {memberId} (회원이 등록한 물건 가져오기)
 
-  @GetMapping("/item/my")
+  //HistoryController 내부 판매 내역 조회와 유사 -> 하나로 통일해야 함 논의 필요
+  @GetMapping("/my")
+  @Operation(summary = "모든 물품 조회", description = "사용자 ID를 이용해 사용자가 등록한 모든 물품을 조회합니다.")
   public ResponseEntity<?> getItemByMemberId(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    if (memberId == null) {
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    }
     List<Item> items = itemService.getItemByMemberId(memberId);
-    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    if (items == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
     List<ItemResponse> itemResponses = getItemResponses(items);
-    // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
-  // 아이템 키워드 조회 List<Item>
 
-  @GetMapping("/item/keyword/{keyword}")
+  @GetMapping("/keyword/{keyword}")
+  @Operation(summary = "물품 키워드 검색", description = "키워드를 이용해 물품을 조회합니다.")
   public ResponseEntity<?> getItemByKeyWord(@PathVariable("keyword") String keyword) {
     List<Item> items = itemService.getItemByKeyword(keyword);
-    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    if (items == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
     List<ItemResponse> itemResponses = getItemResponses(items);
-    // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
-  // 아이템 카테고리 별 조회 List<Item>
 
-  @GetMapping("/item/category/{category}")
-  public ResponseEntity<?> getItemByCategory(@PathVariable("category") ItemCategories itemCategories) {
-    if(itemCategories == null) throw new CustomException(ErrorCode.NO_MATCH_CATEGORY);
+  @GetMapping("/category/{category}")
+  @Operation(summary = "물품 카테고리 검색", description = "카테고리를 이용해 물품을 조회합니다.")
+  public ResponseEntity<?> getItemByCategory(
+      @PathVariable("category") ItemCategories itemCategories) {
+    if (itemCategories == null) {
+      throw new CustomException(ErrorCode.NO_MATCH_CATEGORY);
+    }
     List<Item> items = itemService.getItemByCategory(itemCategories);
-    if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    if (items == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
     List<ItemResponse> itemResponses = getItemResponses(items);
-    // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
 
-  // 아이템 생성
-  @PostMapping("item")
+  @PostMapping("")
+  @Operation(summary = "물품 등록", description = "ItemCreateRequest를 이용해 물품을 등록합니다.")
   public ResponseEntity<?> createItem(HttpServletRequest request,
       @Validated @RequestBody ItemCreateRequest itemRequest, BindingResult bindingResult) {
     log.info(String.valueOf(itemRequest));
     Long memberId = (Long) request.getAttribute("memberId");
-    if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    if (memberId == null) {
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    }
     if (bindingResult.hasErrors()) {
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
     }
@@ -99,10 +118,11 @@ public class ItemController {
 
     return getResponseEntity(SuccessCode.OK);
   }
-  // 아이템 수정
 
-  @PostMapping("item/update")
-  public ResponseEntity<?> updateItem(@Validated @RequestBody ItemUpdateRequest itemUpdateRequest, BindingResult bindingResult) {
+  @PutMapping("")
+  @Operation(summary = "물품 수정", description = "ItemUpdateRequest를 이용해 물품을 수정합니다.")
+  public ResponseEntity<?> updateItem(@Validated @RequestBody ItemUpdateRequest itemUpdateRequest,
+      BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       log.info(bindingResult.toString());
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
@@ -111,11 +131,11 @@ public class ItemController {
 
     return getResponseEntity(SuccessCode.OK);
   }
-  // 아이템 삭제 아래랑 같이 구현
-  // 아이템 상태 변경 (수정))= 아이템 삭제 ! (enum 타입으로 변경할것이기에 soft delete)
 
-  @PutMapping("item/status")
-  public ResponseEntity<?> updateStatus(@Validated @RequestBody ItemStatusRequest itemStatusRequest, BindingResult bindingResult) {
+  @PutMapping("/status")
+  @Operation(summary = "물품 상태 변경", description = "ItemStatusRequest를 이용해 물품의 상태를 변경합니다.(삭제 포함)")
+  public ResponseEntity<?> updateStatus(@Validated @RequestBody ItemStatusRequest itemStatusRequest,
+      BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       log.info(bindingResult.toString());
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
@@ -124,38 +144,42 @@ public class ItemController {
 
     return getResponseEntity(SuccessCode.OK);
   }
-  // make response List
 
+  // make response List
   public static ItemResponse getItemResponse(Item item) {
     return new ItemResponse
-        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(), item.getRegDate()
+        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(),
+            item.getRegDate()
             , item.getPrice(), item.getItemStatus(), item.getItemCategories());
   }
 
   public static List<ItemResponse> getItemResponses(List<Item> items) {
     return items.stream()
-        .map(i -> new ItemResponse(i.getId(), i.getMember().getId(), i.getTitle(), i.getContent(), i.getRegDate()
-            ,i.getPrice(), i.getItemStatus(), i.getItemCategories()))
+        .map(i -> new ItemResponse(i.getId(), i.getMember().getId(), i.getTitle(), i.getContent(),
+            i.getRegDate()
+            , i.getPrice(), i.getItemStatus(), i.getItemCategories()))
         .collect(Collectors.toList());
   }
 
-  // 거래 약속 잡기
-  @PostMapping("/item/reserve")
-  public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest request){
+  @PostMapping("/reserve")
+  @Operation(summary = "거래 약속 생성", description = "ReserveItemRequest를 이용해 거래 약속을 생성합니다.")
+  public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest request) {
     itemService.makeReserve(request.getChatId(), request.getLockerId(), request.getReserveTime());
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @DeleteMapping("/item/reserve")
-  public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest, HttpServletRequest request){
+  @DeleteMapping("/reserve")
+  @Operation(summary = "거래 약속 취소", description = "DeleteReserveRequest를 이용해 거래 약속을 취소합니다.")
+  public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest,
+      HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     itemService.deleteReserve(deleteReserveRequest.getHistoryId(), memberId);
     return getResponseEntity(SuccessCode.OK);
   }
 
-  //입금 매칭
-  @PostMapping("/item/match")
-  public ResponseEntity<?> depositMoney(@RequestBody DepositInfoRequest depositInfoRequest){
+  @PostMapping("/match")
+  @Operation(summary = "입금 매칭", description = "DepositIndoRequest를 이용해 입금 매칭을 확인합니다.")
+  public ResponseEntity<?> depositMoney(@RequestBody DepositInfoRequest depositInfoRequest) {
     itemService.depositMoney(depositInfoRequest);
     return getResponseEntity(SuccessCode.OK);
   }

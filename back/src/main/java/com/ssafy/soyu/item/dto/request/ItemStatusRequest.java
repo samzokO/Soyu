@@ -5,6 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * 물품 상태 변경 요청 Dto<br/>
+ * itemId - 물품 ID<br/>
+ * itemStatus - 변경하고자 하는 상태
+ */
 @Getter
 @ToString
 public class ItemStatusRequest {

@@ -10,6 +10,7 @@ import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -37,6 +38,7 @@ public class FavoriteController {
    * @return USER | STATION_NOT_FOUND || OK
    */
   @PostMapping("")
+  @Operation(summary = "즐겨찾기 등록", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 추가합니다.")
   public ResponseEntity<?> register(HttpServletRequest request, @RequestParam Long stationId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -59,6 +61,7 @@ public class FavoriteController {
    * @return FAVORITE_NOT_FOUND || OK
    */
   @DeleteMapping("")
+  @Operation(summary = "즐겨찾기 삭제", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 삭제합니다.")
   public ResponseEntity<?> delete(HttpServletRequest request, @RequestParam Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -79,6 +82,7 @@ public class FavoriteController {
    * @return USER | FAVORITE_NOT_FOUND || FavoriteListResponseDto
    */
   @GetMapping("")
+  @Operation(summary = "즐겨찾기 조회", description = "사용자 ID를 이용해 즐겨찾기를 조회합니다.")
   public ResponseEntity<?> getList(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {

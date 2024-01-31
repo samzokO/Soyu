@@ -9,6 +9,7 @@ import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -38,6 +39,7 @@ public class HistoryController {
    * @return PurchaseResponseDto 구매 내역 조회 정보
    */
   @GetMapping("/purchase")
+  @Operation(summary = "구매내역 조회", description = "사용자 ID를 이용해 구매내역을 조회합니다.")
   public ResponseEntity<?> purchaseHistory(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -54,6 +56,7 @@ public class HistoryController {
    * @return SaleResponseDto 판매 내역 조회 정보
    */
   @GetMapping("/sale")
+  @Operation(summary = "판매내역 조회", description = "사용자 ID를 이용해 판매내역을 조회합니다.")
   public ResponseEntity<?> saleHistory(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -70,8 +73,8 @@ public class HistoryController {
    * @return
    */
   @DeleteMapping("")
-  public ResponseEntity<?> deleteHistory(
-      @RequestParam(value = "historyId") List<Long> historyIdList) {
+  @Operation(summary = "구매내역 삭제", description = "List<history ID>를 이용해 구매내역을 삭제(soft)합니다.")
+  public ResponseEntity<?> deleteHistory(@RequestParam("historyId") List<Long> historyIdList) {
     if (historyIdList == null || historyIdList.isEmpty()) {
       return toResponseEntity(ErrorCode.EMPTY_REQUEST_VALUE);
     }
@@ -81,6 +84,7 @@ public class HistoryController {
   }
 
   @GetMapping("code")
+  @Operation(summary = "구매예약 코드 조회", description = "사용자 ID와 아이템 ID를 이용해 구매예약 코드를 조회합니다.")
   public ResponseEntity<?> purchaseCode(HttpServletRequest request, @RequestParam Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {

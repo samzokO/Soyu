@@ -1,6 +1,7 @@
 package com.ssafy.soyu.chat.controller;
 
 import static com.ssafy.soyu.message.controller.MessageController.getMessageResponses;
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.dto.response.ChatResponse;
@@ -11,6 +12,7 @@ import com.ssafy.soyu.chat.service.ChatService;
 import com.ssafy.soyu.message.dto.response.MessageResponse;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -33,32 +35,32 @@ public class ChatController {
   private final ChatRepository chatRepository;
   private final ChatService chatService;
 
-  // 유저의 채팅방 목록 조회
   @GetMapping("chats")
+  @Operation(summary = "채팅방 목록 조회", description = "사용자 ID를 이용해 채팅방 목록을 조회합니다.")
   public ResponseEntity<?> getChats(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     List<Chat> chats = chatService.findChatByUserId(memberId);
     List<ChatListResponse> chatResponse = getChatResponses(chats);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
+    return getResponseEntity(SuccessCode.OK, chatResponse);
   }
 
-  // 이미 생성된 채팅방 가져오기
   @GetMapping("chat/{chatId}")
+  @Operation(summary = "채팅방 상세 조회", description = "채팅방 ID를 이용해 채팅방 세부 내용을 조회합니다.")
   public ResponseEntity<?> getChat(@PathVariable("chatId") Long chatId) {
     Chat chat = chatService.findChatById(chatId);
     List<MessageResponse> messageResponses = getMessageResponses(chat.getMessage());
     ChatResponse chatResponse = getChatAndMessageResponse(chat, messageResponses);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, chatResponse);
+    return getResponseEntity(SuccessCode.OK, chatResponse);
   }
 
-  // 새로운 채팅방 만들기
   @PostMapping("chat")
+  @Operation(summary = "채팅방 생성", description = "아이템 ID, 판매자와 구매자 ID를 이용해 채팅방을 생성합니다.")
   public ResponseEntity<?> createChat(@RequestBody ChatRequest chatRequest) {
     Chat chat = chatService.save(chatRequest);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
   // make chat Response

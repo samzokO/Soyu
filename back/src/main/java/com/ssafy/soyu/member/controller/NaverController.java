@@ -9,6 +9,7 @@ import com.ssafy.soyu.util.naver.dto.request.NaverLoginRequest;
 import com.ssafy.soyu.util.naver.service.NaverAuthService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class NaverController {
                 + "&redirect_uri=" + naverProperties.getRedirectUri();
     }
 
-    //네이버 로그인
     @PostMapping("/login")
+    @Operation(summary = "네이버 로그인", description = "NaverLoginRequest를 이용해 네이버로 간편하게 로그인합니다.")
     public ResponseEntity<CommonResponseEntity> loginNaver(@RequestBody NaverLoginRequest request) {
         String code = request.getAuthorizationCode();
         String naverAccessToken = naverAuthService.getAccessToken(code).getAccessToken(); //네이버로부터 accessToken 발급 받기

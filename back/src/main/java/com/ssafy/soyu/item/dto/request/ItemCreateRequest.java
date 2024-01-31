@@ -9,6 +9,13 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
+/**
+ * 물품 생성 요청 Dto<br/>
+ * title - 제목<br/>
+ * content - 설명<br/>
+ * price - 가격<br/>
+ * itemCategories - 카테고리
+ */
 @Getter
 @ToString
 public class ItemCreateRequest {

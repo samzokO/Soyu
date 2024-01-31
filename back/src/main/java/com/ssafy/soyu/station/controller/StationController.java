@@ -9,6 +9,7 @@ import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,6 +30,7 @@ public class StationController {
   private final StationService stationService;
 
   @GetMapping("")
+  @Operation(summary = "스테이션 목록 조회", description = "사용자 ID를 이용해 스테이션 목록을 조회합니다.(즐겨찾기 여부 포함)")
   public ResponseEntity<?> allStation(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
     if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
@@ -40,6 +42,7 @@ public class StationController {
   }
 
   @GetMapping("detail")
+  @Operation(summary = "스테이션 상세 조회", description = "사용자 ID와 스테이션 ID를 이용해 스테이션의 세부 정보를 조회합니다.")
   public ResponseEntity<?> detailStation(HttpServletRequest request, @RequestParam("stationId") Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
     if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
