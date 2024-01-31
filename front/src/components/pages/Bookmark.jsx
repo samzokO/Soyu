@@ -3,6 +3,7 @@ import BottomNav from '../molecules/BottomNav';
 import BookmarkTab from '../molecules/BookmarkTab';
 import Goods from '../molecules/Goods';
 import useManageTab from '../../hooks/useManageTab';
+import Station from '../molecules/Station';
 
 function Bookmark() {
   const [state, handler] = useManageTab();
@@ -22,7 +23,7 @@ function Bookmark() {
             <Goods />
           </ul>
         ) : (
-          'none'
+          <Station />
         )}
       </SMainWrap>
       <BottomNav />
