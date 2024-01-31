@@ -70,7 +70,6 @@ public class FavoriteController {
   @GetMapping("")
   public ResponseEntity<?> getList(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
-    memberId = 1L;
     if (memberId == null) {
       return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }
