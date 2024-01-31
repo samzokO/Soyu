@@ -147,6 +147,15 @@ public class LockerService {
     lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
   }
 
+  /**
+   * DP 예약 로직<br/>
+   * 1. DP 조건 충족 & 본인 여부 & 빈자리 여부 확인<br/>
+   * 2. Item, Locker 상태 변경<br/>
+   * 3. payAction 등록<br/>
+   * 4. Notice 전송<br/>
+   * @param memberId 판매자 식별자
+   * @param dp ItemId, lockerId
+   */
   @Transactional
   public void dpReserve(Long memberId, ReserveDpDto dp) {
     Item item = itemService.getItem(dp.getItemId());
@@ -157,7 +166,7 @@ public class LockerService {
     LocalDateTime currentTime = LocalDateTime.now();
     Duration duration = Duration.between(item.getRegDate(), currentTime);
     long hoursElapsed = duration.toHours();
-    // 찜 카운트 해야 됨
+    // 찜 카운트
     Integer count = likesService.getLikeCountByItemId(dp.getItemId());
     if (hoursElapsed < 24 || count < 3) {
       throw new CustomException(ErrorCode.IMPOSSIBLE_ITEM_DP);
@@ -181,7 +190,7 @@ public class LockerService {
     lockerRepository.updateLocker(dp.getLockerId(), LockerStatus.RESERVED, currentTime,
         dp.getItemId(), code);
 
-    //6. payAction에 등록해야 됨
+    //6. payAction에 등록
     String today = itemService.getCurrentDateTime();
     String orderNumber = today + dp.getItemId();
 
@@ -200,7 +209,6 @@ public class LockerService {
     parameters.add("orderer_email", "jaesin463@gmail.com");
     parameters.add("billing_name", String.valueOf(dp.getItemId()));
 
-    //payAction에
     webClient.post()
         .uri(orderUri)
         .bodyValue(parameters)
