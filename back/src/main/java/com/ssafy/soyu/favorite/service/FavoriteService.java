@@ -11,6 +11,7 @@ import com.ssafy.soyu.station.repository.StationRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,21 +27,21 @@ public class FavoriteService {
 
   @Transactional
   public void registFavorite(Long memberId, Long stationId) {
-    Member member = memberRepository.getOne(memberId);
-    Station station = stationRepository.getOne(stationId);
+    Optional<Member> member = memberRepository.findById(memberId);
+    Optional<Station> station = stationRepository.findById(stationId);
 
-    if (station == null) {
+    if (!station.isPresent()) {
       throw new CustomException(ErrorCode.STATION_NOT_FOUND);
     }
 
-    Favorite favorite = new Favorite(member, station);
+    Favorite favorite = new Favorite(member.get(), station.get());
     favoriteRepository.save(favorite);
   }
 
   @Transactional
   public void deleteFavorite(Long favoriteId) {
-    Favorite favorite = favoriteRepository.getOne(favoriteId);
-    if (favorite == null) {
+    Optional<Favorite> favorite = favoriteRepository.findById(favoriteId);
+    if (!favorite.isPresent()) {
       throw new CustomException(ErrorCode.FAVORITE_NOT_FOUND);
     }
     favoriteRepository.deleteById(favoriteId);
