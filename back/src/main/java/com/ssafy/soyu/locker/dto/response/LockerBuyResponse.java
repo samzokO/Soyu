@@ -9,5 +9,5 @@ import lombok.Data;
 public class LockerBuyResponse {
     String bankName;
     String accountNumber;
-    Integer price;
+    ItemResponse item;
 }

@@ -82,14 +82,14 @@ public class LockerService {
         //DP 판매 코드를 입력한 경우
         Locker locker = null;
         Optional<Locker> optionalLocker;
-        if(code.length() != 6){
+        if(code.length() != 6) {
             optionalLocker = lockerRepository.findByLocation(stationId, Integer.parseInt(code));
-            if(optionalLocker.isPresent()){
-                 locker = optionalLocker.get();
-                if(locker.getStatus() == LockerStatus.AVAILABLE){
+            if (optionalLocker.isPresent()) {
+                locker = optionalLocker.get();
+                if (locker.getStatus() == LockerStatus.AVAILABLE) {
                     throw new CustomException(ErrorCode.EMPTY_ITEM_LOCKER);
                 }
-                if(locker.getStatus() != LockerStatus.DP){
+                if (locker.getStatus() != LockerStatus.DP) {
                     throw new CustomException(ErrorCode.NOT_DP_ITEM);
                 }
             }
@@ -100,10 +100,20 @@ public class LockerService {
             if(!optionalLocker.isPresent()){
                 throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
             }
-
             locker = optionalLocker.get();
         }
-        return new LockerBuyResponse(soyuProperties.getBankName(), soyuProperties.getAccountNumber(), locker.getItem().getPrice());
+
+        Item item = locker.getItem();
+        ItemResponse itemResponse = ItemResponse.builder()
+                .id(item.getId())
+                .title(item.getTitle())
+                .content(item.getContent())
+                .regDate(item.getRegDate())
+                .price(item.getPrice())
+                .itemStatus(item.getItemStatus())
+                .itemCategories(item.getItemCategories())
+                .build();
+        return new LockerBuyResponse(soyuProperties.getBankName(), soyuProperties.getAccountNumber(), itemResponse);
 
     }
 
