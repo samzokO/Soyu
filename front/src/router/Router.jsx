@@ -3,6 +3,7 @@ import App from '../App';
 import ErrorPage from '../components/pages/ErrorPage';
 import Login from '../components/pages/Login';
 import Bookmark from '../components/pages/Bookmark';
+import MyPage from '../components/pages/MyPage';
 
 const Router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const Router = createBrowserRouter([
   {
     path: '/bookmark',
     element: <Bookmark />,
+  },
+  {
+    path: '/mypage',
+    element: <MyPage />,
   },
 ]);
 
