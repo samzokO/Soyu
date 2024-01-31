@@ -1,5 +1,8 @@
 package com.ssafy.soyu.locker.controller;
 
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
+import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
+
 import com.ssafy.soyu.locker.dto.request.ReserveDpDto;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
 import com.ssafy.soyu.locker.service.LockerService;
@@ -28,14 +31,14 @@ public class LockerController {
   @GetMapping("/list/{stationId}")
   public ResponseEntity<?> getLockers(@PathVariable("stationId") Long stationId) {
     List<LockerListResponse> lockerList = lockerService.getLockers(stationId);
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, lockerList);
+    return getResponseEntity(SuccessCode.OK, lockerList);
   }
 
   //보관함 상태 확인
   @GetMapping("/{lockerId}")
   public ResponseEntity<?> checkLocker(@PathVariable("lockerId") Long lockerId) {
     lockerService.checkLocker(lockerId);
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
   @PostMapping("/dp")
@@ -46,9 +49,9 @@ public class LockerController {
     }
     try{
       lockerService.dpReserve(memberId, dp);
-      return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+      return getResponseEntity(SuccessCode.OK);
     } catch (CustomException e){
-      return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
+      return toResponseEntity(e.getErrorCode());
     }
   }
 }

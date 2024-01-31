@@ -1,5 +1,6 @@
 package com.ssafy.soyu.likes.controller;
 import static com.ssafy.soyu.item.controller.ItemController.getItemResponses;
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.item.entity.Item;
@@ -39,7 +40,7 @@ public class LikesController {
     }
     List <ItemResponse> itemResponses = getItemResponses(items);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemResponses);
   }
 
   // 찜 등록 and 찜 on off 토클 기능
@@ -49,7 +50,7 @@ public class LikesController {
     if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
     likesService.onOff(itemId, memberId);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
 }

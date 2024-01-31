@@ -1,4 +1,6 @@
 package com.ssafy.soyu.item.controller;
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
+
 import com.ssafy.soyu.item.dto.request.*;
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.item.entity.Item;
@@ -36,7 +38,7 @@ public class ItemController {
     if(item == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     ItemResponse itemResponse = getItemResponse(item);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponse);
+    return getResponseEntity(SuccessCode.OK, itemResponse);
   }
 
   // 모든 아이템 조회 List<Item>
@@ -47,7 +49,7 @@ public class ItemController {
     if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemResponses);
   }
   // 아이템 리스트 조회 {memberId} (회원이 등록한 물건 가져오기)
 
@@ -59,7 +61,7 @@ public class ItemController {
     if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemResponses);
   }
   // 아이템 키워드 조회 List<Item>
 
@@ -69,7 +71,7 @@ public class ItemController {
     if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemResponses);
   }
   // 아이템 카테고리 별 조회 List<Item>
 
@@ -80,7 +82,7 @@ public class ItemController {
     if(items == null) throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     List<ItemResponse> itemResponses = getItemResponses(items);
     // 아이템이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemResponses);
   }
 
   // 아이템 생성
@@ -95,7 +97,7 @@ public class ItemController {
     }
     itemService.save(memberId, itemRequest);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
   // 아이템 수정
 
@@ -107,7 +109,7 @@ public class ItemController {
     }
     itemService.update(itemUpdateRequest);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
   // 아이템 삭제 아래랑 같이 구현
   // 아이템 상태 변경 (수정))= 아이템 삭제 ! (enum 타입으로 변경할것이기에 soft delete)
@@ -120,7 +122,7 @@ public class ItemController {
     }
     itemService.updateStatus(itemStatusRequest);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
   // make response List
 
@@ -141,20 +143,20 @@ public class ItemController {
   @PostMapping("/item/reserve")
   public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest request){
     itemService.makeReserve(request.getChatId(), request.getLockerId(), request.getReserveTime());
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
   @DeleteMapping("/item/reserve")
   public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest, HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
     itemService.deleteReserve(deleteReserveRequest.getHistoryId(), memberId);
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
   //입금 매칭
   @PostMapping("/item/match")
   public ResponseEntity<?> depositMoney(@RequestBody DepositInfoRequest depositInfoRequest){
     itemService.depositMoney(depositInfoRequest);
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 }

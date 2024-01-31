@@ -1,5 +1,7 @@
 package com.ssafy.soyu.member.controller;
 
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
+
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.service.MemberService;
@@ -31,14 +33,14 @@ public class MemberController {
 
         //리프레시토큰 -> 토큰 검증 -> 토큰 재발급 -> db저장
         TokenResponse token = memberService.recreateToken(refreshToken);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);
+        return getResponseEntity(SuccessCode.OK, token);
     }
 
     @PostMapping()
     public ResponseEntity<?> logout(HttpServletRequest request){
         Long memberId = (Long) request.getAttribute("memberId");
         memberService.logout(memberId);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK);
     }
 
     @PatchMapping("/account")
@@ -50,7 +52,7 @@ public class MemberController {
             throw new CustomException(ErrorCode.INPUT_EXCEPTION);
         memberService.updateAccount(memberId, accountDto);
 
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK);
     }
 
     @DeleteMapping("/account")
@@ -59,20 +61,20 @@ public class MemberController {
         if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
         memberService.deleteAccount(memberId);
 
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteMember(HttpServletRequest request){
         Long memberId = (Long) request.getAttribute("memberId");
         memberService.deleteMember(memberId);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK);
     }
 
     @PatchMapping("/nickname")
     public ResponseEntity<?> makeNickname(@RequestParam("nickName") String nickName, HttpServletRequest request){
         Long memberId = (Long) request.getAttribute("memberId");
         memberService.checkNickName(memberId, nickName);
-        return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK);
     }
 }

@@ -1,5 +1,7 @@
 package com.ssafy.soyu.station.controller;
 
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
+
 import com.ssafy.soyu.station.dto.response.DetailResponseDto;
 import com.ssafy.soyu.station.dto.response.ListResponseDto;
 import com.ssafy.soyu.station.service.StationService;
@@ -34,7 +36,7 @@ public class StationController {
     List<ListResponseDto> result = stationService.findAllStation(memberId);
     if(result == null) throw new CustomException(ErrorCode.STATION_NOT_FOUND);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, result);
+    return getResponseEntity(SuccessCode.OK, result);
   }
 
   @GetMapping("detail")
@@ -45,7 +47,7 @@ public class StationController {
     List<DetailResponseDto> result = stationService.findOneStation(memberId, stationId);
 
     if(result == null) throw new CustomException(ErrorCode.STATION_NOT_FOUND);
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, result);
+    return getResponseEntity(SuccessCode.OK, result);
   }
 
 

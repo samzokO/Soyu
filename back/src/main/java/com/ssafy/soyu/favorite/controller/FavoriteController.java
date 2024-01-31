@@ -1,5 +1,8 @@
 package com.ssafy.soyu.favorite.controller;
 
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
+import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
+
 import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
 import com.ssafy.soyu.favorite.service.FavoriteService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
@@ -35,16 +38,16 @@ public class FavoriteController {
   public ResponseEntity<?> register(HttpServletRequest request, @RequestParam Long stationId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
-      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }
 
     try {
       favoriteService.registFavorite(memberId, stationId);
     } catch (CustomException e) {
-      return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
+      return toResponseEntity(e.getErrorCode());
     }
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
   /**
@@ -57,15 +60,15 @@ public class FavoriteController {
   public ResponseEntity<?> delete(HttpServletRequest request, @RequestParam Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
-      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }
 
     try {
       favoriteService.deleteFavorite(memberId, stationId);
     } catch (CustomException e){
-      return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
+      return toResponseEntity(e.getErrorCode());
     }
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
   /**
@@ -77,13 +80,13 @@ public class FavoriteController {
   public ResponseEntity<?> getList(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
-      return ErrorResponseEntity.toResponseEntity(ErrorCode.USER_NOT_FOUND);
+      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }
 
     List<FavoriteListResponseDto> result = favoriteService.findByMemberId(memberId);
     if(result == null || result.size() == 0)
-      return ErrorResponseEntity.toResponseEntity(ErrorCode.FAVORITE_NOT_FOUND);
+      return toResponseEntity(ErrorCode.FAVORITE_NOT_FOUND);
 
-    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, result);
+    return getResponseEntity(SuccessCode.OK, result);
   }
 }
