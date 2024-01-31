@@ -1,7 +1,7 @@
 package com.ssafy.soyu.station.dto.response;
 
 import com.ssafy.soyu.item.entity.ItemCategories;
-import com.ssafy.soyu.locker.Locker;
+import com.ssafy.soyu.locker.entity.Locker;
 import java.time.LocalDateTime;
 import lombok.Data;
 

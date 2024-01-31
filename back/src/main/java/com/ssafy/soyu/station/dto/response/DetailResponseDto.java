@@ -1,10 +1,7 @@
 package com.ssafy.soyu.station.dto.response;
 
-import com.ssafy.soyu.item.entity.ItemCategories;
-import com.ssafy.soyu.item.entity.ItemStatus;
-import com.ssafy.soyu.locker.Locker;
+import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.station.domain.Station;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;

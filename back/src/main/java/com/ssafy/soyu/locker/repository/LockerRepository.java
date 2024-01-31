@@ -1,5 +1,7 @@
-package com.ssafy.soyu.locker;
+package com.ssafy.soyu.locker.repository;
 
+import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.entity.LockerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

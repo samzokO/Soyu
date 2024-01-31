@@ -42,10 +42,13 @@ public enum ErrorCode {
     //아이템 관련 예외
     NO_RESULT_ITEM(HttpStatus.NOT_FOUND, "결과에 해당하는 Item 이 없습니다."),
     NO_MATCH_CATEGORY(HttpStatus.BAD_REQUEST, "매칭되는 CATEGORY 가 존재하지 않습니다."),
+    IMPOSSIBLE_ITEM_DP(HttpStatus.BAD_REQUEST, "해당 Item은 아직 DP 조건이 충족되지 않았습니다."),
 
     //내역 관련 예외
     NO_MATCH_HISTORY(HttpStatus.BAD_REQUEST, "해당하는 정보의 내역을 찾을 수 없습니다."),
-    NOT_READY_YET(HttpStatus.BAD_REQUEST, "아직 물품이 스테이션에 도착하지 않았습니다.");
+    NOT_READY_YET(HttpStatus.BAD_REQUEST, "아직 물품이 스테이션에 도착하지 않았습니다."),
+
+    IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다.");
     private final HttpStatus httpStatus;
     private final String message;
 }

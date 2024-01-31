@@ -1,7 +1,7 @@
 package com.ssafy.soyu.favorite.dto.response;
 
 import com.ssafy.soyu.favorite.domain.Favorite;
-import com.ssafy.soyu.locker.Locker;
+import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.station.domain.Station;
 import com.ssafy.soyu.station.dto.response.FindResponseDto;
 import java.util.List;

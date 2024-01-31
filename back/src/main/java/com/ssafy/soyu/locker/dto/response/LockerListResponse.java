@@ -1,6 +1,6 @@
 package com.ssafy.soyu.locker.dto.response;
 
-import com.ssafy.soyu.locker.LockerStatus;
+import com.ssafy.soyu.locker.entity.LockerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

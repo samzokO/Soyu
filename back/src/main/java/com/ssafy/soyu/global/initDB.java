@@ -2,13 +2,12 @@ package com.ssafy.soyu.global;
 
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.favorite.domain.Favorite;
-import com.ssafy.soyu.history.domain.History;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.likes.entity.Likes;
-import com.ssafy.soyu.locker.Locker;
-import com.ssafy.soyu.locker.LockerStatus;
+import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.message.entity.Message;
 import com.ssafy.soyu.station.domain.Station;

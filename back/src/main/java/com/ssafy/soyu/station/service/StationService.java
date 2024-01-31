@@ -1,8 +1,8 @@
 package com.ssafy.soyu.station.service;
 
 import com.ssafy.soyu.favorite.repository.FavoriteRepository;
-import com.ssafy.soyu.locker.Locker;
-import com.ssafy.soyu.locker.LockerRepository;
+import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.station.domain.Station;
 import com.ssafy.soyu.station.dto.response.DetailResponseDto;
 import com.ssafy.soyu.station.dto.response.ListResponseDto;

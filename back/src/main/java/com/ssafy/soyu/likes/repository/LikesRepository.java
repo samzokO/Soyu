@@ -13,4 +13,7 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
   List<Likes> findLikesByMemberId(@Param("memberId") Long memberId);
 
   Likes findLikesByItemAndMember(Item item, Member member);
+
+  @Query("SELECT COUNT(l) FROM Likes l WHERE l.item.id = :itemId AND l.status = true")
+  Integer countLikeByItemId(@Param("itemId") Long itemId);
 }

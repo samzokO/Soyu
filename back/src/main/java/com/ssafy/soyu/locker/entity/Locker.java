@@ -1,4 +1,4 @@
-package com.ssafy.soyu.locker;
+package com.ssafy.soyu.locker.entity;
 
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.station.domain.Station;
