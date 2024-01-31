@@ -1,5 +1,7 @@
 package com.ssafy.soyu.item.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.entity.History;
@@ -12,6 +14,7 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
 import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.locker.dto.response.KioskLockerResponse;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.locker.entity.LockerStatus;
@@ -26,8 +29,12 @@ import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MimeType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -48,8 +55,9 @@ public class ItemService {
   private final HistoryRepository historyRepository;
   private final PayActionProperties payActionProperties;
   private final LockerRepository lockerRepository;
-
   private final NoticeService noticeService;
+  private final SimpMessagingTemplate messagingTemplate;
+
 
 
   public Item getItem(Long itemId) {
@@ -106,7 +114,8 @@ public class ItemService {
       throw new CustomException(ErrorCode.ITEM_NOT_ONLINE);
     }
     //보관함 이용가능한지 상태 확인
-    if(lockerRepository.findById(lockerId).get().getStatus() != LockerStatus.AVAILABLE){
+    Locker locker = lockerRepository.findById(lockerId).get();
+    if(locker.getStatus() != LockerStatus.AVAILABLE){
       throw new CustomException(ErrorCode.IN_USE_LOCKER);
     }
 
@@ -150,7 +159,22 @@ public class ItemService {
             .block();
     noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(item, NoticeType.RESERVE, code));
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
+
+    //라즈베리 파이에 신호 json 신호 보내기
+    KioskLockerResponse response = KioskLockerResponse.builder()
+            .lockerNum(locker.getLocation())
+            .status(LockerStatus.RESERVED).build();
+    sendMessageToRaspberryPi("/sub/raspberry", response);
   }
+
+  public void sendMessageToRaspberryPi(String destination, KioskLockerResponse response) {
+    SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
+    headerAccessor.setContentType(new MimeType("application", "json"));
+    headerAccessor.setLeaveMutable(true);
+
+    messagingTemplate.convertAndSend(destination, response, headerAccessor.getMessageHeaders());
+  }
+
 
   public String getCurrentDateTime() {
     LocalDateTime now = LocalDateTime.now();
