@@ -1,4 +1,4 @@
-package com.ssafy.soyu.member.domain;
+package com.ssafy.soyu.member.entity;
 
 import com.ssafy.soyu.file.File;
 import jakarta.persistence.*;

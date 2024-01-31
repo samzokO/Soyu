@@ -1,7 +1,7 @@
 package com.ssafy.soyu.history.dto.response;
 
 import com.ssafy.soyu.file.File;
-import com.ssafy.soyu.history.domain.History;
+import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import java.time.LocalDateTime;
 import lombok.Data;

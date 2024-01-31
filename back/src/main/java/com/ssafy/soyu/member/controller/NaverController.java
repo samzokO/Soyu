@@ -1,6 +1,6 @@
 package com.ssafy.soyu.member.controller;
 
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.naver.NaverProperties;

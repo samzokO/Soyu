@@ -1,15 +1,15 @@
 package com.ssafy.soyu.member.service;
 
-import com.ssafy.soyu.history.domain.History;
+import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.util.jwt.JwtTokenProvider;
-import com.ssafy.soyu.util.jwt.domain.RefreshToken;
+import com.ssafy.soyu.util.jwt.entity.RefreshToken;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.jwt.repository.AuthRepository;
 import com.ssafy.soyu.util.response.ErrorCode;

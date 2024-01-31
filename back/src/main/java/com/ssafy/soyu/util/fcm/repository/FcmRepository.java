@@ -1,6 +1,6 @@
 package com.ssafy.soyu.util.fcm.repository;
 
-import com.ssafy.soyu.util.fcm.domain.Fcm;
+import com.ssafy.soyu.util.fcm.entity.Fcm;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

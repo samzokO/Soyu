@@ -1,4 +1,4 @@
-package com.ssafy.soyu.notice.domain;
+package com.ssafy.soyu.notice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

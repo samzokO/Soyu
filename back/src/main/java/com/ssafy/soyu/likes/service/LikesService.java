@@ -4,7 +4,7 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.likes.repository.LikesRepository;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.ssafy.soyu.locker.service;
 
-import com.ssafy.soyu.history.domain.History;
+import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
@@ -14,7 +14,7 @@ import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.locker.dto.response.ItemResponse;
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
-import com.ssafy.soyu.notice.domain.NoticeType;
+import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.payaction.PayActionProperties;

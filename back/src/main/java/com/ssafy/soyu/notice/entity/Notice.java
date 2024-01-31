@@ -1,7 +1,7 @@
-package com.ssafy.soyu.notice.domain;
+package com.ssafy.soyu.notice.entity;
 
 import com.ssafy.soyu.item.entity.Item;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

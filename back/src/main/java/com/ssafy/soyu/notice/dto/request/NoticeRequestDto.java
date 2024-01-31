@@ -1,7 +1,7 @@
 package com.ssafy.soyu.notice.dto.request;
 
 import com.ssafy.soyu.item.entity.Item;
-import com.ssafy.soyu.notice.domain.NoticeType;
+import com.ssafy.soyu.notice.entity.NoticeType;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

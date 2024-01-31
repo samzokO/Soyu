@@ -1,8 +1,8 @@
 package com.ssafy.soyu.notice.dto.response;
 
 import com.ssafy.soyu.item.entity.Item;
-import com.ssafy.soyu.notice.domain.Notice;
-import com.ssafy.soyu.notice.domain.NoticeStatus;
+import com.ssafy.soyu.notice.entity.Notice;
+import com.ssafy.soyu.notice.entity.NoticeStatus;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

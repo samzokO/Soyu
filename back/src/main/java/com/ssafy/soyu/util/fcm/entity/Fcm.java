@@ -1,6 +1,6 @@
-package com.ssafy.soyu.util.fcm.domain;
+package com.ssafy.soyu.util.fcm.entity;
 
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

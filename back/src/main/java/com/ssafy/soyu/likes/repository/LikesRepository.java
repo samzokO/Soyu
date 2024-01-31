@@ -2,7 +2,7 @@ package com.ssafy.soyu.likes.repository;
 
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.likes.entity.Likes;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

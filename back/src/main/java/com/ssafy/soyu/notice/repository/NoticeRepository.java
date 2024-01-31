@@ -1,7 +1,6 @@
 package com.ssafy.soyu.notice.repository;
 
-import com.ssafy.soyu.notice.domain.Notice;
-import com.ssafy.soyu.notice.dto.response.NoticeResponseDto;
+import com.ssafy.soyu.notice.entity.Notice;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

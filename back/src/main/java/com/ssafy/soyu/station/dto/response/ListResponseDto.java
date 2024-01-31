@@ -1,6 +1,6 @@
 package com.ssafy.soyu.station.dto.response;
 
-import com.ssafy.soyu.station.domain.Station;
+import com.ssafy.soyu.station.entity.Station;
 import lombok.Data;
 
 @Data

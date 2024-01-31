@@ -1,8 +1,8 @@
 package com.ssafy.soyu.favorite.dto.response;
 
-import com.ssafy.soyu.favorite.domain.Favorite;
+import com.ssafy.soyu.favorite.entity.Favorite;
 import com.ssafy.soyu.locker.entity.Locker;
-import com.ssafy.soyu.station.domain.Station;
+import com.ssafy.soyu.station.entity.Station;
 import com.ssafy.soyu.station.dto.response.FindResponseDto;
 import java.util.List;
 import java.util.stream.Collectors;

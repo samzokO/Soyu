@@ -1,6 +1,6 @@
-package com.ssafy.soyu.util.jwt.domain;
+package com.ssafy.soyu.util.jwt.entity;
 
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

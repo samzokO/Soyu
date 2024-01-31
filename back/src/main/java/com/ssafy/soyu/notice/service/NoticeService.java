@@ -2,18 +2,16 @@ package com.ssafy.soyu.notice.service;
 
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
-import com.ssafy.soyu.notice.domain.Notice;
+import com.ssafy.soyu.notice.entity.Notice;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.dto.response.NoticeResponseDto;
 import com.ssafy.soyu.notice.repository.NoticeRepository;
-import com.ssafy.soyu.util.fcm.domain.Fcm;
+import com.ssafy.soyu.util.fcm.entity.Fcm;
 import com.ssafy.soyu.util.fcm.dto.FcmMessage;
 import com.ssafy.soyu.util.fcm.repository.FcmRepository;
 import com.ssafy.soyu.util.fcm.service.FcmService;
-import com.ssafy.soyu.util.response.ErrorCode;
-import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

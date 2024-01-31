@@ -1,12 +1,12 @@
 package com.ssafy.soyu.favorite.service;
 
 import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
-import com.ssafy.soyu.favorite.domain.Favorite;
+import com.ssafy.soyu.favorite.entity.Favorite;
 import com.ssafy.soyu.favorite.repository.FavoriteRepository;
 import com.ssafy.soyu.locker.entity.Locker;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
-import com.ssafy.soyu.station.domain.Station;
+import com.ssafy.soyu.station.entity.Station;
 import com.ssafy.soyu.station.repository.StationRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;

@@ -2,11 +2,9 @@ package com.ssafy.soyu.member.controller;
 
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
-import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
-import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;

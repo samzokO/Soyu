@@ -1,9 +1,7 @@
 package com.ssafy.soyu.station.repository;
 
-import com.ssafy.soyu.station.domain.Station;
-import java.util.Collection;
+import com.ssafy.soyu.station.entity.Station;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

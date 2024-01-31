@@ -1,7 +1,7 @@
 package com.ssafy.soyu.station.dto.response;
 
 import com.ssafy.soyu.locker.entity.Locker;
-import com.ssafy.soyu.station.domain.Station;
+import com.ssafy.soyu.station.entity.Station;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;

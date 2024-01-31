@@ -1,4 +1,4 @@
-package com.ssafy.soyu.station.domain;
+package com.ssafy.soyu.station.entity;
 
 import com.ssafy.soyu.locker.entity.Locker;
 import jakarta.persistence.CascadeType;

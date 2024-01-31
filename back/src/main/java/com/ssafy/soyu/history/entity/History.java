@@ -1,7 +1,7 @@
-package com.ssafy.soyu.history.domain;
+package com.ssafy.soyu.history.entity;
 
 import com.ssafy.soyu.item.entity.Item;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

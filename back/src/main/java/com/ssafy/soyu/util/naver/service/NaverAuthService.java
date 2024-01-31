@@ -2,7 +2,7 @@ package com.ssafy.soyu.util.naver.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.soyu.member.domain.Member;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.util.naver.NaverProperties;
 import com.ssafy.soyu.util.naver.NaverProviderProperties;
 import com.ssafy.soyu.util.naver.dto.NaverProfile;

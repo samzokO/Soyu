@@ -1,4 +1,4 @@
-package com.ssafy.soyu.notice.domain;
+package com.ssafy.soyu.notice.entity;
 
 /**
  * RECEIVE : 알림 미확인
