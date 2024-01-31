@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Logo from '../../assets/Logo.svg';
+import Logo from '../../assets/icons/Logo.svg';
 import KakaoLogin from '../atoms/KakaoLogin';
 import NaverLogin from '../atoms/NaverLogin';
 import GoogleLogin from '../atoms/GoogleLogin';

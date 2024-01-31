@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
-import LogoWhite from '../../assets/Logo-White.svg';
+import LogoWhite from '../../assets/icons/Logo-White.svg';
 
 /** Gnb !
  * children으로 아이콘버튼을 넣어주면
