@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import LeftIcon from '../../assets/icons/Icon_24/LeftIcon';
 import TextBtn from '../atoms/TextBtn';
+import BackBtn from '../atoms/BackBtn';
 
 const Header = styled.nav`
   ${({ theme }) => theme.font.Title};
@@ -20,9 +21,9 @@ const Header = styled.nav`
 function LocalHeader({ TitleText, BtnText }) {
   return (
     <Header>
-      <TextBtn>
+      <BackBtn>
         <LeftIcon />
-      </TextBtn>
+      </BackBtn>
       {TitleText}
       <TextBtn content={BtnText} />
     </Header>
