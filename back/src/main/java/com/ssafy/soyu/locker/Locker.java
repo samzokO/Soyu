@@ -44,10 +44,12 @@ public class Locker {
         this.isVisible = false;
     }
 
-    public Locker(Item item, String code, LockerStatus status, LocalDateTime reserveTime){
+    public Locker(Station station, Item item, String code, LockerStatus status, LocalDateTime reserveTime, Integer location){
+        this.station = station;
         this.item = item;
         this.code = code;
         this.status = status;
         this.time = reserveTime;
+        this.location = location;
     }
 }

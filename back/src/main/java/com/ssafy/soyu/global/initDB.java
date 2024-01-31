@@ -8,6 +8,7 @@ import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.locker.Locker;
+import com.ssafy.soyu.locker.LockerStatus;
 import com.ssafy.soyu.member.domain.Member;
 import com.ssafy.soyu.message.entity.Message;
 import com.ssafy.soyu.station.domain.Station;
@@ -97,7 +98,7 @@ public class initDB {
       em.persist(station1);
       em.persist(station2);
 
-      Locker locker1 = new Locker(station1, 1);
+      Locker locker1 = new Locker(station1, item1,null, LockerStatus.DP, LocalDateTime.now(), 1);
       Locker locker2 = new Locker(station1, 2);
       Locker locker3 = new Locker(station1, 3);
       Locker locker4 = new Locker(station2, 1);
