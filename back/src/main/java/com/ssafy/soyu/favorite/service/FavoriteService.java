@@ -34,6 +34,12 @@ public class FavoriteService {
       throw new CustomException(ErrorCode.STATION_NOT_FOUND);
     }
 
+    Optional<Favorite> f = favoriteRepository.isExist(memberId, stationId);
+
+    if (f.isPresent()) {
+      throw new CustomException(ErrorCode.ALREADY_FAVORITE_STATION);
+    }
+
     Favorite favorite = new Favorite(member.get(), station.get());
     favoriteRepository.save(favorite);
   }
@@ -44,11 +50,12 @@ public class FavoriteService {
     if (!favorite.isPresent()) {
       throw new CustomException(ErrorCode.FAVORITE_NOT_FOUND);
     }
-    favoriteRepository.deleteById(favoriteId);
+    favoriteRepository.delete(favorite.get());
   }
 
   /**
    * 즐겨찾기 목록 검색
+   *
    * @param memberId 사용자 식별자
    * @return FavoriteListResponseDto 리스트
    */
