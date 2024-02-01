@@ -227,8 +227,8 @@ public class ItemService {
   }
 
   public void depositMoney(DepositInfoRequest depositInfoRequest) {
-    Long historyId = Long.parseLong(depositInfoRequest.getOrder_number().substring(25));
-    History history = historyRepository.findById(historyId).get();
+    Long orderId = Long.parseLong(depositInfoRequest.getOrder_number().substring(25));
+    History history = historyRepository.findById(orderId).get();
     Item item = history.getItem();
 
     // 아이템 판매 완료

@@ -44,9 +44,6 @@ public class LockerController {
   @Operation(summary = "오프라인 DP 예약", description = "ReserveDpRequestDto를 이용해 오프라인 DP를 예약합니다.")
   public ResponseEntity<?> reserveToDP(HttpServletRequest request, @RequestBody ReserveDpRequestDto dp) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      throw new CustomException(ErrorCode.USER_NOT_FOUND);
-    }
     try {
       lockerService.dpReserve(memberId, dp);
       return getResponseEntity(SuccessCode.OK);

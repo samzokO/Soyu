@@ -14,6 +14,7 @@ import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.locker.dto.response.ItemResponse;
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
+import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
@@ -47,6 +48,7 @@ public class LockerService {
   private final ItemRepository itemRepository;
   private final LockerRepository lockerRepository;
   private final HistoryRepository historyRepository;
+  private final MemberRepository memberRepository;
   // Properties
   private final PayActionProperties payActionProperties;
   private final SoyuProperties soyuProperties;
@@ -159,6 +161,7 @@ public class LockerService {
   public void dpReserve(Long memberId, ReserveDpRequestDto dp) {
     Item item = itemService.getItem(dp.getItemId());
     Locker locker = lockerRepository.findById(dp.getLockerId()).get();
+    Long nonMember = (long)1;
 
     //1. DP 조건을 충족했는가
     // 현재 시간과 차이 확인
@@ -189,9 +192,11 @@ public class LockerService {
     lockerRepository.updateLocker(dp.getLockerId(), LockerStatus.RESERVED, currentTime,
         dp.getItemId(), code);
 
+    History history = historyRepository.save(new History(item, memberRepository.findById(nonMember).get()));
+
     //6. payAction에 등록
     String today = itemService.getCurrentDateTime();
-    String orderNumber = today + dp.getItemId();
+    String orderNumber = today + history.getId();
 
     //payAction API
     String orderUri = payActionProperties.getOrderUri();
@@ -203,10 +208,10 @@ public class LockerService {
     parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
     parameters.add("order_amount", item.getPrice().toString());
     parameters.add("order_date", today);
-    parameters.add("orderer_name", String.valueOf(dp.getItemId()));
-    parameters.add("orderer_phone_number", "010-2527-2155");
-    parameters.add("orderer_email", "jaesin463@gmail.com");
-    parameters.add("billing_name", String.valueOf(dp.getItemId()));
+    parameters.add("orderer_name", String.valueOf(history.getId()));
+    parameters.add("orderer_phone_number", "010-0000-0000");
+    parameters.add("orderer_email", "soyu@soyu.com");
+    parameters.add("billing_name", String.valueOf(history.getId()));
 
     webClient.post()
         .uri(orderUri)
