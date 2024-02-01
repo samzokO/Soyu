@@ -3,6 +3,8 @@ package com.ssafy.soyu.history.controller;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
 
+import com.ssafy.soyu.history.dto.response.PurchaseResponseDto;
+import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.history.service.HistoryService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -10,6 +12,10 @@ import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,14 +38,12 @@ public class HistoryController {
 
   private final HistoryService historyService;
 
-  /**
-   * 구매 내역 조회
-   *
-   * @param request 사용자의 토큰 정보
-   * @return PurchaseResponseDto 구매 내역 조회 정보
-   */
   @GetMapping("/purchase")
   @Operation(summary = "구매내역 조회", description = "사용자 ID를 이용해 구매내역을 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "구매내역 조회 성공", content = @Content(schema = @Schema(implementation = PurchaseResponseDto.class))),
+      @ApiResponse(responseCode = "400", description = "구매내역 조회 실패")
+  })
   public ResponseEntity<?> purchaseHistory(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -49,14 +53,12 @@ public class HistoryController {
         historyService.getPurchaseHistory(memberId));
   }
 
-  /**
-   * 판매 내역 조회
-   *
-   * @param request 사용자의 토큰 정보
-   * @return SaleResponseDto 판매 내역 조회 정보
-   */
   @GetMapping("/sale")
   @Operation(summary = "판매내역 조회", description = "사용자 ID를 이용해 판매내역을 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "판매내역 조회 성공", content = @Content(schema = @Schema(implementation = SaleResponseDto.class))),
+      @ApiResponse(responseCode = "400", description = "판매내역 조회 실패")
+  })
   public ResponseEntity<?> saleHistory(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -74,6 +76,10 @@ public class HistoryController {
    */
   @DeleteMapping("")
   @Operation(summary = "구매내역 삭제", description = "List<history ID>를 이용해 구매내역을 삭제(soft)합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "구매내역 삭제 성공"),
+      @ApiResponse(responseCode = "400", description = "구매내역 삭제 실패")
+  })
   public ResponseEntity<?> deleteHistory(@RequestParam("historyId") List<Long> historyIdList) {
     if (historyIdList == null || historyIdList.isEmpty()) {
       return toResponseEntity(ErrorCode.EMPTY_REQUEST_VALUE);
@@ -84,7 +90,11 @@ public class HistoryController {
   }
 
   @GetMapping("code")
-  @Operation(summary = "구매예약 코드 조회", description = "사용자 ID와 아이템 ID를 이용해 구매예약 코드를 조회합니다.")
+  @Operation(summary = "거래예약 코드 조회", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "거래예약 코드 조회 성공"),
+      @ApiResponse(responseCode = "400", description = "거래예약 코드 조회 실패")
+  })
   public ResponseEntity<?> purchaseCode(HttpServletRequest request, @RequestParam Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {

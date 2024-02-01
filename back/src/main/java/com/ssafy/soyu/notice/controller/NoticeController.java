@@ -1,11 +1,20 @@
 package com.ssafy.soyu.notice.controller;
 
+import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 import static com.ssafy.soyu.util.response.ErrorResponseEntity.*;
 
+import com.ssafy.soyu.item.dto.response.ItemResponse;
+import com.ssafy.soyu.notice.dto.response.NoticeResponseDto;
 import com.ssafy.soyu.notice.service.NoticeService;
+import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,23 +37,25 @@ public class NoticeController {
 
   @GetMapping("")
   @Operation(summary = "알림 조회", description = "사용자 ID를 이용해 전체 알림을 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "알림 조회 성공", content = @Content(schema = @Schema(implementation = NoticeResponseDto.class))),
+      @ApiResponse(responseCode = "400", description = "알림 조회 실패")
+  })
   public ResponseEntity<?> selectNotice(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
       return toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }
 
-    return new ResponseEntity<>(noticeService.findNotice(memberId), HttpStatus.OK);
+    return getResponseEntity(SuccessCode.OK, noticeService.findNotice(memberId));
   }
 
-  /**
-   * 알림 삭제 처리<br/>
-   * 사용자 - 알림 매칭 여부 확인
-   * @param request 사용자 식별자 정보
-   * @param noticeId 확인할 알림의 식별자
-   */
   @DeleteMapping("/{noticeId}")
   @Operation(summary = "알림 삭제", description = "사용자 ID와 알림 ID를 이용해 등록된 알림을 삭제(soft)합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "알림 삭제 성공"),
+      @ApiResponse(responseCode = "400", description = "알림 삭제 실패")
+  })
   public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable Long noticeId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -59,17 +70,15 @@ public class NoticeController {
     }
 
     noticeService.deleteNotice(noticeId);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 
-  /**
-   * 알림 읽음 처리<br/>
-   * 사용자 - 알림 매칭 여부 확인
-   * @param request 사용자 식별자 정보
-   * @param noticeId 확인할 알림의 식별자
-   */
   @PutMapping("/{noticeId}")
   @Operation(summary = "알림 확인", description = "사용자 ID와 알림 ID를 이용해 알림을 확인 처리합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "알림 확인 성공"),
+      @ApiResponse(responseCode = "400", description = "알림 확인 실패")
+  })
   public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable Long noticeId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -84,6 +93,6 @@ public class NoticeController {
     }
 
     noticeService.readNotice(noticeId);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return getResponseEntity(SuccessCode.OK);
   }
 }

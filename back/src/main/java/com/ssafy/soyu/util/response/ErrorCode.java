@@ -1,10 +1,13 @@
 package com.ssafy.soyu.util.response;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 
+@Schema
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
@@ -50,6 +53,9 @@ public enum ErrorCode {
 
     IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다."),
     IMPOSSIBLE_WITHDRAW(HttpStatus.BAD_REQUEST, "회수 할 수 없는 상태입니다.");
+
     private final HttpStatus httpStatus;
+
+    @JsonValue
     private final String message;
 }
