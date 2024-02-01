@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import font from '../../styles/font';
 
-function ChatRoom() {
+function ChatComponent() {
   return (
     <li>
       <Link to="1">
@@ -21,7 +21,7 @@ function ChatRoom() {
   );
 }
 
-export default ChatRoom;
+export default ChatComponent;
 
 const SWrap = styled.div`
   display: flex;

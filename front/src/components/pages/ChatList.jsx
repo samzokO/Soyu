@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import BottomNav from '../molecules/BottomNav';
-import ChatRoom from '../molecules/ChatRoom';
+import ChatComponent from '../molecules/ChatComponent';
 
 function ChatList() {
   return (
@@ -8,7 +8,7 @@ function ChatList() {
       <div>Header</div>
       <SWrap>
         <ul>
-          <ChatRoom />
+          <ChatComponent />
         </ul>
       </SWrap>
       <BottomNav />
