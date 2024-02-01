@@ -1,9 +1,14 @@
 package com.ssafy.soyu.item.service;
 
+import static com.ssafy.soyu.item.entity.Item.createItem;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
+import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
@@ -25,14 +30,24 @@ import com.ssafy.soyu.util.payaction.PayActionProperties;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MimeType;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
@@ -55,7 +70,7 @@ public class ItemService {
   private final NoticeService noticeService;
   private final SimpMessagingTemplate messagingTemplate;
 
-
+  String uploadImagePath = "C:/board/upload/imageUpload";
 
   public Item getItem(Long itemId) {
     return itemRepository.findItemById(itemId);
@@ -77,25 +92,55 @@ public class ItemService {
     return itemRepository.findItemByItemCategories(itemCategories);
   }
 
-  public void save(Long memberId, ItemCreateRequest itemRequest) {
+  public void save(Long memberId, ItemCreateRequest itemRequest, List<MultipartFile> files)
+      throws IOException {
+    List<Image> images = new ArrayList<Image>();
 
+    if (!files.isEmpty()) {
+      String today = new SimpleDateFormat("yyMMdd").format(new Date());
+      String saveFolder = uploadImagePath + File.separator + today;
+
+      // 위에서 제작한 경로로 디렉터리를 만든다 (날짜별)
+      File folder = new File(saveFolder);
+      if (!folder.exists())
+        folder.mkdirs();
+
+      for (MultipartFile file : files) {
+        Image image = new Image();
+        String originalFileName = file.getOriginalFilename();
+        if (!originalFileName.isEmpty()) {
+          String saveFileName = UUID.randomUUID().toString() // UUID 사용으로 고유한 파일의 이름 지정
+              + originalFileName.substring(originalFileName.lastIndexOf('.')); // 확장자 확인
+
+          image.makeImage(today, originalFileName, saveFileName);
+
+          file.transferTo(new File(folder, saveFileName)); // 해당 folder에 해당 이름의 파일로 이동한다
+        }
+
+        // images -> 저장해야 한다
+      }
+    }
     Member member = memberRepository.getReferenceById(memberId);
+    Item item = createItem(member, itemRequest.getTitle(), itemRequest.getContent(), LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(),
+        ItemStatus.ONLINE, images);
+    Item now_item = itemRepository.save(item);
 
-    Item item = new Item(member, itemRequest.getTitle(), itemRequest.getContent(), LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(), ItemStatus.ONLINE);
 
-    itemRepository.save(item);
+
+
+
   }
 
   public void update(ItemUpdateRequest itemUpdateRequest) {
     // 바꾸려는 아이템 객체를 가져온다
-    Item item = itemRepository.getReferenceById(itemUpdateRequest.getItemId());
+    Item item = itemRepository.findItemById(itemUpdateRequest.getItemId());
 
     // item 의 값을 변경해서 더티체킹을 통한 업데이트를 진행한다
     item.updateItem(itemUpdateRequest.getTitle(), itemUpdateRequest.getContent(), itemUpdateRequest.getPrice(), itemUpdateRequest.getItemCategories());
   }
 
   public void updateStatus(ItemStatusRequest itemStatusRequest) {
-    Item item = itemRepository.getReferenceById(itemStatusRequest.getItemId());
+    Item item = itemRepository.findItemById(itemStatusRequest.getItemId());
 
     // 더티 체킹을 통한 upaate
     item.updateItemStatus(itemStatusRequest.getItemStatus());

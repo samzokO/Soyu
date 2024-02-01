@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Item 컨트롤러", description = "Item API 입니다.")
 @RestController
@@ -133,7 +135,9 @@ public class ItemController {
       @ApiResponse(responseCode = "400", description = "물품 등록 실패")
   })
   public ResponseEntity<?> createItem(HttpServletRequest request,
-      @Validated @RequestBody ItemCreateRequest itemRequest, BindingResult bindingResult) {
+      @Validated @RequestBody ItemCreateRequest itemRequest, BindingResult bindingResult,
+      @RequestParam(value = "image", required = false) List<MultipartFile> files)
+      throws IOException {
     log.info(String.valueOf(itemRequest));
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
@@ -142,7 +146,7 @@ public class ItemController {
     if (bindingResult.hasErrors()) {
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
     }
-    itemService.save(memberId, itemRequest);
+    itemService.save(memberId, itemRequest, files);
 
     return getResponseEntity(SuccessCode.OK);
   }

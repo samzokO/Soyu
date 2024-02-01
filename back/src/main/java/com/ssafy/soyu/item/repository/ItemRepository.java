@@ -25,6 +25,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   @Query("select i from Item i join fetch i.member m where i.member.id = :memberId")
   List<Item> findByMemberId(@Param("memberId") Long memberId);
 
+
   @Modifying
   @Query("UPDATE Item SET itemStatus= :status where id=:itemId")
   int updateStatus(@Param("itemId") Long itemId, @Param("status") ItemStatus status);
