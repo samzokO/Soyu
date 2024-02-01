@@ -25,5 +25,7 @@ const SButton = styled.button`
   padding: 10px 0;
   margin: 10px 0;
 
-  width: 90vw;
+  // for dx
+  /* width: 90vw; */
+  width: 100%;
 `;
