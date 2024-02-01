@@ -6,6 +6,7 @@ import Bookmark from '../components/pages/Bookmark';
 import MyPage from '../components/pages/MyPage';
 import BuyList from '../components/pages/BuyList';
 import ChatList from '../components/pages/ChatList';
+import ChatRoom from '../components/pages/ChatRoom';
 
 const Router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const Router = createBrowserRouter([
   {
     path: '/chat',
     element: <ChatList />,
+  },
+  {
+    path: '/chat/:chatId',
+    element: <ChatRoom />,
   },
 ]);
 
