@@ -18,6 +18,7 @@ package com.ssafy.soyu.locker.entity;
  *
  * [ 회수 ]
  * WITHDRAW,   // 회수 대기 (DP판매 시간 경과 OR 거래 실패 시 OR 판매자 요청 시)
+ * WITHDRAW_SUBTRACT // 회수 대기 물건 빼기
  */
 public enum LockerStatus {
   AVAILABLE ,
@@ -31,7 +32,6 @@ public enum LockerStatus {
   TRADE_SUBTRACT,
   TRADE_CHECK,
 
-
-  WITHDRAW; //회수 대기 중
-
+  WITHDRAW,
+  WITHDRAW_SUBTRACT;
 }
