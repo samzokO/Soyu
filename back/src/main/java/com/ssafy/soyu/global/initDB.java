@@ -41,6 +41,8 @@ public class initDB {
       Member member4 = new Member("ho", "이호진", "경매빌런", "010-4444-4444");
       Member member5 = new Member("son", "손주현", "손다르크", "010-5555-4444");
       Member member6 = new Member("jae", "이재신", "예뻤어", "010-6666-4444");
+      Member member7 = new Member("none", "비회원", "비회원", "010-9999-9999");
+      em.persist(member7);
       em.persist(member1);
       em.persist(member2);
       em.persist(member3);
@@ -65,10 +67,14 @@ public class initDB {
       Likes likes1 = new Likes(member1, item1, true);
       Likes likes2 = new Likes(member1, item2, true);
       Likes likes3 = new Likes(member1, item3, true);
+      Likes likes4 = new Likes(member2, item1, true);
+      Likes likes5 = new Likes(member3, item1, true);
 
       em.persist(likes1);
       em.persist(likes2);
       em.persist(likes3);
+      em.persist(likes4);
+      em.persist(likes5);
 
 //      History history1 = new History(item1, member2);
 //      History history2 = new History(item2, member3);
@@ -97,7 +103,7 @@ public class initDB {
       em.persist(station1);
       em.persist(station2);
 
-      Locker locker1 = new Locker(station1, item1,null, LockerStatus.DP, LocalDateTime.now(), 1);
+      Locker locker1 = new Locker(station1, item2,null, LockerStatus.DP, LocalDateTime.now(), 1);
       Locker locker2 = new Locker(station1, 2);
       Locker locker3 = new Locker(station1, 3);
       Locker locker4 = new Locker(station2, 1);
