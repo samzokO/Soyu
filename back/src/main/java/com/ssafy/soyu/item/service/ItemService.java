@@ -159,7 +159,7 @@ public class ItemService {
 
     //라즈베리 파이에 신호 json 신호 보내기
     KioskLockerResponse response = KioskLockerResponse.builder()
-            .lockerNum(locker.getLocation())
+            .lockerNum(locker.getLockerNum())
             .status(LockerStatus.TRADE_RESERVE)
             .reserveTime(reserveTime).build();
     sendMessageToRaspberryPi("/sub/raspberry", response);
@@ -225,7 +225,7 @@ public class ItemService {
 
       //라즈베리 파이에 json 신호 보내기
       KioskLockerResponse response = KioskLockerResponse.builder()
-              .lockerNum(locker.getLocation())
+              .lockerNum(locker.getLockerNum())
               .status(LockerStatus.WITHDRAW).build();
       sendMessageToRaspberryPi("/sub/raspberry", response);
     }

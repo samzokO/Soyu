@@ -72,7 +72,7 @@ public class LockerService {
                 .build();
           }
           return new LockerListResponse(l.getId(), itemResponse, l.getCode(), l.getIsLight(),
-              l.getIsVisible(), l.getStatus(), l.getLocation(), l.getTime());
+              l.getIsVisible(), l.getStatus(), l.getLockerNum(), l.getTime());
         }).collect(Collectors.toList());
   }
 

@@ -33,23 +33,23 @@ public class Locker {
 
     @Enumerated(EnumType.STRING)
     private LockerStatus status;
-    private Integer location;
+    private Integer lockerNum;
     private LocalDateTime time;
 
-    public Locker(Station station, Integer location){
+    public Locker(Station station, Integer lockerNum){
         this.station = station;
         this.status = LockerStatus.AVAILABLE;
-        this.location = location;
+        this.lockerNum = lockerNum;
         this.isLight = false;
         this.isVisible = false;
     }
 
-    public Locker(Station station, Item item, String code, LockerStatus status, LocalDateTime reserveTime, Integer location){
+    public Locker(Station station, Item item, String code, LockerStatus status, LocalDateTime reserveTime, Integer lockerNum){
         this.station = station;
         this.item = item;
         this.code = code;
         this.status = status;
         this.time = reserveTime;
-        this.location = location;
+        this.lockerNum = lockerNum;
     }
 }
