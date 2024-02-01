@@ -23,7 +23,6 @@ import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
-import com.ssafy.soyu.util.payaction.PayActionProperties;
 import com.ssafy.soyu.util.payaction.PayActionUtil;
 import com.ssafy.soyu.util.raspberry.RaspberryUtil;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -49,7 +48,6 @@ public class ItemService {
   private final MemberRepository memberRepository;
   private final ChatRepository chatRepository;
   private final HistoryRepository historyRepository;
-  private final PayActionProperties payActionProperties;
   private final LockerRepository lockerRepository;
   private final NoticeService noticeService;
   private final RaspberryUtil raspberryUtil;
