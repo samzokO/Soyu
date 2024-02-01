@@ -15,8 +15,11 @@ public class ItemResponse {
   @Schema(description = "물품 ID")
   Long itemId;
 
-  @Schema(description = "판매자 ID?")
+  @Schema(description = "판매자 ID")
   Long memberId;
+
+  @Schema(description = "닉네임")
+  String nickname;
 
   @Schema(description = "제목")
   private String title;

@@ -249,7 +249,7 @@ public class LockerService {
   // make response List
   public static com.ssafy.soyu.item.dto.response.ItemResponse getItemResponse(Item item) {
     return new com.ssafy.soyu.item.dto.response.ItemResponse
-        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(),
+        (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
             , item.getPrice(), item.getItemStatus(), item.getItemCategories());
   }

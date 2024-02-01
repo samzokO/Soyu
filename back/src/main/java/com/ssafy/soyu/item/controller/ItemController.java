@@ -185,14 +185,14 @@ public class ItemController {
   // make response List
   public static ItemResponse getItemResponse(Item item) {
     return new ItemResponse
-        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(),
+        (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
             , item.getPrice(), item.getItemStatus(), item.getItemCategories());
   }
 
   public static List<ItemResponse> getItemResponses(List<Item> items) {
     return items.stream()
-        .map(i -> new ItemResponse(i.getId(), i.getMember().getId(), i.getTitle(), i.getContent(),
+        .map(i -> new ItemResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),i.getTitle(), i.getContent(),
             i.getRegDate()
             , i.getPrice(), i.getItemStatus(), i.getItemCategories()))
         .collect(Collectors.toList());

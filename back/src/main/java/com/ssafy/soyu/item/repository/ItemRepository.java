@@ -6,6 +6,7 @@ import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import java.util.List;
 import com.ssafy.soyu.member.entity.Member;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,13 +14,21 @@ import org.springframework.data.repository.query.Param;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
+  @EntityGraph(attributePaths = {"member" , "image"})
   Item findItemById(Long id);
 
+  @EntityGraph(attributePaths = {"member" , "image"})
+  @Override
+  List<Item> findAll();
+
+  @EntityGraph(attributePaths = {"member" , "image"})
   List<Item> findItemByMember(Member member);
 
+  @EntityGraph(attributePaths = {"member" , "image"})
   @Query("select i from Item i where i.title like concat('%', :keyword, '%')")
   List<Item> findItemByKeyWord(@Param("keyword") String keyword);
 
+  @EntityGraph(attributePaths = {"member" , "image"})
   List<Item> findItemByItemCategories(ItemCategories itemCategories);
 
   @Query("select i from Item i join fetch i.member m where i.member.id = :memberId")
