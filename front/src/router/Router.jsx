@@ -7,6 +7,7 @@ import MyPage from '../components/pages/MyPage';
 import BuyList from '../components/pages/BuyList';
 import ChatList from '../components/pages/ChatList';
 import ChatRoom from '../components/pages/ChatRoom';
+import NaverCallback from '../components/pages/NaverCallback';
 
 const Router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const Router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/naver/callback',
+    element: <NaverCallback />,
   },
   {
     path: '/bookmark',
