@@ -2,7 +2,6 @@ package com.ssafy.soyu.trade.controller;
 
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
-import com.ssafy.soyu.item.dto.request.DeleteReserveRequest;
 import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.item.dto.request.ReserveItemRequest;
 import com.ssafy.soyu.trade.service.TradeService;

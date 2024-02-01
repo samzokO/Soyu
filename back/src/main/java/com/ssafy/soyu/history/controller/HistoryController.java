@@ -6,8 +6,6 @@ import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
 import com.ssafy.soyu.history.dto.response.PurchaseResponseDto;
 import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.history.service.HistoryService;
-import com.ssafy.soyu.item.dto.request.DeleteReserveRequest;
-import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
