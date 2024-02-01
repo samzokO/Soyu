@@ -106,7 +106,7 @@ public class MemberService {
         //구매자인 경우 예약된 물건이 있으면 안됨
         Optional<History> history = historyRepository.findByMemberId(memberId);
         history.ifPresent(historyValue -> {
-            if(historyValue.getItem().getItemStatus() == ItemStatus.RESERVE){
+            if(historyValue.getItem().getItemStatus() == ItemStatus.TRADE_RESERVE){
                 throw new CustomException(ErrorCode.HAS_ACTIVE_ITEM);
             }
         });
