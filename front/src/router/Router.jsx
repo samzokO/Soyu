@@ -4,6 +4,7 @@ import ErrorPage from '../components/pages/ErrorPage';
 import Login from '../components/pages/Login';
 import Bookmark from '../components/pages/Bookmark';
 import MyPage from '../components/pages/MyPage';
+import BuyList from '../components/pages/BuyList';
 
 const Router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const Router = createBrowserRouter([
   {
     path: '/mypage',
     element: <MyPage />,
+  },
+  {
+    path: '/mypage/buylist',
+    element: <BuyList />,
   },
 ]);
 
