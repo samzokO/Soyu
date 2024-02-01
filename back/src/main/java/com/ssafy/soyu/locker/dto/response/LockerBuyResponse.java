@@ -1,7 +1,7 @@
 package com.ssafy.soyu.locker.dto.response;
 
-import com.ssafy.soyu.util.soyu.SoyuProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.ssafy.soyu.item.dto.response.ItemResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -5,13 +5,14 @@ import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
+
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.locker.entity.LockerStatus;
-import com.ssafy.soyu.locker.dto.response.ItemResponse;
+import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
 import com.ssafy.soyu.member.repository.MemberRepository;
@@ -61,15 +62,7 @@ public class LockerService {
           Item item = l.getItem();
           ItemResponse itemResponse = null;
           if (item != null) {
-            itemResponse = ItemResponse.builder()
-                .id(item.getId())
-                .title(item.getTitle())
-                .content(item.getContent())
-                .regDate(item.getRegDate())
-                .price(item.getPrice())
-                .itemStatus(item.getItemStatus())
-                .itemCategories(item.getItemCategories())
-                .build();
+            itemResponse = getItemResponse(item);
           }
           return new LockerListResponse(l.getId(), itemResponse, l.getCode(), l.getIsLight(),
               l.getIsVisible(), l.getStatus(), l.getLockerNum(), l.getTime());
@@ -125,15 +118,7 @@ public class LockerService {
     }
 
     Item item = locker.getItem();
-    ItemResponse itemResponse = ItemResponse.builder()
-        .id(item.getId())
-        .title(item.getTitle())
-        .content(item.getContent())
-        .regDate(item.getRegDate())
-        .price(item.getPrice())
-        .itemStatus(item.getItemStatus())
-        .itemCategories(item.getItemCategories())
-        .build();
+    ItemResponse itemResponse = getItemResponse(item);
     return new LockerBuyResponse(soyuProperties.getBankName(), soyuProperties.getAccountNumber(),
         itemResponse);
 
@@ -259,5 +244,13 @@ public class LockerService {
 
     //5. 알림 전송(회수 코드 포함)
     noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.WITHDRAW, code));
+  }
+
+  // make response List
+  public static com.ssafy.soyu.item.dto.response.ItemResponse getItemResponse(Item item) {
+    return new com.ssafy.soyu.item.dto.response.ItemResponse
+        (item.getId(), item.getMember().getId(), item.getTitle(), item.getContent(),
+            item.getRegDate()
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories());
   }
 }
