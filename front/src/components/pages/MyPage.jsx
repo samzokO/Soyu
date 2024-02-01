@@ -14,8 +14,8 @@ function MyPage() {
         <Profile />
         <DealList />
         <InfoList />
-        <Button type="1">로그아웃</Button>
-        <Button type="6">회원탈퇴</Button>
+        <Button type="0">로그아웃</Button>
+        <Button type="5">회원탈퇴</Button>
       </SWrap>
       <BottomNav />
     </>

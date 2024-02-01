@@ -12,9 +12,9 @@ import Condition from '../../styles/BadgeCondition';
  * 5: No Badge
  * @params (number) number - 숫자 입력, 99개 넘어가면 99+로 표시
  */
-function BadgeNotification({ type, number }) {
+function BadgeNotification({ status, number }) {
   return (
-    <SBadgeContainer type={type}>
+    <SBadgeContainer type={status}>
       {number > 99 ? '99+' : number}
     </SBadgeContainer>
   );
