@@ -132,8 +132,8 @@ public class ItemController {
       @ApiResponse(responseCode = "400", description = "물품 등록 실패")
   })
   public ResponseEntity<?> createItem(HttpServletRequest request,
-      @Validated @RequestBody ItemCreateRequest itemRequest, BindingResult bindingResult,
-      @RequestParam(value = "image", required = false) List<MultipartFile> files)
+      @RequestPart(value = "image", required = false) List<MultipartFile> files,
+      @ModelAttribute(value = "requestCreateItem") ItemCreateRequest itemRequest, BindingResult bindingResult)
       throws IOException {
     log.info(String.valueOf(itemRequest));
     Long memberId = (Long) request.getAttribute("memberId");

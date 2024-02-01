@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -20,6 +21,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Schema(description = "물품 생성 요청 DTO")
 @Getter
 @ToString
+@Setter
 public class ItemCreateRequest {
 
   @Schema(description = "제목")
