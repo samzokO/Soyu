@@ -1,7 +1,5 @@
 package com.ssafy.soyu.item.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.entity.History;
@@ -29,7 +27,6 @@ import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -120,12 +117,12 @@ public class ItemService {
     }
 
     //아이템 상태 변경
-    itemRepository.updateStatus(item.getId(), ItemStatus.RESERVE); //아이템 상태 변경
+    itemRepository.updateStatus(item.getId(), ItemStatus.TRADE_RESERVE); //아이템 상태 변경
 
     //locker 변경
     String code = generateRandomCode();
     String today = getCurrentDateTime();
-    lockerRepository.updateLocker(lockerId, LockerStatus.RESERVED, reserveTime, item.getId(), code);
+    lockerRepository.updateLocker(lockerId, LockerStatus.TRADE_RESERVE, reserveTime, item.getId(), code);
 
     //구매내역에 추가
     History history = new History(item, chat.getBuyer());
@@ -163,7 +160,7 @@ public class ItemService {
     //라즈베리 파이에 신호 json 신호 보내기
     KioskLockerResponse response = KioskLockerResponse.builder()
             .lockerNum(locker.getLocation())
-            .status(LockerStatus.RESERVED)
+            .status(LockerStatus.TRADE_RESERVE)
             .reserveTime(reserveTime).build();
     sendMessageToRaspberryPi("/sub/raspberry", response);
   }
@@ -184,13 +181,15 @@ public class ItemService {
     return zonedDateTime.format(formatter);
   }
 
+  /**
+   * 구매자 취소
+   */
   @Transactional
   public void deleteReserve(Long historyId, Long memberId) {
     History history = historyRepository.findById(historyId).get();
 
     //아이템 상태 변경
     Item item = history.getItem();
-    itemRepository.updateStatus(item.getId(), ItemStatus.WITHDRAW);
 
     //histroy 변경
     historyRepository.updateIsDelete(historyId);
@@ -200,19 +199,29 @@ public class ItemService {
     if(optionalLocker.isPresent()){
       Locker locker = optionalLocker.get();
       NoticeType noticeType = null;
+      LockerStatus lockerStatus = null;
+      ItemStatus itemStatus = null;
 
-      if(locker.getStatus() == LockerStatus.READY) {
+      //보관한 물건 취소 했을 때
+      if(locker.getStatus() == LockerStatus.TRADE_READY) {
         noticeType = NoticeType.CONVERT;
+        lockerStatus = LockerStatus.WITHDRAW;
+        itemStatus = ItemStatus.WITHDRAW;
       }
-      else if(locker.getStatus() == LockerStatus.RESERVED){
+      //물건 넣기 전 취소
+      else if(locker.getStatus() == LockerStatus.TRADE_RESERVE){
         noticeType = NoticeType.RESERVE_CANCEL;
+        lockerStatus = LockerStatus.AVAILABLE;
+        itemStatus = ItemStatus.ONLINE;
       }
-
       noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, noticeType)); //판매자에게 알림
       noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL)); //구매자
 
       //locker 상태 변경, 코드 삭제 등
-      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, null, item.getId(), null);
+      lockerRepository.updateLocker(locker.getId(), lockerStatus, null, item.getId(), null);
+
+      //item 상태 변경
+      itemRepository.updateStatus(item.getId(), itemStatus);
 
       //라즈베리 파이에 json 신호 보내기
       KioskLockerResponse response = KioskLockerResponse.builder()
@@ -220,7 +229,6 @@ public class ItemService {
               .status(LockerStatus.WITHDRAW).build();
       sendMessageToRaspberryPi("/sub/raspberry", response);
     }
-
     //payAction 매칭 취소 후 주문번호 삭제
     deletePayAction(item.getOrderNumber());
     itemRepository.deleteOrderNumber(item.getId());

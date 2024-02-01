@@ -1,16 +1,37 @@
 package com.ssafy.soyu.locker.entity;
 
 /**
- * AVAILABLE - 사용가능<br/>
- * DP - DP 보관 중<br/>
- * RESERVED - 예약됨(미보관)<br/>
- * WITHDRAW - 회수 대기중<br/>
- * READY - 거래 예약 물품(보관중)<br/>
+ * AVAILABLE - 사용가능
+ *
+ * [ DP 판매 ]
+ * DP_RESERVE       // 박스 자리 배정 상태
+ * DP_READY,        // 박스에 물건을 파는중
+ * DP_INSERT,       // 박스에 DP 물건을 넣는 중
+ * DP_SUBTRACT,      // 박스에서 DP 물건을 꺼내는 중
+
+ * [ 거래 ]
+ * TRADE_RESERVE,     // 박스 자리 배정 상태
+ * TRADE_READY,      // 박스에 물건 보관 중
+ * TRADE_INSERT,     // 박스에 거래 예약 물건을 넣는 중
+ * TRADE_SUBTRACT,   // 박스에서 거래 예약 물건을 꺼내는 중
+ * TRADE_CHECK,      // 구매자 코드 입력 후 물건 확인
+ *
+ * [ 회수 ]
+ * WITHDRAW,   // 회수 대기 (DP판매 시간 경과 OR 거래 실패 시 OR 판매자 요청 시)
  */
 public enum LockerStatus {
-  AVAILABLE , //사용 가능
-  DP,         //DP 중
-  RESERVED, //예약됨 == 판매자가 안넣음
-  WITHDRAW, //회수 대기 중
-  READY; // 판매자가 넣음 == 구매자 픽업 대기
+  AVAILABLE ,
+  DP_READY,
+  DP_RESERVE,
+  DP_INSERT,
+  DP_SUBTRACT,
+  TRADE_RESERVE,
+  TRADE_READY,
+  TRADE_INSERT,
+  TRADE_SUBTRACT,
+  TRADE_CHECK,
+
+
+  WITHDRAW; //회수 대기 중
+
 }

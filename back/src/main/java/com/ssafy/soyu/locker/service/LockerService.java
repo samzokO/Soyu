@@ -92,7 +92,7 @@ public class LockerService {
 
     Locker locker = optionalLocker.get();
     String newCode = itemService.generateRandomCode();
-    lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.READY, newCode);
+    lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.TRADE_READY, newCode);
 
     //구매자에게 코드 알림
     History history = historyRepository.findByItemIdNotDeleted(locker.getItem().getId());
@@ -111,7 +111,7 @@ public class LockerService {
         if (locker.getStatus() == LockerStatus.AVAILABLE) {
           throw new CustomException(ErrorCode.EMPTY_ITEM_LOCKER);
         }
-        if (locker.getStatus() != LockerStatus.DP) {
+        if (locker.getStatus() != LockerStatus.DP_READY) {
           throw new CustomException(ErrorCode.NOT_DP_ITEM);
         }
       }
@@ -185,11 +185,11 @@ public class LockerService {
     }
 
     //4. 아이템 상태 변경
-    itemRepository.updateStatus(dp.getItemId(), ItemStatus.RESERVE_DP);
+    itemRepository.updateStatus(dp.getItemId(), ItemStatus.DP_RESERVE);
 
     //5. 보관함 상태 변경
     String code = itemService.generateRandomCode();
-    lockerRepository.updateLocker(dp.getLockerId(), LockerStatus.RESERVED, currentTime,
+    lockerRepository.updateLocker(dp.getLockerId(), LockerStatus.DP_RESERVE, currentTime,
         dp.getItemId(), code);
 
     History history = historyRepository.save(new History(item, memberRepository.findById(nonMember).get()));
@@ -245,7 +245,7 @@ public class LockerService {
 
     //2. 보관함 상태와 아이템 상태를 비교하여 무결성 확인
     //2-1. DP 중인 물품인지 확인
-    if (is.equals(ItemStatus.DP) && ls.equals(LockerStatus.DP)) {
+    if (is.equals(ItemStatus.DP) && ls.equals(LockerStatus.DP_READY)) {
       //3. 아이템 상태 변경
       itemRepository.updateStatus(itemId, ItemStatus.WITHDRAW);
       //4. 보관함 상태 변경

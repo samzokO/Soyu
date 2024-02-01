@@ -103,7 +103,7 @@ public class initDB {
       em.persist(station1);
       em.persist(station2);
 
-      Locker locker1 = new Locker(station1, item2,null, LockerStatus.DP, LocalDateTime.now(), 1);
+      Locker locker1 = new Locker(station1, item2,null, LockerStatus.DP_READY, LocalDateTime.now(), 1);
       Locker locker2 = new Locker(station1, 2);
       Locker locker3 = new Locker(station1, 3);
       Locker locker4 = new Locker(station2, 1);
