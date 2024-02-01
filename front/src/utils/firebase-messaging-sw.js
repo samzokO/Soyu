@@ -31,8 +31,7 @@ async function requestPermission() {
 
   console.log('알림 권한이 허용됨');
   getToken(messaging, {
-    vapidKey:
-      'BCWRL1BmNLVyyBhV5HGBXUbuySS4GHSMWXRQFHnsPlJ2EZpJ8dIi2HWu2hLGCUeDjzn92ua3ZlLpxENbclpLLT0',
+    vapidKey: process.env.REACT_APP_FCM_VAPID_KEY,
   })
     .then((currentToken) => {
       if (currentToken) {
