@@ -116,7 +116,7 @@ public class ItemService {
 
           file.transferTo(new File(folder, saveFileName)); // 해당 folder에 해당 이름의 파일로 이동한다
         }
-
+        images.add(image);
         // images -> 저장해야 한다
       }
     }
