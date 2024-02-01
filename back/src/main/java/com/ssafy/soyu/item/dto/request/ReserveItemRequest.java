@@ -15,8 +15,4 @@ public class ReserveItemRequest {
 
     @Schema(description = "예약하려는 보관함 ID")
     Long lockerId;
-
-    @Schema(description = "예약 시간/일자")
-    LocalDateTime reserveTime;
-
 }

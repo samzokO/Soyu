@@ -204,7 +204,7 @@ public class ItemController {
       @ApiResponse(responseCode = "400", description = "거래약속 생성 실패")
   })
   public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest request) {
-    itemService.makeReserve(request.getChatId(), request.getLockerId(), request.getReserveTime());
+    itemService.makeReserve(request.getChatId(), request.getLockerId());
     return getResponseEntity(SuccessCode.OK);
   }
 

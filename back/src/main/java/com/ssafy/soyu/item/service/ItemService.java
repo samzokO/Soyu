@@ -102,7 +102,7 @@ public class ItemService {
   }
 
   @Transactional
-  public void makeReserve(Long chatId, Long lockerId, LocalDateTime reserveTime){
+  public void makeReserve(Long chatId, Long lockerId){
     Chat chat = chatRepository.findById(chatId).get();
     Item item = chat.getItem();
 
@@ -121,8 +121,9 @@ public class ItemService {
 
     //locker 변경
     String code = generateRandomCode();
-    String today = getCurrentDateTime();
-    lockerRepository.updateLocker(lockerId, LockerStatus.TRADE_RESERVE, reserveTime, item.getId(), code);
+    LocalDateTime now = LocalDateTime.now();
+    String today = getCurrentDateTime(now);
+    lockerRepository.updateLocker(lockerId, LockerStatus.TRADE_RESERVE, now, item.getId(), code);
 
     //구매내역에 추가
     History history = new History(item, chat.getBuyer());
@@ -179,9 +180,8 @@ public class ItemService {
   }
 
 
-  public String getCurrentDateTime() {
-    LocalDateTime now = LocalDateTime.now();
-    ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
+  public String getCurrentDateTime(LocalDateTime time) {
+    ZonedDateTime zonedDateTime = time.atZone(ZoneId.systemDefault());
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
     return zonedDateTime.format(formatter);
   }

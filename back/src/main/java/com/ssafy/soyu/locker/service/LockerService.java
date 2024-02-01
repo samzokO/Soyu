@@ -180,7 +180,7 @@ public class LockerService {
     History history = historyRepository.save(new History(item, memberRepository.findById(nonMember).get()));
 
     //6. payAction에 등록
-    String today = itemService.getCurrentDateTime();
+    String today = itemService.getCurrentDateTime(LocalDateTime.now());
     String orderNumber = today + history.getId();
 
     //payAction API
