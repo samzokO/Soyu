@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import useMoveLocation from '../../hooks/useMoveLocation';
 
 /** 하단바 네비 버튼 */
 function BottomNavBtn({ children, url, active }) {
+  const move = useMoveLocation(url);
+  const handleClick = () => {
+    move();
+  };
   return (
-    <SNavBtn to={url} active={active}>
+    <SNavBtn onClick={handleClick} $active={active}>
       {children}
     </SNavBtn>
   );
