@@ -213,6 +213,12 @@ public class ItemService {
 
       //locker 상태 변경, 코드 삭제 등
       lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, null, item.getId(), null);
+
+      //라즈베리 파이에 json 신호 보내기
+      KioskLockerResponse response = KioskLockerResponse.builder()
+              .lockerNum(locker.getLocation())
+              .status(LockerStatus.WITHDRAW).build();
+      sendMessageToRaspberryPi("/sub/raspberry", response);
     }
 
     //payAction 매칭 취소 후 주문번호 삭제
