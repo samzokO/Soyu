@@ -42,7 +42,6 @@ public class LikesController {
   })
   public ResponseEntity<?> getLikes(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
     List<Likes> likes = likesService.getLikes(memberId);
     List<Item> items = new ArrayList<>();
     for (Likes like : likes) {
@@ -61,7 +60,6 @@ public class LikesController {
   })
   public ResponseEntity<?> onOffLikes(@PathVariable("itemId")Long itemId, HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
     likesService.onOff(itemId, memberId);
 
     return getResponseEntity(SuccessCode.OK);

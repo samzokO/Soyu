@@ -80,9 +80,6 @@ public class ItemController {
   })
   public ResponseEntity<?> getItemByMemberId(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      throw new CustomException(ErrorCode.USER_NOT_FOUND);
-    }
     List<Item> items = itemService.getItemByMemberId(memberId);
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
