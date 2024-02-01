@@ -1,10 +1,11 @@
 {
   "short_name": "소유",
-  "name": "소유 박스",
+  "name": "소유",
   "author": "SJO",
   "description": "삼족오의 SSAFY 공통프로젝트 소유",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "theme_color": "#3d5afe",
   "background_color": "#031230",
   "icons": [
