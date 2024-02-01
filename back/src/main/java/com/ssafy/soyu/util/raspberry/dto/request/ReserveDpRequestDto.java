@@ -1,4 +1,4 @@
-package com.ssafy.soyu.locker.dto.request;
+package com.ssafy.soyu.util.raspberry.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

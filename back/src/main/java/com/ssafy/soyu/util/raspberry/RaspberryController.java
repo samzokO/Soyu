@@ -1,6 +1,6 @@
-package com.ssafy.soyu.locker.controller;
+package com.ssafy.soyu.util.raspberry;
 
-import com.ssafy.soyu.locker.dto.response.RaspberryRequestResponse;
+import com.ssafy.soyu.util.raspberry.dto.response.RaspberryRequestResponse;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 @Controller

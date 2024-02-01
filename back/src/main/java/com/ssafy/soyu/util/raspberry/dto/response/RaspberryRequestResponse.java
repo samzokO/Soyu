@@ -1,4 +1,4 @@
-package com.ssafy.soyu.locker.dto.response;
+package com.ssafy.soyu.util.raspberry.dto.response;
 
 import com.ssafy.soyu.locker.entity.LockerStatus;
 import lombok.Builder;
