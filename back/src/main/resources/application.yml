@@ -6,6 +6,10 @@ spring:
     password: 1234
   profiles:
     include: auth
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
 
   jpa:
     hibernate:
@@ -15,7 +19,6 @@ spring:
         #        show_sql: true # sysout 단계에서 쿼리문을 날린다
         format_sql: true
         default_batch_fetch_size: 1000 # select 배치 조회 크기
-
 
 logging:
   level:
