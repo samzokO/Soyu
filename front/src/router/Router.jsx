@@ -5,6 +5,7 @@ import Login from '../components/pages/Login';
 import Bookmark from '../components/pages/Bookmark';
 import MyPage from '../components/pages/MyPage';
 import BuyList from '../components/pages/BuyList';
+import ChatList from '../components/pages/ChatList';
 
 const Router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const Router = createBrowserRouter([
   {
     path: '/mypage/buylist',
     element: <BuyList />,
+  },
+  {
+    path: '/chat',
+    element: <ChatList />,
   },
 ]);
 
