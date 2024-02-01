@@ -52,6 +52,11 @@ const font = {
     line-height: 42px;
     letter-spacing: -0.84px;
     `,
+
+  Content: `font-family: Pretendard;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;`,
 };
 
 export default font;
