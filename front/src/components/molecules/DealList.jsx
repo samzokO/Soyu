@@ -12,7 +12,7 @@ function DealList() {
       <SH2>내 거래</SH2>
       <ul>
         <SLi>
-          <SFlexLink to="/">
+          <SFlexLink to="buylist">
             <SImg src={ShoppingBag} alt="#" />
             <p>구매 내역</p>
           </SFlexLink>
