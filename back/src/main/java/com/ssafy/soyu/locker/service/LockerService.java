@@ -8,7 +8,7 @@ import com.ssafy.soyu.item.repository.ItemRepository;
 
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
-import com.ssafy.soyu.locker.dto.request.ReserveDpRequestDto;
+import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.locker.entity.LockerStatus;
@@ -20,6 +20,7 @@ import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.payaction.PayActionProperties;
+import com.ssafy.soyu.util.payaction.PayActionUtil;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import com.ssafy.soyu.util.soyu.SoyuProperties;
@@ -33,9 +34,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.function.client.WebClient;
+
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +52,8 @@ public class LockerService {
   // Properties
   private final PayActionProperties payActionProperties;
   private final SoyuProperties soyuProperties;
+  // Util
+  private final PayActionUtil payActionUtil;
 
   public List<LockerListResponse> getLockers(Long stationId) {
     List<Locker> lockerList = lockerRepository.findByStationIdWithItem(stationId);
@@ -84,7 +85,7 @@ public class LockerService {
     }
 
     Locker locker = optionalLocker.get();
-    String newCode = itemService.generateRandomCode();
+    String newCode = payActionUtil.generateRandomCode();
     lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.TRADE_READY, newCode);
 
     //구매자에게 코드 알림
@@ -173,37 +174,18 @@ public class LockerService {
     itemRepository.updateStatus(dp.getItemId(), ItemStatus.DP_RESERVE);
 
     //5. 보관함 상태 변경
-    String code = itemService.generateRandomCode();
+    String code = payActionUtil.generateRandomCode();
     lockerRepository.updateLocker(dp.getLockerId(), LockerStatus.DP_RESERVE, currentTime,
         dp.getItemId(), code);
 
     History history = historyRepository.save(new History(item, memberRepository.findById(nonMember).get()));
 
     //6. payAction에 등록
-    String today = itemService.getCurrentDateTime(LocalDateTime.now());
+    String today = payActionUtil.getCurrentDateTime(LocalDateTime.now());
     String orderNumber = today + history.getId();
 
     //payAction API
-    String orderUri = payActionProperties.getOrderUri();
-    WebClient webClient = WebClient.create(orderUri);
-    MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-    parameters.add("apikey", payActionProperties.getApiKey());
-    parameters.add("secretkey", payActionProperties.getSecretKey());
-    parameters.add("mall_id", payActionProperties.getStoreId());
-    parameters.add("order_number", orderNumber); // 주문 번호 수정 필요
-    parameters.add("order_amount", item.getPrice().toString());
-    parameters.add("order_date", today);
-    parameters.add("orderer_name", String.valueOf(history.getId()));
-    parameters.add("orderer_phone_number", "010-0000-0000");
-    parameters.add("orderer_email", "soyu@soyu.com");
-    parameters.add("billing_name", String.valueOf(history.getId()));
-
-    webClient.post()
-        .uri(orderUri)
-        .bodyValue(parameters)
-        .retrieve()
-        .bodyToMono(String.class)
-        .block();
+    payActionUtil.makeNoneMemberPayAction(orderNumber, item.getPrice(), today, history.getId());
 
     //7. 알림 전송 해야 됨
     noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE, code));
@@ -221,7 +203,7 @@ public class LockerService {
     ItemStatus is = item.getItemStatus();
     LockerStatus ls = locker.getStatus();
     LocalDateTime now = LocalDateTime.now();
-    String code = itemService.generateRandomCode();
+    String code = payActionUtil.generateRandomCode();
 
     //1. 유저의 판매 아이템이 맞는지
     if (item == null || !Objects.equals(item.getMember().getId(), memberId)) {
@@ -235,7 +217,7 @@ public class LockerService {
       itemRepository.updateStatus(itemId, ItemStatus.WITHDRAW);
       //4. 보관함 상태 변경
       lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, now, itemId, code);
-      itemService.deletePayAction(item.getOrderNumber());
+      payActionUtil.deletePayAction(item.getOrderNumber());
     }
     //2-1. DP 중 아니고 회수대기도 아니면 회수 신청 불가능
     else if (!(is.equals(ItemStatus.WITHDRAW) && ls.equals(LockerStatus.WITHDRAW))) {

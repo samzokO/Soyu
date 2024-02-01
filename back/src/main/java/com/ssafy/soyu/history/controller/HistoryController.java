@@ -6,11 +6,10 @@ import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
 import com.ssafy.soyu.history.dto.response.PurchaseResponseDto;
 import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.history.service.HistoryService;
-import com.ssafy.soyu.util.response.CommonResponseEntity;
+import com.ssafy.soyu.item.dto.request.DeleteReserveRequest;
+import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.util.response.ErrorCode;
-import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
-import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,15 +19,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -88,5 +80,39 @@ public class HistoryController {
 
     String code = historyService.getPurchaseCode(memberId, itemId);
     return getResponseEntity(SuccessCode.OK, code);
+  }
+  @DeleteMapping("/reserve")
+  @Operation(summary = "거래 약속 취소", description = "DeleteReserveRequest를 이용해 거래 약속을 취소합니다.")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "거래약속 취소 성공"),
+          @ApiResponse(responseCode = "400", description = "거래약속 취소 실패")
+  })
+  public ResponseEntity<?> deleteBuyReserve(@RequestBody DeleteReserveRequest deleteReserveRequest,
+                                         HttpServletRequest request) {
+    Long memberId = (Long) request.getAttribute("memberId");
+    historyService.deleteBuyReserve(deleteReserveRequest.getHistoryId(), memberId);
+    return getResponseEntity(SuccessCode.OK);
+  }
+
+  @PostMapping("/match")
+  @Operation(summary = "입금 매칭", description = "DepositIndoRequest를 이용해 입금 매칭을 확인합니다.")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "입금매칭 성공"),
+          @ApiResponse(responseCode = "400", description = "입금매칭 실패")
+  })
+  public ResponseEntity<?> depositMoney(@RequestBody DepositInfoRequest depositInfoRequest) {
+    historyService.depositMoney(depositInfoRequest);
+    return getResponseEntity(SuccessCode.OK);
+  }
+  @DeleteMapping("/sale")
+  @Operation(summary = "판매자가 거래 삭제", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "거래 삭제 성공"),
+          @ApiResponse(responseCode = "400", description = "거래 삭제 실패")
+  })
+  public ResponseEntity<?> deleteSaleReserve(HttpServletRequest request, @RequestParam Long itemId) {
+    Long memberId = (Long) request.getAttribute("memberId");
+    historyService.deleteSaleReserve(memberId, itemId);
+    return getResponseEntity(SuccessCode.OK);
   }
 }

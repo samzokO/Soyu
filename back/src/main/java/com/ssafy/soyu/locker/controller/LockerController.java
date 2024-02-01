@@ -1,15 +1,11 @@
 package com.ssafy.soyu.locker.controller;
 
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
-import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
 
-import com.ssafy.soyu.item.dto.response.ItemResponse;
-import com.ssafy.soyu.locker.dto.request.ReserveDpRequestDto;
+import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.dto.response.LockerListResponse;
 import com.ssafy.soyu.locker.service.LockerService;
-import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
-import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

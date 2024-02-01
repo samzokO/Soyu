@@ -209,27 +209,4 @@ public class ItemController {
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @DeleteMapping("/reserve")
-  @Operation(summary = "거래 약속 취소", description = "DeleteReserveRequest를 이용해 거래 약속을 취소합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "거래약속 취소 성공"),
-      @ApiResponse(responseCode = "400", description = "거래약속 취소 실패")
-  })
-  public ResponseEntity<?> deleteReserve(@RequestBody DeleteReserveRequest deleteReserveRequest,
-      HttpServletRequest request) {
-    Long memberId = (Long) request.getAttribute("memberId");
-    itemService.deleteReserve(deleteReserveRequest.getHistoryId(), memberId);
-    return getResponseEntity(SuccessCode.OK);
-  }
-
-  @PostMapping("/match")
-  @Operation(summary = "입금 매칭", description = "DepositIndoRequest를 이용해 입금 매칭을 확인합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "입금매칭 성공"),
-      @ApiResponse(responseCode = "400", description = "입금매칭 실패")
-  })
-  public ResponseEntity<?> depositMoney(@RequestBody DepositInfoRequest depositInfoRequest) {
-    itemService.depositMoney(depositInfoRequest);
-    return getResponseEntity(SuccessCode.OK);
-  }
 }
