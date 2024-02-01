@@ -1,5 +1,11 @@
 package com.ssafy.soyu.util.payaction;
 
+import com.ssafy.soyu.history.entity.History;
+import com.ssafy.soyu.history.repository.HistoryRepository;
+import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
+import com.ssafy.soyu.item.entity.Item;
+import com.ssafy.soyu.item.entity.ItemStatus;
+import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,6 +24,8 @@ import java.util.Random;
 public class PayActionUtil {
 
     private final PayActionProperties payActionProperties;
+    private final HistoryRepository historyRepository;
+    private final ItemRepository itemRepository;
 
     public void makePayAction(String orderNumber, Integer price, String orderDate, Member member){
         String orderUri = payActionProperties.getOrderUri();
@@ -67,19 +75,6 @@ public class PayActionUtil {
                 .block();
     }
 
-    // 6자리 랜덤 숫자 코드를 생성하는 메소드
-    public String generateRandomCode() {
-        Random random = new Random();
-        StringBuilder code = new StringBuilder();
-
-        for (int i = 0; i < 6; i++) {
-            int digit = random.nextInt(10); // 0부터 9까지의 숫자 생성
-            code.append(digit); // 생성된 숫자를 문자열에 추가
-        }
-
-        return code.toString();
-    }
-
     public void deletePayAction(String orderNumber){
         String orderExcludeUri = payActionProperties.getOrderExcludeUri();
         WebClient webClient = WebClient.create(orderExcludeUri);
@@ -102,5 +97,25 @@ public class PayActionUtil {
         return zonedDateTime.format(formatter);
     }
 
+    // 6자리 랜덤 숫자 코드를 생성하는 메소드
+    public String generateRandomCode() {
+        Random random = new Random();
+        StringBuilder code = new StringBuilder();
 
+        for (int i = 0; i < 6; i++) {
+            int digit = random.nextInt(10); // 0부터 9까지의 숫자 생성
+            code.append(digit); // 생성된 숫자를 문자열에 추가
+        }
+
+        return code.toString();
+    }
+
+    public void depositMoney(DepositInfoRequest depositInfoRequest) {
+        Long orderId = Long.parseLong(depositInfoRequest.getOrder_number().substring(25));
+        History history = historyRepository.findById(orderId).get();
+        Item item = history.getItem();
+
+        // 아이템 판매 완료
+        itemRepository.updateStatus(item.getId(), ItemStatus.SOLD);
+    }
 }

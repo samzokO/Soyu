@@ -124,46 +124,4 @@ public class ItemService {
     item.updateItemStatus(itemStatusRequest.getItemStatus());
   }
 
-  @Transactional
-  public void makeReserve(Long chatId, Long lockerId){
-    Chat chat = chatRepository.findById(chatId).get();
-    Item item = chat.getItem();
-
-    //온라인으로 판매중인 물건인지 체크
-    if(item.getItemStatus() != ItemStatus.ONLINE){
-      throw new CustomException(ErrorCode.ITEM_NOT_ONLINE);
-    }
-    //보관함 이용가능한지 상태 확인
-    Locker locker = lockerRepository.findById(lockerId).get();
-    if(locker.getStatus() != LockerStatus.AVAILABLE){
-      throw new CustomException(ErrorCode.IN_USE_LOCKER);
-    }
-
-    //아이템 상태 변경
-    itemRepository.updateStatus(item.getId(), ItemStatus.TRADE_RESERVE); //아이템 상태 변경
-
-    //locker 변경
-    String code = payActionUtil.generateRandomCode();
-    LocalDateTime now = LocalDateTime.now();
-    String today = payActionUtil.getCurrentDateTime(now);
-    lockerRepository.updateLocker(lockerId, LockerStatus.TRADE_RESERVE, now, item.getId(), code);
-
-    //구매내역에 추가
-    History history = new History(item, chat.getBuyer());
-    historyRepository.save(history);
-
-    //주문번호 업데이트
-    String orderNumber = today + history.getId();
-    itemRepository.updateOrderNumber(item.getId(), orderNumber);
-
-    //payAction API
-    payActionUtil.makePayAction(orderNumber, item.getPrice(), today, chat.getBuyer());
-
-    noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(item, NoticeType.RESERVE, code));
-    noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
-
-    //라즈베리 파이에 신호 json 신호 보내기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_RESERVE, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi("/sub/raspberry", response);
-  }
 }

@@ -198,15 +198,4 @@ public class ItemController {
         .collect(Collectors.toList());
   }
 
-  @PostMapping("/reserve")
-  @Operation(summary = "거래 약속 생성", description = "ReserveItemRequest를 이용해 거래 약속을 생성합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "거래약속 생성 성공"),
-      @ApiResponse(responseCode = "400", description = "거래약속 생성 실패")
-  })
-  public ResponseEntity<?> reserveItem(@RequestBody ReserveItemRequest request) {
-    itemService.makeReserve(request.getChatId(), request.getLockerId());
-    return getResponseEntity(SuccessCode.OK);
-  }
-
 }
