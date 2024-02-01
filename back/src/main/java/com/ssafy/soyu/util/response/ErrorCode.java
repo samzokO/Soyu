@@ -46,6 +46,7 @@ public enum ErrorCode {
     NO_RESULT_ITEM(HttpStatus.NOT_FOUND, "결과에 해당하는 Item 이 없습니다."),
     NO_MATCH_CATEGORY(HttpStatus.BAD_REQUEST, "매칭되는 CATEGORY 가 존재하지 않습니다."),
     IMPOSSIBLE_ITEM_DP(HttpStatus.BAD_REQUEST, "해당 Item은 아직 DP 조건이 충족되지 않았습니다."),
+    NO_HAVE_IMAGE(HttpStatus.BAD_REQUEST, "이미지를 같이 로드 해주세요 ."),
 
     //내역 관련 예외
     NO_MATCH_HISTORY(HttpStatus.BAD_REQUEST, "해당하는 정보의 내역을 찾을 수 없습니다."),

@@ -140,8 +140,8 @@ public class ItemController {
       throws IOException {
     log.info(String.valueOf(itemRequest));
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    if (files == null) {
+      throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
     }
     if (bindingResult.hasErrors()) {
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);

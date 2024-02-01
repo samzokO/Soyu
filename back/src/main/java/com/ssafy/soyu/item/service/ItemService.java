@@ -96,7 +96,7 @@ public class ItemService {
       throws IOException {
     List<Image> images = new ArrayList<Image>();
 
-    if (!files.isEmpty()) {
+    if (files != null) {
       String today = new SimpleDateFormat("yyMMdd").format(new Date());
       String saveFolder = uploadImagePath + File.separator + today;
 
