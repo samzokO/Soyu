@@ -5,6 +5,7 @@ import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.member.dto.response.AccountResponse;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.repository.MemberRepository;
@@ -126,5 +127,16 @@ public class MemberService {
         }
 
         memberRepository.updateNickName(memberId, nickName);
+    }
+
+    public AccountResponse getAccount(Long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+        if(member.getBank_name() == null){
+            throw new CustomException(ErrorCode.NOT_FOUND_ACCOUNT);
+        }
+        return AccountResponse.builder()
+                .accountNumber(member.getAccount_number())
+                .bankName(member.getBank_name())
+                .build();
     }
 }

@@ -65,12 +65,23 @@ public class MemberController {
     public ResponseEntity<?> registrationAccount(@Validated @RequestBody AccountDto accountDto, BindingResult bindingResult, HttpServletRequest request){
         // HttpServletRequest에서  멤버 id 가져오기
         Long memberId = (Long) request.getAttribute("memberId");
-        if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
         if (bindingResult.hasErrors())
             throw new CustomException(ErrorCode.INPUT_EXCEPTION);
         memberService.updateAccount(memberId, accountDto);
 
         return getResponseEntity(SuccessCode.OK);
+    }
+
+    @GetMapping("/account")
+    @Operation(summary = "계좌 조회", description = "사용자 ID(In Header)를 이용해 계좌를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "계좌 조회 성공"),
+            @ApiResponse(responseCode = "404", description = "계좌 조회 실패")
+    })
+    public ResponseEntity<?> getAccount(HttpServletRequest request){
+        // HttpServletRequest에서  멤버 id 가져오기
+        Long memberId = (Long) request.getAttribute("memberId");
+        return getResponseEntity(SuccessCode.OK, memberService.getAccount(memberId));
     }
 
     @DeleteMapping("/account")

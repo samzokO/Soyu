@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_AUTH_CODE(HttpStatus.NOT_FOUND, "인증코드가 일치하지 않습니다."),
     INVALID_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다."),
     NON_MEMBER_ACCESS(HttpStatus.UNAUTHORIZED, "로그인 후 이용 가능합니다."),
+    NOT_FOUND_ACCOUNT(HttpStatus.NOT_FOUND, "등록된 계좌정보가 없습니다."),
     HAS_ACTIVE_ITEM(HttpStatus.CONFLICT, "거래중인 물품이 존재합니다."),
     DUPLICATE_USER_NICKNAME(HttpStatus.CONFLICT, "중복된 닉네임 입니다."),
     ITEM_NOT_ONLINE(HttpStatus.UNAUTHORIZED, "온라인으로 판매중인 물건이 아닙니다."),
