@@ -1,6 +1,8 @@
 package com.ssafy.soyu.item.entity;
 
+import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.member.entity.Member;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,8 +12,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +25,7 @@ import lombok.ToString;
 @Table(name = "item")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"member"})
+@ToString(exclude = {"member", "image"})
 public class Item {
   @Id
   @GeneratedValue
@@ -31,6 +35,9 @@ public class Item {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private Member member;
+
+  @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+  List<Image> image;
 
   private String title;
 
@@ -56,6 +63,21 @@ public class Item {
     this.price = price;
     this.itemCategories = itemCategories;
     this.itemStatus = itemStatus;
+  }
+
+  static public Item createItem(Member member, String title, String content, LocalDateTime regDate, Integer price, ItemCategories itemCategories, ItemStatus itemStatus, List<Image> image) {
+    Item item = new Item();
+
+    item.member = member;
+    item.title = title;
+    item.content = content;
+    item.regDate = regDate;
+    item.price = price;
+    item.itemCategories = itemCategories;
+    item.itemStatus = itemStatus;
+    item.image = image;
+
+    return item;
   }
 
   public void updateItem(String title, String content, Integer price, ItemCategories itemCategories ) {
