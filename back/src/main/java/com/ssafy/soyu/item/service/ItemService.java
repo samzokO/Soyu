@@ -12,7 +12,7 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
 import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
-import com.ssafy.soyu.locker.dto.response.KioskLockerResponse;
+import com.ssafy.soyu.locker.dto.response.RaspberryRequestResponse;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.locker.entity.LockerStatus;
@@ -158,14 +158,19 @@ public class ItemService {
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
 
     //라즈베리 파이에 신호 json 신호 보내기
-    KioskLockerResponse response = KioskLockerResponse.builder()
-            .lockerNum(locker.getLockerNum())
-            .status(LockerStatus.TRADE_RESERVE)
-            .reserveTime(reserveTime).build();
+    RaspberryRequestResponse response = makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_RESERVE, item.getPrice());
     sendMessageToRaspberryPi("/sub/raspberry", response);
   }
 
-  public void sendMessageToRaspberryPi(String destination, KioskLockerResponse response) {
+  private RaspberryRequestResponse makeRaspberryResponse(Long id, Integer lockerNum, LockerStatus tradeReserve, Integer price) {
+    return  RaspberryRequestResponse.builder()
+            .itemId(id)
+            .lockerNum(lockerNum)
+            .status(tradeReserve)
+            .price(price).build();
+  }
+
+  public void sendMessageToRaspberryPi(String destination, RaspberryRequestResponse response) {
     SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
     headerAccessor.setContentType(new MimeType("application", "json"));
     headerAccessor.setLeaveMutable(true);
@@ -224,9 +229,7 @@ public class ItemService {
       itemRepository.updateStatus(item.getId(), itemStatus);
 
       //라즈베리 파이에 json 신호 보내기
-      KioskLockerResponse response = KioskLockerResponse.builder()
-              .lockerNum(locker.getLockerNum())
-              .status(LockerStatus.WITHDRAW).build();
+      RaspberryRequestResponse response = makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.WITHDRAW, item.getPrice());
       sendMessageToRaspberryPi("/sub/raspberry", response);
     }
     //payAction 매칭 취소 후 주문번호 삭제
