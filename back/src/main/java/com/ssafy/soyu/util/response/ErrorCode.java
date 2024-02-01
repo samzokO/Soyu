@@ -7,12 +7,12 @@ import lombok.Getter;
 import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 
-@Schema
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
     /* 예시 필요한 것 추가해서 사용*/
     TEST_NOT_FOUND(HttpStatus.NOT_FOUND, "전달할 메시지"),
+
     EMPTY_REQUEST_VALUE(HttpStatus.BAD_REQUEST, "request 값이 비어있습니다."),
 
     //회원 관련 예외
@@ -58,6 +58,5 @@ public enum ErrorCode {
 
     private final HttpStatus httpStatus;
 
-    @JsonValue
     private final String message;
 }

@@ -20,6 +20,7 @@ import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -85,7 +86,7 @@ public class TradeService {
   /**
    * 구매자 취소
    */
-  @org.springframework.transaction.annotation.Transactional
+  @Transactional
   public void deleteBuyReserve(Long historyId, Long memberId) {
     History history = historyRepository.findById(historyId).get();
 
@@ -152,5 +153,55 @@ public class TradeService {
     }
 
     return code.get();
+  }
+
+  public void deleteSaleReserve(Long memberId, Long itemId) {
+    Item item = itemRepository.findById(itemId).get();
+
+    //1. 유저의 판매 아이템이 맞는지
+    if (item == null || !Objects.equals(item.getMember().getId(), memberId)) {
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    }
+
+    History history = historyRepository.findByItemIdNotDeleted(itemId);
+
+    //histroy 변경
+    historyRepository.updateIsDelete(history.getId());
+
+    Optional<Locker> optionalLocker = lockerRepository.findByItemId(item.getId());
+    if(optionalLocker.isPresent()){
+      Locker locker = optionalLocker.get();
+      NoticeType noticeType = null;
+      LockerStatus lockerStatus = null;
+      ItemStatus itemStatus = null;
+
+      //보관한 물건 취소 했을 때
+      if(locker.getStatus() == LockerStatus.TRADE_READY) {
+        noticeType = NoticeType.CONVERT;
+        lockerStatus = LockerStatus.WITHDRAW;
+        itemStatus = ItemStatus.WITHDRAW;
+      }
+      //물건 넣기 전 취소
+      else if(locker.getStatus() == LockerStatus.TRADE_RESERVE){
+        noticeType = NoticeType.RESERVE_CANCEL;
+        lockerStatus = LockerStatus.AVAILABLE;
+        itemStatus = ItemStatus.ONLINE;
+      }
+      noticeService.createNotice(memberId, new NoticeRequestDto(item, noticeType)); //판매자에게 알림
+      noticeService.createNotice(history.getMember().getId(), new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL)); //구매자
+
+      //locker 상태 변경, 코드 삭제 등
+      lockerRepository.updateLocker(locker.getId(), lockerStatus, null, item.getId(), null);
+
+      //item 상태 변경
+      itemRepository.updateStatus(item.getId(), itemStatus);
+
+      //라즈베리 파이에 json 신호 보내기
+      RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
+      raspberryUtil.sendMessageToRaspberryPi("/sub/raspberry", response);
+    }
+    //payAction 매칭 취소 후 주문번호 삭제
+    payActionUtil.deletePayAction(item.getOrderNumber());
+    itemRepository.deleteOrderNumber(item.getId());
   }
 }

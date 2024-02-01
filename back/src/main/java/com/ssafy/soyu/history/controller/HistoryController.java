@@ -68,15 +68,4 @@ public class HistoryController {
     historyService.deleteHistory(historyIdList);
     return getResponseEntity(SuccessCode.OK);
   }
-  @DeleteMapping("/sale")
-  @Operation(summary = "판매자가 거래 삭제", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "거래 삭제 성공"),
-          @ApiResponse(responseCode = "400", description = "거래 삭제 실패")
-  })
-  public ResponseEntity<?> deleteSaleReserve(HttpServletRequest request, @RequestParam Long itemId) {
-    Long memberId = (Long) request.getAttribute("memberId");
-    historyService.deleteSaleReserve(memberId, itemId);
-    return getResponseEntity(SuccessCode.OK);
-  }
 }

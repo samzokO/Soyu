@@ -57,15 +57,27 @@ public class TradeController {
   }
 
   @DeleteMapping("/reserve")
-  @Operation(summary = "거래예약 취소", description = "DeleteReserveRequest를 이용해 거래예약을 취소합니다.")
+  @Operation(summary = "거래예약 취소", description = "구매내역 ID를 이용해 거래예약을 취소합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래예약 취소 성공"),
       @ApiResponse(responseCode = "400", description = "거래예약 취소 실패")
   })
-  public ResponseEntity<?> deleteBuyReserve(@RequestBody DeleteReserveRequest deleteReserveRequest,
+  public ResponseEntity<?> deleteBuyReserve(@RequestParam Long historyId,
       HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    tradeService.deleteBuyReserve(deleteReserveRequest.getHistoryId(), memberId);
+    tradeService.deleteBuyReserve(historyId, memberId);
+    return getResponseEntity(SuccessCode.OK);
+  }
+
+  @DeleteMapping("/sale")
+  @Operation(summary = "판매자가 거래 삭제", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "거래 삭제 성공"),
+      @ApiResponse(responseCode = "400", description = "거래 삭제 실패")
+  })
+  public ResponseEntity<?> deleteSaleReserve(HttpServletRequest request, @RequestParam Long itemId) {
+    Long memberId = (Long) request.getAttribute("memberId");
+    tradeService.deleteSaleReserve(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);
   }
 
