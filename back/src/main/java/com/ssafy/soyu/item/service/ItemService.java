@@ -163,7 +163,8 @@ public class ItemService {
     //라즈베리 파이에 신호 json 신호 보내기
     KioskLockerResponse response = KioskLockerResponse.builder()
             .lockerNum(locker.getLocation())
-            .status(LockerStatus.RESERVED).build();
+            .status(LockerStatus.RESERVED)
+            .reserveTime(reserveTime).build();
     sendMessageToRaspberryPi("/sub/raspberry", response);
   }
 
