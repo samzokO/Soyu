@@ -28,9 +28,6 @@ public class FcmController {
   @Operation(summary = "FCM 디바이스 토큰 등록", description = "사용자 ID와 디바이스 토큰을 매칭하여 등록합니다.")
   public ResponseEntity<?> registerFcm(HttpServletRequest request, @RequestParam String token){
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
 
     fcmService.register(memberId, token);
 

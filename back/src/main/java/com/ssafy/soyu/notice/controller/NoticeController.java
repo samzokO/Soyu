@@ -43,9 +43,6 @@ public class NoticeController {
   })
   public ResponseEntity<?> selectNotice(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
 
     return getResponseEntity(SuccessCode.OK, noticeService.findNotice(memberId));
   }
@@ -58,16 +55,9 @@ public class NoticeController {
   })
   public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable Long noticeId) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
 
     //알림 유저 매칭 여부 확인
-    try {
-      noticeService.checkNotice(memberId, noticeId);
-    } catch (CustomException e) {
-      return toResponseEntity(ErrorCode.NOT_MATCH_NOTICE);
-    }
+    noticeService.checkNotice(memberId, noticeId);
 
     noticeService.deleteNotice(noticeId);
     return getResponseEntity(SuccessCode.OK);
@@ -81,16 +71,9 @@ public class NoticeController {
   })
   public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable Long noticeId) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
 
     //알림 유저 매칭 여부 확인
-    try {
-      noticeService.checkNotice(memberId, noticeId);
-    } catch (CustomException e) {
-      return toResponseEntity(ErrorCode.NOT_MATCH_NOTICE);
-    }
+    noticeService.checkNotice(memberId, noticeId);
 
     noticeService.readNotice(noticeId);
     return getResponseEntity(SuccessCode.OK);

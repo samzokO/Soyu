@@ -42,7 +42,6 @@ public class StationController {
   })
   public ResponseEntity<?> allStation(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
-    if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
 
     List<ListResponseDto> result = stationService.findAllStation(memberId);
     if(result == null) throw new CustomException(ErrorCode.STATION_NOT_FOUND);
@@ -58,11 +57,10 @@ public class StationController {
   })
   public ResponseEntity<?> detailStation(HttpServletRequest request, @RequestParam("stationId") Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
-    if(memberId == null) throw new CustomException(ErrorCode.USER_NOT_FOUND);
 
     List<DetailResponseDto> result = stationService.findOneStation(memberId, stationId);
-
     if(result == null) throw new CustomException(ErrorCode.STATION_NOT_FOUND);
+
     return getResponseEntity(SuccessCode.OK, result);
   }
 

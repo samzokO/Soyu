@@ -12,6 +12,8 @@ import com.ssafy.soyu.util.fcm.entity.Fcm;
 import com.ssafy.soyu.util.fcm.dto.FcmMessage;
 import com.ssafy.soyu.util.fcm.repository.FcmRepository;
 import com.ssafy.soyu.util.fcm.service.FcmService;
+import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.exception.CustomException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,6 +82,7 @@ public class NoticeService {
   }
 
   public void checkNotice(Long memberId, Long noticeId) {
-    noticeRepository.checkNoticeMatchMember(memberId, noticeId);
+    if(noticeRepository.checkNoticeMatchMember(memberId, noticeId) == null)
+      throw new CustomException(ErrorCode.NOT_MATCH_NOTICE);
   }
 }

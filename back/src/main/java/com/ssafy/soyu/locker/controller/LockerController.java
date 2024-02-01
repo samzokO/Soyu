@@ -61,12 +61,10 @@ public class LockerController {
   })
   public ResponseEntity<?> reserveToDP(HttpServletRequest request, @RequestBody ReserveDpRequestDto dp) {
     Long memberId = (Long) request.getAttribute("memberId");
-    try {
-      lockerService.dpReserve(memberId, dp);
-      return getResponseEntity(SuccessCode.OK);
-    } catch (CustomException e) {
-      return toResponseEntity(e.getErrorCode());
-    }
+
+    lockerService.dpReserve(memberId, dp);
+    return getResponseEntity(SuccessCode.OK);
+
   }
 
   @PostMapping("/withdraw")
@@ -77,15 +75,8 @@ public class LockerController {
   })
   public ResponseEntity<?> withdrawItem(HttpServletRequest request, @RequestParam Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      throw new CustomException(ErrorCode.USER_NOT_FOUND);
-    }
 
-    try {
-      lockerService.withdrawReserve(memberId, itemId);
-      return getResponseEntity(SuccessCode.OK);
-    } catch (CustomException e) {
-      return toResponseEntity(e.getErrorCode());
-    }
+    lockerService.withdrawReserve(memberId, itemId);
+    return getResponseEntity(SuccessCode.OK);
   }
 }

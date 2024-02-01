@@ -46,11 +46,8 @@ public class HistoryController {
   })
   public ResponseEntity<?> purchaseHistory(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
-    return getResponseEntity(SuccessCode.OK,
-        historyService.getPurchaseHistory(memberId));
+
+    return getResponseEntity(SuccessCode.OK, historyService.getPurchaseHistory(memberId));
   }
 
   @GetMapping("/sale")
@@ -61,19 +58,10 @@ public class HistoryController {
   })
   public ResponseEntity<?> saleHistory(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
-    return getResponseEntity(SuccessCode.OK,
-        historyService.getSaleHistory(memberId));
+
+    return getResponseEntity(SuccessCode.OK, historyService.getSaleHistory(memberId));
   }
 
-  /**
-   * 구매 내역 SoftDelete
-   *
-   * @param historyIdList
-   * @return
-   */
   @DeleteMapping("")
   @Operation(summary = "구매내역 삭제", description = "List<history ID>를 이용해 구매내역을 삭제(soft)합니다.")
   @ApiResponses(value = {
@@ -97,17 +85,8 @@ public class HistoryController {
   })
   public ResponseEntity<?> purchaseCode(HttpServletRequest request, @RequestParam Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
 
-    try {
-      //암호가 정상 출력 시
-      String code = historyService.getPurchaseCode(memberId, itemId);
-      return getResponseEntity(SuccessCode.OK, code);
-    } catch (CustomException e) {
-      //중간에 예외 발생 시
-      return toResponseEntity(e.getErrorCode());
-    }
+    String code = historyService.getPurchaseCode(memberId, itemId);
+    return getResponseEntity(SuccessCode.OK, code);
   }
 }
