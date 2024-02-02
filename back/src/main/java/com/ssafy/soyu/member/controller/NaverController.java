@@ -40,11 +40,13 @@ public class NaverController {
         //사용자 정보 가져오거나 회원가입
         NaverProfile profile = naverAuthService.getUserInfo(naverAccessToken); //발급 받은 토큰으로 사용자 프로필 조회
 
+        // 네이버 로그인에서 넘어온 email 과 DB 이메일을 비교한다
         Member member = memberService.findByEmail(profile.getEmail()).orElseGet(()-> naverSignUp(profile));
         TokenResponse token = memberService.login(member); //사용자 프로필 기반 로그인 or 회원가입
         return CommonResponseEntity.getResponseEntity(SuccessCode.OK, token);
     }
 
+    // 새로운 회원이면 DB에 회원을 저장하고 온다
     private Member naverSignUp(NaverProfile profile){
         return memberService.signUp(naverAuthService.makeNewUser(profile));
     }

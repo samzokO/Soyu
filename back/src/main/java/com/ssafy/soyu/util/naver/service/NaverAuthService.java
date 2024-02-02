@@ -3,10 +3,12 @@ package com.ssafy.soyu.util.naver.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.soyu.member.entity.Member;
+import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.util.naver.NaverProperties;
 import com.ssafy.soyu.util.naver.NaverProviderProperties;
 import com.ssafy.soyu.util.naver.dto.NaverProfile;
 import com.ssafy.soyu.util.naver.dto.response.NaverTokenResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -18,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class NaverAuthService {
     private final NaverProperties properties;
     private final NaverProviderProperties naverProviderProperties;
+    private final MemberRepository memberRepository;
 
     //네이버로부터 accessToken 받기
     public NaverTokenResponse getAccessToken(String code) {
@@ -73,12 +76,14 @@ public class NaverAuthService {
         return profile;
     }
 
+    @Transactional
     public Member makeNewUser(NaverProfile profile){
        Member newMember = Member.builder()
                 .email(profile.getEmail())
                 .name(profile.getName())
                 .mobile(profile.getMobile())
                 .build();
-       return newMember;
+
+       return memberRepository.save(newMember);
     }
 }
