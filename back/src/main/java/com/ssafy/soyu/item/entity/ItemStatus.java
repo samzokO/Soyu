@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * WITHDRAW : 회수 대기 중<br/>
  */
 public enum ItemStatus {
-  // 차례로 온라인, DP, 판매완료, 삭제됨, 예약중, 회수 대기 중;
   ONLINE,
   DP_RESERVE,
   DP,

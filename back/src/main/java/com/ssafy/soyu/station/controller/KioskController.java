@@ -21,7 +21,7 @@ public class KioskController {
     private final LockerService lockerService;
 
     @GetMapping("/sell/{code}")
-    @Operation(summary = "보관 시작 코드 확인", description = "입력된 코드를 이용해 보관 시작 코드와 일치 여부를 확인합니다.")
+    @Operation(summary = "DP/거래예약 보관 시작 코드 확인", description = "입력된 코드를 이용해 보관 시작 코드와 일치 여부를 확인합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "보관 시작 코드 일치"),
         @ApiResponse(responseCode = "400", description = "보관 시작 코드 불일치")

@@ -84,13 +84,34 @@ public class LockerService {
     }
 
     Locker locker = optionalLocker.get();
-    String newCode = payActionUtil.generateRandomCode();
-    lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.TRADE_READY, newCode);
+    Item item = locker.getItem();
+    LockerStatus status = null;
 
-    //구매자에게 코드 알림
-    History history = historyRepository.findByItemIdNotDeleted(locker.getItem().getId());
-    noticeService.createNotice(history.getMember().getId(),
-        new NoticeRequestDto(history.getItem(), NoticeType.BUY, newCode));
+    //거래 예약 코드였을 때
+    if(locker.getStatus() == LockerStatus.TRADE_RESERVE){
+      String newCode = payActionUtil.generateRandomCode();
+
+      //락커 상태 변경
+      lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.TRADE_READY, newCode);
+
+      //구매자에게 코드 알림
+      History history = historyRepository.findByItemIdNotDeleted(item.getId());
+      noticeService.createNotice(history.getMember().getId(),
+              new NoticeRequestDto(history.getItem(), NoticeType.BUY, newCode));
+
+      status = LockerStatus.TRADE_INSERT;
+    }
+
+    //DP 코드 였을 때
+    if(locker.getStatus() == LockerStatus.DP_RESERVE){
+      lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.DP_READY, null);
+      itemRepository.updateStatus(item.getId(), ItemStatus.DP);
+
+      status = LockerStatus.DP_INSERT;
+    }
+
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), status, item.getPrice());
+    raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
   public LockerBuyResponse insertBuyCode(Long stationId, String code) {
@@ -119,7 +140,8 @@ public class LockerService {
       Locker locker = optionalLocker.get();
       lockerNum = locker.getLockerNum();
       item = locker.getItem();
-      raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_CHECK, item.getPrice());
+      RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_CHECK, item.getPrice());
+      raspberryUtil.sendMessageToRaspberryPi(response);
     }
     return new LockerBuyResponse(item.getId(), lockerNum);
   }
