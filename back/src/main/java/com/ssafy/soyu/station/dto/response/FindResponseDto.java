@@ -16,11 +16,14 @@ public class FindResponseDto {
   @Schema(description = "보관함 ID")
   private Long lockerId;
 
-  @Schema(description = "물품 ID")
-  private Long itemId;
+  @Schema(description = "보관함 위치")
+  private Integer lockerLocation;
 
   @Schema(description = "보관함 상태")
   private String status;
+
+  @Schema(description = "물품 ID")
+  private Long itemId;
 
   @Schema(description = "물품 제목")
   private String title;
@@ -44,6 +47,7 @@ public class FindResponseDto {
 
   public FindResponseDto(Locker l, Boolean isLike){
     this.lockerId = l.getId();
+    this.lockerLocation = l.getLockerNum();
     this.status = l.getStatus().toString();
     if(l.getItem() != null){
       this.itemId = l.getItem().getId();
