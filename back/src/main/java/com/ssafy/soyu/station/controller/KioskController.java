@@ -2,23 +2,16 @@ package com.ssafy.soyu.station.controller;
 
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
-import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.service.LockerService;
-import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/kiosk")
@@ -58,6 +51,26 @@ public class KioskController {
     public ResponseEntity<?> insertWithdrawCode(@PathVariable("code") String code){
         lockerService.insertWithdrawCode(code);
         return getResponseEntity(SuccessCode.OK);
+    }
+
+    @GetMapping("/reserve")
+    @Operation(summary = "거래 물품 구매 결정", description = "거래 물품 구매를 결정했는지 안했는지 확인합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+    })
+    public ResponseEntity<?> reserveBuyDecision(@RequestParam("isBuy") boolean isBuy, @RequestParam("itemId") Long itemId){
+        lockerService.reserveBuyDecision(isBuy, itemId);
+        return getResponseEntity(SuccessCode.OK);
+    }
+
+    @GetMapping("/dp")
+    @Operation(summary = "DP 물품 구매 결정", description = "DP 물품 구매 결정에서 YES를 입력했을 때만 실행됩니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+    })
+    public ResponseEntity<?> dpBuyDecision(@RequestParam("itemId") Long itemId){
+        Long historyId = lockerService.dpBuyDecision(itemId);
+        return getResponseEntity(SuccessCode.OK, historyId);
     }
 
 }

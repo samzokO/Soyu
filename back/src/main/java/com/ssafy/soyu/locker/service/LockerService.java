@@ -8,6 +8,7 @@ import com.ssafy.soyu.item.repository.ItemRepository;
 
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.util.raspberry.RaspberryUtil;
 import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.entity.Locker;
@@ -21,6 +22,7 @@ import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.payaction.PayActionUtil;
+import com.ssafy.soyu.util.raspberry.dto.response.RaspberryRequestResponse;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
@@ -231,5 +233,24 @@ public class LockerService {
         (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
             , item.getPrice(), item.getItemStatus(), item.getItemCategories(), item.getImage());
+  }
+
+  public void reserveBuyDecision(boolean isBuy, Long itemId) {
+    Locker locker = lockerRepository.findByItemId(itemId).get();
+    Item item = locker.getItem();
+
+    //라즈베리 파이에 json 신호 보내기
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_READY, item.getPrice());
+    raspberryUtil.sendMessageToRaspberryPi(response);
+    if(!isBuy){
+      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.BUYER_CANCEL));
+    }
+  }
+
+  public Long dpBuyDecision(Long itemId) {
+    History history = historyRepository.findByItemIdNotDeleted(itemId);
+    Member member = history.getItem().getMember();
+    noticeService.createNotice(member.getId(), new NoticeRequestDto(history.getItem(), NoticeType.DP_SELL));
+    return history.getId();
   }
 }
