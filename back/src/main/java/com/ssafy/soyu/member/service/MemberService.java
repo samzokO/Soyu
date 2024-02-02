@@ -1,10 +1,12 @@
 package com.ssafy.soyu.member.service;
 
+import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.member.dto.request.MemberRequest;
 import com.ssafy.soyu.member.dto.response.AccountResponse;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
@@ -16,11 +18,19 @@ import com.ssafy.soyu.util.jwt.repository.AuthRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -32,17 +42,21 @@ public class MemberService {
     private final ItemRepository itemRepository;
     private final HistoryRepository historyRepository;
 
+    String uploadImagePath = "C:/board/upload/imageUpload";
+
     @Transactional
     public TokenResponse login(Member member) {
         //accessToken, refreshToken 발급
         TokenResponse token = jwtTokenProvider.createToken(member.getId());
 
         // DB에서 해당 member의 refreshToken을 새 토큰으로 업데이트
-        int updatedRows = authRepository.updateRefreshTokenFindByMember(member.getId(), token.getRefreshToken());
+        int updatedRows = authRepository.updateRefreshTokenFindByMember(member.getId(),
+            token.getRefreshToken());
 
         // 업데이트된 행이 없다면 새 refreshToken 생성 및 저장 == 회원가입한 유저
         if (updatedRows == 0) {
-            RefreshToken newRefreshToken = RefreshToken.createRefreshToken(member, token.getRefreshToken());
+            RefreshToken newRefreshToken = RefreshToken.createRefreshToken(member,
+                token.getRefreshToken());
             authRepository.save(newRefreshToken);
         }
         return token;
@@ -59,7 +73,8 @@ public class MemberService {
     @Transactional
     public TokenResponse recreateToken(String refreshToken) {
         //유효성 검사
-        if (!jwtTokenProvider.validateToken(refreshToken)) return null;
+        if (!jwtTokenProvider.validateToken(refreshToken))
+            return null;
 
         Long memberId = jwtTokenProvider.getMemberIdFromToken(refreshToken);
 
@@ -67,7 +82,8 @@ public class MemberService {
         TokenResponse token = jwtTokenProvider.createToken(memberId);
 
         // DB에서 refreshToken을 새 토큰으로 업데이트
-        int updatedRows = authRepository.updateRefreshTokenFindByToken(refreshToken, token.getRefreshToken());
+        int updatedRows = authRepository.updateRefreshTokenFindByToken(refreshToken,
+            token.getRefreshToken());
 
         // 업데이트된 행이 없다면, 유효하지 않은 refreshToken
         if (updatedRows == 0) {
@@ -86,7 +102,8 @@ public class MemberService {
 
     @Transactional
     public void updateAccount(Long memberId, AccountDto accountDto) {
-        memberRepository.updateAccount(memberId, accountDto.getBankName(), accountDto.getAccountNumber());
+        memberRepository.updateAccount(memberId, accountDto.getBankName(),
+            accountDto.getAccountNumber());
     }
 
     @Transactional
@@ -98,8 +115,8 @@ public class MemberService {
     public void deleteMember(Long memberId) {
         // 판매 완료되지 않은 물건이 있으면 안됨
         List<Item> itemList = itemRepository.findByMemberId(memberId);
-        for (Item item: itemList) {
-            if(item.getItemStatus() != ItemStatus.from("SOLD")){
+        for (Item item : itemList) {
+            if (item.getItemStatus() != ItemStatus.from("SOLD")) {
                 throw new CustomException(ErrorCode.HAS_ACTIVE_ITEM);
             }
         }
@@ -107,22 +124,23 @@ public class MemberService {
         //구매자인 경우 예약된 물건이 있으면 안됨
         Optional<History> history = historyRepository.findByMemberId(memberId);
         history.ifPresent(historyValue -> {
-            if(historyValue.getItem().getItemStatus() == ItemStatus.TRADE_RESERVE){
+            if (historyValue.getItem().getItemStatus() == ItemStatus.TRADE_RESERVE) {
                 throw new CustomException(ErrorCode.HAS_ACTIVE_ITEM);
             }
         });
 
         memberRepository.updateWithDraw(memberId);
     }
+
     @Transactional
     public void logout(Long memberId) {
-        authRepository.updateRefreshTokenFindByMember(memberId,null);
+        authRepository.updateRefreshTokenFindByMember(memberId, null);
     }
 
     @Transactional
     public void checkNickName(Long memberId, String nickName) {
         Optional<Member> duplicateMember = memberRepository.findByNickName(nickName);
-        if(duplicateMember.isPresent()){
+        if (duplicateMember.isPresent()) {
             throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
         }
 
@@ -131,12 +149,45 @@ public class MemberService {
 
     public AccountResponse getAccount(Long memberId) {
         Member member = memberRepository.findById(memberId).get();
-        if(member.getBank_name() == null){
+        if (member.getBank_name() == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_ACCOUNT);
         }
         return AccountResponse.builder()
-                .accountNumber(member.getAccount_number())
-                .bankName(member.getBank_name())
-                .build();
+            .accountNumber(member.getAccount_number())
+            .bankName(member.getBank_name())
+            .build();
+    }
+
+    @Transactional
+    public void updateMember(MemberRequest memberRequest, Long memberId, MultipartFile file)
+        throws IOException {
+
+        ProfileImage profileImage = new ProfileImage();
+        if (file != null) {
+            String today = new SimpleDateFormat("yyMMdd").format(new Date());
+            String saveFolder = uploadImagePath + java.io.File.separator + today;
+
+            // 위에서 제작한 경로로 디렉터리를 만든다 (날짜별)
+            File folder = new File(saveFolder);
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            String originalFileName = file.getOriginalFilename();
+            if (!originalFileName.isEmpty()) {
+                String saveFileName = UUID.randomUUID().toString() // UUID 사용으로 고유한 파일의 이름 지정
+                    + originalFileName.substring(originalFileName.lastIndexOf('.')); // 확장자 확인
+
+                profileImage.makeImage(today, originalFileName, saveFileName);
+
+                file.transferTo(new File(folder, saveFileName)); // 해당 folder에 해당 이름의 파일로 이동한다
+            }
+            // images -> 저장해야 한다
+
+        }
+        Member member = memberRepository.findById(memberId).get();
+
+        member.updateMember(memberRequest.getSnsId(), memberRequest.getBank_name(),
+            memberRequest.getAccount_number(), memberRequest.getIsWithdraw(), profileImage);
     }
 }

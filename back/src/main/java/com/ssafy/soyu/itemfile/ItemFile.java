@@ -1,6 +1,6 @@
 package com.ssafy.soyu.itemfile;
 
-import com.ssafy.soyu.file.File;
+import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.item.entity.Item;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class ItemFile {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
-    private File file;
+    private ProfileImage ProfileImage;
 
 
 }

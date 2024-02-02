@@ -4,6 +4,7 @@ import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntit
 
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.member.dto.request.AccountDto;
+import com.ssafy.soyu.member.dto.request.MemberRequest;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -16,11 +17,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -121,4 +124,22 @@ public class MemberController {
         memberService.checkNickName(memberId, nickName);
         return getResponseEntity(SuccessCode.OK);
     }
+
+    @PatchMapping("")
+    public ResponseEntity<?> updateMember(@RequestPart(value = "image", required = false) MultipartFile file,
+        @Validated @ModelAttribute MemberRequest memberRequest, BindingResult bindingResult,
+        HttpServletRequest request) throws IOException {
+        Long memberId = (Long) request.getAttribute("memberId");
+        if (file == null) {
+            throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
+        }
+        if (bindingResult.hasErrors()) {
+            throw new CustomException(ErrorCode.INPUT_EXCEPTION);
+        }
+
+        memberService.updateMember(memberRequest, memberId, file);
+        return getResponseEntity(SuccessCode.OK);
+    }
+
+
 }

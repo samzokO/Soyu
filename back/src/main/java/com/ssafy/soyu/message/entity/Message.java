@@ -1,7 +1,7 @@
 package com.ssafy.soyu.message.entity;
 
 import com.ssafy.soyu.chat.entity.Chat;
-import com.ssafy.soyu.file.File;
+import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -32,7 +32,7 @@ public class Message {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
-    private File file;
+    private ProfileImage ProfileImage;
 
     private String content;
 

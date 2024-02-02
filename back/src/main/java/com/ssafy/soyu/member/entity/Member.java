@@ -1,6 +1,6 @@
 package com.ssafy.soyu.member.entity;
 
-import com.ssafy.soyu.file.File;
+import com.ssafy.soyu.file.ProfileImage;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class Member {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
-    private File file;
+    private ProfileImage ProfileImage;
     private Long snsId;
     private String email;
     private String nickName;
@@ -35,6 +35,14 @@ public class Member {
         this.name = name;
         this.nickName = nickname;
         this.mobile = mobile;
+    }
+
+    public void updateMember(Long snsId, String bank_name, String account_number, Boolean isWithdraw, ProfileImage ProfileImage) {
+        this.snsId = snsId;
+        this.bank_name = bank_name;
+        this.account_number = account_number;
+        this.isWithdraw = isWithdraw;
+        this.ProfileImage = ProfileImage;
     }
 
 }

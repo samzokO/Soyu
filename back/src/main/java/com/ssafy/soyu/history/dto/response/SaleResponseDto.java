@@ -1,6 +1,6 @@
 package com.ssafy.soyu.history.dto.response;
 
-import com.ssafy.soyu.file.File;
+import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,7 +38,7 @@ public class SaleResponseDto {
   @Schema(description = "물품 등록일")
   private LocalDateTime regDate;
 
-  public SaleResponseDto(Item i, File f) {
+  public SaleResponseDto(Item i, ProfileImage f) {
     this.itemId = i.getId();
     this.price = i.getPrice();
     this.regDate = i.getRegDate();

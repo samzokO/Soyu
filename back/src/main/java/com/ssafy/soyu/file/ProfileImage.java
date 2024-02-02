@@ -3,19 +3,18 @@ package com.ssafy.soyu.file;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
 @Entity
-@Table(name = "file")
+@Table(name = "ProfileImage")
 @Getter
-public class File {
+public class ProfileImage {
 
     @Id
     @GeneratedValue
-    @Column(name = "file_id")
+    @Column(name = "Profile_image_id")
     private Long id;
 
     private String savePath;
@@ -23,4 +22,11 @@ public class File {
     private String originalName;
 
     private String saveName;
+
+    public void makeImage(String savePath, String originalName, String saveName) {
+        this.savePath = savePath;
+        this.originalName = originalName;
+        this.saveName = saveName;
+
+    }
 }
