@@ -10,3 +10,7 @@ export const getNaverCode = (code, state) =>
     authorizationCode: `${code}`,
     state: `${state}`,
   });
+
+export const getItemList = () => API.get('/item/items');
+
+export const getItem = (item) => API.get(`/item/${item}`);

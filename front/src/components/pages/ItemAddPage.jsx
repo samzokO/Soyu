@@ -7,13 +7,13 @@ import TextField from '../molecules/TextField';
 import TextArea from '../molecules/TextArea';
 import PictureAddBtn from '../atoms/PictureAddBtn';
 
-function ProductAddPage() {
+function ItemAddPage() {
   return (
     <>
       <LocalHeader>
         <BackBtn />
         물품 등록하기
-        <TextBtn content="등록" />
+        <TextBtn>등록</TextBtn>
       </LocalHeader>
       <Con>
         <TextField title="제목" placeholder="제목을 입력해주세요." />
@@ -33,4 +33,4 @@ const Con = styled(MainContainerWithoutNav)`
   margin-top: 64px;
 `;
 
-export default ProductAddPage;
+export default ItemAddPage;

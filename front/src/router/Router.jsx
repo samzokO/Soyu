@@ -8,6 +8,9 @@ import BuyList from '../components/pages/BuyList';
 import ChatList from '../components/pages/ChatList';
 import ChatRoom from '../components/pages/ChatRoom';
 import NaverCallback from '../components/pages/NaverCallback';
+import SearchPage from '../components/pages/SearchPage';
+import ItemAddPage from '../components/pages/ItemAddPage';
+import ItemDetailPage from '../components/pages/ItemDetailPage';
 
 const Router = createBrowserRouter([
   {
@@ -18,6 +21,18 @@ const Router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/item',
+    element: <ItemAddPage />,
+  },
+  {
+    path: '/item/:itemId',
+    element: <ItemDetailPage />,
+  },
+  {
+    path: '/search',
+    element: <SearchPage />,
   },
   {
     path: '/naver/callback',

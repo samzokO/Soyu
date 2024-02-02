@@ -5,12 +5,13 @@ function LocalHeader({ children }) {
   return <Header>{children}</Header>;
 }
 
-const Header = styled.nav`
+export const Header = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background-color: ${({ theme }) => theme.color.bgColor};
+  z-index: 9999;
   ${({ theme }) => theme.font.Title};
   padding: 0px 10px;
   height: 44px;
