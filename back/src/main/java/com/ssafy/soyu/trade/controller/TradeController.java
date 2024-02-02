@@ -42,7 +42,7 @@ public class TradeController {
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @GetMapping("code")
+  @GetMapping("/code")
   @Operation(summary = "거래예약 코드 조회", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래예약 코드 조회 성공"),
@@ -56,7 +56,7 @@ public class TradeController {
   }
 
   @DeleteMapping("/reserve")
-  @Operation(summary = "거래예약 취소", description = "구매내역 ID를 이용해 거래예약을 취소합니다.")
+  @Operation(summary = "구매자가 거래 취소", description = "구매내역 ID를 이용해 거래예약을 취소합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래예약 취소 성공"),
       @ApiResponse(responseCode = "400", description = "거래예약 취소 실패")
@@ -69,7 +69,7 @@ public class TradeController {
   }
 
   @DeleteMapping("/sale")
-  @Operation(summary = "판매자가 거래 삭제", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
+  @Operation(summary = "판매자가 거래 취소", description = "아이템 ID를 이용해 거래예약을 취소합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래 삭제 성공"),
       @ApiResponse(responseCode = "400", description = "거래 삭제 실패")

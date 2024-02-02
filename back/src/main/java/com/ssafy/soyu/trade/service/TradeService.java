@@ -75,7 +75,9 @@ public class TradeService {
     //payAction API
     payActionUtil.makePayAction(orderNumber, item.getPrice(), today, chat.getBuyer());
 
+    //판매자 알림 noticeType = RESERVE (code 포함)
     noticeService.createNotice(chat.getSeller().getId(), new NoticeRequestDto(item, NoticeType.RESERVE, code));
+    //구매자 알림 noticeType = RESERVE
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
 
     //라즈베리 파이에 신호 json 신호 보내기
@@ -85,6 +87,8 @@ public class TradeService {
 
   /**
    * 구매자 취소
+   * @param historyId 구매내역 ID
+   * @param memberId 구매자 ID
    */
   @Transactional
   public void deleteBuyReserve(Long historyId, Long memberId) {
@@ -116,8 +120,10 @@ public class TradeService {
         lockerStatus = LockerStatus.AVAILABLE;
         itemStatus = ItemStatus.ONLINE;
       }
-      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, noticeType)); //판매자에게 알림
-      noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL)); //구매자
+      //판매자 알림 noticeType = CONVERT / RESERVE_CANCEL
+      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, noticeType));
+      //구매자 알림 noticeType = RESERVE_CANCEL
+      noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
 
       //locker 상태 변경, 코드 삭제 등
       lockerRepository.updateLocker(locker.getId(), lockerStatus, null, item.getId(), null);
@@ -155,6 +161,11 @@ public class TradeService {
     return code.get();
   }
 
+  /**
+   * 거래 예약 취소(판매자)
+   * @param memberId 판매자 ID
+   * @param itemId 물품 ID
+   */
   public void deleteSaleReserve(Long memberId, Long itemId) {
     Item item = itemRepository.findById(itemId).get();
 
@@ -187,8 +198,10 @@ public class TradeService {
         lockerStatus = LockerStatus.AVAILABLE;
         itemStatus = ItemStatus.ONLINE;
       }
-      noticeService.createNotice(memberId, new NoticeRequestDto(item, noticeType)); //판매자에게 알림
-      noticeService.createNotice(history.getMember().getId(), new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL)); //구매자
+      //판매자 알림 noticeType = CONVERT / RESERVE_CANCEL
+      noticeService.createNotice(memberId, new NoticeRequestDto(item, noticeType));
+      //구매자 알림
+      noticeService.createNotice(history.getMember().getId(), new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
 
       //locker 상태 변경, 코드 삭제 등
       lockerRepository.updateLocker(locker.getId(), lockerStatus, null, item.getId(), null);
