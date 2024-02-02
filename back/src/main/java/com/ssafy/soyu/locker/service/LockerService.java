@@ -235,6 +235,12 @@ public class LockerService {
             , item.getPrice(), item.getItemStatus(), item.getItemCategories(), item.getImage());
   }
 
+  /**
+   * 거래 예약 물품 구매 결정 Service<br/> 거래중이던 물품<br/>
+   *
+   * @param isBuy
+   * @param itemId 구매 물품 식별자
+   */
   public void reserveBuyDecision(boolean isBuy, Long itemId) {
     Locker locker = lockerRepository.findByItemId(itemId).get();
     Item item = locker.getItem();
@@ -247,10 +253,48 @@ public class LockerService {
     }
   }
 
+  /**
+   * DP 물품 구매 결정 Service<br/> DP중이던 물품 구매<br/>
+   *
+   * @param itemId 구매 물품 식별자
+   */
   public Long dpBuyDecision(Long itemId) {
     History history = historyRepository.findByItemIdNotDeleted(itemId);
     Member member = history.getItem().getMember();
     noticeService.createNotice(member.getId(), new NoticeRequestDto(history.getItem(), NoticeType.DP_SELL));
     return history.getId();
+  }
+
+  /**
+   * 거래 예약 물품 DP 전환 Service<br/>거래 예약 물품 판매 실패 후 DP 전환 <br/>
+   *
+   * @param memberId 판매자 식별자
+   * @param itemId 구매 물품 식별자
+   */
+  public void changeToDP(Long memberId, Long itemId) {
+    Optional<Locker> optionalLocker = lockerRepository.findByItemId(itemId);
+    //락커에 있는 물건이 아닐 때
+    if(!optionalLocker.isPresent()){
+      throw new CustomException(ErrorCode.NOT_IN_LOCKER);
+    }
+
+    Locker locker = optionalLocker.get();
+    Item item = locker.getItem();
+
+    //물품올린 사람과 아이디가 다를 때
+    if(item.getMember().getId() != memberId){
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    }
+
+    // item 상태 변경
+    itemRepository.updateStatus(itemId, ItemStatus.DP);
+
+    // locker 상태 변경 및 코드 삭제
+    lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.DP_READY, null);
+
+    //라즈베리 파이에 json 신호 보내기
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(itemId, locker.getLockerNum(), LockerStatus.DP_READY, locker.getItem().getPrice());
+    raspberryUtil.sendMessageToRaspberryPi(response);
+
   }
 }

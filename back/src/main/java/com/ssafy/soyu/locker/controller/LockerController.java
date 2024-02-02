@@ -3,12 +3,9 @@ package com.ssafy.soyu.locker.controller;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
-import com.ssafy.soyu.locker.dto.response.LockerListResponse;
 import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,6 +58,18 @@ public class LockerController {
     Long memberId = (Long) request.getAttribute("memberId");
 
     lockerService.withdrawReserve(memberId, itemId);
+    return getResponseEntity(SuccessCode.OK);
+  }
+
+  @PatchMapping("/change")
+  @Operation(summary = "거래 예약 물품 DP 전환", description = "물품 ID를 이용해 보관함에 있는 물품을 DP로 전환합니다.")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "DP 전환 성공"),
+          @ApiResponse(responseCode = "400", description = "DP 전환 실패")
+  })
+  public ResponseEntity<?> changeToDP(HttpServletRequest request, @RequestParam Long itemId){
+    Long memberId = (Long) request.getAttribute("memberId");
+    lockerService.changeToDP(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);
   }
 }
