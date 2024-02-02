@@ -42,7 +42,7 @@ public class StationController {
   })
   public ResponseEntity<?> allStation(HttpServletRequest request){
     Long memberId = (Long) request.getAttribute("memberId");
-
+    memberId = 2L;
     List<ListResponseDto> result = stationService.findAllStation(memberId);
     if(result == null) throw new CustomException(ErrorCode.STATION_NOT_FOUND);
 

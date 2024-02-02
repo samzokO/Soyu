@@ -44,7 +44,7 @@ public class LikesService {
     //찜이 되면 판매자에게 알림 전송
     if(likesRepository.findLikesByItemAndMember(item, member).getStatus()){
       noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.LIKE));
-    };
+    }
   }
 
   public Integer getLikeCountByItemId(Long itemId){
@@ -52,6 +52,8 @@ public class LikesService {
   }
 
   public Boolean getByMemberWithItem(Long memberId, Long itemId) {
+    if(memberId == null)
+      return false;
     return likesRepository.getLikeByMemberWithItem(memberId, itemId) > 0;
   }
 }
