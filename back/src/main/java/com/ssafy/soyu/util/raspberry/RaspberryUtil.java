@@ -13,19 +13,19 @@ import org.springframework.util.MimeType;
 public class RaspberryUtil {
     private final SimpMessagingTemplate messagingTemplate;
 
-    public RaspberryRequestResponse makeRaspberryResponse(Long id, Integer lockerNum, LockerStatus tradeReserve, Integer price) {
+    public RaspberryRequestResponse makeRaspberryResponse(Long itemId, Integer lockerNum, LockerStatus tradeReserve, Integer price) {
         return  RaspberryRequestResponse.builder()
-                .itemId(id)
+                .itemId(itemId)
                 .lockerNum(lockerNum)
                 .status(tradeReserve)
                 .price(price).build();
     }
 
-    public void sendMessageToRaspberryPi(String destination, RaspberryRequestResponse response) {
+    public void sendMessageToRaspberryPi(RaspberryRequestResponse response) {
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
         headerAccessor.setContentType(new MimeType("application", "json"));
         headerAccessor.setLeaveMutable(true);
 
-        messagingTemplate.convertAndSend(destination, response, headerAccessor.getMessageHeaders());
+        messagingTemplate.convertAndSend("/sub/raspberry", response, headerAccessor.getMessageHeaders());
     }
 }
