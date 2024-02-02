@@ -15,11 +15,11 @@ public class ItemFile {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "item_id")
     private Item item;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
+    @JoinColumn(name = "profile_image_id")
     private ProfileImage ProfileImage;
 
 
