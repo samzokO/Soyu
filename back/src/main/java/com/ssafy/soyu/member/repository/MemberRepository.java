@@ -1,6 +1,7 @@
 package com.ssafy.soyu.member.repository;
 
 import com.ssafy.soyu.member.entity.Member;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Query("UPDATE Member SET nickName = :nickName WHERE id= :memberId")
     void updateNickName(@Param("memberId") Long memberId, @Param("nickName") String nickName);
+
+    @EntityGraph(attributePaths = {"profileImage"})
+    Member findMemberById(Long id);
 }

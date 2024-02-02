@@ -190,4 +190,8 @@ public class MemberService {
         member.updateMember(memberRequest.getSnsId(), memberRequest.getBank_name(),
             memberRequest.getAccount_number(), memberRequest.getIsWithdraw(), profileImage);
     }
+
+    public Member getMember(Long memberId) {
+        return memberRepository.findMemberById(memberId);
+    }
 }

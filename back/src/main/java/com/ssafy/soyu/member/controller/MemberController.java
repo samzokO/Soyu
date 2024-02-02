@@ -5,6 +5,8 @@ import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntit
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.member.dto.request.AccountDto;
 import com.ssafy.soyu.member.dto.request.MemberRequest;
+import com.ssafy.soyu.member.dto.response.MemberDetailResponse;
+import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -125,6 +127,7 @@ public class MemberController {
         return getResponseEntity(SuccessCode.OK);
     }
 
+    // 회원 가입 이후 개인정보 수정으로 나머지 정보 입력
     @PatchMapping("")
     public ResponseEntity<?> updateMember(@RequestPart(value = "image", required = false) MultipartFile file,
         @Validated @ModelAttribute MemberRequest memberRequest, BindingResult bindingResult,
@@ -139,6 +142,19 @@ public class MemberController {
 
         memberService.updateMember(memberRequest, memberId, file);
         return getResponseEntity(SuccessCode.OK);
+    }
+
+    // 내정보
+    @GetMapping("")
+    public ResponseEntity<?> getMember(HttpServletRequest request) {
+        Long memberId = (Long) request.getAttribute("memberId");
+        Member member = memberService.getMember(memberId);
+
+        MemberDetailResponse memberDetailResponse = new MemberDetailResponse(member.getId(), member.getProfileImage(), member.getSnsId(),
+            member.getEmail(), member.getNickName(), member.getName(), member.getMobile(),
+            member.getBank_name(), member.getAccount_number(), member.getIsWithdraw());
+
+        return getResponseEntity(SuccessCode.OK, memberDetailResponse);
     }
 
 
