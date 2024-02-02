@@ -154,7 +154,12 @@ public class LockerService {
       throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
     }
     Locker locker = optionalLocker.get();
+    Item item = locker.getItem();
+    itemRepository.updateStatus(item.getId(), ItemStatus.ONLINE);
     lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
+
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.WITHDRAW_SUBTRACT, item.getPrice());
+    raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
   /**
