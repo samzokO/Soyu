@@ -28,13 +28,6 @@
     format('woff2');
 }
 
-@font-face {
-  font-family: 'BlackHanSans';
-  font-style: normal;
-  font-weight: 400;
-  src:
-    url('/public/fonts/BlackHanSans-Regular.woff2')
-      local('BlackHanSans Regular'),
-    local('BlackHanSans-Regular'),
-    format('woff2');
-}
+/*Black Han Sans*/
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap&subset=korean');

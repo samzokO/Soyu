@@ -3,12 +3,13 @@ import Logo from '../../assets/icons/Logo.svg';
 import KakaoLogin from '../atoms/KakaoLogin';
 import NaverLogin from '../atoms/NaverLogin';
 import GoogleLogin from '../atoms/GoogleLogin';
+import theme from '../../styles/theme';
 
 function Login() {
   return (
     <SWrap>
       <img src={Logo} alt="#" />
-      <STitle>소유박스</STitle>
+      <STitle>소유</STitle>
       <SNav>
         <NaverLogin />
         <KakaoLogin />
@@ -21,8 +22,8 @@ function Login() {
 export default Login;
 
 const STitle = styled.h1`
-  font-size: 24px;
   margin: 20px 0;
+  ${theme.font.Splash}
 `;
 
 const SWrap = styled.div`
