@@ -1,14 +1,13 @@
 package com.ssafy.soyu.likes.controller;
-import static com.ssafy.soyu.item.controller.ItemController.getItemResponses;
+import static com.ssafy.soyu.item.controller.ItemController.getItemListResponses;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
+import com.ssafy.soyu.item.dto.response.ItemListResponse;
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.likes.service.LikesService;
-import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
-import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -47,9 +46,9 @@ public class LikesController {
     for (Likes like : likes) {
       items.add(like.getItem());
     }
-    List <ItemResponse> itemResponses = getItemResponses(items);
+    List <ItemListResponse> itemListResponses = getItemListResponses(items);
 
-    return getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemListResponses);
   }
 
   @GetMapping("/{itemId}")

@@ -3,6 +3,7 @@ package com.ssafy.soyu.item.controller;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.item.dto.request.*;
+import com.ssafy.soyu.item.dto.response.ItemListResponse;
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
@@ -66,7 +67,7 @@ public class ItemController {
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    List<ItemResponse> itemResponses = getItemResponses(items);
+    List<ItemListResponse> itemResponses = getItemListResponses(items);
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
@@ -84,7 +85,7 @@ public class ItemController {
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    List<ItemResponse> itemResponses = getItemResponses(items);
+    List<ItemListResponse> itemResponses = getItemListResponses(items);
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
@@ -100,7 +101,7 @@ public class ItemController {
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    List<ItemResponse> itemResponses = getItemResponses(items);
+    List<ItemListResponse> itemResponses = getItemListResponses(items);
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
@@ -120,7 +121,7 @@ public class ItemController {
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    List<ItemResponse> itemResponses = getItemResponses(items);
+    List<ItemListResponse> itemResponses = getItemListResponses(items);
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
@@ -187,14 +188,13 @@ public class ItemController {
     return new ItemResponse
         (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
-            , item.getPrice(), item.getItemStatus(), item.getItemCategories());
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), item.getImage());
   }
 
-  public static List<ItemResponse> getItemResponses(List<Item> items) {
+  public static List<ItemListResponse> getItemListResponses(List<Item> items) {
     return items.stream()
-        .map(i -> new ItemResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),i.getTitle(), i.getContent(),
-            i.getRegDate()
-            , i.getPrice(), i.getItemStatus(), i.getItemCategories()))
+        .map(i -> new ItemListResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),i.getTitle(),
+            i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(), i.getImage().get(0)))
         .collect(Collectors.toList());
   }
 

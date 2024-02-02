@@ -233,6 +233,6 @@ public class LockerService {
     return new com.ssafy.soyu.item.dto.response.ItemResponse
         (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
-            , item.getPrice(), item.getItemStatus(), item.getItemCategories());
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), item.getImage());
   }
 }

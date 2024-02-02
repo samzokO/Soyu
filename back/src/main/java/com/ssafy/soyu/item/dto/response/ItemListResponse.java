@@ -5,15 +5,13 @@ import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Schema(description = "물품 상세 조회 결과 응답 DTO")
+@Schema(description = "물품 조회 리스트 결과 응답 DTO")
 @AllArgsConstructor
 @Data
-public class ItemResponse {
-
+public class ItemListResponse {
   @Schema(description = "물품 ID")
   Long itemId;
 
@@ -25,9 +23,6 @@ public class ItemResponse {
 
   @Schema(description = "제목")
   private String title;
-
-  @Schema(description = "설명")
-  private String content;
 
   @Schema(description = "물품 등록일")
   private LocalDateTime regDate;
@@ -41,6 +36,6 @@ public class ItemResponse {
   @Schema(description = "카테고리")
   private ItemCategories itemCategories;
 
-  @Schema(description = "사진 리스트")
-  private List<Image> image;
+  @Schema(description = "대표 사진")
+  private Image image;
 }
