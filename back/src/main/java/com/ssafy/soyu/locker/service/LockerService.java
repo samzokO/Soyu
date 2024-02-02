@@ -8,6 +8,7 @@ import com.ssafy.soyu.item.repository.ItemRepository;
 
 import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
+import com.ssafy.soyu.util.raspberry.RaspberryUtil;
 import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
@@ -19,11 +20,9 @@ import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
-import com.ssafy.soyu.util.payaction.PayActionProperties;
 import com.ssafy.soyu.util.payaction.PayActionUtil;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
-import com.ssafy.soyu.util.soyu.SoyuProperties;
 import jakarta.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -49,11 +48,9 @@ public class LockerService {
   private final LockerRepository lockerRepository;
   private final HistoryRepository historyRepository;
   private final MemberRepository memberRepository;
-  // Properties
-  private final PayActionProperties payActionProperties;
-  private final SoyuProperties soyuProperties;
   // Util
   private final PayActionUtil payActionUtil;
+  private final RaspberryUtil raspberryUtil;
 
   public List<LockerListResponse> getLockers(Long stationId) {
     List<Locker> lockerList = lockerRepository.findByStationIdWithItem(stationId);
@@ -96,12 +93,14 @@ public class LockerService {
 
   public LockerBuyResponse insertBuyCode(Long stationId, String code) {
     //DP 판매 코드를 입력한 경우
-    Locker locker = null;
+    Item item = null;
+    Integer lockerNum = null;
     Optional<Locker> optionalLocker;
     if (code.length() != 6) {
       optionalLocker = lockerRepository.findByLocation(stationId, Integer.parseInt(code));
       if (optionalLocker.isPresent()) {
-        locker = optionalLocker.get();
+        Locker locker = optionalLocker.get();
+        item = locker.getItem();
         if (locker.getStatus() == LockerStatus.AVAILABLE) {
           throw new CustomException(ErrorCode.EMPTY_ITEM_LOCKER);
         }
@@ -115,14 +114,12 @@ public class LockerService {
       if (!optionalLocker.isPresent()) {
         throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
       }
-      locker = optionalLocker.get();
+      Locker locker = optionalLocker.get();
+      lockerNum = locker.getLockerNum();
+      item = locker.getItem();
+      raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_CHECK, item.getPrice());
     }
-
-    Item item = locker.getItem();
-    ItemResponse itemResponse = getItemResponse(item);
-    return new LockerBuyResponse(soyuProperties.getBankName(), soyuProperties.getAccountNumber(),
-        itemResponse);
-
+    return new LockerBuyResponse(item.getId(), lockerNum);
   }
 
   @Transactional

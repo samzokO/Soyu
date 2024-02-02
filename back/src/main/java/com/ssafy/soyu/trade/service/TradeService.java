@@ -82,7 +82,7 @@ public class TradeService {
 
     //라즈베리 파이에 신호 json 신호 보내기
     RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_RESERVE, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi("/sub/raspberry", response);
+    raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
   /**
@@ -133,7 +133,7 @@ public class TradeService {
 
       //라즈베리 파이에 json 신호 보내기
       RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
-      raspberryUtil.sendMessageToRaspberryPi("/sub/raspberry", response);
+      raspberryUtil.sendMessageToRaspberryPi(response);
     }
     //payAction 매칭 취소 후 주문번호 삭제
     payActionUtil.deletePayAction(item.getOrderNumber());
@@ -211,7 +211,7 @@ public class TradeService {
 
       //라즈베리 파이에 json 신호 보내기
       RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
-      raspberryUtil.sendMessageToRaspberryPi("/sub/raspberry", response);
+      raspberryUtil.sendMessageToRaspberryPi(response);
     }
     //payAction 매칭 취소 후 주문번호 삭제
     payActionUtil.deletePayAction(item.getOrderNumber());

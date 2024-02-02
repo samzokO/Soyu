@@ -10,12 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class LockerBuyResponse {
 
-    @Schema(description = "은행 이름")
-    String bankName;
+    @Schema(description = "물품 id")
+    Long itemId;
 
-    @Schema(description = "계좌 번호")
-    String accountNumber;
-
-    @Schema(description = "물품 정보")
-    ItemResponse item;
+    @Schema(description = "락커 번호")
+    Integer LockerNum;
 }

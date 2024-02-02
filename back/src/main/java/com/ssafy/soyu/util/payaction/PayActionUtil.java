@@ -6,7 +6,11 @@ import com.ssafy.soyu.item.dto.request.DepositInfoRequest;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.entity.LockerStatus;
+import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.member.entity.Member;
+import com.ssafy.soyu.util.raspberry.RaspberryUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,6 +30,8 @@ public class PayActionUtil {
     private final PayActionProperties payActionProperties;
     private final HistoryRepository historyRepository;
     private final ItemRepository itemRepository;
+    private final LockerRepository lockerRepository;
+    private final RaspberryUtil raspberryUtil;
 
     public void makePayAction(String orderNumber, Integer price, String orderDate, Member member){
         String orderUri = payActionProperties.getOrderUri();
@@ -117,5 +123,11 @@ public class PayActionUtil {
 
         // 아이템 판매 완료
         itemRepository.updateStatus(item.getId(), ItemStatus.SOLD);
+
+        //locker 상태 변경 및 다른 상태 없애기
+        Locker locker = lockerRepository.findByItemId(item.getId()).get();
+        lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
+
+        raspberryUtil.sendMessageToRaspberryPi(raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.AVAILABLE, item.getPrice()));
     }
 }
