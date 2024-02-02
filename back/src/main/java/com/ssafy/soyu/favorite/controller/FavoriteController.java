@@ -102,6 +102,7 @@ public class FavoriteController {
   })
   public ResponseEntity<?> getList(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
+    memberId = 1L;
     if (memberId == null) {
       return toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }

@@ -50,4 +50,8 @@ public class LikesService {
   public Integer getLikeCountByItemId(Long itemId){
     return likesRepository.countLikeByItemId(itemId);
   }
+
+  public Boolean getByMemberWithItem(Long memberId, Long itemId) {
+    return likesRepository.getLikeByMemberWithItem(memberId, itemId) > 0;
+  }
 }

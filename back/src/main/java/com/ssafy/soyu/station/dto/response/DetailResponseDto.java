@@ -23,10 +23,10 @@ public class DetailResponseDto {
   @Schema(description = "보관함 정보")
   private List<FindResponseDto> lockers;
 
-  public DetailResponseDto(Station s, List<Locker> ls, boolean isFavorite) {
+  public DetailResponseDto(Station s, List<FindResponseDto> ls, boolean isFavorite) {
     this.stationId = s.getId();
     this.stationName = s.getName();
-    this.lockers = ls.stream().map(FindResponseDto::new).collect(Collectors.toList());
+    this.lockers = ls;
     this.isFavorite = isFavorite;
   }
 }

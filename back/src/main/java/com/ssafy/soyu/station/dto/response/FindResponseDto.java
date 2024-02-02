@@ -1,13 +1,16 @@
 package com.ssafy.soyu.station.dto.response;
 
 import com.ssafy.soyu.item.entity.ItemCategories;
+import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.entity.Locker;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Schema(description = "보관함 정보 응답 DTO")
 @Data
+@RequiredArgsConstructor
 public class FindResponseDto {
 
   @Schema(description = "보관함 ID")
@@ -31,7 +34,15 @@ public class FindResponseDto {
   @Schema(description = "물품 카테고리")
   private ItemCategories categories;
 
+  @Schema
+  private Boolean isLike;
+
   public FindResponseDto(Locker l){
+    this.lockerId = l.getId();
+    this.status = l.getStatus().toString();
+  }
+
+  public FindResponseDto(Locker l, Boolean isLike){
     this.lockerId = l.getId();
     this.status = l.getStatus().toString();
     if(l.getItem() != null){
@@ -40,6 +51,7 @@ public class FindResponseDto {
       this.regDate = l.getItem().getRegDate();
       this.price = l.getItem().getPrice();
       this.categories = l.getItem().getItemCategories();
+      this.isLike = isLike;
     }
   }
 }

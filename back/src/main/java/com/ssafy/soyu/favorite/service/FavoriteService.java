@@ -3,9 +3,11 @@ package com.ssafy.soyu.favorite.service;
 import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
 import com.ssafy.soyu.favorite.entity.Favorite;
 import com.ssafy.soyu.favorite.repository.FavoriteRepository;
+import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.station.dto.response.FindResponseDto;
 import com.ssafy.soyu.station.entity.Station;
 import com.ssafy.soyu.station.repository.StationRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -24,6 +26,7 @@ public class FavoriteService {
   private final FavoriteRepository favoriteRepository;
   private final MemberRepository memberRepository;
   private final StationRepository stationRepository;
+  private final LikesService likesService;
 
   @Transactional
   public void registFavorite(Long memberId, Long stationId) {
@@ -65,7 +68,14 @@ public class FavoriteService {
         .map(object -> {
           Favorite f = (Favorite) object[0];
           Station s = (Station) object[1];
-          List<Locker> ls = s.getLockers();
+          List<FindResponseDto> ls = s.getLockers()
+              .stream()
+              .map(l -> {
+                if(l.getItem().equals(null))
+                  return new FindResponseDto(l);
+                return new FindResponseDto(l, likesService.getByMemberWithItem(memberId, l.getItem().getId()));
+              })
+              .collect(Collectors.toList());
           return new FavoriteListResponseDto(f, s, ls);
         })
         .collect(Collectors.toList());

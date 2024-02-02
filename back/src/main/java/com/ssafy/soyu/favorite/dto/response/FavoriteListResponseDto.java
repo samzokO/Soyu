@@ -34,13 +34,13 @@ public class FavoriteListResponseDto {
   @Schema(description = "스테이션 내 보관함 정보 목록")
   private List<FindResponseDto> lockers;
 
-  public FavoriteListResponseDto(Favorite f, Station s, List<Locker> ls) {
+  public FavoriteListResponseDto(Favorite f, Station s, List<FindResponseDto> ls) {
     this.favoriteId = f.getId();
     this.stationId = s.getId();
     this.stationName = s.getName();
     this.latitude = s.getLatitude();
     this.longitude = s.getLongitude();
     this.address = s.getAddress();
-    this.lockers = ls.stream().map(FindResponseDto::new).collect(Collectors.toList());
+    this.lockers = ls;
   }
 }

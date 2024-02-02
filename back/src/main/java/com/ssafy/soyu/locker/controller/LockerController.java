@@ -27,17 +27,6 @@ public class LockerController {
 
   private final LockerService lockerService;
 
-  @GetMapping("/list/{stationId}")
-  @Operation(summary = "스테이션 내 보관함 조회", description = "스테이션 ID를 이용해 보관함 정보를 조회합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "스테이션 내 보관함 조회 성공", content = @Content(schema = @Schema(implementation = LockerListResponse.class))),
-      @ApiResponse(responseCode = "400", description = "스테이션 내 보관함 조회 실패")
-  })
-  public ResponseEntity<?> getLockers(@PathVariable("stationId") Long stationId) {
-    List<LockerListResponse> lockerList = lockerService.getLockers(stationId);
-    return getResponseEntity(SuccessCode.OK, lockerList);
-  }
-
   @GetMapping("/{lockerId}")
   @Operation(summary = "보관함 상태 확인", description = "보관함 ID를 이용해 보관함 사용가능 여부를 조회합니다.")
   @ApiResponses(value = {
