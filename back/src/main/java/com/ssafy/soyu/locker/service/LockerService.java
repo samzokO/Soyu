@@ -158,7 +158,7 @@ public class LockerService {
     itemRepository.updateStatus(item.getId(), ItemStatus.ONLINE);
     lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
 
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.WITHDRAW_SUBTRACT, item.getPrice());
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.SUBTRACT, item.getPrice());
     raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
@@ -218,7 +218,7 @@ public class LockerService {
   }
 
   /**
-   * 회수 요청 Service<br/> 1.오프라인 DP 중이던 물품<br/> 2.거래 예약이 취소 된 물품<br/>
+   * DP 취소 == 회수 요청 Service<br/> 1.오프라인 DP 중이던 물품<br/> 2.거래 예약이 취소 된 물품<br/>
    *
    * @param memberId 판매자 식별자
    * @param itemId   회수 물품 식별자
@@ -236,22 +236,36 @@ public class LockerService {
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
     }
 
+    RaspberryRequestResponse response = null;
     //2. 보관함 상태와 아이템 상태를 비교하여 무결성 확인
     //2-1. DP 중인 물품인지 확인
-    if (is.equals(ItemStatus.DP) && ls.equals(LockerStatus.DP_READY)) {
+    if (is == ItemStatus.DP && ls == LockerStatus.DP_READY) {
       //3. 아이템 상태 변경
       itemRepository.updateStatus(itemId, ItemStatus.WITHDRAW);
       //4. 보관함 상태 변경
       lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, now, itemId, code);
       payActionUtil.deletePayAction(item.getOrderNumber());
+
+      //5. 알림 전송(회수 코드 포함)
+      noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.WITHDRAW, code));
+      response = raspberryUtil.makeRaspberryResponse(itemId, locker.getLockerNum(), LockerStatus.WITHDRAW, item.getPrice());
     }
-    //2-1. DP 중 아니고 회수대기도 아니면 회수 신청 불가능
-    else if (!(is.equals(ItemStatus.WITHDRAW) && ls.equals(LockerStatus.WITHDRAW))) {
+    //2-2. DP 예약 물건인지 확인
+    else if(is == ItemStatus.DP_RESERVE && ls == LockerStatus.DP_RESERVE){
+      //3. 아이템 상태 변경
+      itemRepository.updateStatus(itemId, ItemStatus.ONLINE);
+      //4. 보관함 상태 변경
+      lockerRepository.updateLocker(null, LockerStatus.AVAILABLE, null, null, null);
+      payActionUtil.deletePayAction(item.getOrderNumber());
+      response = raspberryUtil.makeRaspberryResponse(itemId, locker.getLockerNum(), LockerStatus.AVAILABLE, item.getPrice());
+    }
+    //2-3. DP 중 아니고 회수대기도 아니면 회수 신청 불가능
+    else if (is != ItemStatus.WITHDRAW && ls != LockerStatus.WITHDRAW) {
       throw new CustomException(ErrorCode.IMPOSSIBLE_WITHDRAW);
     }
 
-    //5. 알림 전송(회수 코드 포함)
-    noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.WITHDRAW, code));
+    //라즈베리파이에 신호 보내기
+    raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
   // make response List

@@ -49,14 +49,13 @@ public class LockerController {
   }
 
   @PostMapping("/withdraw")
-  @Operation(summary = "오프라인 물품 회수 예약", description = "물품 ID를 이용해 물품 회수를 신청합니다.")
+  @Operation(summary = "오프라인 물품 DP 취소", description = "물품 ID를 이용해 DP를 취소합니다. == 회수 예약")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "오프라인 물품 회수 성공"),
       @ApiResponse(responseCode = "400", description = "오프라인 물품 회수 실패")
   })
   public ResponseEntity<?> withdrawItem(HttpServletRequest request, @RequestParam Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
-
     lockerService.withdrawReserve(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);
   }
