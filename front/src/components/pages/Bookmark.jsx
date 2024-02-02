@@ -4,15 +4,23 @@ import BookmarkTab from '../molecules/BookmarkTab';
 import Goods from '../molecules/Goods';
 import useManageTab from '../../hooks/useManageTab';
 import Station from '../molecules/Station';
+import LocalHeader from '../molecules/LocalHeader';
+import BackBtn from '../atoms/BackBtn';
+import { MainContainerWithNav } from '../../styles/Maincontainer';
 
 function Bookmark() {
   const [state, handler] = useManageTab();
 
   return (
     <>
-      <div>HEAD</div>
-      <BookmarkTab state={state} handler={handler} />
-      <SMainWrap>
+      <LocalHeader>
+        <BackBtn />내 소유
+        <div />
+      </LocalHeader>
+      <SBookmarkTap>
+        <BookmarkTab state={state} handler={handler} />
+      </SBookmarkTap>
+      <MainContainerWithNav>
         {state === 'heart' ? (
           <ul>
             <Goods />
@@ -25,7 +33,7 @@ function Bookmark() {
         ) : (
           <Station />
         )}
-      </SMainWrap>
+      </MainContainerWithNav>
       <BottomNav />
     </>
   );
@@ -33,6 +41,6 @@ function Bookmark() {
 
 export default Bookmark;
 
-const SMainWrap = styled.main`
-  padding: 0 16px;
+const SBookmarkTap = styled.nav`
+  margin-top: 44px;
 `;

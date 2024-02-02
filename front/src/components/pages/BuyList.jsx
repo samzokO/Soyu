@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 import BuyGoods from '../molecules/BuyGoods';
+import LocalHeader from '../molecules/LocalHeader';
+import BackBtn from '../atoms/BackBtn';
+import BookmarkTab from '../molecules/BookmarkTab';
 
 function BuyList() {
   return (
     <>
-      <div>Header 자리</div>
-      <div>Tab 자리</div>
+      <LocalHeader>
+        <BackBtn />
+        구매내역
+        <div />
+      </LocalHeader>
+      <BookmarkTab />
       <SWrap>
         <BuyGoods />
       </SWrap>

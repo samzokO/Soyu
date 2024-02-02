@@ -16,22 +16,28 @@ function MainPage() {
           <SLogo src={Logo} alt="로고" />
         </Link>
         <SMenuBox>
-          <Link to="/">
-            <SMenu src={Search} alt="로고" />
+          <Link to="/search">
+            <SMenu src={Search} alt="검색버튼" />
           </Link>
           <Link to="/">
-            <SMenu src={Category} alt="로고" />
+            <SMenu src={Category} alt="카테고리버튼" />
           </Link>
           <Link to="/">
-            <SMenu src={Notification} alt="로고" />
+            <SMenu src={Notification} alt="알림버튼" />
           </Link>
         </SMenuBox>
       </LocalHeader>
-      <MainContainerWithNav>dsd</MainContainerWithNav>
+      <MainContainerWithNav>
+        <SProductList>최근 등록 물품</SProductList>
+      </MainContainerWithNav>
       <BottomNav />
     </>
   );
 }
+
+const SProductList = styled.article`
+  margin: 54px 0px;
+`;
 
 const SLogo = styled.img`
   width: 32px;
