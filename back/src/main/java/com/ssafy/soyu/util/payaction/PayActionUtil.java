@@ -128,6 +128,6 @@ public class PayActionUtil {
         Locker locker = lockerRepository.findByItemId(item.getId()).get();
         lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
 
-        raspberryUtil.sendMessageToRaspberryPi(raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.AVAILABLE, item.getPrice()));
+        raspberryUtil.sendMessageToRaspberryPi(raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.SUBTRACT, item.getPrice()));
     }
 }
