@@ -42,7 +42,7 @@ public class FcmService {
     Message message = Message.builder()
         .setToken(fcmMessage.getToken())
         .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
-            .setNotification(new WebpushNotification(fcmMessage.getTitle(), fcmMessage.getTitle()))
+            .setNotification(new WebpushNotification(fcmMessage.getTitle(), fcmMessage.getContent()))
             .build())
         .build();
     return firebaseMessaging.send(message);

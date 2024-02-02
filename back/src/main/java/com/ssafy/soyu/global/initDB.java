@@ -11,6 +11,7 @@ import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.message.entity.Message;
 import com.ssafy.soyu.station.entity.Station;
+import com.ssafy.soyu.util.fcm.entity.Fcm;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -55,7 +56,7 @@ public class initDB {
       Item item3 = new Item(member2, "갤럭시패드", "갤럭시패드를 판매합니다 새상품 입니다.", LocalDateTime.now(),1, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
       Item item4 = new Item(member2, "어린왕자", "책을 판매합니다 어린완자 입니다.", LocalDateTime.now(), 1, ItemCategories.BOOKS, ItemStatus.ONLINE);
       Item item5 = new Item(member3, "샤오미패드", "샤오미패드를 판매합니다 새상품 입니다.",LocalDateTime.now(), 1, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
-      Item item6 = new Item(member3, "동화책", "책을드를 판매합니다.", LocalDateTime.now(), 1, ItemCategories.BOOKS, ItemStatus.ONLINE);
+      Item item6 = new Item(member6, "동화책", "책을드를 판매합니다.", LocalDateTime.now(), 1, ItemCategories.BOOKS, ItemStatus.ONLINE);
 
       em.persist(item1);
       em.persist(item2);
@@ -122,6 +123,9 @@ public class initDB {
       em.persist(favorite1);
       em.persist(favorite2);
       em.persist(favorite3);
+
+      Fcm fcm1 = new Fcm(member6, "ebxmeFd6ujUmZZ7_NQ9Ok7:APA91bGHqjHUi_2MDPJ-O5U5BPPsnPLYdZeWz3Q5kvErlsMJttSXW2WIazYneUbXCt1nU1VXO4Yf2F5VeelMyo-A5HX5iFvfvvnHDerDb63xqtvnIMm23iY4y2EexQYs6fippHamBpy9");
+      em.persist(fcm1);
     }
   }
 

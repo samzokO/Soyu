@@ -46,7 +46,8 @@ public class NoticeService {
 
     // 알림 전송을 위한 토큰 조회
     // 유저의 로그인 기기 개수에 따라 Token의 개수가 달라지므로 List 형식으로 조회
-    Optional<Fcm> fcmList = fcmRepository.findByMemberId(receiverId);
+    List<Fcm> fcmList = fcmRepository.findByMemberId(receiverId);
+    System.out.println(fcmList.size());
     fcmList.stream()
         .forEach(fcm -> {
           FcmMessage fcmMessage = FcmMessage.builder()

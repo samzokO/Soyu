@@ -41,6 +41,7 @@ public class LikesController {
   })
   public ResponseEntity<?> getLikes(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
+
     List<Likes> likes = likesService.getLikes(memberId);
     List<Item> items = new ArrayList<>();
     for (Likes like : likes) {
@@ -59,6 +60,7 @@ public class LikesController {
   })
   public ResponseEntity<?> onOffLikes(@PathVariable("itemId")Long itemId, HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
+
     likesService.onOff(itemId, memberId);
 
     return getResponseEntity(SuccessCode.OK);

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-  @Query("select n from Notice n where n.member.id = : memberId")
+  @Query("select n from Notice n join fetch n.member m join fetch n.item i where n.member.id = :memberId")
   List<Notice> findByMemberId(@Param("memberId") Long memberId);
 
   @Query("update Notice n set n.status = 'DELETE' where n.id = :noticeId")
