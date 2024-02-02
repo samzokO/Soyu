@@ -6,6 +6,9 @@ import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.likes.repository.LikesRepository;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
+import com.ssafy.soyu.notice.entity.NoticeType;
+import com.ssafy.soyu.notice.service.NoticeService;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +21,11 @@ public class LikesService {
   final private LikesRepository likesRepository;
   final private ItemRepository itemRepository;
   final private MemberRepository memberRepository;
+  final private NoticeService noticeService;
 
   public List<Likes> getLikes (Long memberId) {
     return likesRepository.findLikesByMemberId(memberId);
   }
-
 
   public void onOff(Long itemId, Long memberId) {
     Item item = itemRepository.getReferenceById(itemId);
@@ -38,6 +41,10 @@ public class LikesService {
       likesRepository.save(new Likes(member, item, true));
     }
 
+    //찜이 되면 판매자에게 알림 전송
+    if(likesRepository.findLikesByItemAndMember(item, member).getStatus()){
+      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.LIKE));
+    };
   }
 
   public Integer getLikeCountByItemId(Long itemId){

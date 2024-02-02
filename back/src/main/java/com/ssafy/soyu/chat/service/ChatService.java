@@ -6,6 +6,9 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
+import com.ssafy.soyu.notice.entity.NoticeType;
+import com.ssafy.soyu.notice.service.NoticeService;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +19,12 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class ChatService {
 
+  //==Repository==//
   private final ChatRepository chatRepository;
   private final MemberRepository memberRepository;
   private final ItemRepository itemRepository;
+  //==Service==//
+  private final NoticeService noticeService;
 
   public List<Chat> findChatByUserId(Long memberId) {
     return chatRepository.findChatByUserId(memberId);
@@ -44,6 +50,8 @@ public class ChatService {
 
     // 새로운 채팅방이 생성된다
     Chat chat = new Chat(item, buyer, seller);
+    noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.CHAT_CREATE));
+
     return chatRepository.save(chat);
   }
 }
