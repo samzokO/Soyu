@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import color from '../../styles/color';
-import HeartIcon from '../../assets/icons/Icon_24/HeartIcon';
+import HeartIcon from '../../assets/icons/material_24/favorite.svg';
 import font from '../../styles/font';
 
 function Goods() {

@@ -13,11 +13,11 @@ import Condition from '../../styles/BadgeCondition';
  */
 function Badge({ status }) {
   return (
-    <BadgeContainer type={status}>{Condition[status].content}</BadgeContainer>
+    <SBadgeContainer type={status}>{Condition[status].content}</SBadgeContainer>
   );
 }
 
-const BadgeContainer = styled.div`
+const SBadgeContainer = styled.div`
   background-color: ${(props) => Condition[props.type].bgColor};
   color: ${(props) => Condition[props.type].textColor};
   ${theme.font.Badge};

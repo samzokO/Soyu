@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Condition from '../../styles/BadgeCondition';
 
 /** 숫자뱃지 status로 사용가능, 값 고정, 파라미터 필수
- * @params (number) type
+ * @params (number) status
  * 0: 파란색
  * 1: 초록색
  * 2: 노란색
