@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 600;
   src:
-    url(./assets/fonts/Pretendard-SemiBold.woff2) local('Pretendard SemiBold'),
+    url('/public/fonts/Pretendard-SemiBold.woff2') local('Pretendard SemiBold'),
     local('Pretendard-SemiBold'),
     format('woff2');
 }
@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 400;
   src:
-    url(./assets/fonts/Pretendard-Regular.woff2) local('Pretendard Regular'),
+    url('/public/fonts/Pretendard-Regular.woff2') local('Pretendard Regular'),
     local('Pretendard-Regular'),
     format('woff2');
 }
@@ -23,17 +23,18 @@
   font-style: normal;
   font-weight: 300;
   src:
-    url(./assets/fonts/Pretendard-Light.woff2) local('Pretendard Light'),
+    url('/public/fonts/Pretendard-Light.woff2') local('Pretendard Light'),
     local('Pretendard-Light'),
     format('woff2');
 }
 
 @font-face {
-  font-family: 'Black Han Sans';
+  font-family: 'BlackHanSans';
   font-style: normal;
   font-weight: 400;
   src:
-    url(./assets/fonts/BlackHanSans-Regular.woff2) local('BlackHanSans Regular'),
+    url('/public/fonts/BlackHanSans-Regular.woff2')
+      local('BlackHanSans Regular'),
     local('BlackHanSans-Regular'),
     format('woff2');
 }
