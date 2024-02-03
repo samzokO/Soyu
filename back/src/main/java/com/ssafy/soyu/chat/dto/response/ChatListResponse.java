@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "채팅방 목록 응답 DTO")
 @AllArgsConstructor
@@ -25,9 +26,11 @@ public class ChatListResponse {
   private String lastMessage;
 
   @Schema(description = "마지막 메세지 일자/시간")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime lastDate;
 
   @Schema(description = "마지막 확인 일자/시간")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime lastChecked;
 
   @Schema(description = "확인 여부")

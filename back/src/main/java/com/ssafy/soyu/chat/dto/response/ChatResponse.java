@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "채팅방 상세 응답 DTO")
 @Data
@@ -25,12 +26,14 @@ public class ChatResponse {
   private String lastMessage;
 
   @Schema(description = "마지막 메세지 일자/시간")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime lastDate;
 
   @Schema(description = "확인 여부")
   private Boolean isChecked;
 
   @Schema(description = "마지막 확인 이자/시간")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime lastChecked;
 
   @Schema(description = "MessageResponse 리스트")

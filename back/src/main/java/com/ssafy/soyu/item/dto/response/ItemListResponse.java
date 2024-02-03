@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "물품 조회 리스트 결과 응답 DTO")
 @AllArgsConstructor
@@ -25,6 +26,7 @@ public class ItemListResponse {
   private String title;
 
   @Schema(description = "물품 등록일")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime regDate;
 
   @Schema(description = "가격")

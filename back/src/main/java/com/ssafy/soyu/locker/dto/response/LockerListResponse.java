@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "스테이션 내 보관함 정보 조회 응답 DTO")
 @Data
@@ -35,5 +36,6 @@ public class LockerListResponse {
     Integer location;
 
     @Schema(description = "시간")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     LocalDateTime time;
 }

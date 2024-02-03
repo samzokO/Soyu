@@ -7,6 +7,7 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 구매 내역 반환 DTO
@@ -41,6 +42,7 @@ public class PurchaseResponseDto {
   private ItemStatus itemStatus;
 
   @Schema(description = "물품 등록일")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   LocalDateTime regDate;
 
   public PurchaseResponseDto(History h, Image i) {

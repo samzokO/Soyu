@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "물품 상세 조회 결과 응답 DTO")
 @AllArgsConstructor
@@ -30,6 +31,7 @@ public class ItemResponse {
   private String content;
 
   @Schema(description = "물품 등록일")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime regDate;
 
   @Schema(description = "가격")

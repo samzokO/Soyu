@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Schema(description = "보관함 정보 응답 DTO")
 @Data
@@ -29,6 +30,7 @@ public class FindResponseDto {
   private String title;
 
   @Schema(description = "물품 등록일")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime regDate;
 
   @Schema(description = "물품 가격")
