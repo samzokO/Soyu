@@ -209,6 +209,7 @@ public class LockerService {
     //6. payAction에 등록
     String today = payActionUtil.getCurrentDateTime(LocalDateTime.now());
     String orderNumber = today + history.getId();
+    itemRepository.updateOrderNumber(item.getId(), orderNumber);
 
     //payAction API
     payActionUtil.makeNoneMemberPayAction(orderNumber, item.getPrice(), today, history.getId());
@@ -290,12 +291,33 @@ public class LockerService {
     Locker locker = lockerRepository.findByItemId(itemId).get();
     Item item = locker.getItem();
 
-    //라즈베리 파이에 json 신호 보내기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_READY, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+
+    LockerStatus status = LockerStatus.TRADE_READY;
+
+    //구매 안함 눌렀을 때, 페이액션 삭제, 구매 내역 삭제, 아이템, 락커, 라즈베리 파이 신호
     if(!isBuy){
       noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.BUYER_CANCEL));
+
+      //페이액션 삭제
+      payActionUtil.deletePayAction(item.getOrderNumber());
+
+      //아이템 주문번호 삭제
+      itemRepository.deleteOrderNumber(itemId);
+
+      //히스토리 삭제
+      historyRepository.updateIsDelete(historyRepository.findByItemIdNotDeleted(itemId).getId());
+
+      //아이템 상태 변경
+      itemRepository.updateStatus(itemId, ItemStatus.WITHDRAW);
+
+      //락커 상태 변경
+      status = LockerStatus.WITHDRAW;
+      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, null, itemId, null);
+
     }
+    //라즈베리 파이에 json 신호 보내기
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), status, item.getPrice());
+    raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
   /**
@@ -333,6 +355,10 @@ public class LockerService {
 
     // item 상태 변경
     itemRepository.updateStatus(itemId, ItemStatus.DP);
+
+    // 비회원으로 history 등록
+    Long nonMember = (long)1;
+    History history = historyRepository.save(new History(item, memberRepository.findById(nonMember).get()));
 
     // locker 상태 변경 및 코드 삭제
     lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.DP_READY, null);
