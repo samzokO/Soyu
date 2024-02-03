@@ -360,6 +360,13 @@ public class LockerService {
     Long nonMember = (long)1;
     History history = historyRepository.save(new History(item, memberRepository.findById(nonMember).get()));
 
+    //payAction에 등록
+    String today = payActionUtil.getCurrentDateTime(LocalDateTime.now());
+    String orderNumber = today + history.getId();
+    itemRepository.updateOrderNumber(item.getId(), orderNumber);
+
+    payActionUtil.makeNoneMemberPayAction(orderNumber, item.getPrice(), today, history.getId());
+
     // locker 상태 변경 및 코드 삭제
     lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.DP_READY, null);
 
