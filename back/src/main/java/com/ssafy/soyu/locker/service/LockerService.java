@@ -215,6 +215,10 @@ public class LockerService {
 
     //7. 알림 전송 해야 됨
     noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE, code));
+
+    //8. 라즈베리 파이 신호 주기
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
+    raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
   /**
