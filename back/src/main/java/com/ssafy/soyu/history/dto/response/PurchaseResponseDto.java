@@ -2,6 +2,7 @@ package com.ssafy.soyu.history.dto.response;
 
 import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.history.entity.History;
+import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
@@ -42,12 +43,12 @@ public class PurchaseResponseDto {
   @Schema(description = "물품 등록일")
   LocalDateTime regDate;
 
-  public PurchaseResponseDto(History h, ProfileImage f) {
+  public PurchaseResponseDto(History h, Image i) {
     this.itemId = h.getItem().getId();
     this.price = h.getItem().getPrice();
     this.sellerNickName = h.getMember().getNickName();
     this.regDate = h.getItem().getRegDate();
     this.itemStatus = h.getItem().getItemStatus();
-    this.fileName = f.getSaveName();
-    this.filepath = f.getSavePath();}
+    this.fileName = i.getSaveName();
+    this.filepath = i.getSavePath();}
 }

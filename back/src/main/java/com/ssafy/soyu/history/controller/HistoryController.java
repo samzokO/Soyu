@@ -28,29 +28,29 @@ public class HistoryController {
 
   private final HistoryService historyService;
 
-//  @GetMapping("/purchase")
-//  @Operation(summary = "구매내역 조회", description = "사용자 ID를 이용해 구매내역을 조회합니다.")
-//  @ApiResponses(value = {
-//      @ApiResponse(responseCode = "200", description = "구매내역 조회 성공", content = @Content(schema = @Schema(implementation = PurchaseResponseDto.class))),
-//      @ApiResponse(responseCode = "400", description = "구매내역 조회 실패")
-//  })
-//  public ResponseEntity<?> purchaseHistory(HttpServletRequest request) {
-//    Long memberId = (Long) request.getAttribute("memberId");
-//
-//    return getResponseEntity(SuccessCode.OK, historyService.getPurchaseHistory(memberId));
-//  }
+  @GetMapping("/purchase")
+  @Operation(summary = "구매내역 조회", description = "사용자 ID를 이용해 구매내역을 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "구매내역 조회 성공", content = @Content(schema = @Schema(implementation = PurchaseResponseDto.class))),
+      @ApiResponse(responseCode = "400", description = "구매내역 조회 실패")
+  })
+  public ResponseEntity<?> purchaseHistory(HttpServletRequest request) {
+    Long memberId = (Long) request.getAttribute("memberId");
 
-//  @GetMapping("/sale")
-//  @Operation(summary = "판매내역 조회", description = "사용자 ID를 이용해 판매내역을 조회합니다.")
-//  @ApiResponses(value = {
-//      @ApiResponse(responseCode = "200", description = "판매내역 조회 성공", content = @Content(schema = @Schema(implementation = SaleResponseDto.class))),
-//      @ApiResponse(responseCode = "400", description = "판매내역 조회 실패")
-//  })
-//  public ResponseEntity<?> saleHistory(HttpServletRequest request) {
-//    Long memberId = (Long) request.getAttribute("memberId");
-//
-//    return getResponseEntity(SuccessCode.OK, historyService.getSaleHistory(memberId));
-//  }
+    return getResponseEntity(SuccessCode.OK, historyService.getPurchaseHistory(memberId));
+  }
+
+  @GetMapping("/sale")
+  @Operation(summary = "판매내역 조회", description = "사용자 ID를 이용해 판매내역을 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "판매내역 조회 성공", content = @Content(schema = @Schema(implementation = SaleResponseDto.class))),
+      @ApiResponse(responseCode = "400", description = "판매내역 조회 실패")
+  })
+  public ResponseEntity<?> saleHistory(HttpServletRequest request) {
+    Long memberId = (Long) request.getAttribute("memberId");
+
+    return getResponseEntity(SuccessCode.OK, historyService.getSaleHistory(memberId));
+  }
 
   @DeleteMapping("")
   @Operation(summary = "구매내역 삭제", description = "List<history ID>를 이용해 구매내역을 삭제(soft)합니다.")

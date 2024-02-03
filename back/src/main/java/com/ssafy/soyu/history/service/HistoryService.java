@@ -60,19 +60,19 @@ public class HistoryService {
     historyRepository.save(history);
   }
 
-//  /**
-//   * history 테이블에서 조회하는 구매 내역
-//   *
-//   * @param memberId 사용자 식별자
-//   * @return PurchaseResponseDto
-//   */
-//  public List<PurchaseResponseDto> getPurchaseHistory(Long memberId) {
-//    return historyRepository.findByMemberId(memberId)
-//        .stream()
-//        .map(h -> new PurchaseResponseDto(h,
-//            itemFileRepository.findByItemId(h.getItem().getId()).get()))
-//        .collect(Collectors.toList());
-//  }
+  /**
+   * history 테이블에서 조회하는 구매 내역
+   *
+   * @param memberId 사용자 식별자
+   * @return PurchaseResponseDto
+   */
+  public List<PurchaseResponseDto> getPurchaseHistory(Long memberId) {
+    return historyRepository.findByMemberId(memberId)
+        .stream()
+        .map(h -> new PurchaseResponseDto(h,
+            itemRepository.findImageByItem(h.getItem().getId())))
+        .collect(Collectors.toList());
+  }
 
   /**
    * item 테이블에서 조회하는 구매 내역
@@ -80,12 +80,12 @@ public class HistoryService {
    * @param memberId 사용자 식별자
    * @return SaleResponseDto
    */
-//  public List<SaleResponseDto> getSaleHistory(Long memberId) {
-//    return itemRepository.findByMemberId(memberId)
-//        .stream()
-//        .map(i -> new SaleResponseDto(i, itemFileRepository.findByItemId(i.getId()).get()))
-//        .collect(Collectors.toList());
-//  }
+  public List<SaleResponseDto> getSaleHistory(Long memberId) {
+    return itemRepository.findByMemberId(memberId)
+        .stream()
+        .map(i -> new SaleResponseDto(i, itemRepository.findImageByItem(i.getId())))
+        .collect(Collectors.toList());
+  }
 
   /**
    * history 테이블의 is_delete = true
