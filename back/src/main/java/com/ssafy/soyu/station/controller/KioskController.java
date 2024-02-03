@@ -4,6 +4,7 @@ import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntit
 
 import com.ssafy.soyu.locker.dto.response.LockerBuyResponse;
 import com.ssafy.soyu.locker.service.LockerService;
+import com.ssafy.soyu.station.dto.response.HistoryIdResponseDto;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -70,7 +71,8 @@ public class KioskController {
     })
     public ResponseEntity<?> dpBuyDecision(@RequestParam("itemId") Long itemId){
         Long historyId = lockerService.dpBuyDecision(itemId);
-        return getResponseEntity(SuccessCode.OK, historyId);
+        HistoryIdResponseDto responseDto = new HistoryIdResponseDto();
+        responseDto.setHistoryId(historyId);
+        return getResponseEntity(SuccessCode.OK, responseDto);
     }
-
 }
