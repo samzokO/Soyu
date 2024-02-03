@@ -260,7 +260,7 @@ public class LockerService {
       //3. 아이템 상태 변경
       itemRepository.updateStatus(itemId, ItemStatus.ONLINE);
       //4. 보관함 상태 변경
-      lockerRepository.updateLocker(null, LockerStatus.AVAILABLE, null, null, null);
+      lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
       payActionUtil.deletePayAction(item.getOrderNumber());
       response = raspberryUtil.makeRaspberryResponse(itemId, locker.getLockerNum(), LockerStatus.AVAILABLE, item.getPrice());
     }
@@ -270,7 +270,7 @@ public class LockerService {
     }
 
     //아이템 주문 번호 삭제
-    itemRepository.updateOrderNumber(itemId,null);
+    itemRepository.updateOrderNumber(itemId, null);
     //라즈베리파이에 신호 보내기
     raspberryUtil.sendMessageToRaspberryPi(response);
   }
