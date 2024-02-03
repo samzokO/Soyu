@@ -1,11 +1,14 @@
 package com.ssafy.soyu.item.repository;
 
 
+import com.ssafy.soyu.file.ProfileImage;
+import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import java.util.List;
 import com.ssafy.soyu.member.entity.Member;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,6 +37,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   @Query("select i from Item i join fetch i.member m where i.member.id = :memberId")
   List<Item> findByMemberId(@Param("memberId") Long memberId);
 
+  @Query(value = "select * from image i left join item_image im on i.id = im.image_id where im.item_id = :itemId limit 1", nativeQuery = true)
+  Image findImageByItem(Long itemId);
 
   @Modifying
   @Query("UPDATE Item SET itemStatus= :status where id=:itemId")
