@@ -23,6 +23,9 @@ package com.ssafy.soyu.locker.entity;
  * [ 물건넣기 ]
  * TRADE_INSERT
  * DP_INSERT
+ *
+ * [ 라즈베리 파이에만 보내는 RESERVE ]
+ * RESERVE
  */
 public enum LockerStatus {
   AVAILABLE ,
@@ -34,5 +37,6 @@ public enum LockerStatus {
   WITHDRAW,
   SUBTRACT,
   TRADE_INSERT,
-  DP_INSERT
+  DP_INSERT,
+  RESERVE;
 }

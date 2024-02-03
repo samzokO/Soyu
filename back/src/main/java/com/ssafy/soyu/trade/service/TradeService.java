@@ -81,7 +81,7 @@ public class TradeService {
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
 
     //라즈베리 파이에 신호 json 신호 보내기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.TRADE_RESERVE, item.getPrice());
+    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
     raspberryUtil.sendMessageToRaspberryPi(response);
   }
 
