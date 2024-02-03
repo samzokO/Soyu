@@ -269,6 +269,8 @@ public class LockerService {
       throw new CustomException(ErrorCode.IMPOSSIBLE_WITHDRAW);
     }
 
+    //아이템 주문 번호 삭제
+    itemRepository.updateOrderNumber(itemId,null);
     //라즈베리파이에 신호 보내기
     raspberryUtil.sendMessageToRaspberryPi(response);
   }
