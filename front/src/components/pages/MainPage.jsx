@@ -7,8 +7,12 @@ import Notification from '../../assets/icons/material_24/notification.svg';
 import LocalHeader from '../molecules/LocalHeader';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
 import BottomNav from '../molecules/BottomNav';
+import useItemList from '../../hooks/useItemList';
+import WriteBtn from '../atoms/WriteBtn';
+import ItemBox from '../atoms/ItemBox';
 
 function MainPage() {
+  const data = useItemList();
   return (
     <>
       <LocalHeader>
@@ -22,18 +26,39 @@ function MainPage() {
           <Link to="/">
             <SMenu src={Category} alt="카테고리버튼" />
           </Link>
-          <Link to="/">
+          <Link to="/notification">
             <SMenu src={Notification} alt="알림버튼" />
           </Link>
         </SMenuBox>
       </LocalHeader>
       <MainContainerWithNav>
-        <SProductList>최근 등록 물품</SProductList>
+        <SProductList>
+          최근 등록 물품
+          {data &&
+            JSON.parse(data).map((item) => (
+              <ItemBox
+                key={item.itemId}
+                itemId={item.itemId}
+                title={item.title}
+                regDate={item.regDate}
+                itemStatus={0}
+                price={item.price}
+              />
+            ))}
+        </SProductList>
       </MainContainerWithNav>
       <BottomNav />
+      <Link to="/login">
+        <SBtn />
+      </Link>
     </>
   );
 }
+
+const SBtn = styled(WriteBtn)`
+  position: absolute;
+  top: 100px;
+`;
 
 const SProductList = styled.article`
   margin: 54px 0px;
@@ -50,6 +75,7 @@ const SMenu = styled.img`
 `;
 
 const SMenuBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;

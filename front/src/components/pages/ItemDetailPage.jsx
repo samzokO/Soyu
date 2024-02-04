@@ -25,7 +25,7 @@ function ItemDetailPage() {
         <SProfile>
           <ImageCircle />
           <div>
-            <SContent>{data.memberId}</SContent>
+            <SContent>직거래살인마{data.memberId}닉네임자리</SContent>
             <SCategory>직거래만 합니다</SCategory>
           </div>
         </SProfile>

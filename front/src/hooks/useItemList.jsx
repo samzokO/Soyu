@@ -5,7 +5,8 @@ function useItemList() {
   const [data, setData] = useState('');
   useEffect(() => {
     getItemList().then((response) => {
-      setData(JSON.stringify(response.data.data));
+      const result = JSON.stringify(response.data.data);
+      setData(result);
     });
   }, []);
   return data;

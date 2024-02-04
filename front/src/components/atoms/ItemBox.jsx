@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import imsi from '../../assets/IMG_0621.jpeg';
 import theme from '../../styles/theme';
-import Badge from '../atoms/Badge';
+import Badge from './Badge';
 
 /** 물품 리스트 아이템
  * @params (string)img - 이미지 주소
@@ -13,19 +15,22 @@ import Badge from '../atoms/Badge';
  * @params (number) price - 가격
  */
 function ItemBox({
-  img,
+  // img,
+  itemId,
   title,
   regDate,
   location,
   boxLocation = '',
   boxNumber,
-  itemStatus = 0,
+  itemStatus = 5,
   price,
 }) {
+  // 금액 , 삽입
+  const Price = String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return (
-    <SFlexItem>
+    <SFlexItem to={`/item/${itemId}`}>
       <SFlexCenterGap>
-        <SImgContainer url={img} src="상품 이미지" />
+        <SImgContainer $url={imsi} src="상품 이미지" />
         <SFlexWrapColumn>
           <SFlexColumnGap>
             <p>{title}</p>
@@ -40,8 +45,8 @@ function ItemBox({
             </SFontsize>
           </SFlexColumnGap>
           <SFlexCenterGap>
-            <Badge type={itemStatus} />
-            <div>{price}원</div>
+            {itemStatus !== 5 && <Badge status={itemStatus} />}
+            <div>{Price}원</div>
           </SFlexCenterGap>
         </SFlexWrapColumn>
       </SFlexCenterGap>
@@ -54,7 +59,9 @@ const SFlexCenter = styled.div`
   align-items: center;
 `;
 
-const SFlexItem = styled(SFlexCenter)`
+const SFlexItem = styled(Link)`
+  display: flex;
+  align-items: center;
   height: 127px;
   border-bottom: 1px solid ${theme.color.grayScale200};
 `;
@@ -78,12 +85,16 @@ const SFlexWrapColumn = styled(SFlexColumn)`
   height: 100px;
 `;
 
-const SImgContainer = styled.img`
+const SImgContainer = styled.div`
   width: 106px;
   height: 106px;
   border: 1px solid black;
   border-radius: 7px;
   text-align: center;
+  background-image: url({url});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 `;
 
 const SFontsize = styled.div`

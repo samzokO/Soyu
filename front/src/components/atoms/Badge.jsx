@@ -21,8 +21,8 @@ const SBadgeContainer = styled.div`
   background-color: ${(props) => Condition[props.type].bgColor};
   color: ${(props) => Condition[props.type].textColor};
   ${theme.font.Badge};
-  width: 47px;
-  height: 26px;
+  width: ${(props) => (Condition[props.type] === 5 ? '0px' : '47px')};
+  height: ${(props) => (Condition[props.type] === 5 ? '0px' : '26px')};
   display: flex;
   justify-content: center;
   align-items: center;
