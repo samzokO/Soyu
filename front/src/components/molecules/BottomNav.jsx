@@ -39,12 +39,13 @@ function BottomNav() {
   );
 }
 
-const SNav = styled.nav`
+export const SNav = styled.nav`
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
+  height: 53px;
   justify-content: space-around;
   background-color: ${theme.color.bgColor};
   ${theme.font.BtnLabel};

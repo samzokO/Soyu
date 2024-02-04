@@ -25,7 +25,7 @@ async function requestPermission() {
 
   const permission = await Notification.requestPermission();
   if (permission === 'denied') {
-    console.log('알림 권한 허용 안됨');
+    console.log('알림 권한 불허');
     return;
   }
 
@@ -35,7 +35,7 @@ async function requestPermission() {
   })
     .then((currentToken) => {
       if (currentToken) {
-        console.log(currentToken);
+        console.log();
       } else {
         // Show permission request UI
         console.log(

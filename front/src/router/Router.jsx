@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
+import MainPage from '../components/pages/MainPage';
 import ErrorPage from '../components/pages/ErrorPage';
 import Login from '../components/pages/Login';
 import Bookmark from '../components/pages/Bookmark';
@@ -16,7 +16,7 @@ import Notification from '../components/pages/Notification';
 const Router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <MainPage />,
     errorElement: <ErrorPage />,
   },
   {
