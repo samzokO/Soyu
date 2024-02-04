@@ -15,7 +15,7 @@ import lombok.ToString;
 @Table(name = "message")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"chat", "member", "file"})
+@ToString(exclude = {"chat", "member", "profileImage"})
 public class Message {
     @Id
     @GeneratedValue
@@ -32,7 +32,7 @@ public class Message {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
-    private ProfileImage ProfileImage;
+    private ProfileImage profileImage;
 
     private String content;
 

@@ -9,6 +9,9 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 
+import com.ssafy.soyu.likes.entity.Likes;
+import com.ssafy.soyu.likes.repository.LikesRepository;
+import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
@@ -39,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemController {
 
   private final ItemService itemService;
+  private final LikesRepository likesRepository;
 
   @GetMapping("/{itemId}")
   @Operation(summary = "물품 단건 조회", description = "물품 ID를 이용해 세부 정보를 조회합니다.")
@@ -51,7 +55,11 @@ public class ItemController {
     if (item == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
+    Likes likes = likesRepository.findLikesByItemAndMember(item, item.getMember());
+
     ItemResponse itemResponse = getItemResponse(item);
+
+    if (likes.getStatus()) itemResponse.setLikesStatus(true);
 
     return getResponseEntity(SuccessCode.OK, itemResponse);
   }

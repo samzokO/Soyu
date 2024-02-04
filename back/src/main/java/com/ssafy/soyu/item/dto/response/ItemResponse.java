@@ -45,4 +45,21 @@ public class ItemResponse {
 
   @Schema(description = "사진 리스트")
   private List<Image> image;
+
+  private Boolean likesStatus;
+
+  public ItemResponse(Long itemId, Long memberId, String nickname, String title, String content,
+      LocalDateTime regDate, Integer price, ItemStatus itemStatus, ItemCategories itemCategories,
+      List<Image> image) {
+    this.itemId = itemId;
+    this.memberId = memberId;
+    this.nickname = nickname;
+    this.title = title;
+    this.content = content;
+    this.regDate = regDate;
+    this.price = price;
+    this.itemStatus = itemStatus;
+    this.itemCategories = itemCategories;
+    this.image = image;
+  }
 }

@@ -5,11 +5,13 @@ import com.ssafy.soyu.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "likes")
 @Getter
 @NoArgsConstructor
+@ToString(exclude = {"item"})
 public class Likes {
     @Id
     @GeneratedValue
