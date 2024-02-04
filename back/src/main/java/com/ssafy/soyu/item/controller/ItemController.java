@@ -143,7 +143,7 @@ public class ItemController {
   })
   public ResponseEntity<?> createItem(HttpServletRequest request,
       @RequestPart(value = "image", required = false) List<MultipartFile> files,
-      @ModelAttribute(value = "itemCreateRequest") ItemCreateRequest itemCreateRequest, BindingResult bindingResult)
+      @RequestPart(value = "itemCreateRequest") ItemCreateRequest itemCreateRequest, BindingResult bindingResult)
       throws IOException {
     log.info(String.valueOf(itemCreateRequest));
     Long memberId = (Long) request.getAttribute("memberId");
