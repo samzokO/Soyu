@@ -28,6 +28,11 @@ public class NonMemberExceptionFilter implements Filter {
         whiteList.add("/kiosk/**");
         whiteList.add("/trade/match");
         whiteList.add("/raspberry/**");
+        whiteList.add("/station");
+        whiteList.add("/items");
+        whiteList.add("/item/keyword/");
+        whiteList.add("/item/category/");
+        whiteList.add("/station");
     }
 
     @Override
@@ -81,6 +86,15 @@ public class NonMemberExceptionFilter implements Filter {
     private boolean checkWhiteList(String requestURI) {
         for (String white : whiteList) {
             if(requestURI.startsWith(white)) {
+                return true;
+            }
+        }
+
+        // item/으로 시작하는 URI 패턴 확인
+        if (requestURI.startsWith("/item/")) {
+            // item/{itemId} 패턴인 경우
+            String itemIdPart = requestURI.substring(6);
+            if (itemIdPart.matches("\\d+")) { // 정규 표현식 : 하나 이상의 숫자로만 구성되어 있는지 확인
                 return true;
             }
         }
