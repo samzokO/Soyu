@@ -11,6 +11,7 @@ import NaverCallback from '../components/pages/NaverCallback';
 import SearchPage from '../components/pages/SearchPage';
 import ItemAddPage from '../components/pages/ItemAddPage';
 import ItemDetailPage from '../components/pages/ItemDetailPage';
+import Notification from '../components/pages/Notification';
 
 const Router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const Router = createBrowserRouter([
   {
     path: '/naver/callback',
     element: <NaverCallback />,
+  },
+  {
+    path: '/notification',
+    element: <Notification />,
   },
   {
     path: '/bookmark',
