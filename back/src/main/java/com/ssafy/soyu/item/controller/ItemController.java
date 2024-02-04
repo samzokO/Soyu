@@ -143,9 +143,9 @@ public class ItemController {
   })
   public ResponseEntity<?> createItem(HttpServletRequest request,
       @RequestPart(value = "image", required = false) List<MultipartFile> files,
-      @ModelAttribute(value = "requestCreateItem") ItemCreateRequest itemRequest, BindingResult bindingResult)
+      @ModelAttribute(value = "itemCreateRequest") ItemCreateRequest itemCreateRequest, BindingResult bindingResult)
       throws IOException {
-    log.info(String.valueOf(itemRequest));
+    log.info(String.valueOf(itemCreateRequest));
     Long memberId = (Long) request.getAttribute("memberId");
     if (files == null) {
       throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
@@ -153,7 +153,7 @@ public class ItemController {
     if (bindingResult.hasErrors()) {
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
     }
-    itemService.save(memberId, itemRequest, files);
+    itemService.save(memberId, itemCreateRequest, files);
 
     return getResponseEntity(SuccessCode.OK);
   }
