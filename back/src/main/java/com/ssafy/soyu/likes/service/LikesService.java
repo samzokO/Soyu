@@ -47,6 +47,10 @@ public class LikesService {
     }
   }
 
+  public Likes findLikesByItemAndMember(Item item, Member member) {
+    return likesRepository.findLikesByItemAndMember(item, member);
+  }
+
   public Integer getLikeCountByItemId(Long itemId){
     return likesRepository.countLikeByItemId(itemId);
   }

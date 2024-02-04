@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemController {
 
   private final ItemService itemService;
-  private final LikesRepository likesRepository;
+  private final LikesService likesService;
 
   @GetMapping("/{itemId}")
   @Operation(summary = "물품 단건 조회", description = "물품 ID를 이용해 세부 정보를 조회합니다.")
@@ -55,7 +55,7 @@ public class ItemController {
     if (item == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    Likes likes = likesRepository.findLikesByItemAndMember(item, item.getMember());
+    Likes likes = likesService.findLikesByItemAndMember(item, item.getMember());
 
     ItemResponse itemResponse = getItemResponse(item);
 
