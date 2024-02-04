@@ -6,11 +6,10 @@ function useNaverCallback() {
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
     const state = new URL(window.location.href).searchParams.get('state');
-
     getNaverCode(code, state)
       .then((response) => {
         // spring에서 발급된 jwt 반환 localStorage 저장
-        localStorage.setItem('accessToken', response.headers.accesstoken);
+        localStorage.setItem('accessToken', response.data.data.accessToken);
         // 메인 페이지로 이동
         window.location.href = '/';
       })

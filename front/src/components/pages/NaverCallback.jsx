@@ -1,7 +1,7 @@
 import useNaverCallback from '../../hooks/useNaverCallback';
 
 function NaverCallback() {
-  return useNaverCallback;
+  return useNaverCallback();
 }
 
 export default NaverCallback;
