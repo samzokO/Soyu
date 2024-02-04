@@ -60,7 +60,7 @@ public class ItemService {
   }
 
   public List<Item> getItems() {
-    return itemRepository.findAll();
+    return itemRepository.findItemAll();
   }
 
   public List<Item> getItemByMemberId(Long memberId) {

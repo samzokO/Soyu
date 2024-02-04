@@ -64,6 +64,7 @@ public class ItemController {
   })
   public ResponseEntity<?> getItems() {
     List<Item> items = itemService.getItems();
+    log.info(items.get(0).toString());
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
@@ -194,7 +195,7 @@ public class ItemController {
   public static List<ItemListResponse> getItemListResponses(List<Item> items) {
     return items.stream()
         .map(i -> new ItemListResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),i.getTitle(),
-            i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(), i.getImage().get(0)))
+            i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(), i.getImage()))
         .collect(Collectors.toList());
   }
 

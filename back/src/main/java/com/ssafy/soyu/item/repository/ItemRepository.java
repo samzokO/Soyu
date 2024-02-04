@@ -21,8 +21,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   Item findItemById(Long id);
 
   @EntityGraph(attributePaths = {"member" , "image"})
-  @Override
-  List<Item> findAll();
+  @Query("select i from Item i")
+  List<Item> findItemAll();
 
   @EntityGraph(attributePaths = {"member" , "image"})
   List<Item> findItemByMember(Member member);

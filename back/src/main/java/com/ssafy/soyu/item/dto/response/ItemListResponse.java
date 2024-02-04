@@ -5,6 +5,7 @@ import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,5 +40,5 @@ public class ItemListResponse {
   private ItemCategories itemCategories;
 
   @Schema(description = "대표 사진")
-  private Image image;
+  private List<Image> image;
 }
