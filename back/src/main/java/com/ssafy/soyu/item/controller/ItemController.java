@@ -82,31 +82,31 @@ public class ItemController {
   }
 
   //HistoryController 내부 판매 내역 조회와 유사 -> 하나로 통일해야 함 논의 필요
-  @GetMapping("/my")
-  @Operation(summary = "사용자 등록 물품 조회", description = "사용자 ID를 이용해 사용자가 등록한 모든 물품을 조회합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "등록 물품 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
-      @ApiResponse(responseCode = "400", description = "등록 물품 조회 실패")
-  })
-  public ResponseEntity<?> getItemByMemberId(HttpServletRequest request) {
-    Long memberId = (Long) request.getAttribute("memberId");
-    List<Item> items = itemService.getItemByMemberId(memberId);
-    if (items == null) {
-      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
-    }
-    List<ItemListResponse> itemResponses = getItemListResponses(items);
-    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
-    return getResponseEntity(SuccessCode.OK, itemResponses);
-  }
+//  @GetMapping("/my")
+//  @Operation(summary = "사용자 등록 물품 조회", description = "사용자 ID를 이용해 사용자가 등록한 모든 물품을 조회합니다.")
+//  @ApiResponses(value = {
+//      @ApiResponse(responseCode = "200", description = "등록 물품 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
+//      @ApiResponse(responseCode = "400", description = "등록 물품 조회 실패")
+//  })
+//  public ResponseEntity<?> getItemByMemberId(HttpServletRequest request) {
+//    Long memberId = (Long) request.getAttribute("memberId");
+//    List<Item> items = itemService.getItemByMemberId(memberId);
+//    if (items == null) {
+//      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+//    }
+//    List<ItemListResponse> itemResponses = getItemListResponses(items);
+//    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+//    return getResponseEntity(SuccessCode.OK, itemResponses);
+//  }
 
-  @GetMapping("/keyword/{keyword}")
+  @PostMapping("/keyword")
   @Operation(summary = "물품 키워드 검색", description = "키워드를 이용해 물품을 조회합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "물품 키워드 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 키워드 조회 실패")
   })
-  public ResponseEntity<?> getItemByKeyWord(@PathVariable("keyword") String keyword) {
-    List<Item> items = itemService.getItemByKeyword(keyword);
+  public ResponseEntity<?> getItemByKeyWord(@RequestBody ItemKeyWordRequest itemKeyWordRequest) {
+    List<Item> items = itemService.getItemByKeyword(itemKeyWordRequest.getKeyword());
     if (items == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
