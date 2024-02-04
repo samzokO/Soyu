@@ -9,7 +9,7 @@ import { MainContainerWithNav } from '../../styles/Maincontainer';
 import BottomNav from '../molecules/BottomNav';
 import useItemList from '../../hooks/useItemList';
 import WriteBtn from '../atoms/WriteBtn';
-import ItemBox from '../atoms/ItemBox';
+import ItemList from '../molecules/ItemList';
 
 function MainPage() {
   const data = useItemList();
@@ -19,6 +19,7 @@ function MainPage() {
         <Link to="/">
           <SLogo src={Logo} alt="로고" />
         </Link>
+
         <SMenuBox>
           <Link to="/search">
             <SMenu src={Search} alt="검색버튼" />
@@ -32,20 +33,7 @@ function MainPage() {
         </SMenuBox>
       </LocalHeader>
       <MainContainerWithNav>
-        <SProductList>
-          최근 등록 물품
-          {data &&
-            JSON.parse(data).map((item) => (
-              <ItemBox
-                key={item.itemId}
-                itemId={item.itemId}
-                title={item.title}
-                regDate={item.regDate}
-                itemStatus={0}
-                price={item.price}
-              />
-            ))}
-        </SProductList>
+        <ItemList title="최근 올라온 매물" data={data} />
       </MainContainerWithNav>
       <BottomNav />
       <Link to="/login">
@@ -58,10 +46,6 @@ function MainPage() {
 const SBtn = styled(WriteBtn)`
   position: absolute;
   top: 100px;
-`;
-
-const SProductList = styled.article`
-  margin: 54px 0px;
 `;
 
 const SLogo = styled.img`
