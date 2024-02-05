@@ -15,7 +15,6 @@ import com.ssafy.soyu.util.fcm.service.FcmService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,20 +33,24 @@ public class NoticeService {
 
   /**
    * 알림 생성 및 전송<br/>
-   * @param receiverId 알림을 받을 유저의 식별자
+   *
+   * @param receiverId       알림을 받을 유저의 식별자
    * @param noticeRequestDto 알림 정보를 가진 객체
    */
   @Transactional
   public void createNotice(Long receiverId, NoticeRequestDto noticeRequestDto) {
     // 알림 생성하기
-    Member receiver = memberRepository.getById(receiverId);
+    Member receiver = memberRepository.findMemberById(receiverId);
     Notice notice = new Notice(receiver, noticeRequestDto);
     noticeRepository.save(notice);
 
+    sendNotice(receiverId, notice);
+  }
+
+  public void sendNotice(Long receiverId, Notice notice){
     // 알림 전송을 위한 토큰 조회
     // 유저의 로그인 기기 개수에 따라 Token의 개수가 달라지므로 List 형식으로 조회
     List<Fcm> fcmList = fcmRepository.findByMemberId(receiverId);
-    System.out.println(fcmList.size());
     fcmList.stream()
         .forEach(fcm -> {
           FcmMessage fcmMessage = FcmMessage.builder()
@@ -72,18 +75,19 @@ public class NoticeService {
 
   @Modifying
   @Transactional
-  public void readNotice(Long noticeId){
+  public void readNotice(Long noticeId) {
     noticeRepository.readNoticeByNoticeId(noticeId);
   }
 
   @Modifying
   @Transactional
-  public void deleteNotice(Long noticeId){
+  public void deleteNotice(Long noticeId) {
     noticeRepository.deleteNoticeByNoticeId(noticeId);
   }
 
   public void checkNotice(Long memberId, Long noticeId) {
-    if(noticeRepository.checkNoticeMatchMember(memberId, noticeId) == null)
+    if (noticeRepository.checkNoticeMatchMember(memberId, noticeId) == null) {
       throw new CustomException(ErrorCode.NOT_MATCH_NOTICE);
+    }
   }
 }

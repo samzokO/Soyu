@@ -4,6 +4,7 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice {
+
   @Id
   @GeneratedValue
   @Column(name = "notice_id")
@@ -30,6 +32,7 @@ public class Notice {
   private String type;
   private String title;
   private String content;
+  private LocalDateTime regDate;
 
   @Enumerated(EnumType.STRING)
   private NoticeStatus status;
@@ -42,5 +45,6 @@ public class Notice {
     this.content = noticeRequestDto.getContent();
     this.type = noticeRequestDto.getNoticeType();
     this.status = NoticeStatus.RECEIVE;
+    this.regDate = LocalDateTime.now();
   }
 }
