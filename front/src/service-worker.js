@@ -21,8 +21,8 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 // Workbox Precaching의 일환, 설치 중에 지정된 데이터를 사전 캐시함. manifest파일에서 주입된 자원 url이 여기에 사용됨
-precacheAndRoute(process.env.REACT_APP_MANIFEST);
-
+// eslint-disable-next-line
+precacheAndRoute(self.__WB_MANIFEST);
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
