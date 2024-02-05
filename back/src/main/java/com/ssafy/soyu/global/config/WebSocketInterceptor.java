@@ -2,15 +2,15 @@ package com.ssafy.soyu.global.config;
 
 import com.ssafy.soyu.message.dto.request.MessageRequest;
 import com.ssafy.soyu.util.jwt.JwtTokenProvider;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 @Component
@@ -24,22 +24,22 @@ public class WebSocketInterceptor implements ChannelInterceptor {
     // 헤더 토큰 얻기
     String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
     if(authorizationHeader == null){
-      // 오류 던지기
+      throw new MessagingException("Authorization header missing");
     }
 
     String token = authorizationHeader.substring(7);
-
     boolean ok = jwtTokenProvider.validateToken(token);
     if(!ok){
-      // 토큰 유효하지 않다는 오류 던지기
+      throw new MessagingException("Invalid token");
     }
 
     String memberId = jwtTokenProvider.getSubject(token);
-
     MessageRequest messageRequest = (MessageRequest) message.getPayload();
     messageRequest.setMemberId(Long.valueOf(memberId)); // memberId 설정
 
-    return ChannelInterceptor.super.preSend(message, channel);
+    // 수정한 페이로드를 다시 메시지에 설정합니다. or 헤더에 메시지 추가
+    Message<?> newMessage = MessageBuilder.createMessage(messageRequest, headerAccessor.getMessageHeaders());
+    return ChannelInterceptor.super.preSend(newMessage, channel);
   }
 
 }
