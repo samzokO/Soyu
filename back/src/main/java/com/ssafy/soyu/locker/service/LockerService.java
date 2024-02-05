@@ -1,5 +1,7 @@
 package com.ssafy.soyu.locker.service;
 
+import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
+
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
@@ -280,7 +282,7 @@ public class LockerService {
     return new com.ssafy.soyu.item.dto.response.ItemResponse
         (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
-            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), item.getImage());
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), getImageResponse(item.getImage()));
   }
 
   /**

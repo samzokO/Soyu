@@ -1,7 +1,9 @@
 package com.ssafy.soyu.item.controller;
 
+import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.item.dto.request.*;
 import com.ssafy.soyu.item.dto.response.ItemListResponse;
 import com.ssafy.soyu.item.service.ItemService;
@@ -59,7 +61,7 @@ public class ItemController {
 
     ItemResponse itemResponse = getItemResponse(item);
 
-    if (likes.getStatus()) itemResponse.setLikesStatus(true);
+    if (likes != null && likes.getStatus()) itemResponse.setLikesStatus(true);
 
     return getResponseEntity(SuccessCode.OK, itemResponse);
   }
@@ -198,13 +200,13 @@ public class ItemController {
     return new ItemResponse
         (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
             item.getRegDate()
-            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), item.getImage());
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), getImageResponse(item.getImage()));
   }
 
   public static List<ItemListResponse> getItemListResponses(List<Item> items) {
     return items.stream()
         .map(i -> new ItemListResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),i.getTitle(),
-            i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(), i.getImage()))
+            i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(), getImageResponse(i.getImage())) )
         .collect(Collectors.toList());
   }
 

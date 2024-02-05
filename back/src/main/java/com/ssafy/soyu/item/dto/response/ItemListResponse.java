@@ -1,5 +1,6 @@
 package com.ssafy.soyu.item.dto.response;
 
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
@@ -40,5 +41,5 @@ public class ItemListResponse {
   private ItemCategories itemCategories;
 
   @Schema(description = "대표 사진")
-  private List<Image> image;
+  private List<ImageResponse> imageResponses;
 }

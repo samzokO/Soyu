@@ -2,10 +2,17 @@ package com.ssafy.soyu.image.controller;
 
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
+import com.ssafy.soyu.image.dto.response.ImageResponse;
+import com.ssafy.soyu.image.entity.Image;
+import com.ssafy.soyu.item.dto.response.ItemListResponse;
+import com.ssafy.soyu.item.dto.response.ItemResponse;
+import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.util.response.SuccessCode;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +33,11 @@ public class ImageController {
     imageStream.close();
 
     return getResponseEntity(SuccessCode.OK, imageByteArray);
+  }
+
+  public static List<ImageResponse> getImageResponse(List<Image> image) {
+    return image.stream()
+        .map(i -> new ImageResponse(i.getSavePath(), i.getOriginalName(), i.getSaveName()))
+        .collect(Collectors.toList());
   }
 }

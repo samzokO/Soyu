@@ -1,5 +1,6 @@
 package com.ssafy.soyu.item.dto.response;
 
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
@@ -44,13 +45,13 @@ public class ItemResponse {
   private ItemCategories itemCategories;
 
   @Schema(description = "사진 리스트")
-  private List<Image> image;
+  private List<ImageResponse> imageResponses;
 
   private Boolean likesStatus;
 
   public ItemResponse(Long itemId, Long memberId, String nickname, String title, String content,
       LocalDateTime regDate, Integer price, ItemStatus itemStatus, ItemCategories itemCategories,
-      List<Image> image) {
+      List<ImageResponse> imageResponses) {
     this.itemId = itemId;
     this.memberId = memberId;
     this.nickname = nickname;
@@ -60,6 +61,6 @@ public class ItemResponse {
     this.price = price;
     this.itemStatus = itemStatus;
     this.itemCategories = itemCategories;
-    this.image = image;
+    this.imageResponses = imageResponses;
   }
 }
