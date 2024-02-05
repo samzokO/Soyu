@@ -11,6 +11,7 @@ import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.util.raspberry.RaspberryUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -24,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class PayActionUtil {
 

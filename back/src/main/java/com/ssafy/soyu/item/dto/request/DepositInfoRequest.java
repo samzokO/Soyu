@@ -19,5 +19,5 @@ public class DepositInfoRequest {
     String order_status;
 
     @Schema(description = "몰라 뭔 일자/시간")
-    LocalDateTime processing_date;
+    String processing_date;
 }
