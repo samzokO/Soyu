@@ -34,7 +34,8 @@ public class Image {
 
   private String saveName;
 
-  public void makeImage(String today, String originalName, String saveName) {
+  public void makeImage(Item item ,String today, String originalName, String saveName) {
+    this.item = item;
     this.savePath = today;
     this.originalName = originalName;
     this.saveName = saveName;

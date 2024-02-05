@@ -20,6 +20,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -37,6 +38,7 @@ public class Item {
   @JoinColumn(name = "member_id")
   private Member member;
 
+  @Setter
   @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
   List<Image> image;
 
@@ -66,7 +68,7 @@ public class Item {
     this.itemStatus = itemStatus;
   }
 
-  static public Item createItem(Member member, String title, String content, LocalDateTime regDate, Integer price, ItemCategories itemCategories, ItemStatus itemStatus, List<Image> image) {
+  static public Item createItem(Member member, String title, String content, LocalDateTime regDate, Integer price, ItemCategories itemCategories, ItemStatus itemStatus) {
     Item item = new Item();
 
     item.member = member;
@@ -76,8 +78,6 @@ public class Item {
     item.price = price;
     item.itemCategories = itemCategories;
     item.itemStatus = itemStatus;
-    item.image = image;
-
     return item;
   }
 

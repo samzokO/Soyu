@@ -78,6 +78,11 @@ public class ItemService {
 
   public void save(Long memberId, ItemCreateRequest itemRequest, List<MultipartFile> files)
       throws IOException {
+    Member member = memberRepository.getReferenceById(memberId);
+    Item item = createItem(member, itemRequest.getTitle(), itemRequest.getContent(), LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(),
+        ItemStatus.ONLINE);
+    Item now_item = itemRepository.save(item);
+
     List<Image> images = new ArrayList<Image>();
 
     if (files != null) {
@@ -95,19 +100,14 @@ public class ItemService {
         if (!originalFileName.isEmpty()) {
           String saveFileName = UUID.randomUUID().toString() // UUID 사용으로 고유한 파일의 이름 지정
               + originalFileName.substring(originalFileName.lastIndexOf('.')); // 확장자 확인
-
-          image.makeImage(today, originalFileName, saveFileName);
-
+          image.makeImage(now_item, today, originalFileName, saveFileName);
           file.transferTo(new File(folder, saveFileName)); // 해당 folder에 해당 이름의 파일로 이동한다
         }
         images.add(image);
         // images -> 저장해야 한다
       }
     }
-    Member member = memberRepository.getReferenceById(memberId);
-    Item item = createItem(member, itemRequest.getTitle(), itemRequest.getContent(), LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(),
-        ItemStatus.ONLINE, images);
-    Item now_item = itemRepository.save(item);
+    now_item.setImage(images);
   }
 
   public void update(ItemUpdateRequest itemUpdateRequest) {
