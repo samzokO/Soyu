@@ -9,7 +9,7 @@ const SCircle = styled.div`
   height: 40px;
   background-color: red;
   border-radius: 20px;
-  background-image: url('/HJ.jpg');
+  background-image: url('');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

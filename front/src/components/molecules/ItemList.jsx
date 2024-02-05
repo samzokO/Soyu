@@ -27,6 +27,7 @@ function ItemList({ title, data }) {
 
 const SProductList = styled.article`
   padding-top: 10px;
+  padding-bottom: 53px;
 `;
 
 const STitle = styled.div`

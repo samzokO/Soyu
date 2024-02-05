@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import imsi from '../../assets/IMG_0621.jpeg';
 import theme from '../../styles/theme';
 import Badge from './Badge';
 
@@ -30,7 +29,7 @@ function ItemBox({
   return (
     <SFlexItem to={`/item/${itemId}`}>
       <SFlexCenterGap>
-        <SImgContainer $url={imsi} src="상품 이미지" />
+        <SImgContainer $url={0} src="상품 이미지" />
         <SFlexWrapColumn>
           <SFlexColumnGap>
             <p>{title}</p>

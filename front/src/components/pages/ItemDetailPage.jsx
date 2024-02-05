@@ -14,6 +14,9 @@ import useItemDetail from '../../hooks/useItemDetail';
 function ItemDetailPage() {
   const { itemId } = useParams();
   const data = useItemDetail(itemId);
+  const date = new Date(data.regDate);
+  const Month = date.getMonth() + 1;
+  const Day = date.getDate();
   return (
     <>
       <LocalHeader>
@@ -25,13 +28,13 @@ function ItemDetailPage() {
         <SProfile>
           <ImageCircle />
           <div>
-            <SContent>직거래살인마{data.memberId}닉네임자리</SContent>
+            <SContent>{data.nickname}</SContent>
             <SCategory>직거래만 합니다</SCategory>
           </div>
         </SProfile>
         <STitle>{data.title}</STitle>
         <SCategory>
-          {data.itemCategories} | {data.regDate}
+          {data.itemCategories} | `{Month}월 {Day}일`
         </SCategory>
         <SContent>{data.content}</SContent>
         <DetailBottomNav>
@@ -45,6 +48,7 @@ function ItemDetailPage() {
 }
 
 const SMainContainer = styled(MainContainerWithNav)`
+  height: 100%;
   margin: 10px 0px 53px 0px;
   display: flex;
   flex-direction: column;
