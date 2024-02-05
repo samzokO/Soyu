@@ -8,7 +8,7 @@ import lombok.Getter;
 public class MessageRequest {
   Long chatId;
 
-  Long memberID;
+  Long memberId;
 
   String content;
 }

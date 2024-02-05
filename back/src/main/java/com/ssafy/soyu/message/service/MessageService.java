@@ -23,7 +23,7 @@ public class MessageService {
     // 각 저장소에서 저장을위해 가져와야 한다
     Chat chat = chatRepository.getReferenceById(messageRequest.getChatId());
 
-    Member member = memberRepository.getReferenceById(messageRequest.getMemberID());
+    Member member = memberRepository.getReferenceById(messageRequest.getMemberId());
 
     Message message = new Message(chat, member, messageRequest.getContent());
 
