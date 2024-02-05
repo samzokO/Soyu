@@ -3,6 +3,7 @@ import { getKeyword } from '../api/apis';
 
 function useSearch(keyword) {
   const [data, setData] = useState('');
+  // eslint-disable-next-line
   const [key, setKey] = useState('');
   const keywordHandler = (k) => {
     setKey(k);
