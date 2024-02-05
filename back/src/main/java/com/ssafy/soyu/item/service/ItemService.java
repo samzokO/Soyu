@@ -2,7 +2,6 @@ package com.ssafy.soyu.item.service;
 
 import static com.ssafy.soyu.item.entity.Item.createItem;
 
-import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
@@ -36,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
@@ -53,7 +53,8 @@ public class ItemService {
   private final RaspberryUtil raspberryUtil;
   private final PayActionUtil payActionUtil;
 
-  String uploadImagePath = "C:/board/upload/imageUpload";
+  @Value("${file.path.upload-images}")
+  String uploadImagePath;
 
   public Item getItem(Long itemId) {
     return itemRepository.findItemById(itemId);

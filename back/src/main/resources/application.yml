@@ -24,3 +24,7 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace # log 단계에서 쿼리문을 나타낸다 !
+
+file:
+  path:
+    upload-images: 'C:/board/upload/imageUpload'
