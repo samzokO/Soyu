@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +80,7 @@ public class ItemController {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
     List<ItemListResponse> itemResponses = getItemListResponses(items);
+    Collections.reverse(itemResponses);
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
