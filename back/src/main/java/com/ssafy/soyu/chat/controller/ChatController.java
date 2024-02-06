@@ -1,5 +1,6 @@
 package com.ssafy.soyu.chat.controller;
 
+import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
 import static com.ssafy.soyu.message.controller.MessageController.getMessageResponses;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
@@ -45,7 +46,6 @@ public class ChatController {
   @ApiResponse(responseCode = "200", description = "채팅방 목록 조회 성공", content = @Content(schema = @Schema(implementation = ChatListResponse.class)))
   public ResponseEntity<?> getChats(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    memberId = 1L;
     List<Chat> chats = chatService.findChatByUserId(memberId);
     List<ChatListResponse> chatResponse = getChatResponses(chats);
 
@@ -81,7 +81,8 @@ public class ChatController {
   //make chat Responses
   private static List<ChatListResponse> getChatResponses(List<Chat> chats) {
     return chats.stream()
-        .map(c -> new ChatListResponse(c.getId(), c.getItem().getId(), c.getBuyer().getId(), c.getSeller().getId(),
+        .map(c -> new ChatListResponse(c.getId(), c.getItem().getId(), getImageResponse(c.getItem().getImage()), c.getBuyer().getId(),
+            c.getBuyer().getNickName(), c.getSeller().getId(), c.getBuyer().getNickName(),
             c.getLastMessage(), c.getLastDate(), c.getLastChecked(), c.getIsChecked()))
         .collect(Collectors.toList());
   }

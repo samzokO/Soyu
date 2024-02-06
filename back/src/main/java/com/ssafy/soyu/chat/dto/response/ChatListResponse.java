@@ -1,7 +1,10 @@
 package com.ssafy.soyu.chat.dto.response;
 
+import com.ssafy.soyu.image.dto.response.ImageResponse;
+import com.ssafy.soyu.image.entity.Image;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,11 +19,20 @@ public class ChatListResponse {
   @Schema(description = "물품 ID")
   Long itemId;
 
+  @Schema(description = "물품 사진 list")
+  List<ImageResponse> imageResponses;
+
   @Schema(description = "판매자 ID")
   Long buyerId;
 
+  @Schema(description = "판매자 닉네임")
+  String buyerNickname;
+
   @Schema(description = "구매자 ID")
   Long sellerId;
+
+  @Schema(description = "구매자 닉네임")
+  String sellerNickname;
 
   @Schema(description = "마지막 메세지 내용")
   private String lastMessage;
