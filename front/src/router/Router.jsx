@@ -13,6 +13,7 @@ import ItemAddPage from '../components/pages/ItemAddPage';
 import ItemDetailPage from '../components/pages/ItemDetailPage';
 import Notification from '../components/pages/Notification';
 import Map from '../components/pages/Map';
+import Kiosk from '../components/pages/Kiosk';
 
 const Router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const Router = createBrowserRouter([
   {
     path: '/map',
     element: <Map />,
+  },
+  {
+    path: '/kiosk',
+    element: <Kiosk />,
   },
   {
     path: '/mypage/buylist',
