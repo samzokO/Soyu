@@ -43,13 +43,14 @@ public class initDB {
       Member member5 = new Member("son", "손주현", "손다르크", "010-5555-4444");
       Member member6 = new Member("jae", "이재신", "예뻤어", "010-6666-4444");
       Member member7 = new Member("none", "비회원", "비회원", "010-9999-9999");
-      em.persist(member7);
+
       em.persist(member1);
       em.persist(member2);
       em.persist(member3);
       em.persist(member4);
       em.persist(member5);
       em.persist(member6);
+      em.persist(member7);
 
       Item item1 = new Item(member1, "아이패드", "아이패드를 판매합니다 새상품 입니다.", LocalDateTime.now(), 1, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
       Item item2 = new Item(member1, "말의 품격", "책을 판매합니다 좋은 책입니다..", LocalDateTime.now(),1, ItemCategories.BOOKS, ItemStatus.ONLINE);

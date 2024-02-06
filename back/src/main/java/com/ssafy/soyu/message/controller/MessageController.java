@@ -46,7 +46,7 @@ public class MessageController {
 
   public static List<MessageResponse> getMessageResponses(List<Message> messages) {
     return messages.stream()
-        .map(m -> new MessageResponse(m.getChat().getId(), m.getContent()))
+        .map(m -> new MessageResponse(m.getMember().getId(), m.getContent()))
         .collect(Collectors.toList());
   }
 }
