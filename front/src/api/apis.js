@@ -43,6 +43,5 @@ export const postImg = (data, img) => {
       { type: 'application/json' },
     ),
   );
-  console.log(formData.values());
   ImgAPI.post('item', formData);
 };

@@ -10,6 +10,7 @@ function useNaverCallback() {
       .then((response) => {
         // spring에서 발급된 jwt 반환 localStorage 저장
         localStorage.setItem('accessToken', response.data.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
         // 메인 페이지로 이동
         window.location.href = '/';
       })
