@@ -4,8 +4,13 @@ import ChatComponent from '../molecules/ChatComponent';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
+import useLoadRooms from '../../hooks/useLoadRooms';
 
 function ChatList() {
+  const rooms = useLoadRooms();
+
+  console.log(rooms);
+
   return (
     <>
       <LocalHeader>
