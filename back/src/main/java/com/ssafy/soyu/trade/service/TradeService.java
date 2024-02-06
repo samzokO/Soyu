@@ -121,7 +121,7 @@ public class TradeService {
         itemStatus = ItemStatus.ONLINE;
       }
       //판매자 알림 noticeType = CONVERT / RESERVE_CANCEL
-      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, noticeType));
+      noticeService.createNoticeWithSender(item.getMember().getId(), memberId, new NoticeRequestDto(item, noticeType));
       //구매자 알림 noticeType = RESERVE_CANCEL
       noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
 
@@ -201,7 +201,7 @@ public class TradeService {
       //판매자 알림 noticeType = CONVERT / RESERVE_CANCEL
       noticeService.createNotice(memberId, new NoticeRequestDto(item, noticeType));
       //구매자 알림
-      noticeService.createNotice(history.getMember().getId(), new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
+      noticeService.createNoticeWithSender(history.getMember().getId(), memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
 
       //locker 상태 변경, 코드 삭제 등
       lockerRepository.updateLocker(locker.getId(), lockerStatus, null, item.getId(), null);

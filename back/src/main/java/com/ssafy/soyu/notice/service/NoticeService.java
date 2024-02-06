@@ -47,7 +47,19 @@ public class NoticeService {
     sendNotice(receiverId, notice);
   }
 
-  public void sendNotice(Long receiverId, Notice notice){
+  @Transactional
+  public void createNoticeWithSender(Long receiverId, Long senderId,
+      NoticeRequestDto noticeRequestDto) {
+    // 알림 생성하기
+    Member receiver = memberRepository.findMemberById(receiverId);
+    Member sender = memberRepository.findMemberById(senderId);
+    Notice notice = new Notice(receiver, sender, noticeRequestDto);
+    noticeRepository.save(notice);
+
+    sendNotice(receiverId, notice);
+  }
+
+  public void sendNotice(Long receiverId, Notice notice) {
     // 알림 전송을 위한 토큰 조회
     // 유저의 로그인 기기 개수에 따라 Token의 개수가 달라지므로 List 형식으로 조회
     List<Fcm> fcmList = fcmRepository.findByMemberId(receiverId);

@@ -19,6 +19,12 @@ public class NoticeResponseDto {
   @Schema(description = "알림 ID")
   private Long noticeId;
 
+  @Schema(description = "송신인 ID")
+  private Long senderId;
+
+  @Schema(description = "송신인 별명")
+  private String senderNickName;
+
   @Schema(description = "알림 상태")
   private NoticeStatus status;
 
@@ -37,6 +43,9 @@ public class NoticeResponseDto {
     this.type = n.getType();
     this.localDateTime = n.getRegDate();
     this.image = n.getItem().getImage();
+    if(n.getSender() != null){
+      this.senderId = n.getSender().getId();
+      this.senderNickName = n.getSender().getNickName();
+    }
   }
-
 }

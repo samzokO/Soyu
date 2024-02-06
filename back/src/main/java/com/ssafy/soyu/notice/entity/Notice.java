@@ -23,7 +23,11 @@ public class Notice {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "receiver_id")
-  private Member member;
+  private Member receiver;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sender_id")
+  private Member sender;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "item_id")
@@ -38,8 +42,20 @@ public class Notice {
   private NoticeStatus status;
 
   @Builder
-  public Notice(Member member, NoticeRequestDto noticeRequestDto){
-    this.member = member;
+  public Notice(Member receiver, NoticeRequestDto noticeRequestDto) {
+    this.receiver = receiver;
+    this.item = noticeRequestDto.getItem();
+    this.title = noticeRequestDto.getTitle();
+    this.content = noticeRequestDto.getContent();
+    this.type = noticeRequestDto.getNoticeType();
+    this.status = NoticeStatus.RECEIVE;
+    this.regDate = LocalDateTime.now();
+  }
+
+  @Builder
+  public Notice(Member receiver, Member sender, NoticeRequestDto noticeRequestDto) {
+    this.receiver = receiver;
+    this.sender = sender;
     this.item = noticeRequestDto.getItem();
     this.title = noticeRequestDto.getTitle();
     this.content = noticeRequestDto.getContent();

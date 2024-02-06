@@ -43,16 +43,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LockerService {
 
-  // Service
+  //==Service==//
   private final ItemService itemService;
   private final NoticeService noticeService;
   private final LikesService likesService;
-  // Repository
+  //==Repository==//
   private final ItemRepository itemRepository;
   private final LockerRepository lockerRepository;
   private final HistoryRepository historyRepository;
   private final MemberRepository memberRepository;
-  // Util
+  //==Util==//
   private final PayActionUtil payActionUtil;
   private final RaspberryUtil raspberryUtil;
 

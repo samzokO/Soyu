@@ -43,7 +43,7 @@ public class LikesService {
 
     //찜이 되면 판매자에게 알림 전송
     if(likesRepository.findLikesByItemAndMember(item, member).getStatus()){
-      noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.LIKE));
+      noticeService.createNoticeWithSender(item.getMember().getId(), memberId, new NoticeRequestDto(item, NoticeType.LIKE));
     }
   }
 

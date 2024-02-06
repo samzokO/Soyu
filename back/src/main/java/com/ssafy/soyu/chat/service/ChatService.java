@@ -1,4 +1,5 @@
 package com.ssafy.soyu.chat.service;
+
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
@@ -50,7 +51,8 @@ public class ChatService {
 
     // 새로운 채팅방이 생성된다
     Chat chat = new Chat(item, buyer, seller);
-    noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.CHAT_CREATE));
+    noticeService.createNoticeWithSender(seller.getId(), buyer.getId(),
+        new NoticeRequestDto(item, NoticeType.CHAT_CREATE));
 
     return chatRepository.save(chat);
   }
