@@ -1,6 +1,5 @@
 package com.ssafy.soyu.history.dto.response;
 
-import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemStatus;

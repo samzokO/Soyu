@@ -1,4 +1,4 @@
-package com.ssafy.soyu.file;
+package com.ssafy.soyu.profileImage;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
