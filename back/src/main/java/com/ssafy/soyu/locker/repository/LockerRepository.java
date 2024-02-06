@@ -1,7 +1,9 @@
 package com.ssafy.soyu.locker.repository;
 
+import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.entity.LockerStatus;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -41,4 +43,7 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
   @Query("SELECT l.code FROM Locker l " +
       "WHERE l.item.id = :itemId AND l.status = 'READY' ")
   Optional<String> getCode(@Param("itemId") Long itemId);
+
+  @EntityGraph(attributePaths = {"station"})
+  Locker findLockerByItem(Item item);
 }

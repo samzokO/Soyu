@@ -2,6 +2,8 @@ package com.ssafy.soyu.locker.controller;
 
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
+import com.ssafy.soyu.locker.dto.response.LockerStationResponse;
+import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.util.response.SuccessCode;
@@ -70,5 +72,10 @@ public class LockerController {
     Long memberId = (Long) request.getAttribute("memberId");
     lockerService.changeToDP(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);
+  }
+
+  static public LockerStationResponse getLockerStationResponse(Locker locker) {
+    if(locker == null) return new LockerStationResponse();
+    return new LockerStationResponse(locker.getId(), locker.getStatus(), locker.getLockerNum(), locker.getStation().getId(), locker.getStation().getName());
   }
 }

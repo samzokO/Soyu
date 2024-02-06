@@ -4,6 +4,7 @@ import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
+import com.ssafy.soyu.locker.dto.response.LockerStationResponse;
 import com.ssafy.soyu.profileImage.ProfileImage;
 import com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,6 +54,8 @@ public class ItemResponse {
   private List<ImageResponse> imageResponses;
 
   private Boolean likesStatus;
+
+  LockerStationResponse lockerStationResponse;
 
   public ItemResponse(Long itemId, Long memberId, ProfileImageResponse profileImageResponse, String nickname, String title, String content,
       LocalDateTime regDate, Integer price, ItemStatus itemStatus, ItemCategories itemCategories,

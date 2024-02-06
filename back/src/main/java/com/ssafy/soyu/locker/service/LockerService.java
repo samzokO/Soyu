@@ -379,4 +379,8 @@ public class LockerService {
     raspberryUtil.sendMessageToRaspberryPi(response);
 
   }
+
+  public Locker findLockerByItem(Item item) {
+    return lockerRepository.findLockerByItem(item);
+  }
 }

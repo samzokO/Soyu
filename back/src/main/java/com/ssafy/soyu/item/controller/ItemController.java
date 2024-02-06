@@ -1,6 +1,7 @@
 package com.ssafy.soyu.item.controller;
 
 import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
+import static com.ssafy.soyu.locker.controller.LockerController.getLockerStationResponse;
 import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
@@ -15,6 +16,9 @@ import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.likes.repository.LikesRepository;
 import com.ssafy.soyu.likes.service.LikesService;
+import com.ssafy.soyu.locker.dto.response.LockerStationResponse;
+import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
@@ -47,6 +51,7 @@ public class ItemController {
 
   private final ItemService itemService;
   private final LikesService likesService;
+  private final LockerService lockerService;
 
   @GetMapping("/{itemId}")
   @Operation(summary = "물품 단건 조회", description = "물품 ID를 이용해 세부 정보를 조회합니다.")
@@ -67,7 +72,8 @@ public class ItemController {
     if (likes != null && likes.getStatus()) itemResponse.setLikesStatus(true);
 
     // 스테이션 정보 조회
-
+    Locker locker = lockerService.findLockerByItem(item);
+    itemResponse.setLockerStationResponse(getLockerStationResponse(locker));
 
     return getResponseEntity(SuccessCode.OK, itemResponse);
   }
