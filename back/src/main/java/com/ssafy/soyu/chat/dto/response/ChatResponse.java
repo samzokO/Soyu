@@ -18,6 +18,12 @@ public class ChatResponse {
   @Schema(description = "물품 ID")
   Long itemId;
 
+  @Schema(description = "물품 제목")
+  String title;
+
+  @Schema(description = "물품 가격")
+  Integer price;
+
   @Schema(description = "물품 사진")
   List<ImageResponse> imageResponses;
 

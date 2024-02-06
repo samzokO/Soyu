@@ -77,7 +77,7 @@ public class ChatController {
 
   // make chat Response
   private static ChatResponse getChatAndMessageResponse(Chat chat, List<MessageResponse> messageResponses) {
-    return new ChatResponse(chat.getItem().getId(), getImageResponse(chat.getItem().getImage()),
+    return new ChatResponse(chat.getItem().getId(), chat.getItem().getTitle(), chat.getItem().getPrice() ,getImageResponse(chat.getItem().getImage()),
         chat.getSeller().getId(), chat.getSeller().getNickName(),getProfileImageResponse(chat.getSeller().getProfileImage()),
         chat.getBuyer().getId(), chat.getBuyer().getNickName(), getProfileImageResponse(chat.getBuyer().getProfileImage()),
         chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked(), messageResponses);
