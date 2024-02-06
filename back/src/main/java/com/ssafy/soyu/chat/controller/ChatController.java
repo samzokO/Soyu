@@ -2,6 +2,7 @@ package com.ssafy.soyu.chat.controller;
 
 import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
 import static com.ssafy.soyu.message.controller.MessageController.getMessageResponses;
+import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.chat.entity.Chat;
@@ -11,6 +12,7 @@ import com.ssafy.soyu.chat.dto.request.ChatRequest;
 import com.ssafy.soyu.chat.dto.response.ChatListResponse;
 import com.ssafy.soyu.chat.service.ChatService;
 import com.ssafy.soyu.message.dto.response.MessageResponse;
+import com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,6 +48,7 @@ public class ChatController {
   @ApiResponse(responseCode = "200", description = "채팅방 목록 조회 성공", content = @Content(schema = @Schema(implementation = ChatListResponse.class)))
   public ResponseEntity<?> getChats(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
+    memberId = 1L;
     List<Chat> chats = chatService.findChatByUserId(memberId);
     List<ChatListResponse> chatResponse = getChatResponses(chats);
 
@@ -74,15 +77,18 @@ public class ChatController {
 
   // make chat Response
   private static ChatResponse getChatAndMessageResponse(Chat chat, List<MessageResponse> messageResponses) {
-    return new ChatResponse(chat.getItem().getId(), chat.getBuyer().getId(), chat.getSeller().getId(),
+    return new ChatResponse(chat.getItem().getId(), getImageResponse(chat.getItem().getImage()),
+        chat.getSeller().getId(), chat.getSeller().getNickName(),getProfileImageResponse(chat.getSeller().getProfileImage()),
+        chat.getBuyer().getId(), chat.getBuyer().getNickName(), getProfileImageResponse(chat.getBuyer().getProfileImage()),
         chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked(), messageResponses);
   }
 
   //make chat Responses
   private static List<ChatListResponse> getChatResponses(List<Chat> chats) {
     return chats.stream()
-        .map(c -> new ChatListResponse(c.getId(), c.getItem().getId(), getImageResponse(c.getItem().getImage()), c.getBuyer().getId(),
-            c.getBuyer().getNickName(), c.getSeller().getId(), c.getBuyer().getNickName(),
+        .map(c -> new ChatListResponse(c.getId(), c.getItem().getId(), getImageResponse(c.getItem().getImage()),
+            c.getSeller().getId(), c.getSeller().getNickName(),
+            c.getBuyer().getId(), c.getBuyer().getNickName(),
             c.getLastMessage(), c.getLastDate(), c.getLastChecked(), c.getIsChecked()))
         .collect(Collectors.toList());
   }

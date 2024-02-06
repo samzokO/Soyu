@@ -27,6 +27,5 @@ public class ProfileImage {
         this.savePath = savePath;
         this.originalName = originalName;
         this.saveName = saveName;
-
     }
 }
