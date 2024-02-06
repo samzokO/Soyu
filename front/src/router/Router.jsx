@@ -12,6 +12,7 @@ import SearchPage from '../components/pages/SearchPage';
 import ItemAddPage from '../components/pages/ItemAddPage';
 import ItemDetailPage from '../components/pages/ItemDetailPage';
 import Notification from '../components/pages/Notification';
+import Map from '../components/pages/Map';
 
 const Router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const Router = createBrowserRouter([
   {
     path: '/mypage',
     element: <MyPage />,
+  },
+  {
+    path: '/map',
+    element: <Map />,
   },
   {
     path: '/mypage/buylist',
