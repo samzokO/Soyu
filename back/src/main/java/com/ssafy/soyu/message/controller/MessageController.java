@@ -9,12 +9,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @RequiredArgsConstructor
 @Tag(name = "Message 컨트롤러", description = "Message API 입니다.")
+@Slf4j
 public class MessageController {
 
   private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
@@ -25,8 +32,9 @@ public class MessageController {
   // 메세지 sub 요청 받고 pub 로 뿌려주기 ( 내부에 메시지 DB 에 저장하는 로직 추가)
   // sub/message
   @MessageMapping("/message")
-  public void message (@RequestBody MessageRequest messageRequest) {
+  public void message (@RequestBody MessageRequest messageRequest, @Header("memberId") long memberId) {
     // 들어온 메세지 DB 저장
+    messageRequest.setMemberId(memberId);
     messageService.save(messageRequest);
 
     // pub 로 들어온 요청 sub 으로 뿌려주기
