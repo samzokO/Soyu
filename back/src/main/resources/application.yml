@@ -27,4 +27,4 @@ logging:
 
 file:
   path:
-    upload-images: 'C:/board/upload/imageUpload'
+    upload-images: '/home/ubuntu/soyu'
