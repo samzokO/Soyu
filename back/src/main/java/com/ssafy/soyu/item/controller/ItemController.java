@@ -1,6 +1,7 @@
 package com.ssafy.soyu.item.controller;
 
 import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
+import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.image.dto.response.ImageResponse;
@@ -62,7 +63,11 @@ public class ItemController {
 
     ItemResponse itemResponse = getItemResponse(item);
 
+    // 찜 확인
     if (likes != null && likes.getStatus()) itemResponse.setLikesStatus(true);
+
+    // 스테이션 정보 조회
+
 
     return getResponseEntity(SuccessCode.OK, itemResponse);
   }
@@ -199,8 +204,9 @@ public class ItemController {
   // make response List
   public static ItemResponse getItemResponse(Item item) {
     return new ItemResponse
-        (item.getId(), item.getMember().getId(), item.getMember().getNickName(), item.getTitle(), item.getContent(),
-            item.getRegDate()
+        (item.getId(), item.getMember().getId(),
+            getProfileImageResponse(item.getMember().getProfileImage()),
+            item.getMember().getNickName(), item.getTitle(), item.getContent(), item.getRegDate()
             , item.getPrice(), item.getItemStatus(), item.getItemCategories(), getImageResponse(item.getImage()));
   }
 
