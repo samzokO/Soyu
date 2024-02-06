@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import GoodsHeader from './GoodsHeader';
 import color from '../../styles/color';
+import BackBtn from '../atoms/BackBtn';
+import theme from '../../styles/theme';
 
 function ChatHeader() {
   return (
     <SDiv>
       <SHeader>
-        <div>뒤로가기 아이콘</div>
-        <div>유저명</div>
+        <BackBtn />
+        <SSub>유저명</SSub>
         <div>추가 정보 아이콘</div>
       </SHeader>
       <GoodsHeader />
@@ -16,6 +18,10 @@ function ChatHeader() {
 }
 
 export default ChatHeader;
+
+const SSub = styled.div`
+  ${theme.font.Subtitle}
+`;
 
 const SDiv = styled.div`
   position: sticky;
@@ -27,6 +33,7 @@ const SDiv = styled.div`
 const SHeader = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  padding: 10px;
+  justify-content: space-between;
   border-bottom: 1px solid ${color.grayScale200};
 `;

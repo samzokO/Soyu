@@ -12,8 +12,8 @@ import theme from '../../styles/theme';
 const icons = {
   main: { icon: HomeOnIcon, label: '메인', url: '/' },
   heart: { icon: HeartIcon, label: '내 소유', url: '/bookmark' },
-  map: { icon: LocationIcon, label: '지도', url: '' },
-  chat: { icon: SendIcon, label: '채팅', url: '' },
+  map: { icon: LocationIcon, label: '지도', url: '/map' },
+  chat: { icon: SendIcon, label: '채팅', url: '/chat' },
   my: { icon: PersonIcon, label: '마이', url: '/mypage' },
 };
 
