@@ -8,6 +8,7 @@ import com.ssafy.soyu.member.dto.request.MemberRequest;
 import com.ssafy.soyu.member.dto.response.MemberDetailResponse;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.service.MemberService;
+import com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse;
 import com.ssafy.soyu.util.jwt.dto.response.TokenResponse;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
@@ -129,9 +130,9 @@ public class MemberController {
 
     // 회원 가입 이후 개인정보 수정으로 나머지 정보 입력
     @PatchMapping("")
-    public ResponseEntity<?> updateMember(@RequestPart(value = "image", required = false) MultipartFile file,
-        @Validated @ModelAttribute MemberRequest memberRequest, BindingResult bindingResult,
-        HttpServletRequest request) throws IOException {
+    public ResponseEntity<?> updateMember(HttpServletRequest request,
+        @RequestPart(value = "image", required = false) MultipartFile file,
+        @RequestPart(value = "memberCreateRequest") MemberRequest memberRequest, BindingResult bindingResult) throws IOException {
         Long memberId = (Long) request.getAttribute("memberId");
         if (file == null) {
             throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
@@ -149,13 +150,8 @@ public class MemberController {
     public ResponseEntity<?> getMember(HttpServletRequest request) {
         Long memberId = (Long) request.getAttribute("memberId");
         Member member = memberService.getMember(memberId);
-
-        MemberDetailResponse memberDetailResponse = new MemberDetailResponse(member.getId(), member.getProfileImage(), member.getSnsId(),
-            member.getEmail(), member.getNickName(), member.getName(), member.getMobile(),
-            member.getBank_name(), member.getAccount_number(), member.getIsWithdraw());
-
+        MemberDetailResponse memberDetailResponse = new MemberDetailResponse(member.getId(), new ProfileImageResponse(member.getProfileImage().getSavePath(),member.getProfileImage().getOriginalName(),member.getProfileImage().getSaveName()),
+            member.getSnsId(), member.getEmail(), member.getNickName(), member.getName(), member.getMobile(), member.getBank_name(), member.getAccount_number(), member.getIsWithdraw());
         return getResponseEntity(SuccessCode.OK, memberDetailResponse);
     }
-
-
 }

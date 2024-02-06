@@ -1,14 +1,12 @@
 package com.ssafy.soyu.item.repository;
 
 
-import com.ssafy.soyu.file.ProfileImage;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import java.util.List;
 import com.ssafy.soyu.member.entity.Member;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

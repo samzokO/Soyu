@@ -1,7 +1,7 @@
 package com.ssafy.soyu.message.entity;
 
 import com.ssafy.soyu.chat.entity.Chat;
-import com.ssafy.soyu.file.ProfileImage;
+import com.ssafy.soyu.profileImage.ProfileImage;
 import com.ssafy.soyu.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

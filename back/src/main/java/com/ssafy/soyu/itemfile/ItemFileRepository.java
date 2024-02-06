@@ -1,9 +1,6 @@
 package com.ssafy.soyu.itemfile;
 
-import com.ssafy.soyu.file.ProfileImage;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 public interface ItemFileRepository extends JpaRepository<ItemFile, Long> {
 

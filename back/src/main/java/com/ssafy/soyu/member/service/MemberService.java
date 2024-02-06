@@ -1,6 +1,6 @@
 package com.ssafy.soyu.member.service;
 
-import com.ssafy.soyu.file.ProfileImage;
+import com.ssafy.soyu.profileImage.ProfileImage;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
@@ -18,7 +18,6 @@ import com.ssafy.soyu.util.jwt.repository.AuthRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,6 @@ import java.util.Date;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -189,6 +187,7 @@ public class MemberService {
         }
         Member member = memberRepository.findById(memberId).get();
 
+        // 더티체킹
         member.updateMember(memberRequest.getSnsId(), memberRequest.getBank_name(),
             memberRequest.getAccount_number(), memberRequest.getIsWithdraw(), profileImage);
     }

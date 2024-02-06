@@ -1,6 +1,6 @@
 package com.ssafy.soyu.member.entity;
 
-import com.ssafy.soyu.file.ProfileImage;
+import com.ssafy.soyu.profileImage.ProfileImage;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

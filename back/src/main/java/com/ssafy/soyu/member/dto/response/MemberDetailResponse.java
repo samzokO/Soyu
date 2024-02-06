@@ -1,9 +1,8 @@
 package com.ssafy.soyu.member.dto.response;
 
-import com.ssafy.soyu.file.ProfileImage;
-import com.ssafy.soyu.member.entity.Member;
+import com.ssafy.soyu.profileImage.ProfileImage;
+import com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MemberDetailResponse {
   private Long memberId;
-  private ProfileImage ProfileImage;
+  private ProfileImageResponse profileImageResponse;
   private Long snsId;
   private String email;
   private String nickName;

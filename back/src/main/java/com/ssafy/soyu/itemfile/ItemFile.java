@@ -1,6 +1,6 @@
 package com.ssafy.soyu.itemfile;
 
-import com.ssafy.soyu.file.ProfileImage;
+import com.ssafy.soyu.profileImage.ProfileImage;
 import com.ssafy.soyu.item.entity.Item;
 import jakarta.persistence.*;
 import lombok.Getter;
