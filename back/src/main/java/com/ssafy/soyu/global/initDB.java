@@ -6,6 +6,7 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.likes.entity.Likes;
+import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.member.entity.Member;
@@ -52,9 +53,9 @@ public class initDB {
       em.persist(member6);
       em.persist(member7);
 
-      Item item1 = new Item(member1, "아이패드", "아이패드를 판매합니다 새상품 입니다.", LocalDateTime.now(), 1, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
+      Item item1 = new Item(member1, "아이패드", "아이패드를 판매합니다 새상품 입니다.", LocalDateTime.now(), 1, ItemCategories.ELECTRONICS, ItemStatus.DP);
       Item item2 = new Item(member1, "말의 품격", "책을 판매합니다 좋은 책입니다..", LocalDateTime.now(),1, ItemCategories.BOOKS, ItemStatus.ONLINE);
-      Item item3 = new Item(member2, "갤럭시패드", "갤럭시패드를 판매합니다 새상품 입니다.", LocalDateTime.now(),1, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
+      Item item3 = new Item(member2, "갤럭시패드", "갤럭시패드를 판매합니다 새상품 입니다.", LocalDateTime.now(),1, ItemCategories.ELECTRONICS, ItemStatus.TRADE_RESERVE);
       Item item4 = new Item(member2, "어린왕자", "책을 판매합니다 어린완자 입니다.", LocalDateTime.now(), 1, ItemCategories.BOOKS, ItemStatus.ONLINE);
       Item item5 = new Item(member3, "샤오미패드", "샤오미패드를 판매합니다 새상품 입니다.",LocalDateTime.now(), 1, ItemCategories.ELECTRONICS, ItemStatus.ONLINE);
       Item item6 = new Item(member6, "동화책", "책을드를 판매합니다.", LocalDateTime.now(), 1, ItemCategories.BOOKS, ItemStatus.ONLINE);
@@ -78,19 +79,15 @@ public class initDB {
       em.persist(likes4);
       em.persist(likes5);
 
-//      History history1 = new History(item1, member2);
-//      History history2 = new History(item2, member3);
-//      History history3 = new History(item3, member4);
-//      em.persist(history1);
-//      em.persist(history2);
-//      em.persist(history3);
-
       Chat chat1 = new Chat(item1, member1, member2);
       Chat chat2 = new Chat(item3, member2, member3);
       Chat chat3 = new Chat(item5, member3, member1);
       em.persist(chat1);
       em.persist(chat2);
       em.persist(chat3);
+
+      History history1 = new History(item3, member3);
+      em.persist(history1);
 
       Message message1 = new Message(chat1, member2, "안녕하세요 jun 님" );
       Message message2 = new Message(chat1, member1, "안녕하세요 sung 님" );
@@ -106,7 +103,7 @@ public class initDB {
       em.persist(station2);
 
       Locker locker1 = new Locker(station1, item2,null, LockerStatus.DP_READY, LocalDateTime.now(), 1);
-      Locker locker2 = new Locker(station1, 2);
+      Locker locker2 = new Locker(station1, item3, "111111", LockerStatus.TRADE_READY, LocalDateTime.now(),2);
       Locker locker3 = new Locker(station1, 3);
       Locker locker4 = new Locker(station2, 1);
       Locker locker5 = new Locker(station2, 2);
