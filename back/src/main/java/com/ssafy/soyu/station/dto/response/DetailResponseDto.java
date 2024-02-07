@@ -1,10 +1,9 @@
 package com.ssafy.soyu.station.dto.response;
 
-import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.dto.response.LockerResponseDto;
 import com.ssafy.soyu.station.entity.Station;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Data;
 
 @Schema(description = "스테이션 세부 조회 응답 DTO")
@@ -21,9 +20,9 @@ public class DetailResponseDto {
   private Boolean isFavorite;
 
   @Schema(description = "보관함 정보")
-  private List<FindResponseDto> lockers;
+  private List<LockerResponseDto> lockers;
 
-  public DetailResponseDto(Station s, List<FindResponseDto> ls, boolean isFavorite) {
+  public DetailResponseDto(Station s, List<LockerResponseDto> ls, boolean isFavorite) {
     this.stationId = s.getId();
     this.stationName = s.getName();
     this.lockers = ls;

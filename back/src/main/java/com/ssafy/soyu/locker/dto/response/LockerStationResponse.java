@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LockerStationResponse {
-  // 락커점보
+  // 락커 정보
   private Long lockerId;
   private LockerStatus status;
   private Integer lockerNum;

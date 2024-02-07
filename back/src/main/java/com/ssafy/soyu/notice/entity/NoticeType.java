@@ -21,7 +21,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum NoticeType {
-  SELL("물품 판매 완료", "물품이 판매되었습니다."),
   DP_SELL("물품 판매 완료","DP된 물품이 판매되었습니다."),
   RESERVE_SELL("물품 판매 완료","거래 예약된 물품이 판매되었습니다."),
   RESERVE_CANCEL("물품 거래 취소","거래 예약이 취소되었습니다."),

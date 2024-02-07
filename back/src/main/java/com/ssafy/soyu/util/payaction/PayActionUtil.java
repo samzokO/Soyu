@@ -136,8 +136,12 @@ public class PayActionUtil {
     lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
 
     //판매 완료 알림 전송
-    noticeService.createNoticeWithSender(item.getMember().getId(), history.getMember().getId(),
-        new NoticeRequestDto(item, NoticeType.SELL));
+    if (history.getMember().getId() == 1) //DP
+      noticeService.createNotice(item.getMember().getId(),
+          new NoticeRequestDto(item, NoticeType.DP_SELL));
+    else //Trade
+      noticeService.createNoticeWithSender(item.getMember().getId(), history.getMember().getId(),
+          new NoticeRequestDto(item, NoticeType.RESERVE_SELL));
 
     raspberryUtil.sendMessageToRaspberryPi(
         raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(),

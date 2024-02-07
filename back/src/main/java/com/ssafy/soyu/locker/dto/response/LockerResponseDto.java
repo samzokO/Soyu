@@ -1,10 +1,11 @@
-package com.ssafy.soyu.station.dto.response;
+package com.ssafy.soyu.locker.dto.response;
 
+import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemCategories;
-import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.entity.Locker;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Schema(description = "보관함 정보 응답 DTO")
 @Data
 @RequiredArgsConstructor
-public class FindResponseDto {
+public class LockerResponseDto {
 
   @Schema(description = "보관함 ID")
   private Long lockerId;
@@ -39,25 +40,32 @@ public class FindResponseDto {
   @Schema(description = "물품 카테고리")
   private ItemCategories categories;
 
-  @Schema
+  @Schema(description = "로그인 한 유저의 찜 여부")
   private Boolean isLike;
 
-  public FindResponseDto(Locker l){
+  @Schema(description = "물품의 총 찜 개수")
+  private Integer likeCount;
+
+  @Schema(description = "물품 이미지")
+  private List<Image> itemImage;
+
+  public LockerResponseDto(Locker l) {
     this.lockerId = l.getId();
     this.status = l.getStatus().toString();
+    this.lockerLocation = l.getLockerNum();
   }
 
-  public FindResponseDto(Locker l, Boolean isLike){
+  public LockerResponseDto(Locker l, Boolean isLike, Integer likeCount) {
     this.lockerId = l.getId();
     this.lockerLocation = l.getLockerNum();
     this.status = l.getStatus().toString();
-    if(l.getItem() != null){
-      this.itemId = l.getItem().getId();
-      this.title = l.getItem().getTitle();
-      this.regDate = l.getItem().getRegDate();
-      this.price = l.getItem().getPrice();
-      this.categories = l.getItem().getItemCategories();
-      this.isLike = isLike;
-    }
+    this.itemId = l.getItem().getId();
+    this.itemImage = l.getItem().getImage();
+    this.title = l.getItem().getTitle();
+    this.regDate = l.getItem().getRegDate();
+    this.price = l.getItem().getPrice();
+    this.categories = l.getItem().getItemCategories();
+    this.isLike = isLike;
+    this.likeCount = likeCount;
   }
 }

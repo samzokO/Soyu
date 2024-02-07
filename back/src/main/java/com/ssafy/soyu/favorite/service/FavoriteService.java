@@ -5,9 +5,10 @@ import com.ssafy.soyu.favorite.entity.Favorite;
 import com.ssafy.soyu.favorite.repository.FavoriteRepository;
 import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.entity.Locker;
+import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
-import com.ssafy.soyu.station.dto.response.FindResponseDto;
+import com.ssafy.soyu.locker.dto.response.LockerResponseDto;
 import com.ssafy.soyu.station.entity.Station;
 import com.ssafy.soyu.station.repository.StationRepository;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -26,14 +27,20 @@ public class FavoriteService {
   private final FavoriteRepository favoriteRepository;
   private final MemberRepository memberRepository;
   private final StationRepository stationRepository;
+  private final LockerService lockerService;
   private final LikesService likesService;
 
   @Transactional
   public void registFavorite(Long memberId, Long stationId) {
     Optional<Member> member = memberRepository.findById(memberId);
+
+    if (member.isEmpty()) {
+      throw new CustomException((ErrorCode.USER_NOT_FOUND));
+    }
+
     Optional<Station> station = stationRepository.findById(stationId);
 
-    if (!station.isPresent()) {
+    if (station.isEmpty()) {
       throw new CustomException(ErrorCode.STATION_NOT_FOUND);
     }
 
@@ -50,7 +57,7 @@ public class FavoriteService {
   @Transactional
   public void deleteFavorite(Long memberId, Long stationId) {
     Optional<Favorite> favorite = favoriteRepository.isExist(memberId, stationId);
-    if (!favorite.isPresent()) {
+    if (favorite.isEmpty()) {
       throw new CustomException(ErrorCode.FAVORITE_NOT_FOUND);
     }
     favoriteRepository.delete(favorite.get());
@@ -68,14 +75,7 @@ public class FavoriteService {
         .map(object -> {
           Favorite f = (Favorite) object[0];
           Station s = (Station) object[1];
-          List<FindResponseDto> ls = s.getLockers()
-              .stream()
-              .map(l -> {
-                if(l.getItem().equals(null))
-                  return new FindResponseDto(l);
-                return new FindResponseDto(l, likesService.getByMemberWithItem(memberId, l.getItem().getId()));
-              })
-              .collect(Collectors.toList());
+          List<LockerResponseDto> ls = lockerService.getLockerResponse(s.getLockers(), memberId);
           return new FavoriteListResponseDto(f, s, ls);
         })
         .collect(Collectors.toList());

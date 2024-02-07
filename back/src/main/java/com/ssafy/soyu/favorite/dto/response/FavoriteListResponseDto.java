@@ -1,12 +1,10 @@
 package com.ssafy.soyu.favorite.dto.response;
 
 import com.ssafy.soyu.favorite.entity.Favorite;
-import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.station.entity.Station;
-import com.ssafy.soyu.station.dto.response.FindResponseDto;
+import com.ssafy.soyu.locker.dto.response.LockerResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Data;
 
 @Schema(description = "즐겨찾기 목록 조회 응답 DTO")
@@ -32,9 +30,9 @@ public class FavoriteListResponseDto {
   private String address;
 
   @Schema(description = "스테이션 내 보관함 정보 목록")
-  private List<FindResponseDto> lockers;
+  private List<LockerResponseDto> lockers;
 
-  public FavoriteListResponseDto(Favorite f, Station s, List<FindResponseDto> ls) {
+  public FavoriteListResponseDto(Favorite f, Station s, List<LockerResponseDto> ls) {
     this.favoriteId = f.getId();
     this.stationId = s.getId();
     this.stationName = s.getName();

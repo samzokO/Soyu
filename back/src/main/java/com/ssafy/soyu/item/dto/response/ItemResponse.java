@@ -72,20 +72,4 @@ public class ItemResponse {
     this.itemCategories = itemCategories;
     this.imageResponses = imageResponses;
   }
-
-  // 재신 사용중
-  public ItemResponse(Long itemId, Long memberId, String nickname, String title, String content,
-      LocalDateTime regDate, Integer price, ItemStatus itemStatus, ItemCategories itemCategories,
-      List<ImageResponse> imageResponses) {
-    this.itemId = itemId;
-    this.memberId = memberId;
-    this.nickname = nickname;
-    this.title = title;
-    this.content = content;
-    this.regDate = regDate;
-    this.price = price;
-    this.itemStatus = itemStatus;
-    this.itemCategories = itemCategories;
-    this.imageResponses = imageResponses;
-  }
 }
