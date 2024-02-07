@@ -122,9 +122,9 @@ public class initDB {
       em.persist(locker5);
       em.persist(locker6);
 
-      Favorite favorite1 = new Favorite(member1, station1);
-      Favorite favorite2 = new Favorite(member1, station2);
-      Favorite favorite3 = new Favorite(member2, station1);
+      Favorite favorite1 = new Favorite(member1, station1, true);
+      Favorite favorite2 = new Favorite(member1, station2, true);
+      Favorite favorite3 = new Favorite(member2, station1, false);
       em.persist(favorite1);
       em.persist(favorite2);
       em.persist(favorite3);

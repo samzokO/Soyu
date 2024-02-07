@@ -26,8 +26,15 @@ public class Favorite {
     @JoinColumn(name = "station_id")
     private Station station;
 
-    public Favorite(Member member, Station station) {
+    private Boolean status;
+
+    public Favorite(Member member, Station station, Boolean status) {
         this.member = member;
         this.station = station;
+        this.status = status;
+    }
+
+    public void changeStatus() {
+        this.status = !status;
     }
 }

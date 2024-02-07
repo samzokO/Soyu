@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,48 +39,16 @@ public class FavoriteController {
    * @return USER | STATION_NOT_FOUND || OK
    */
   @PostMapping("/{stationId}")
-  @Operation(summary = "즐겨찾기 등록", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 추가합니다.")
+  @Operation(summary = "즐겨찾기 On & Off", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 On / Off합니다.")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "즐겨찾기 등록 성공"),
-      @ApiResponse(responseCode = "400", description = "즐겨찾기 등록 실패")
+      @ApiResponse(responseCode = "200", description = "즐겨찾기 여부 전환 성공"),
+      @ApiResponse(responseCode = "400", description = "즐겨찾기 여부 전환 실패")
   })
   public ResponseEntity<?> register(HttpServletRequest request, @PathVariable("stationId") Long stationId) {
     Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
 
-    try {
-      favoriteService.registFavorite(memberId, stationId);
-    } catch (CustomException e) {
-      return toResponseEntity(e.getErrorCode());
-    }
+    favoriteService.onOffFavorite(memberId, stationId);
 
-    return getResponseEntity(SuccessCode.OK);
-  }
-
-  /**
-   * 즐겨찾기 삭제 (Hard Delete)
-   *
-   * @return FAVORITE_NOT_FOUND || OK
-   */
-  @DeleteMapping("/{stationId}")
-  @Operation(summary = "즐겨찾기 삭제", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 삭제합니다.")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "즐겨찾기 삭제 성공"),
-      @ApiResponse(responseCode = "400", description = "즐겨찾기 삭제 실패")
-  })
-  public ResponseEntity<?> delete(HttpServletRequest request, @PathVariable("stationId") Long stationId) {
-    Long memberId = (Long) request.getAttribute("memberId");
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
-
-    try {
-      favoriteService.deleteFavorite(memberId, stationId);
-    } catch (CustomException e) {
-      return toResponseEntity(e.getErrorCode());
-    }
     return getResponseEntity(SuccessCode.OK);
   }
 

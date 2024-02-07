@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
@@ -13,7 +14,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
       + "where f.member.id = :memberId")
   List<Object[]> findByMemberId(Long memberId);
 
-  @Query("select f from Favorite f "
-      + "where f.member.id = :memberId AND f.station.id = :stationId")
-  Optional<Favorite> isExist(Long memberId, Long stationId);
+  @Query("SELECT f FROM Favorite f "
+      + "WHERE f.member.id = :memberId AND f.station.id = :stationId")
+  Favorite findByMemberAndStation(@Param("memberId") Long memberId, @Param("stationId") Long stationId);
 }

@@ -27,10 +27,9 @@ public class FavoriteService {
   private final MemberRepository memberRepository;
   private final StationRepository stationRepository;
   private final LockerService lockerService;
-  private final LikesService likesService;
 
   @Transactional
-  public void registFavorite(Long memberId, Long stationId) {
+  public void onOffFavorite(Long memberId, Long stationId) {
     Optional<Member> member = memberRepository.findById(memberId);
 
     if (member.isEmpty()) {
@@ -43,23 +42,13 @@ public class FavoriteService {
       throw new CustomException(ErrorCode.STATION_NOT_FOUND);
     }
 
-    Optional<Favorite> f = favoriteRepository.isExist(memberId, stationId);
+    Favorite favorite = favoriteRepository.findByMemberAndStation(memberId, stationId);
 
-    if (f.isPresent()) {
-      throw new CustomException(ErrorCode.ALREADY_FAVORITE_STATION);
+    if (favorite != null) {
+      favorite.changeStatus();
+    } else {
+      favoriteRepository.save(new Favorite(member.get(), station.get(), true));
     }
-
-    Favorite favorite = new Favorite(member.get(), station.get());
-    favoriteRepository.save(favorite);
-  }
-
-  @Transactional
-  public void deleteFavorite(Long memberId, Long stationId) {
-    Optional<Favorite> favorite = favoriteRepository.isExist(memberId, stationId);
-    if (favorite.isEmpty()) {
-      throw new CustomException(ErrorCode.FAVORITE_NOT_FOUND);
-    }
-    favoriteRepository.delete(favorite.get());
   }
 
   /**
