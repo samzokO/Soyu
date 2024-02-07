@@ -1,5 +1,6 @@
 package com.ssafy.soyu.util.fcm.controller;
 
+import com.ssafy.soyu.util.fcm.dto.FcmRegistRequestDto;
 import com.ssafy.soyu.util.fcm.service.FcmService;
 import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
@@ -22,10 +23,10 @@ public class FcmController {
 
   @PostMapping("")
   @Operation(summary = "FCM 디바이스 토큰 등록", description = "사용자 ID와 디바이스 토큰을 매칭하여 등록합니다.")
-  public ResponseEntity<?> registerFcm(HttpServletRequest request, @RequestBody String token){
+  public ResponseEntity<?> registerFcm(HttpServletRequest request, @RequestBody FcmRegistRequestDto fcmRegistRequestDto){
     Long memberId = (Long) request.getAttribute("memberId");
 
-    fcmService.register(memberId, token);
+    fcmService.register(memberId, fcmRegistRequestDto.getToken());
 
     return CommonResponseEntity.getResponseEntity(SuccessCode.OK);
   }
