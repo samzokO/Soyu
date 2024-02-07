@@ -135,7 +135,7 @@ public class MemberController {
         @RequestPart(value = "image", required = false) MultipartFile file,
         @RequestPart(value = "memberCreateRequest") MemberRequest memberRequest, BindingResult bindingResult) throws IOException {
         Long memberId = (Long) request.getAttribute("memberId");
-        memberId = 1L;
+
         if (file == null) {
             throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
         }
@@ -151,7 +151,6 @@ public class MemberController {
     @GetMapping("")
     public ResponseEntity<?> getMember(HttpServletRequest request) {
         Long memberId = (Long) request.getAttribute("memberId");
-        memberId = 1L;
 
         Member member = memberService.getMember(memberId);
         MemberDetailResponse memberDetailResponse = new MemberDetailResponse(member.getId(), getProfileImageResponse(member.getProfileImage()),
