@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,39 +43,39 @@ public class TradeController {
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @GetMapping("/code")
+  @GetMapping("/code/{itemId}")
   @Operation(summary = "거래예약 코드 조회", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래예약 코드 조회 성공"),
       @ApiResponse(responseCode = "400", description = "거래예약 코드 조회 실패")
   })
-  public ResponseEntity<?> purchaseCode(HttpServletRequest request, @RequestParam Long itemId) {
+  public ResponseEntity<?> purchaseCode(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
 
     String code = tradeService.getPurchaseCode(memberId, itemId);
     return getResponseEntity(SuccessCode.OK, code);
   }
 
-  @DeleteMapping("/reserve")
+  @DeleteMapping("/reserve/{historyId}")
   @Operation(summary = "구매자가 거래 취소", description = "구매내역 ID를 이용해 거래예약을 취소합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래예약 취소 성공"),
       @ApiResponse(responseCode = "400", description = "거래예약 취소 실패")
   })
-  public ResponseEntity<?> deleteBuyReserve(@RequestParam Long historyId,
+  public ResponseEntity<?> deleteBuyReserve(@PathVariable("historyId") Long historyId,
       HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
     tradeService.deleteBuyReserve(historyId, memberId);
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @DeleteMapping("/sale")
+  @DeleteMapping("/sale/{itemId}")
   @Operation(summary = "판매자가 거래 취소", description = "아이템 ID를 이용해 거래예약을 취소합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래 삭제 성공"),
       @ApiResponse(responseCode = "400", description = "거래 삭제 실패")
   })
-  public ResponseEntity<?> deleteSaleReserve(HttpServletRequest request, @RequestParam Long itemId) {
+  public ResponseEntity<?> deleteSaleReserve(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
     tradeService.deleteSaleReserve(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);

@@ -21,6 +21,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,13 +50,13 @@ public class StationController {
     return getResponseEntity(SuccessCode.OK, result);
   }
 
-  @GetMapping("detail")
+  @GetMapping("/{stationId}")
   @Operation(summary = "스테이션 상세 조회", description = "사용자 ID와 스테이션 ID를 이용해 스테이션의 세부 정보를 조회합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "스테이션 상세정보 조회 성공", content = @Content(schema = @Schema(implementation = DetailResponseDto.class))),
       @ApiResponse(responseCode = "400", description = "스테이션 상세정보 조회 실패")
   })
-  public ResponseEntity<?> detailStation(HttpServletRequest request, @RequestParam("stationId") Long stationId){
+  public ResponseEntity<?> detailStation(HttpServletRequest request, @PathVariable("stationId") Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
 
     List<DetailResponseDto> result = stationService.findOneStation(memberId, stationId);

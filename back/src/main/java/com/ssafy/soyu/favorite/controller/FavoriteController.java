@@ -3,12 +3,9 @@ package com.ssafy.soyu.favorite.controller;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 import static com.ssafy.soyu.util.response.ErrorResponseEntity.toResponseEntity;
 
-import com.ssafy.soyu.chat.dto.response.ChatListResponse;
 import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
 import com.ssafy.soyu.favorite.service.FavoriteService;
-import com.ssafy.soyu.util.response.CommonResponseEntity;
 import com.ssafy.soyu.util.response.ErrorCode;
-import com.ssafy.soyu.util.response.ErrorResponseEntity;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,11 +17,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,13 +39,13 @@ public class FavoriteController {
    *
    * @return USER | STATION_NOT_FOUND || OK
    */
-  @PostMapping("")
+  @PostMapping("/{stationId}")
   @Operation(summary = "즐겨찾기 등록", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 추가합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "즐겨찾기 등록 성공"),
       @ApiResponse(responseCode = "400", description = "즐겨찾기 등록 실패")
   })
-  public ResponseEntity<?> register(HttpServletRequest request, @RequestParam Long stationId) {
+  public ResponseEntity<?> register(HttpServletRequest request, @PathVariable("stationId") Long stationId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
       return toResponseEntity(ErrorCode.USER_NOT_FOUND);
@@ -69,13 +65,13 @@ public class FavoriteController {
    *
    * @return FAVORITE_NOT_FOUND || OK
    */
-  @DeleteMapping("")
+  @DeleteMapping("/{stationId}")
   @Operation(summary = "즐겨찾기 삭제", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 삭제합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "즐겨찾기 삭제 성공"),
       @ApiResponse(responseCode = "400", description = "즐겨찾기 삭제 실패")
   })
-  public ResponseEntity<?> delete(HttpServletRequest request, @RequestParam Long stationId) {
+  public ResponseEntity<?> delete(HttpServletRequest request, @PathVariable("stationId") Long stationId) {
     Long memberId = (Long) request.getAttribute("memberId");
     if (memberId == null) {
       return toResponseEntity(ErrorCode.USER_NOT_FOUND);
@@ -102,7 +98,7 @@ public class FavoriteController {
   })
   public ResponseEntity<?> getList(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    memberId = 1L;
+
     if (memberId == null) {
       return toResponseEntity(ErrorCode.USER_NOT_FOUND);
     }

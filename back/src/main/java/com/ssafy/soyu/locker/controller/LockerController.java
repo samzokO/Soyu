@@ -50,25 +50,25 @@ public class LockerController {
 
   }
 
-  @PostMapping("/withdraw")
+  @PostMapping("/withdraw/{itemId}")
   @Operation(summary = "오프라인 물품 DP 취소", description = "물품 ID를 이용해 DP를 취소합니다. == 회수 예약")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "오프라인 물품 회수 성공"),
       @ApiResponse(responseCode = "400", description = "오프라인 물품 회수 실패")
   })
-  public ResponseEntity<?> withdrawItem(HttpServletRequest request, @RequestParam Long itemId) {
+  public ResponseEntity<?> withdrawItem(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
     lockerService.withdrawReserve(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @PatchMapping("/change")
+  @PatchMapping("/change/{itemId}")
   @Operation(summary = "거래 예약 물품 DP 전환", description = "물품 ID를 이용해 보관함에 있는 물품을 DP로 전환합니다.")
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "DP 전환 성공"),
           @ApiResponse(responseCode = "400", description = "DP 전환 실패")
   })
-  public ResponseEntity<?> changeToDP(HttpServletRequest request, @RequestParam Long itemId){
+  public ResponseEntity<?> changeToDP(HttpServletRequest request, @PathVariable("itemId") Long itemId){
     Long memberId = (Long) request.getAttribute("memberId");
     lockerService.changeToDP(memberId, itemId);
     return getResponseEntity(SuccessCode.OK);

@@ -58,7 +58,7 @@ public class HistoryController {
       @ApiResponse(responseCode = "200", description = "구매내역 삭제 성공"),
       @ApiResponse(responseCode = "400", description = "구매내역 삭제 실패")
   })
-  public ResponseEntity<?> deleteHistory(@RequestParam("historyId") List<Long> historyIdList) {
+  public ResponseEntity<?> deleteHistory(@RequestBody List<Long> historyIdList) {
     if (historyIdList == null || historyIdList.isEmpty()) {
       return toResponseEntity(ErrorCode.EMPTY_REQUEST_VALUE);
     }
