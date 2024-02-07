@@ -44,9 +44,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
 
     // 헤더 토큰 얻기
     String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
-    if(authorizationHeader == null){
-      throw new MessagingException("Authorization header missing");
-    }
+    if(authorizationHeader == null){ throw new MessagingException("Authorization header missing");}
 
     String token = authorizationHeader.substring(7);
     boolean ok = jwtTokenProvider.validateToken(token);

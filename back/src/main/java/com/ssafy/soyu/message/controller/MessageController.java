@@ -10,22 +10,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.socket.messaging.SessionConnectEvent;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @Tag(name = "Message 컨트롤러", description = "Message API 입니다.")
 @Slf4j
+@RestController
 public class MessageController {
 
-  private final SimpMessagingTemplate template; //특정 Broker로 메세지를 전달
+  private final SimpMessageSendingOperations template; //특정 Broker로 메세지를 전달
   private final MessageService messageService;
   private final MessageRepository messageRepository;
 
@@ -33,25 +31,14 @@ public class MessageController {
   // 메세지 sub 요청 받고 pub 로 뿌려주기 ( 내부에 메시지 DB 에 저장하는 로직 추가)
   // sub/message
   @MessageMapping("/message")
-  public void message (@RequestBody MessageRequest messageRequest, @Header("memberId") long memberId) {
-    // 들어온 메세지 DB 저장
-    messageRequest.setMemberId(memberId);
+  public void message (@RequestBody MessageRequest messageRequest) {
     messageService.save(messageRequest);
 
-    // pub 로 들어온 요청 sub 으로 뿌려주기
-    template.convertAndSend("sub/message/" + messageRequest.getChatId(), messageRequest);
-  }
+    log.info("sender :" + messageRequest.getMemberId() + " 님이 보낸 메세지 " + messageRequest.toString());
 
-  // http 요청
-  // 채팅방 번호로 모든 메세지 불러오기
-//  @GetMapping("/messages/{chatId}")
-//  public ResponseEntity<?> getMessages(@PathVariable("chatId") Long chatId) {
-//    List<Message> messages = messageRepository.findMessagesByChatId(chatId);
-//
-//    List<MessageResponse> messageResponses = getMessageResponses(messages);
-//
-//    return CommonResponseEntity.getResponseEntity(SuccessCode.OK, messageResponses);
-//  }
+    // pub 로 들어온 요청 sub 으로 뿌려주기
+    template.convertAndSend("/sub/message/" + messageRequest.getChatId(), messageRequest);
+  }
 
   public static List<MessageResponse> getMessageResponses(List<Message> messages) {
     return messages.stream()
