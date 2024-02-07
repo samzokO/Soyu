@@ -6,8 +6,10 @@ import DealList from '../molecules/DealList';
 import Profile from '../molecules/Profile';
 import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
+import useMyPage from '../../hooks/useMypage';
 
 function MyPage() {
+  const data = useMyPage();
   return (
     <>
       <LocalHeader>
@@ -16,7 +18,11 @@ function MyPage() {
         <div />
       </LocalHeader>
       <MainContainerWithNav>
-        <Profile />
+        <Profile
+          nickName={data.nickName}
+          bankName={data.bankName}
+          accountNumber={data.accountNumber}
+        />
         <DealList />
         <InfoList />
         <Button type="0">로그아웃</Button>

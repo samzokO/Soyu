@@ -3,13 +3,15 @@ import font from '../../styles/font';
 import color from '../../styles/color';
 import defaultImage from '../../assets/icons/material_24/default_account.svg';
 
-function Profile() {
+function Profile({ img, nickName, bankName, accountNumber }) {
   return (
     <SFlexWrap>
       <SImg src={defaultImage} alt="프로필 이미지" />
       <div>
-        <SH2>유저명</SH2>
-        <SP>농협 010-0100-0100</SP>
+        {nickName && <SH2>{nickName}</SH2>}
+        <SP>
+          {bankName} {accountNumber}
+        </SP>
       </div>
     </SFlexWrap>
   );
