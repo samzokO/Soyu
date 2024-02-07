@@ -4,9 +4,6 @@ import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntit
 
 import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
-import com.ssafy.soyu.item.dto.response.ItemListResponse;
-import com.ssafy.soyu.item.dto.response.ItemResponse;
-import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.util.response.SuccessCode;
 import java.io.FileInputStream;
 import java.io.IOException;

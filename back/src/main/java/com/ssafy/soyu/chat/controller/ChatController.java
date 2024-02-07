@@ -44,7 +44,6 @@ public class ChatController {
   @ApiResponse(responseCode = "200", description = "채팅방 목록 조회 성공", content = @Content(schema = @Schema(implementation = ChatListResponse.class)))
   public ResponseEntity<?> getChats(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-    memberId = 1L;
     List<Chat> chats = chatService.findChatByUserId(memberId);
     List<ChatListResponse> chatResponse = getChatResponses(chats);
 

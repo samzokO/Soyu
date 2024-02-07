@@ -1,8 +1,6 @@
 package com.ssafy.soyu.message.dto.response;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class MessageResponse {

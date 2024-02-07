@@ -1,8 +1,5 @@
 package com.ssafy.soyu.message.dto.request;
-
-import java.time.LocalDateTime;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class MessageRequest {
