@@ -23,6 +23,14 @@ public class WebSocketInterceptor implements ChannelInterceptor {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
     String sessionId = headerAccessor.getSessionId();
 
+    // 엔드포인트 경로 확인
+    String destination = headerAccessor.getDestination();
+
+    // "/stomp/raspberry" 엔드포인트로 들어오는 메시지는 인터셉터 로직을 건너뜁니다.
+    if (destination != null && destination.startsWith("/stomp/raspberry")) {
+      return message;
+    }
+
     switch ((Objects.requireNonNull(headerAccessor.getCommand()))) {
       case CONNECT:
         // 유저가 Websocket으로 connect()를 한 뒤 호출됨
