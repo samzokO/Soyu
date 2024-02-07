@@ -1,10 +1,7 @@
 package com.ssafy.soyu.util.response;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -55,7 +52,9 @@ public enum ErrorCode {
     NOT_READY_YET(HttpStatus.BAD_REQUEST, "아직 물품이 스테이션에 도착하지 않았습니다."),
 
     IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다."),
-    IMPOSSIBLE_WITHDRAW(HttpStatus.BAD_REQUEST, "회수 할 수 없는 상태입니다.");
+    IMPOSSIBLE_WITHDRAW(HttpStatus.BAD_REQUEST, "회수 할 수 없는 상태입니다."),
+
+    ALREADY_REGISTER_TOKEN(HttpStatus.BAD_REQUEST, "이미 등록된 토큰입니다.");
 
     private final HttpStatus httpStatus;
 

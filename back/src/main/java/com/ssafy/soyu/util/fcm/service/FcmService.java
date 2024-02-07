@@ -10,6 +10,8 @@ import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.util.fcm.entity.Fcm;
 import com.ssafy.soyu.util.fcm.dto.FcmMessage;
 import com.ssafy.soyu.util.fcm.repository.FcmRepository;
+import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,11 @@ public class FcmService {
    * @param token 등록할 토큰
    */
   public void register(final Long memberId, final String token) {
-    Member member = memberRepository.getOne(memberId);
+    Member member = memberRepository.findMemberById(memberId);
+
+    if(fcmRepository.existsByToken(token))
+      throw new CustomException(ErrorCode.ALREADY_REGISTER_TOKEN);
+
     Fcm fcm = Fcm.createFcm(member, token);
     fcmRepository.save(fcm);
   }

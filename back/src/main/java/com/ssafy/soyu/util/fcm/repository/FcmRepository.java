@@ -11,4 +11,6 @@ public interface FcmRepository extends JpaRepository<Fcm, Long> {
 
   @Query(value = "select f from Fcm f where f.member.id = :memberId")
   List<Fcm> findByMemberId(@Param("memberId") Long memberId);
+
+  Boolean existsByToken(String token);
 }
