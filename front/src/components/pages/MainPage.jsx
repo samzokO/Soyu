@@ -24,7 +24,7 @@ function MainPage() {
           <Link to="/search">
             <SMenu src={Search} alt="검색버튼" />
           </Link>
-          <Link to="/">
+          <Link to="/category">
             <SMenu src={Category} alt="카테고리버튼" />
           </Link>
           <Link to="/notification">

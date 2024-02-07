@@ -19,7 +19,7 @@ function Goods() {
             <SFlexWrap>
               <p>100,000원</p>
               <SFlexWrap>
-                <HeartIcon />
+                {/* <HeartIcon /> */}
                 <span>3</span>
               </SFlexWrap>
             </SFlexWrap>

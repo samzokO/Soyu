@@ -1,17 +1,7 @@
 import styled from 'styled-components';
 
-// children을 이용한 합성 패턴으로 리팩토링하기
-function BookmarkTab({ state, handler }) {
-  return (
-    <STab>
-      <SBookmark onClick={() => handler('bookmark')} current={state}>
-        북마크
-      </SBookmark>
-      <SHeart onClick={() => handler('heart')} current={state}>
-        찜
-      </SHeart>
-    </STab>
-  );
+function BookmarkTab({ children }) {
+  return <STab>{children}</STab>;
 }
 
 export default BookmarkTab;
@@ -19,19 +9,4 @@ export default BookmarkTab;
 const STab = styled.nav`
   width: 100%;
   display: flex;
-`;
-
-const SButton = styled.button`
-  width: inherit;
-  padding: 10px;
-`;
-
-const SBookmark = styled(SButton)`
-  border-bottom: ${(props) =>
-    props.current === 'bookmark' ? '1px solid #4827E9' : ''};
-`;
-
-const SHeart = styled(SButton)`
-  border-bottom: ${(props) =>
-    props.current === 'heart' ? '1px solid #4827E9' : ''};
 `;
