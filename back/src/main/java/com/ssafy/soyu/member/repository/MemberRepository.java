@@ -28,5 +28,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     void updateNickName(@Param("memberId") Long memberId, @Param("nickName") String nickName);
 
     @EntityGraph(attributePaths = {"profileImage"})
-    Member findMemberById(Long id);
+    @Query("SELECT m FROM Member m Where m.id = :memberId")
+    Member findMemberById(@Param("memberId") Long memberId);
 }

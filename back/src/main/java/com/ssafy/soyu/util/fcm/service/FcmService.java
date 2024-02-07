@@ -31,10 +31,12 @@ public class FcmService {
   public void register(final Long memberId, final String token) {
     Member member = memberRepository.findMemberById(memberId);
 
+    System.out.println(member.getName());
+
     if(fcmRepository.existsByToken(token))
       throw new CustomException(ErrorCode.ALREADY_REGISTER_TOKEN);
 
-    Fcm fcm = Fcm.createFcm(member, token);
+    Fcm fcm = new Fcm(member, token);
     fcmRepository.save(fcm);
   }
 
