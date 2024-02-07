@@ -28,9 +28,10 @@ public class JwtAuthenticationFilter implements Filter {
         whiteList.add("/member/token");
         whiteList.add("/swagger-ui");
         whiteList.add("/v3/api-docs");
-        whiteList.add("/kiosk/**");
+        whiteList.add("/kiosk");
         whiteList.add("/trade/match");
-        whiteList.add("/raspberry/**");
+        whiteList.add("/stomp/raspberry");
+        whiteList.add("/raspberry");
     }
 
     @Override

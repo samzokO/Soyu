@@ -25,9 +25,10 @@ public class NonMemberExceptionFilter implements Filter {
         whiteList.add("/v3/api-docs");
         whiteList.add("/chat");
         whiteList.add("/chats");
-        whiteList.add("/kiosk/**");
+        whiteList.add("/kiosk");
         whiteList.add("/trade/match");
-        whiteList.add("/raspberry/**");
+        whiteList.add("/raspberry");
+        whiteList.add("/stomp/raspberry");
         whiteList.add("/station");
         whiteList.add("/items");
         whiteList.add("/item/keyword/");
