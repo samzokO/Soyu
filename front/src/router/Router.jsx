@@ -14,6 +14,7 @@ import ItemDetailPage from '../components/pages/ItemDetailPage';
 import Notification from '../components/pages/Notification';
 import Map from '../components/pages/Map';
 import Kiosk from '../components/pages/Kiosk';
+import Category from '../components/pages/Category';
 
 const Router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const Router = createBrowserRouter([
   {
     path: '/bookmark',
     element: <Bookmark />,
+  },
+  {
+    path: '/category',
+    element: <Category />,
   },
   {
     path: '/mypage',
