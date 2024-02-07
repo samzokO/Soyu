@@ -37,12 +37,7 @@ public class HistoryService {
 
   private final HistoryRepository historyRepository;
   private final ItemRepository itemRepository;
-  private final ItemFileRepository itemFileRepository;
   private final MemberRepository memberRepository;
-  private final LockerRepository lockerRepository;
-  private final PayActionUtil payActionUtil;
-  private final NoticeService noticeService;
-  private final RaspberryUtil raspberryUtil;
 
   /**
    * 구매 내역 생성<br/>
