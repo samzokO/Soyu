@@ -35,7 +35,7 @@ async function requestPermission() {
   })
     .then((currentToken) => {
       if (currentToken) {
-        console.log();
+        localStorage.setItem('fcmToken', currentToken);
       } else {
         // Show permission request UI
         console.log(
