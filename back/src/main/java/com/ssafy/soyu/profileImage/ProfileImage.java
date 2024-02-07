@@ -8,13 +8,12 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 
 @Entity
-@Table(name = "ProfileImage")
 @Getter
 public class ProfileImage {
 
     @Id
     @GeneratedValue
-    @Column(name = "Profile_image_id")
+    @Column(name = "profile_image_id")
     private Long id;
 
     private String savePath;

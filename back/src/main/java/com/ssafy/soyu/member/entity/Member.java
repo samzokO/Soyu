@@ -17,9 +17,9 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private ProfileImage ProfileImage;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_image_id")
+    private ProfileImage profileImage;
     private Long snsId;
     private String email;
     private String nickName;
@@ -42,7 +42,7 @@ public class Member {
         this.bank_name = bank_name;
         this.account_number = account_number;
         this.isWithdraw = isWithdraw;
-        this.ProfileImage = ProfileImage;
+        this.profileImage = ProfileImage;
     }
 
 }
