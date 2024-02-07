@@ -29,7 +29,7 @@ API.interceptors.response.use(
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('refreshToken')}`,
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
         },
       );
@@ -45,7 +45,6 @@ API.interceptors.response.use(
         return axios.create(originRequest);
         // 리프레시 토큰 요청이 실패할때(리프레시 토큰도 만료되었을때 = 재로그인 안내)
       }
-      console.log(response);
       if (response.status === 401) {
         window.location.href = '/login';
       }

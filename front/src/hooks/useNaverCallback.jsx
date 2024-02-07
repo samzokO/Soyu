@@ -11,12 +11,12 @@ function useNaverCallback() {
         // spring에서 발급된 jwt 반환 localStorage 저장
         localStorage.setItem('accessToken', response.data.data.accessToken);
         localStorage.setItem('refreshToken', response.data.data.refreshToken);
+
         // 메인 페이지로 이동
         window.location.href = '/';
       })
       .catch(() => {
         // 에러발생 시 login 페이지로 전환
-        // alert(err.response.data.detail);
         window.location.href = '/login';
       });
   }, []);

@@ -28,13 +28,13 @@ function ItemDetailPage() {
         <SProfile>
           <ImageCircle />
           <div>
+            <SCategory>판매자</SCategory>
             <SContent>{data.nickname}</SContent>
-            <SCategory>직거래만 합니다</SCategory>
           </div>
         </SProfile>
         <STitle>{data.title}</STitle>
         <SCategory>
-          {data.itemCategories} | `{Month}월 {Day}일`
+          {data.itemCategories} | {Month}월 {Day}일
         </SCategory>
         <SContent>{data.content}</SContent>
         <DetailBottomNav>
@@ -56,7 +56,7 @@ const SMainContainer = styled(MainContainerWithNav)`
 `;
 
 const SProfile = styled.div`
-  height: 50px;
+  padding: 10px;
   border-bottom: 1px solid ${theme.color.grayScale200};
   display: flex;
   align-items: center;
