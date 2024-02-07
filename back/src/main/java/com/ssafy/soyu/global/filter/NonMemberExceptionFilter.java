@@ -30,7 +30,7 @@ public class NonMemberExceptionFilter implements Filter {
         whiteList.add("/raspberry");
         whiteList.add("/stomp/raspberry");
         whiteList.add("/station");
-        whiteList.add("/items");
+        whiteList.add("/item/items");
         whiteList.add("/item/keyword/");
         whiteList.add("/item/category/");
         whiteList.add("/station");
