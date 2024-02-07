@@ -28,9 +28,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         .setAllowedOriginPatterns("*")
         .withSockJS();
 
-    registry.addEndpoint("/stomp/chat")
-        .setAllowedOriginPatterns("*");
-
     registry.addEndpoint("/stomp/raspberry")
         .setAllowedOriginPatterns("*");
   }
