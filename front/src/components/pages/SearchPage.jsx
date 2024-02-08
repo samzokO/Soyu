@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import TextField from '../molecules/TextField';
+import { styled, css } from 'styled-components';
 import { MainContainerWithoutNav } from '../../styles/Maincontainer';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
@@ -8,33 +7,65 @@ import useSearch from '../../hooks/useSearch';
 import ItemList from '../molecules/ItemList';
 
 function SearchPage() {
-  const [searchValue, setSearchValue] = useState('');
-  const Search = useSearch({ searchValue });
+  const [Search, Handler, Key, Changer] = useSearch();
+  const handleSubmit = () => {
+    Changer();
+  };
 
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+  const changeValue = (e) => {
+    Handler(e.target.value);
   };
 
   return (
     <MainContainerWithoutNav>
       <LocalHeader>
         <BackBtn />
-        <TextField
-          type="text"
-          id="Search"
-          placeholder="검색어를 입력해주세요"
-          $image={SearchIcon}
-          value={searchValue}
-          onChange={handleSearchChange}
-        />
+        <SForm onSubmit={handleSubmit}>
+          <SBox
+            type="text"
+            id="Search"
+            value={Key}
+            onChange={changeValue}
+            placeholder="검색어를 입력해주세요"
+            onKeyDown={handleKeyPress}
+          />
+        </SForm>
       </LocalHeader>
-      {Search[0] && (
+      {Search && (
         <div>
-          <ItemList title="검색결과" data={Search[0]} />
+          <ItemList title="검색결과" data={Search} />
         </div>
       )}
     </MainContainerWithoutNav>
   );
 }
+
+const SBox = styled.input`
+  width: 100%;
+  padding: 5px 15px;
+  border-radius: 7px;
+  border: 1px solid ${({ theme }) => theme.color.grayScale400};
+  &::placeholder {
+    ${({ theme }) => theme.font.Body2};
+  }
+  &::placeholder {
+    background-image: url('../assets/icons/material_16/search.png');
+    background-size: contain;
+    background-position: 1px center;
+    background-repeat: no-repeat;
+    text-align: center;
+    text-indent: 0;
+  }
+`;
+
+const SForm = styled.form`
+  width: 100%;
+`;
 
 export default SearchPage;
