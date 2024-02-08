@@ -46,7 +46,7 @@ public class FavoriteController {
   })
   public ResponseEntity<?> register(HttpServletRequest request, @PathVariable("stationId") Long stationId) {
     Long memberId = (Long) request.getAttribute("memberId");
-
+    memberId = 6L;
     favoriteService.onOffFavorite(memberId, stationId);
 
     return getResponseEntity(SuccessCode.OK);

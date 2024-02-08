@@ -1,11 +1,16 @@
 package com.ssafy.soyu.item.service;
 
+import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
+import static com.ssafy.soyu.item.controller.ItemController.getItemListResponses;
 import static com.ssafy.soyu.item.entity.Item.createItem;
+import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 
 import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.image.entity.Image;
+import com.ssafy.soyu.item.dto.response.ItemListResponse;
+import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
 import com.ssafy.soyu.item.entity.ItemCategories;
@@ -34,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,14 +50,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Transactional
 public class ItemService {
+
   private final ItemRepository itemRepository;
   private final MemberRepository memberRepository;
-  private final ChatRepository chatRepository;
-  private final HistoryRepository historyRepository;
-  private final LockerRepository lockerRepository;
-  private final NoticeService noticeService;
-  private final RaspberryUtil raspberryUtil;
-  private final PayActionUtil payActionUtil;
 
   @Value("${file.path.upload-images}")
   String uploadImagePath;
@@ -68,8 +69,17 @@ public class ItemService {
     return itemRepository.findItemByMember(memberRepository.getReferenceById(memberId));
   }
 
-  public List<Item> getItemByKeyword(String keyword) {
-    return itemRepository.findItemByKeyWord(keyword);
+  public List<ItemListResponse> getItemByKeyword(String keyword) {
+    if(keyword.equals(""))
+      return new ArrayList<>();
+
+    List<Item> items = itemRepository.findItemByKeyWord(keyword);
+
+    if(items.isEmpty())
+      return new ArrayList<>();
+
+    List<ItemListResponse> itemResponses = getItemListResponses(items);
+    return itemResponses;
   }
 
   public List<Item> getItemByCategory(ItemCategories itemCategories) {
@@ -79,7 +89,8 @@ public class ItemService {
   public void save(Long memberId, ItemCreateRequest itemRequest, List<MultipartFile> files)
       throws IOException {
     Member member = memberRepository.getReferenceById(memberId);
-    Item item = createItem(member, itemRequest.getTitle(), itemRequest.getContent(), LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(),
+    Item item = createItem(member, itemRequest.getTitle(), itemRequest.getContent(),
+        LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(),
         ItemStatus.ONLINE);
     Item now_item = itemRepository.save(item);
 
@@ -91,8 +102,9 @@ public class ItemService {
 
       // 위에서 제작한 경로로 디렉터리를 만든다 (날짜별)
       File folder = new File(saveFolder);
-      if (!folder.exists())
+      if (!folder.exists()) {
         folder.mkdirs();
+      }
 
       for (MultipartFile file : files) {
         Image image = new Image();
@@ -115,7 +127,8 @@ public class ItemService {
     Item item = itemRepository.findItemById(itemUpdateRequest.getItemId());
 
     // item 의 값을 변경해서 더티체킹을 통한 업데이트를 진행한다
-    item.updateItem(itemUpdateRequest.getTitle(), itemUpdateRequest.getContent(), itemUpdateRequest.getPrice(), itemUpdateRequest.getItemCategories());
+    item.updateItem(itemUpdateRequest.getTitle(), itemUpdateRequest.getContent(),
+        itemUpdateRequest.getPrice(), itemUpdateRequest.getItemCategories());
   }
 
   public void updateStatus(ItemStatusRequest itemStatusRequest) {
@@ -124,5 +137,4 @@ public class ItemService {
     // 더티 체킹을 통한 upaate
     item.updateItemStatus(itemStatusRequest.getItemStatus());
   }
-
 }

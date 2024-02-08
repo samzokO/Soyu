@@ -130,7 +130,9 @@ public class initDB {
       em.persist(favorite3);
 
       Fcm fcm1 = new Fcm(member6, "ebxmeFd6ujUmZZ7_NQ9Ok7:APA91bGHqjHUi_2MDPJ-O5U5BPPsnPLYdZeWz3Q5kvErlsMJttSXW2WIazYneUbXCt1nU1VXO4Yf2F5VeelMyo-A5HX5iFvfvvnHDerDb63xqtvnIMm23iY4y2EexQYs6fippHamBpy9");
+      Fcm fcm2 = new Fcm(member3, "dPjaLIQsyz5vbzA8yOYLVY:APA91bHqxmrnCgitJbJKO52hBrxYdjYdV9P-yils76ZN5nqQzjYchtdLFtoXf--rUzBcfDdJHu9OFZnIy3CyHv93TEdoz0wEH_2Lc4AbY3T9dAy9qVlGuARy9PCdMvNHt8cIfwHbcNgQ");
       em.persist(fcm1);
+      em.persist(fcm2);
     }
   }
 

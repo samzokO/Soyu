@@ -5,7 +5,6 @@ import static com.ssafy.soyu.locker.controller.LockerController.getLockerStation
 import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
-import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.item.dto.request.*;
 import com.ssafy.soyu.item.dto.response.ItemListResponse;
 import com.ssafy.soyu.item.service.ItemService;
@@ -14,9 +13,7 @@ import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.item.dto.response.ItemResponse;
 
 import com.ssafy.soyu.likes.entity.Likes;
-import com.ssafy.soyu.likes.repository.LikesRepository;
 import com.ssafy.soyu.likes.service.LikesService;
-import com.ssafy.soyu.locker.dto.response.LockerStationResponse;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.util.response.ErrorCode;
@@ -103,12 +100,7 @@ public class ItemController {
       @ApiResponse(responseCode = "400", description = "물품 키워드 조회 실패")
   })
   public ResponseEntity<?> getItemByKeyWord(@RequestBody ItemKeyWordRequest itemKeyWordRequest) {
-    List<Item> items = itemService.getItemByKeyword(itemKeyWordRequest.getKeyword());
-    if (items == null) {
-      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
-    }
-    List<ItemListResponse> itemResponses = getItemListResponses(items);
-    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
+    List<ItemListResponse> itemResponses = itemService.getItemByKeyword(itemKeyWordRequest.getKeyword());
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
 

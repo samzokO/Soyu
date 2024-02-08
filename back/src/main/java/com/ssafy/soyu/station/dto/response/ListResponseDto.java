@@ -23,19 +23,23 @@ public class ListResponseDto {
   @Schema(description = "경도")
   private Float altitude;
 
+  @Schema(description = "전체 보관함 개수")
+  private Integer totalCount;
+
   @Schema(description = "사용중인 보관함 개수")
   private Integer fillCount;
 
   @Schema(description = "즐겨찾기 여부")
   private boolean isFavorite;
 
-  public ListResponseDto(Station s, Integer count, boolean isFavorite) {
+  public ListResponseDto(Station s, Integer total, Integer count, boolean isFavorite) {
     this.stationId = s.getId();
     this.name = s.getName();
     this.address = s.getAddress();
     this.latitude = s.getLatitude();
     this.altitude = s.getLongitude();
     this.isFavorite = isFavorite;
+    this.totalCount = total;
     this.fillCount = count;
   }
 }

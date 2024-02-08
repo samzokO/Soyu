@@ -26,8 +26,9 @@ public class StationService {
         .map(o -> {
           Station s = (Station) o[0];
           boolean isFavorite = (Boolean) o[1];
+          Integer total = s.getLockers().size();
           Integer count = lockerRepository.countNotEmptyLocker(s.getId());
-          return new ListResponseDto(s, count, isFavorite);
+          return new ListResponseDto(s, total, count, isFavorite);
         })
         .collect(Collectors.toList());
   }

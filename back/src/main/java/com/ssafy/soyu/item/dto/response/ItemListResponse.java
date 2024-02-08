@@ -42,4 +42,8 @@ public class ItemListResponse {
 
   @Schema(description = "대표 사진")
   private List<ImageResponse> imageResponses;
+
+  public ItemListResponse() {
+
+  }
 }
