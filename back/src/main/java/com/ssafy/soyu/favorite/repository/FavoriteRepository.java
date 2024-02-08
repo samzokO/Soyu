@@ -11,7 +11,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
   @Query("select f, s from Favorite f "
       + "join fetch f.station s "
-      + "where f.member.id = :memberId")
+      + "where f.member.id = :memberId AND f.status = true")
   List<Object[]> findByMemberId(Long memberId);
 
   @Query("SELECT f FROM Favorite f "

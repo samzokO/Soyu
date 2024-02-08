@@ -66,10 +66,6 @@ public class FavoriteController {
   public ResponseEntity<?> getList(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
 
-    if (memberId == null) {
-      return toResponseEntity(ErrorCode.USER_NOT_FOUND);
-    }
-
     List<FavoriteListResponseDto> result = favoriteService.findByMemberId(memberId);
     if (result == null || result.size() == 0) {
       return toResponseEntity(ErrorCode.FAVORITE_NOT_FOUND);
