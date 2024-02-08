@@ -1,4 +1,5 @@
 package com.ssafy.soyu.likes.controller;
+
 import static com.ssafy.soyu.item.controller.ItemController.getItemListResponses;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
@@ -17,11 +18,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Likes 컨트롤러", description = "Likes API 입니다.")
 @Slf4j
 public class LikesController {
+
   private final LikesService likesService;
 
   @GetMapping("")
@@ -42,23 +46,22 @@ public class LikesController {
   public ResponseEntity<?> getLikes(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
 
-    List<Likes> likes = likesService.getLikes(memberId);
-    List<Item> items = new ArrayList<>();
-    for (Likes like : likes) {
-      items.add(like.getItem());
-    }
-    List <ItemListResponse> itemListResponses = getItemListResponses(items);
+    List<Item> items = likesService.getLikes(memberId).stream()
+        .map(o -> o.getItem())
+        .collect(Collectors.toList());
+
+    List<ItemListResponse> itemListResponses = getItemListResponses(items);
 
     return getResponseEntity(SuccessCode.OK, itemListResponses);
   }
 
-  @GetMapping("/{itemId}")
+  @PostMapping("/{itemId}")
   @Operation(summary = "찜 등록 On & Off", description = "물품 ID와 유저 ID를 이용해 찜 정보를 등록합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "찜 등록 성공"),
       @ApiResponse(responseCode = "400", description = "찜 등록 실패")
   })
-  public ResponseEntity<?> onOffLikes(@PathVariable("itemId")Long itemId, HttpServletRequest request) {
+  public ResponseEntity<?> onOffLikes(@PathVariable("itemId") Long itemId, HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
 
     likesService.onOff(itemId, memberId);

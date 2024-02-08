@@ -16,6 +16,8 @@ import com.ssafy.soyu.likes.entity.Likes;
 import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.service.LockerService;
+import com.ssafy.soyu.member.entity.Member;
+import com.ssafy.soyu.member.service.MemberService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
@@ -46,6 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ItemController {
 
+  private final MemberService memberService;
   private final ItemService itemService;
   private final LikesService likesService;
   private final LockerService lockerService;
@@ -56,17 +59,22 @@ public class ItemController {
       @ApiResponse(responseCode = "200", description = "물품 단건 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 단건 조회 실패")
   })
-  public ResponseEntity<?> getItem(@PathVariable("itemId") Long itemId) {
+  public ResponseEntity<?> getItem(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
+    Long memberId = (Long) request.getAttribute("memberId");
+
     Item item = itemService.getItem(itemId);
     if (item == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    Likes likes = likesService.findLikesByItemAndMember(item, item.getMember());
+
+    Member member = memberService.getMember(memberId);
+
+    Likes likes = likesService.findLikesByItemAndMember(item, member);
 
     ItemResponse itemResponse = getItemResponse(item);
 
     // 찜 확인
-    if (likes != null && likes.getStatus()) itemResponse.setLikesStatus(true);
+    itemResponse.setLikesStatus((likes != null && likes.getStatus()) ? true : false);
 
     // 스테이션 정보 조회
     Locker locker = lockerService.findLockerByItem(item);
