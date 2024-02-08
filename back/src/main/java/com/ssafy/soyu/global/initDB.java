@@ -111,10 +111,10 @@ public class initDB {
 
       Locker locker1 = new Locker(station1, item2,null, LockerStatus.DP_READY, LocalDateTime.now(), 1);
       Locker locker2 = new Locker(station1, item3, "111111", LockerStatus.TRADE_READY, LocalDateTime.now(),2);
-      Locker locker3 = new Locker(station1, 3);
-      Locker locker4 = new Locker(station2, 1);
-      Locker locker5 = new Locker(station2, 2);
-      Locker locker6 = new Locker(station2, 3);
+      Locker locker3 = new Locker(station1, item1, "222222", LockerStatus.WITHDRAW, LocalDateTime.now(), 3);
+      Locker locker4 = new Locker(station2, item4,null, LockerStatus.DP_READY, LocalDateTime.now(), 1);
+      Locker locker5 = new Locker(station2, item5, "333333", LockerStatus.TRADE_READY, LocalDateTime.now(),2);
+      Locker locker6 = new Locker(station2, item6, "444444", LockerStatus.WITHDRAW, LocalDateTime.now(), 3);
       em.persist(locker1);
       em.persist(locker2);
       em.persist(locker3);
