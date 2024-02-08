@@ -13,6 +13,6 @@ public class RaspberryController {
 
     @MessageMapping("/raspberry/json")
     public void handleJsonData(RaspberryRequestResponse request) {
-
+        System.out.println(request);
     }
 }
