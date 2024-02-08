@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
 
-  @Query("SELECT s, CASE WHEN f.id IS NOT NULL THEN true ELSE false END AS isFavorite " +
+  @Query("SELECT s, f.status AS isFavorite " +
       "FROM Station s " +
       "LEFT JOIN Favorite f ON f.member.id = :memberId AND f.station.id = s.id")
   List<Object[]> findAllWithMemberId(@Param("memberId") Long memberId);
