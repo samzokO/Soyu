@@ -3,20 +3,29 @@ import styled from 'styled-components';
 import font from '../../styles/font';
 import theme from '../../styles/theme';
 
-function ChatComponent() {
+function ChatComponent({ room }) {
+  const memberId = localStorage.getItem('memberId');
+
   return (
-    <SLi to="1">
-      <SWrap2>
+    <li>
+      <Link to={`/chat/${room.chatId}`}>
         <SWrap>
-          <SImg src="/" alt="물품 이미지" />
-          <div>
-            <SH2>자물쇠살인마</SH2>
-            <SP>자물쇠 사실래요?</SP>
-          </div>
+          <SWrap>
+            <SImg src="/" alt="물품 이미지" />
+            <div>
+              <SH2>
+                {memberId !== room.buyerId
+                  ? room.buyerNickname
+                  : room.sellerNickname}
+              </SH2>
+              <SP>{room.lastMessage}</SP>
+            </div>
+          </SWrap>
+          <p>{room.lastDate}</p>
         </SWrap>
         <SBody2>5분전</SBody2>
-      </SWrap2>
-    </SLi>
+      </Link>
+    </li>
   );
 }
 

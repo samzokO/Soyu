@@ -9,8 +9,6 @@ import useLoadRooms from '../../hooks/useLoadRooms';
 function ChatList() {
   const rooms = useLoadRooms();
 
-  console.log(rooms);
-
   return (
     <>
       <LocalHeader>
@@ -20,12 +18,11 @@ function ChatList() {
       </LocalHeader>
       <MainContainerWithNav>
         <SList>
-          <ChatComponent />
-          <ChatComponent />
-          <ChatComponent />
+          {rooms?.map((room) => (
+            <ChatComponent key={room.chatId} data={room} />
+          ))}
         </SList>
       </MainContainerWithNav>
-
       <BottomNav />
     </>
   );
