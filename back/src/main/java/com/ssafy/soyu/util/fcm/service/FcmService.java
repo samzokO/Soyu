@@ -29,9 +29,7 @@ public class FcmService {
    * @param token 등록할 토큰
    */
   public void register(final Long memberId, final String token) {
-    Member member = memberRepository.findMemberById(memberId);
-
-    System.out.println(member.getName());
+    Member member = memberRepository.getReferenceById(memberId);
 
     if(fcmRepository.existsByToken(token))
       throw new CustomException(ErrorCode.ALREADY_REGISTER_TOKEN);
