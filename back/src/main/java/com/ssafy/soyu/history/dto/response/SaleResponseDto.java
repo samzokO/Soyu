@@ -1,10 +1,12 @@
 package com.ssafy.soyu.history.dto.response;
 
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,11 +29,7 @@ public class SaleResponseDto {
   @Schema(description = "가격 ID")
   private int price;
 
-  @Schema(description = "이미지 저장 경로")
-  private String filepath;
-
-  @Schema(description = "이미지 저장명")
-  private String fileName;
+  private List<ImageResponse> imageResponses;
 
   @Schema(description = "물품 상태")
   private ItemStatus itemStatus;
@@ -40,12 +38,15 @@ public class SaleResponseDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   private LocalDateTime regDate;
 
-  public SaleResponseDto(Item i, Image m) {
+  @Schema(description = "찜 개수")
+  private Integer likeCount;
+
+  public SaleResponseDto(Item i, List<ImageResponse> images, Integer likeCount) {
     this.itemId = i.getId();
     this.price = i.getPrice();
     this.regDate = i.getRegDate();
     this.itemStatus = i.getItemStatus();
-    this.fileName = m.getSaveName();
-    this.filepath = m.getSavePath();
+    this.imageResponses = images;
+    this.likeCount = likeCount;
   }
 }

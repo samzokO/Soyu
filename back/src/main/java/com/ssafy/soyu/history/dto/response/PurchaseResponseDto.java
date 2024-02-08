@@ -1,10 +1,12 @@
 package com.ssafy.soyu.history.dto.response;
 
 import com.ssafy.soyu.history.entity.History;
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,11 +33,8 @@ public class PurchaseResponseDto {
   @Schema(description = "판매자 별명")
   private String sellerNickName;
 
-  @Schema(description = "이미지 저장 경로")
-  private String filepath;
-
-  @Schema(description = "이미지 저장명")
-  private String fileName;
+  @Schema(description = "물품 이미지")
+  private List<ImageResponse> imageResponses;
 
   @Schema(description = "물품 상태")
   private ItemStatus itemStatus;
@@ -44,12 +43,12 @@ public class PurchaseResponseDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   LocalDateTime regDate;
 
-  public PurchaseResponseDto(History h, Image i) {
+  public PurchaseResponseDto(History h, List<ImageResponse> images) {
     this.itemId = h.getItem().getId();
     this.price = h.getItem().getPrice();
     this.sellerNickName = h.getMember().getNickName();
     this.regDate = h.getItem().getRegDate();
     this.itemStatus = h.getItem().getItemStatus();
-    this.fileName = i.getSaveName();
-    this.filepath = i.getSavePath();}
+    this.imageResponses = images;
+  }
 }
