@@ -18,7 +18,7 @@ function ItemBox({
   itemId,
   title,
   regDate,
-  location,
+  itemCategories,
   boxLocation = '',
   boxNumber,
   itemStatus = 5,
@@ -35,7 +35,7 @@ function ItemBox({
             <p>{title}</p>
             <SFontsize>
               <p>
-                {location} - {regDate}
+                {itemCategories} - {regDate}
               </p>
               <SFlexCenterGap>
                 <p>{boxLocation}</p>
@@ -53,7 +53,7 @@ function ItemBox({
   );
 }
 
-const SFlexCenter = styled.div`
+export const SFlexCenter = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -65,7 +65,7 @@ const SFlexItem = styled(Link)`
   border-bottom: 1px solid ${theme.color.grayScale200};
 `;
 
-const SFlexCenterGap = styled(SFlexCenter)`
+export const SFlexCenterGap = styled(SFlexCenter)`
   gap: 10px;
 `;
 

@@ -11,12 +11,13 @@ function ItemList({ title, data }) {
     <SProductList>
       <STitle>{title}</STitle>
       {data &&
-        JSON.parse(data).map((item) => (
+        data?.map((item) => (
           <ItemBox
             key={item.itemId}
             itemId={item.itemId}
             title={item.title}
-            regDate={item.regDate}
+            itemCategories={item.itemCategories}
+            regDate={`${new Date(item.regDate).getMonth() + 1}월 ${new Date(item.regDate).getDay()}일`}
             itemStatus={0}
             price={item.price}
           />
