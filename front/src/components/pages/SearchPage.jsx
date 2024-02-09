@@ -1,8 +1,7 @@
-import { styled, css } from 'styled-components';
+import { styled } from 'styled-components';
 import { MainContainerWithoutNav } from '../../styles/Maincontainer';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
-import SearchIcon from '../../assets/icons/material_16/search.svg';
 import useSearch from '../../hooks/useSearch';
 import ItemList from '../molecules/ItemList';
 
@@ -53,14 +52,6 @@ const SBox = styled.input`
   border: 1px solid ${({ theme }) => theme.color.grayScale400};
   &::placeholder {
     ${({ theme }) => theme.font.Body2};
-  }
-  &::placeholder {
-    background-image: url('../assets/icons/material_16/search.png');
-    background-size: contain;
-    background-position: 1px center;
-    background-repeat: no-repeat;
-    text-align: center;
-    text-indent: 0;
   }
 `;
 
