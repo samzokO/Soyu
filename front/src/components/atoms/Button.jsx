@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import Condition from '../../styles/BadgeCondition';
 import theme from '../../styles/theme';
 
-function Button({ children, Handler, type }) {
+function Button({ children, Handler, type, disabled = false }) {
   return (
-    <SButton type="button" onClick={Handler} status={type}>
+    <SButton type="button" onClick={Handler} color={type} disabled={disabled}>
       {children}
     </SButton>
   );
@@ -13,8 +13,8 @@ function Button({ children, Handler, type }) {
 export default Button;
 
 const SButton = styled.button`
-  background-color: ${(props) => Condition[props.status].bgColor};
-  color: ${(props) => Condition[props.status].textColor};
+  background-color: ${(props) => Condition[props.color].bgColor};
+  color: ${(props) => Condition[props.color].textColor};
   ${theme.font.Body1};
 
   display: flex;
