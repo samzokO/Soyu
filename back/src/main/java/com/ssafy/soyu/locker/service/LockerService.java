@@ -93,7 +93,7 @@ public class LockerService {
       status = LockerStatus.DP_INSERT;
     }
 
-    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), status, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
   }
@@ -124,7 +124,7 @@ public class LockerService {
       Locker locker = optionalLocker.get();
       lockerNum = locker.getLockerNum();
       item = locker.getItem();
-      ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+      ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
           locker.getLockerNum(), LockerStatus.TRADE_CHECK, item.getPrice());
       raspberryUtil.sendMessageToClient(response);
     }
@@ -143,7 +143,7 @@ public class LockerService {
     itemRepository.updateStatus(item.getId(), ItemStatus.ONLINE);
     lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
 
-    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), LockerStatus.SUBTRACT, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
   }
@@ -208,7 +208,7 @@ public class LockerService {
     noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE, code));
 
     //8. 라즈베리 파이 신호 주기
-    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
   }
@@ -244,7 +244,7 @@ public class LockerService {
 
       //5. 알림 전송(회수 코드 포함)
       noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.WITHDRAW, code));
-      response = raspberryUtil.makeRaspberryResponse(itemId, locker.getLockerNum(),
+      response = raspberryUtil.makeClientResponse(itemId, locker.getLockerNum(),
           LockerStatus.WITHDRAW, item.getPrice());
     }
     //2-2. DP 예약 물건인지 확인
@@ -254,7 +254,7 @@ public class LockerService {
       //4. 보관함 상태 변경
       lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
       payActionUtil.deletePayAction(item.getOrderNumber());
-      response = raspberryUtil.makeRaspberryResponse(itemId, locker.getLockerNum(),
+      response = raspberryUtil.makeClientResponse(itemId, locker.getLockerNum(),
           LockerStatus.AVAILABLE, item.getPrice());
     }
     //2-3. DP 중 아니고 회수대기도 아니면 회수 신청 불가능
@@ -304,7 +304,7 @@ public class LockerService {
 
     }
     //라즈베리 파이에 json 신호 보내기
-    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), status, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
   }
@@ -364,7 +364,7 @@ public class LockerService {
     lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.DP_READY, null);
 
     //라즈베리 파이에 json 신호 보내기
-    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(itemId,
+    ClientRequestResponse response = raspberryUtil.makeClientResponse(itemId,
         locker.getLockerNum(), LockerStatus.DP_READY, locker.getItem().getPrice());
     raspberryUtil.sendMessageToClient(response);
 

@@ -81,7 +81,7 @@ public class TradeService {
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
 
     //라즈베리 파이에 신호 json 신호 보내기
-    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
+    ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(), locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
   }
 
@@ -132,7 +132,7 @@ public class TradeService {
       itemRepository.updateStatus(item.getId(), itemStatus);
 
       //라즈베리 파이에 json 신호 보내기
-      ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
+      ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
       raspberryUtil.sendMessageToClient(response);
     }
     //payAction 매칭 취소 후 주문번호 삭제
@@ -210,7 +210,7 @@ public class TradeService {
       itemRepository.updateStatus(item.getId(), itemStatus);
 
       //라즈베리 파이에 json 신호 보내기
-      ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
+      ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
       raspberryUtil.sendMessageToClient(response);
     }
     //payAction 매칭 취소 후 주문번호 삭제

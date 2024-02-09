@@ -144,7 +144,7 @@ public class PayActionUtil {
           new NoticeRequestDto(item, NoticeType.RESERVE_SELL));
 
     raspberryUtil.sendMessageToClient(
-        raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(),
+        raspberryUtil.makeClientResponse(item.getId(), locker.getLockerNum(),
             LockerStatus.SUBTRACT, item.getPrice()));
   }
 }

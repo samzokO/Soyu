@@ -16,7 +16,7 @@ import lombok.Getter;
  * - BUY : 판매자가 물품 보관 시 구매자에게 알림 (코드 포함)<br/>
  * - RETURN : 회수 알림 (코드 포함)<br/>
  * - DISCOUNT : DP 중인 물품 할인 안내<br/>
- * - CHOICE : 할인 될지 회수 할 지 선택 알림<br/>
+ * - WILL_DISCOUNT : 할인 될지 회수 할 지 선택 알림<br/>
  */
 @Getter
 @AllArgsConstructor
@@ -31,8 +31,9 @@ public enum NoticeType {
   RESERVE("소유박스 예약 완료","소유박스의 예약이 완료되었습니다."),
   BUY("소유박스 보관 완료","판매자가 물품을 소유박스에 보관하였습니다."),
   WITHDRAW("회수 신청 완료","물품의 회수 신청이 완료되었습니다."),
+  WITHDRAW_EXPIRED("회수 시간 만료","물품의 회수 시간이 만료되었습니다. 소유 관계자가 물건을 회수합니다."),
   DISCOUNT("DP 물품 할인 안내","DP 중인 물품에 할인이 적용되었습니다."),
-  CHOICE("DP 물품 할인 예정 안내","DP 중인 물품이 3시간 뒤 할인이 적용됩니다."),
+  WILL_DISCOUNT("DP 물품 할인 예정 안내","DP 중인 물품이 12시간 뒤 할인이 적용됩니다."),
   BUYER_CANCEL("거래 예약 물품 판매 실패", "구매자가 물품을 구매하지 않았습니다."),
   SELLER_CANCEL("물품 거래 취소", "판매자가 물품의 거래를 취소하였습니다.");
 
