@@ -6,7 +6,7 @@ services:
     restart: on-failure
     image: back:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/users_db?soyu=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/users_db?soyu=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
       SPRING_DATASOURCE_PASSWORD: "1234"
     network_mode: host
