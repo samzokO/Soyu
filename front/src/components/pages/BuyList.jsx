@@ -3,8 +3,10 @@ import BuyGoods from '../molecules/BuyGoods';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
 import BookmarkTab from '../molecules/BookmarkTab';
+import useHistoryList from '../../hooks/useHistoryList';
 
 function BuyList() {
+  const data = useHistoryList();
   return (
     <>
       <LocalHeader>

@@ -59,7 +59,7 @@ export const postImg = (data, img) => {
   ImgAPI.post('item', formData);
 };
 
-// 키오스크 키오스크 키오스크 키오스크 키오스크 키오스크 키오스크 키오스크 키오스크 키오스크
+/* 키오스크 */
 
 /** 키오스크 회수 코드 확인 */
 export const kioskWithdraw = (code) => {
@@ -80,7 +80,29 @@ export const kioskMakePurchase = () => {
   API.get(`/kiosk/dp`);
 };
 
-// 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림 알림
+/* 알림 */
 
 /** 로그인시 디바이스토큰 등록 */
 export const postFcm = (fcm) => API.post(`/fcm`, { token: `${fcm}` });
+
+/** 알림 내역 조회 */
+export const getNotice = () => API.get(`/notice`);
+
+/* 스테이션 */
+
+/** 스테이션 리스트 조회 */
+export const getStation = () => API.get(`/station`);
+
+/** 스테이션 즐겨찾기 On / Off */
+export const favoriteOnOff = (stationId) => API.post(`/favorite/${stationId}`);
+
+/** 즐겨찾기한 스테이션 조회 */
+export const getFavorite = () => API.get(`/favorite`);
+
+/* 좋아요 */
+
+/** 찜 리스트 조회 */
+export const getLikes = () => API.get(`/likes`);
+
+/** 찜 On Off */
+export const getLikeOnOff = (itemId) => API.post(`/likes/${itemId}`);
