@@ -11,7 +11,7 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     ports:
-      - "3300:3300"
+      - "3300:3306"
     networks:
       - springboot-mysql-net
   application:
