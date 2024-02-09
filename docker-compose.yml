@@ -11,7 +11,7 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     ports:
-      - "3300:3306"
+      - "3306:3306"
     networks:
       - springboot-mysql-net
   application:
@@ -21,7 +21,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://database:3300/soyu?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/soyu?allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
     networks:
