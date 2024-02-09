@@ -4,8 +4,19 @@ import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
 import BottomNav from '../molecules/BottomNav';
 import { MainContainerWithoutNav } from '../../styles/Maincontainer';
+import useCategory from '../../hooks/useCategory';
+import ItemList from '../molecules/ItemList';
+import theme from '../../styles/theme';
 
 function Category() {
+  const [data, categoryChanger] = useCategory();
+  const itemCategory = [
+    { name: '가전', value: 'ELECTRONICS' },
+    { name: '의류', value: 'CLOTHING' },
+    { name: '가구', value: 'FURNITURE' },
+    { name: '책', value: 'BOOKS' },
+    { name: '스포츠', value: 'SPORTS' },
+  ];
   return (
     <>
       <LocalHeader>
@@ -15,16 +26,29 @@ function Category() {
       </LocalHeader>
       <MainContainerWithoutNav>
         <SList>
-          <TextTag>가전</TextTag>
-          <TextTag>주류</TextTag>
-          <TextTag>주주</TextTag>
-          <TextTag>바바</TextTag>
+          {itemCategory.map((item) => (
+            <STag
+              key={item.value}
+              value={item.value}
+              onClick={() => categoryChanger(item.value)}
+            >
+              {item.name}
+            </STag>
+          ))}
         </SList>
+        {data && <ItemList title="검색결과" data={data} />}
       </MainContainerWithoutNav>
       <BottomNav />
     </>
   );
 }
+const STag = styled.button`
+  ${theme.font.Badge};
+  padding: 7px;
+  min-width: 40px;
+  border: 1.5px black solid;
+  border-radius: 15px;
+`;
 
 const SList = styled.div`
   padding: 10px 0px;
