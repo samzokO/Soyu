@@ -1,7 +1,7 @@
-package com.ssafy.soyu.util.raspberry;
+package com.ssafy.soyu.util.client;
 
 import com.ssafy.soyu.locker.entity.LockerStatus;
-import com.ssafy.soyu.util.raspberry.dto.response.RaspberryRequestResponse;
+import com.ssafy.soyu.util.client.dto.response.ClientRequestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -10,22 +10,22 @@ import org.springframework.util.MimeType;
 
 @Component
 @RequiredArgsConstructor
-public class RaspberryUtil {
+public class ClientUtil {
     private final SimpMessagingTemplate messagingTemplate;
 
-    public RaspberryRequestResponse makeRaspberryResponse(Long itemId, Integer lockerNum, LockerStatus tradeReserve, Integer price) {
-        return  RaspberryRequestResponse.builder()
+    public ClientRequestResponse makeRaspberryResponse(Long itemId, Integer lockerNum, LockerStatus tradeReserve, Integer price) {
+        return  ClientRequestResponse.builder()
                 .itemId(itemId)
                 .lockerNum(lockerNum)
                 .status(tradeReserve)
                 .price(price).build();
     }
 
-    public void sendMessageToRaspberryPi(RaspberryRequestResponse response) {
+    public void sendMessageToClient(ClientRequestResponse response) {
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
         headerAccessor.setContentType(new MimeType("application", "json"));
         headerAccessor.setLeaveMutable(true);
 
-        messagingTemplate.convertAndSend("/sub/raspberry", response, headerAccessor.getMessageHeaders());
+        messagingTemplate.convertAndSend("/sub/client", response, headerAccessor.getMessageHeaders());
     }
 }

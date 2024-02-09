@@ -1,16 +1,10 @@
 package com.ssafy.soyu.item.service;
 
-import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
 import static com.ssafy.soyu.item.controller.ItemController.getItemListResponses;
 import static com.ssafy.soyu.item.entity.Item.createItem;
-import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 
-import com.ssafy.soyu.chat.repository.ChatRepository;
-import com.ssafy.soyu.history.entity.History;
-import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.dto.response.ItemListResponse;
-import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
 import com.ssafy.soyu.item.entity.ItemCategories;
@@ -18,19 +12,8 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
 import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
-import com.ssafy.soyu.util.raspberry.dto.response.RaspberryRequestResponse;
-import com.ssafy.soyu.locker.entity.Locker;
-import com.ssafy.soyu.locker.repository.LockerRepository;
-import com.ssafy.soyu.locker.entity.LockerStatus;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
-import com.ssafy.soyu.notice.entity.NoticeType;
-import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
-import com.ssafy.soyu.notice.service.NoticeService;
-import com.ssafy.soyu.util.payaction.PayActionUtil;
-import com.ssafy.soyu.util.raspberry.RaspberryUtil;
-import com.ssafy.soyu.util.response.ErrorCode;
-import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

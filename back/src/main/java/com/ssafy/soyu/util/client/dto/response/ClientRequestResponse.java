@@ -1,4 +1,4 @@
-package com.ssafy.soyu.util.raspberry.dto.response;
+package com.ssafy.soyu.util.client.dto.response;
 
 import com.ssafy.soyu.locker.entity.LockerStatus;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaspberryRequestResponse {
+public class ClientRequestResponse {
     private Long itemId;
     private Integer lockerNum;
     private LockerStatus status;

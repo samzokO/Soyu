@@ -14,8 +14,8 @@ import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.payaction.PayActionUtil;
-import com.ssafy.soyu.util.raspberry.RaspberryUtil;
-import com.ssafy.soyu.util.raspberry.dto.response.RaspberryRequestResponse;
+import com.ssafy.soyu.util.client.ClientUtil;
+import com.ssafy.soyu.util.client.dto.response.ClientRequestResponse;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
@@ -37,7 +37,7 @@ public class TradeService {
   //Service
   private final NoticeService noticeService;
   //Util
-  private final RaspberryUtil raspberryUtil;
+  private final ClientUtil raspberryUtil;
   private final PayActionUtil payActionUtil;
 
   @Transactional
@@ -81,8 +81,8 @@ public class TradeService {
     noticeService.createNotice(chat.getBuyer().getId(), new NoticeRequestDto(item, NoticeType.RESERVE));
 
     //라즈베리 파이에 신호 json 신호 보내기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
+    raspberryUtil.sendMessageToClient(response);
   }
 
   /**
@@ -132,8 +132,8 @@ public class TradeService {
       itemRepository.updateStatus(item.getId(), itemStatus);
 
       //라즈베리 파이에 json 신호 보내기
-      RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
-      raspberryUtil.sendMessageToRaspberryPi(response);
+      ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
+      raspberryUtil.sendMessageToClient(response);
     }
     //payAction 매칭 취소 후 주문번호 삭제
     payActionUtil.deletePayAction(item.getOrderNumber());
@@ -210,8 +210,8 @@ public class TradeService {
       itemRepository.updateStatus(item.getId(), itemStatus);
 
       //라즈베리 파이에 json 신호 보내기
-      RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
-      raspberryUtil.sendMessageToRaspberryPi(response);
+      ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(), lockerStatus, item.getPrice());
+      raspberryUtil.sendMessageToClient(response);
     }
     //payAction 매칭 취소 후 주문번호 삭제
     payActionUtil.deletePayAction(item.getOrderNumber());

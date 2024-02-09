@@ -4,7 +4,7 @@ import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntit
 
 import com.ssafy.soyu.locker.dto.response.LockerStationResponse;
 import com.ssafy.soyu.locker.entity.Locker;
-import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
+import com.ssafy.soyu.util.client.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.util.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;

@@ -13,7 +13,7 @@ import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.service.NoticeService;
-import com.ssafy.soyu.util.raspberry.RaspberryUtil;
+import com.ssafy.soyu.util.client.ClientUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,7 @@ public class PayActionUtil {
   private final HistoryRepository historyRepository;
   private final ItemRepository itemRepository;
   private final LockerRepository lockerRepository;
-  private final RaspberryUtil raspberryUtil;
+  private final ClientUtil raspberryUtil;
   private final PayActionProperties payActionProperties;
 
   public void makePayAction(String orderNumber, Integer price, String orderDate, Member member) {
@@ -143,7 +143,7 @@ public class PayActionUtil {
       noticeService.createNoticeWithSender(item.getMember().getId(), history.getMember().getId(),
           new NoticeRequestDto(item, NoticeType.RESERVE_SELL));
 
-    raspberryUtil.sendMessageToRaspberryPi(
+    raspberryUtil.sendMessageToClient(
         raspberryUtil.makeRaspberryResponse(item.getId(), locker.getLockerNum(),
             LockerStatus.SUBTRACT, item.getPrice()));
   }

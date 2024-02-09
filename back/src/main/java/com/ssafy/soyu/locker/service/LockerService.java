@@ -1,8 +1,5 @@
 package com.ssafy.soyu.locker.service;
 
-import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
-import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
-
 import com.ssafy.soyu.history.entity.History;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
@@ -13,8 +10,8 @@ import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.dto.response.LockerResponseDto;
 import com.ssafy.soyu.member.entity.Member;
-import com.ssafy.soyu.util.raspberry.RaspberryUtil;
-import com.ssafy.soyu.util.raspberry.dto.request.ReserveDpRequestDto;
+import com.ssafy.soyu.util.client.ClientUtil;
+import com.ssafy.soyu.util.client.dto.request.ReserveDpRequestDto;
 import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.locker.entity.LockerStatus;
@@ -24,7 +21,7 @@ import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.payaction.PayActionUtil;
-import com.ssafy.soyu.util.raspberry.dto.response.RaspberryRequestResponse;
+import com.ssafy.soyu.util.client.dto.response.ClientRequestResponse;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
@@ -53,7 +50,7 @@ public class LockerService {
   private final MemberRepository memberRepository;
   //==Util==//
   private final PayActionUtil payActionUtil;
-  private final RaspberryUtil raspberryUtil;
+  private final ClientUtil raspberryUtil;
 
   public void checkLocker(Long lockerId) {
     Locker locker = lockerRepository.findById(lockerId).get();
@@ -96,9 +93,9 @@ public class LockerService {
       status = LockerStatus.DP_INSERT;
     }
 
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
         locker.getLockerNum(), status, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    raspberryUtil.sendMessageToClient(response);
   }
 
   public LockerBuyResponse insertBuyCode(Long stationId, String code) {
@@ -127,9 +124,9 @@ public class LockerService {
       Locker locker = optionalLocker.get();
       lockerNum = locker.getLockerNum();
       item = locker.getItem();
-      RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+      ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
           locker.getLockerNum(), LockerStatus.TRADE_CHECK, item.getPrice());
-      raspberryUtil.sendMessageToRaspberryPi(response);
+      raspberryUtil.sendMessageToClient(response);
     }
     return new LockerBuyResponse(item.getId(), lockerNum);
   }
@@ -146,9 +143,9 @@ public class LockerService {
     itemRepository.updateStatus(item.getId(), ItemStatus.ONLINE);
     lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
 
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
         locker.getLockerNum(), LockerStatus.SUBTRACT, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    raspberryUtil.sendMessageToClient(response);
   }
 
   /**
@@ -211,9 +208,9 @@ public class LockerService {
     noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE, code));
 
     //8. 라즈베리 파이 신호 주기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
         locker.getLockerNum(), LockerStatus.RESERVE, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    raspberryUtil.sendMessageToClient(response);
   }
 
   /**
@@ -235,7 +232,7 @@ public class LockerService {
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
     }
 
-    RaspberryRequestResponse response = null;
+    ClientRequestResponse response = null;
     //2. 보관함 상태와 아이템 상태를 비교하여 무결성 확인
     //2-1. DP 중인 물품인지 확인
     if (is == ItemStatus.DP && ls == LockerStatus.DP_READY) {
@@ -268,7 +265,7 @@ public class LockerService {
     //아이템 주문 번호 삭제
     itemRepository.updateOrderNumber(itemId, null);
     //라즈베리파이에 신호 보내기
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    raspberryUtil.sendMessageToClient(response);
   }
 
   /**
@@ -307,9 +304,9 @@ public class LockerService {
 
     }
     //라즈베리 파이에 json 신호 보내기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
+    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(item.getId(),
         locker.getLockerNum(), status, item.getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    raspberryUtil.sendMessageToClient(response);
   }
 
   /**
@@ -367,9 +364,9 @@ public class LockerService {
     lockerRepository.updateLockerStatusAndCode(locker.getId(), LockerStatus.DP_READY, null);
 
     //라즈베리 파이에 json 신호 보내기
-    RaspberryRequestResponse response = raspberryUtil.makeRaspberryResponse(itemId,
+    ClientRequestResponse response = raspberryUtil.makeRaspberryResponse(itemId,
         locker.getLockerNum(), LockerStatus.DP_READY, locker.getItem().getPrice());
-    raspberryUtil.sendMessageToRaspberryPi(response);
+    raspberryUtil.sendMessageToClient(response);
 
   }
 
