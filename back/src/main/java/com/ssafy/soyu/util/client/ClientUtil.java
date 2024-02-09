@@ -46,7 +46,8 @@ public class ClientUtil {
 
     public void discountNotice(ClientRequestResponse request) {
         Item item = itemRepository.findItemById(request.getItemId());
-        noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.DISCOUNT));
+        itemRepository.updateDiscountPrice(request.getItemId(), request.getPrice());
+        noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.DISCOUNT, request.getPrice()));
     }
 
     public void withdrawNotice(ClientRequestResponse request) {

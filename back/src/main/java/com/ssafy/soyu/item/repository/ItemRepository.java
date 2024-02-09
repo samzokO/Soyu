@@ -49,4 +49,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   @Modifying
   @Query("UPDATE Item SET orderNumber = :orderNumber WHERE id = :itemId")
   void updateOrderNumber(@Param("itemId") Long itemId, @Param("orderNumber") String orderNumber);
+
+  @Modifying
+  @Query("UPDATE Item SET discountPrice= :price where id=:itemId")
+  void updateDiscountPrice(@Param("itemId") Long itemId,  @Param("price") Integer price);
 }

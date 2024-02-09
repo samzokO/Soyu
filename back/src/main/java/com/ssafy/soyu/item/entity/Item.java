@@ -49,6 +49,7 @@ public class Item {
   private LocalDateTime regDate;
 
   private Integer price;
+  private Integer discountPrice;
 
   @Enumerated(EnumType.STRING)
   private ItemStatus itemStatus;

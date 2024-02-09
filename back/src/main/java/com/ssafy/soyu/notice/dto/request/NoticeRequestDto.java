@@ -35,10 +35,17 @@ public class NoticeRequestDto {
     this.content = noticeType.getContent();
   }
 
-  public NoticeRequestDto(Item item,NoticeType noticeType, String code) {
+  public NoticeRequestDto(Item item, NoticeType noticeType, String code) {
     this.item = item;
     this.noticeType = noticeType.name();
     this.title = noticeType.getTitle();
     this.content = noticeType.getContent() + "\n코드: " + code;
+  }
+
+  public NoticeRequestDto(Item item, NoticeType noticeType, Integer price) {
+    this.item = item;
+    this.noticeType = noticeType.name();
+    this.title = noticeType.getTitle();
+    this.content = noticeType.getContent() + "\n할인 후 가격: " + price + "원 입니다.";
   }
 }
