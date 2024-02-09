@@ -7,6 +7,7 @@ import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.service.NoticeService;
 import com.ssafy.soyu.util.client.dto.response.ClientRequestResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -44,6 +45,7 @@ public class ClientUtil {
         noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.WILL_DISCOUNT));
     }
 
+    @Transactional
     public void discountNotice(ClientRequestResponse request) {
         Item item = itemRepository.findItemById(request.getItemId());
         itemRepository.updateDiscountPrice(request.getItemId(), request.getPrice());
