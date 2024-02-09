@@ -8,12 +8,16 @@ import theme from '../../styles/theme';
 import ImageCircle from '../atoms/ImageCircle';
 import DetailBottomNav from '../molecules/DetailBottomNav';
 import HeartIcon from '../../assets/icons/material_24/favorite.svg';
+import Heart from '../../assets/icons/material_24/heart.png';
 import TextBtn from '../atoms/TextBtn';
 import useItemDetail from '../../hooks/useItemDetail';
+import useLikeToggle from '../../hooks/useLikeToggle';
 
 function ItemDetailPage() {
   const { itemId } = useParams();
   const data = useItemDetail(itemId);
+  console.log(data);
+  const [like, changer] = useLikeToggle(data.likesStatus);
   const date = new Date(data.regDate);
   const Month = date.getMonth() + 1;
   const Day = date.getDate();
@@ -38,7 +42,9 @@ function ItemDetailPage() {
         </SCategory>
         <SContent>{data.content}</SContent>
         <DetailBottomNav>
-          <img src={HeartIcon} alt="" />
+          <button type="button" onClick={() => changer(data.itemId)}>
+            {like ? <img src={Heart} alt="" /> : <img src={HeartIcon} alt="" />}
+          </button>
           <div>{data.price}원</div>
           <TextBtn>채팅하기</TextBtn>
         </DetailBottomNav>
