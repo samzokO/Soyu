@@ -3,14 +3,25 @@ import { useRef, useEffect, useState } from 'react';
 import theme from '../../styles/theme';
 import Button from '../atoms/Button';
 import useManageTab from '../../hooks/useManageTab';
-import useKiosk from '../../hooks/useKiosk';
+import {
+  kioskSell,
+  kioskBuy,
+  kioskMakePurchase,
+  kioskWithdraw,
+} from '../../api/apis';
 
 function Kiosk() {
-  const [state, SetState] = useManageTab();
-  const inputRefs = [useRef(), useRef(), useRef(), useRef()];
-  const [inputValues, setInputValues] = useState(['', '', '', '']);
+  const [state, SetState] = useManageTab('sell');
+  const inputRefs = [
+    useRef(),
+    useRef(),
+    useRef(),
+    useRef(),
+    useRef(),
+    useRef(),
+  ];
+  const [inputValues, setInputValues] = useState(['', '', '', '', '', '']);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-  const kioskHook = useKiosk();
 
   useEffect(() => {
     // 모든 inputValues가 채워졌을 때 버튼 활성화
@@ -34,15 +45,22 @@ function Kiosk() {
   };
 
   const clearValues = () => {
-    setInputValues(['', '', '', '']);
+    setInputValues(['', '', '', '', '', '']);
     inputRefs[0].current.focus();
   };
 
   const combineValues = () => {
     const combinedValue = inputRefs.map((ref) => ref.current.value).join('');
     clearValues();
-    const result = kioskHook(state, combinedValue);
-    console.log(result);
+    if (state === 'sell') {
+      const a = kioskSell(combinedValue);
+    } else if (state === 'withdrawal') {
+      console.log('회수다');
+      kioskWithdraw(combinedValue).then((response) => {
+        const result = response.data.data;
+        console.log(result);
+      });
+    }
   };
 
   return (
