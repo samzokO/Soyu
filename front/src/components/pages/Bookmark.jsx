@@ -7,9 +7,13 @@ import Station from '../molecules/Station';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
+import useBookmark from '../../hooks/useBookmark';
+import useLike from '../../hooks/useLike';
 
 function Bookmark() {
   const [state, Handler] = useManageTab();
+  const data = useBookmark();
+  const likes = useLike();
   useEffect(() => {
     Handler('bookmark');
   }, []);
@@ -38,7 +42,7 @@ function Bookmark() {
             <Goods />
           </ul>
         ) : (
-          <Station />
+          data && data.map((item) => <Station key={item.itemId} data={item} />)
         )}
       </MainContainerWithNav>
       <BottomNav />
