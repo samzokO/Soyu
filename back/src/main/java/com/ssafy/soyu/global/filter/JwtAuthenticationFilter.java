@@ -30,10 +30,16 @@ public class JwtAuthenticationFilter implements Filter {
         whiteList.add("/v3/api-docs");
         whiteList.add("/ws/chat");
         whiteList.add("/pub/message");
+        whiteList.add("/pub/message");
         whiteList.add("/kiosk");
         whiteList.add("/trade/match");
-        whiteList.add("/stomp/raspberry");
         whiteList.add("/raspberry");
+        whiteList.add("/stomp/raspberry");
+        whiteList.add("/station");
+        whiteList.add("/item/items");
+        whiteList.add("/item/keyword/");
+        whiteList.add("/item/category/");
+        whiteList.add("/station");
     }
 
     @Override
