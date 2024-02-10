@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import Condition from '../../styles/BadgeCondition';
 import theme from '../../styles/theme';
 
-function Button({ children, type, onClick }) {
+function Button({ children, type, onClick, disabled }) {
   return (
-    <SButton type="button" onClick={onClick} color={type}>
+    <SButton type="button" onClick={onClick} color={type} disabled={disabled}>
       {children}
     </SButton>
   );

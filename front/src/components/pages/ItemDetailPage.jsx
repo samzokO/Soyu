@@ -16,7 +16,6 @@ import useLikeToggle from '../../hooks/useLikeToggle';
 function ItemDetailPage() {
   const { itemId } = useParams();
   const data = useItemDetail(itemId);
-  console.log(data);
   const [like, changer] = useLikeToggle(data.likesStatus);
   const date = new Date(data.regDate);
   const Month = date.getMonth() + 1;
