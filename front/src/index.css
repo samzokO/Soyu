@@ -27,6 +27,8 @@
     local('Pretendard-Light'),
     format('woff2');
 }
+/* Pretendard */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 /*Black Han Sans*/
 @import url('https://fonts.googleapis.com/css?family=Black+Han+Sans:400');
