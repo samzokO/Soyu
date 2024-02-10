@@ -3,15 +3,13 @@ import { useRef, useEffect, useState } from 'react';
 import theme from '../../styles/theme';
 import Button from '../atoms/Button';
 import useManageTab from '../../hooks/useManageTab';
-import {
-  kioskSell,
-  kioskBuy,
-  kioskMakePurchase,
-  kioskWithdraw,
-} from '../../api/apis';
+import Keypad from '../molecules/Keypad';
+import KeypadButton from '../atoms/KeypadButton';
+import useKiosk from '../../hooks/useKiosk';
 
 function Kiosk() {
   const [state, SetState] = useManageTab('sell');
+  const [d, s, w, p] = useKiosk();
   const inputRefs = [
     useRef(),
     useRef(),
@@ -25,7 +23,7 @@ function Kiosk() {
 
   useEffect(() => {
     // 모든 inputValues가 채워졌을 때 버튼 활성화
-    const isAllValuesFilled = inputValues.every((value) => value.length === 1);
+    const isAllValuesFilled = inputValues[0];
     setIsButtonEnabled(isAllValuesFilled);
   }, [inputValues]);
 
@@ -49,17 +47,60 @@ function Kiosk() {
     inputRefs[0].current.focus();
   };
 
-  const combineValues = () => {
+  const combineValues = async () => {
     const combinedValue = inputRefs.map((ref) => ref.current.value).join('');
     clearValues();
     if (state === 'sell') {
-      const a = kioskSell(combinedValue);
+      const res = s(combinedValue);
     } else if (state === 'withdrawal') {
-      console.log('회수다');
-      kioskWithdraw(combinedValue).then((response) => {
-        const result = response.data.data;
-        console.log(result);
-      });
+      const res = w(combinedValue);
+    } else if (state === 'buy') {
+      const res = p(combinedValue);
+    }
+  };
+
+  const buttons = [
+    { type: 'sell', label: '판매' },
+    { type: 'buy', label: '구매' },
+    { type: 'withdrawal', label: '회수' },
+  ];
+
+  const handleButtonClick = (buttonType) => {
+    SetState(buttonType);
+    inputRefs[0].current.focus();
+  };
+
+  const handleInput = (e) => {
+    for (let i = 0; i < inputValues.length; i += 1) {
+      const item = inputValues[i];
+      if (item === '') {
+        const newInputValues = [...inputValues];
+        newInputValues[i] = e.target.innerText;
+        inputRefs[i].current.focus();
+        setInputValues(newInputValues);
+        break;
+      }
+    }
+  };
+
+  const handleDelete = () => {
+    const newInputValues = [...inputValues];
+    for (let i = 0; i < inputValues.length; i += 1) {
+      const item = inputValues[i];
+      if (i === 0 && item === '') {
+        break;
+      }
+      if (item === '') {
+        newInputValues[i - 1] = '';
+        inputRefs[i - 1].current.focus();
+        setInputValues(newInputValues);
+        break;
+      } else if (i === 5) {
+        newInputValues[i] = '';
+        inputRefs[i].current.focus();
+        setInputValues(newInputValues);
+        break;
+      }
     }
   };
 
@@ -68,27 +109,16 @@ function Kiosk() {
       <form action="">
         <SNumberContainer>
           <SFlexWrap>
-            <SSellButton
-              type="button"
-              onClick={() => SetState('sell')}
-              current={state}
-            >
-              판매
-            </SSellButton>
-            <SBuyButton
-              type="button"
-              onClick={() => SetState('buy')}
-              current={state}
-            >
-              구매
-            </SBuyButton>
-            <SWithdrawalButton
-              type="button"
-              onClick={() => SetState('withdrawal')}
-              current={state}
-            >
-              회수
-            </SWithdrawalButton>
+            {buttons.map((button) => (
+              <SButton
+                key={button.type}
+                type="button"
+                onClick={() => handleButtonClick(button.type)}
+                current={state === button.type}
+              >
+                {button.label}
+              </SButton>
+            ))}
           </SFlexWrap>
           <STitle>확인번호 입력</STitle>
           <SFlexWrap>
@@ -106,12 +136,26 @@ function Kiosk() {
               />
             ))}
           </SFlexWrap>
-          <Button type="0" Handler={combineValues} disabled={!isButtonEnabled}>
+          <Button type="0" onClick={combineValues} disabled={!isButtonEnabled}>
             입력
           </Button>
           <SBody1>물건의 확인번호를 입력해주세요.</SBody1>
         </SNumberContainer>
       </form>
+      <Keypad>
+        <KeypadButton onClick={handleInput}>1</KeypadButton>
+        <KeypadButton onClick={handleInput}>2</KeypadButton>
+        <KeypadButton onClick={handleInput}>3</KeypadButton>
+        <KeypadButton onClick={handleInput}>4</KeypadButton>
+        <KeypadButton onClick={handleInput}>5</KeypadButton>
+        <KeypadButton onClick={handleInput}>6</KeypadButton>
+        <KeypadButton onClick={handleInput}>7</KeypadButton>
+        <KeypadButton onClick={handleInput}>8</KeypadButton>
+        <KeypadButton onClick={handleInput}>9</KeypadButton>
+        <KeypadButton onClick={handleDelete}>지우기</KeypadButton>
+        <KeypadButton onClick={handleInput}>0</KeypadButton>
+        <KeypadButton onClick={clearValues}>초기화</KeypadButton>
+      </Keypad>
     </SContainer>
   );
 }
@@ -120,28 +164,9 @@ const SButton = styled.button`
   transition: 0.2s;
   padding: 10px;
   ${theme.font.Headline}
-`;
-
-const SSellButton = styled(SButton)`
   color: ${(props) =>
-    props.current === 'sell'
-      ? `${theme.color.action}`
-      : `${theme.color.grayScale300}`};
-  transform: ${(props) => (props.current === 'sell' ? 'scale(1.1)' : '')};
-`;
-const SBuyButton = styled(SButton)`
-  color: ${(props) =>
-    props.current === 'buy'
-      ? `${theme.color.action}`
-      : `${theme.color.grayScale300}`};
-  transform: ${(props) => (props.current === 'buy' ? 'scale(1.1)' : '')};
-`;
-const SWithdrawalButton = styled(SButton)`
-  color: ${(props) =>
-    props.current === 'withdrawal'
-      ? `${theme.color.action}`
-      : `${theme.color.grayScale300}`};
-  transform: ${(props) => (props.current === 'withdrawal' ? 'scale(1.1)' : '')};
+    props.current ? `${theme.color.action}` : `${theme.color.grayScale300}`};
+  transform: ${(props) => (props.current ? 'scale(1.1)' : '')};
 `;
 
 const SFlexWrap = styled.div`
@@ -169,6 +194,7 @@ const SContainer = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
+  gap: 7vw;
   justify-content: center;
   align-items: center;
 `;
