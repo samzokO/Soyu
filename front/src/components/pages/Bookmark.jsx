@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import BottomNav from '../molecules/BottomNav';
-import Goods from '../molecules/Goods';
 import useManageTab from '../../hooks/useManageTab';
 import Station from '../molecules/Station';
 import LocalHeader from '../molecules/LocalHeader';
@@ -9,6 +8,7 @@ import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
 import useBookmark from '../../hooks/useBookmark';
 import useLike from '../../hooks/useLike';
+import ItemList from '../molecules/ItemList';
 
 function Bookmark() {
   const [state, Handler] = useManageTab();
@@ -33,14 +33,7 @@ function Bookmark() {
       </SBookmarkTap>
       <MainContainerWithNav>
         {state === 'heart' ? (
-          <ul>
-            <Goods />
-            <Goods />
-            <Goods />
-            <Goods />
-            <Goods />
-            <Goods />
-          </ul>
+          <ItemList data={likes} />
         ) : (
           data && data.map((item) => <Station key={item.itemId} data={item} />)
         )}

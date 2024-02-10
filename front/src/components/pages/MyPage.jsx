@@ -7,9 +7,12 @@ import Profile from '../molecules/Profile';
 import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
 import useMyPage from '../../hooks/useMypage';
+import useLogout from '../../hooks/useLogout';
 
 function MyPage() {
   const data = useMyPage();
+  const logout = useLogout();
+
   return (
     <>
       <LocalHeader>
@@ -19,13 +22,15 @@ function MyPage() {
       </LocalHeader>
       <MainContainerWithNav>
         <Profile
-          nickName={data.nickName}
-          bankName={data.bankName}
-          accountNumber={data.accountNumber}
+          nickName={data?.nickName ?? data?.name}
+          bankName={data?.bankName ?? '계좌 등록후 판매거래가 가능합니다'}
+          accountNumber={data?.accountNumber}
         />
         <DealList />
         <InfoList />
-        <Button type="0">로그아웃</Button>
+        <Button type="0" onClick={logout}>
+          로그아웃
+        </Button>
         <Button type="5">회원탈퇴</Button>
       </MainContainerWithNav>
       <BottomNav />

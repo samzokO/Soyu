@@ -5,24 +5,48 @@ export const getRoomList = () => API.get('/chats', 'CONFIG');
 export const getChatList = (roomId) =>
   API.post(`/chat/${roomId}`, 'data', 'config');
 
+/* 로그인 & 로그아웃 */
+
 /** 네이버 소셜 로그인 */
 export const getNaverCode = (code, state) =>
   API.post('/naver/login', {
     authorizationCode: `${code}`,
     state: `${state}`,
   });
+/** 로그아웃 */
+export const postLogout = () => API.post('/member');
+
+/** 마이페이지 정보 불러오기 */
+export const getMine = () => API.get(`/member`);
+
+/** 닉네임 수정 */
+export const patchNickname = () => API.patch(`/member/nickname`);
+
+/** 계좌 조회 */
+export const getAccount = () => API.get(`/member/account`);
+
+/** 계좌 변경 */
+export const patchAccount = () => API.patch(`/member/account`);
+
+/** 계좌 삭제 */
+export const deleteAccount = () => API.delete(`/member/account`);
+
+/** 회원 탈퇴 */
+export const deleteMember = () => API.delete(`/member`);
+
+/* CRUD */
 
 /** 아이템 리스트 불러오기 */
 export const getItemList = () => API.get('/item/items');
 
-/** 내역 리스트 불러오기 */
+/** 판매내역 리스트 불러오기 */
 export const getHistoryList = () => API.get('/history/sale');
+
+/** 구매내역 리스트 불러오기 */
+export const getPurchaseHistoryList = () => API.get('/history/purchase');
 
 /** 아이템 상세정보 불러오기 */
 export const getItem = (item) => API.get(`/item/${item}`);
-
-/** 마이페이지 정보 불러오기 */
-export const getMine = () => API.get(`/member`);
 
 /** 키워드로 검색 */
 export const getKeyword = (keyword) =>
@@ -58,6 +82,14 @@ export const postImg = (data, img) => {
   );
   ImgAPI.post('item', formData);
 };
+
+/* 좋아요 */
+
+/** 찜 리스트 조회 */
+export const getLikes = () => API.get(`/likes`);
+
+/** 찜 On Off */
+export const getLikeOnOff = (itemId) => API.post(`/likes/${itemId}`);
 
 /* 키오스크 */
 
@@ -98,11 +130,3 @@ export const favoriteOnOff = (stationId) => API.post(`/favorite/${stationId}`);
 
 /** 즐겨찾기한 스테이션 조회 */
 export const getFavorite = () => API.get(`/favorite`);
-
-/* 좋아요 */
-
-/** 찜 리스트 조회 */
-export const getLikes = () => API.get(`/likes`);
-
-/** 찜 On Off */
-export const getLikeOnOff = (itemId) => API.post(`/likes/${itemId}`);
