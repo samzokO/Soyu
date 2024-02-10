@@ -15,6 +15,9 @@ const sNavHeight = getHeightValue(SNav, 0);
 
 export const MainContainerWithoutNav = styled.main`
   margin-top: 44px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1024px;
   padding: 0px 15px;
   position: relative;
   height: calc(100vh - ${sNavHeight});
