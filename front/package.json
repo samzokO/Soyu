@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
     "firebase": "^10.7.2",
+    "framer-motion": "^11.0.3",
     "http-proxy-middleware": "^2.0.6",
     "jwt-decode": "^4.0.0",
     "net": "^1.0.2",
@@ -69,5 +70,6 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.2.4"
-  }
+  },
+  "proxy": "http://i10b311.p.ssafy.io:8080"
 }
