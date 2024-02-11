@@ -20,9 +20,10 @@ export const MainContainerWithoutNav = styled.main`
   max-width: 1024px;
   padding: 0px 15px;
   position: relative;
-  height: calc(100vh - ${sNavHeight});
+  min-height: calc(100vh - ${sNavHeight});
 `;
 
 export const MainContainerWithNav = styled(MainContainerWithoutNav)`
-  height: calc(100vh - (${headerHeight} + ${sNavHeight}));
+  margin-bottom: 53px;
+  min-height: calc(100vh - (${headerHeight} + ${sNavHeight}));
 `;
