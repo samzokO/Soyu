@@ -3,30 +3,32 @@ import styled from 'styled-components';
 import Badge from '../atoms/Badge';
 import Favorite from '../../assets/icons/material_24/favorite.svg';
 import Button from '../atoms/Button';
-import font from '../../styles/font';
-import color from '../../styles/color';
+import theme from '../../styles/theme';
+import { useTimeStamp } from '../../hooks/useTimeStamp';
 
-function BuyGoods() {
+function BuyGoods({ data, list }) {
+  const price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const date = useTimeStamp(data.regDate);
   return (
     <SLiWrap>
-      <Link to="/">
+      <Link to={`/item/${data.itemId}`}>
         <SSpaceBetween>
           <SFlexWrap>
             <SImg src="#" alt="물건 사진" />
             <div>
-              <SH3>물건 이름</SH3>
-              <SPrice>10,000,000원</SPrice>
+              <SH3>{data.itemId}</SH3>
+              <SPrice>{price}원</SPrice>
               <SFlexWrap>
                 <SHeart src={Favorite} alt="찜 아이콘" />
-                <SHeartCount>3</SHeartCount>
+                <SHeartCount>{data.likeCount}</SHeartCount>
               </SFlexWrap>
             </div>
           </SFlexWrap>
-          <Badge status="5" />
+          <Badge status={data.itemStatus === 'buyList' ? '3' : '5'} />
         </SSpaceBetween>
       </Link>
-      <Button Handler="" type="1">
-        오프라인 DP 예약하기
+      <Button Handler="" type={list === 'buylist' ? '1' : '0'}>
+        {list === 'buylist' ? '무튼구매' : '오프라인 DP 예약하기'}
       </Button>
     </SLiWrap>
   );
@@ -42,7 +44,8 @@ const SFlexWrap = styled.div`
 const SLiWrap = styled.li`
   padding: 14px;
   position: relative;
-  border-bottom: 1px solid ${color.grayScale200};
+  border-bottom: 1px solid ${theme.color.grayScale200};
+  list-style: none;
 `;
 
 const SSpaceBetween = styled(SFlexWrap)`
@@ -57,12 +60,12 @@ const SImg = styled.img`
 `;
 
 const SH3 = styled.h3`
-  ${font.Subtitle};
+  ${theme.font.Subtitle};
   margin-bottom: 8px;
 `;
 
 const SPrice = styled.p`
-  ${font.Body1}
+  ${theme.font.Body1}
   margin-bottom: 8px;
 `;
 
@@ -73,5 +76,5 @@ const SHeart = styled.img`
 `;
 
 const SHeartCount = styled.span`
-  ${font.Body1}
+  ${theme.font.Body1}
 `;
