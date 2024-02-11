@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getLikeOnOff } from '../api/apis';
 
 function useLikeToggle() {
