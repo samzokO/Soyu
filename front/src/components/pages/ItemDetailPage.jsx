@@ -13,14 +13,17 @@ import Heart from '../../assets/icons/material_24/heart.png';
 import TextBtn from '../atoms/TextBtn';
 import useItemDetail from '../../hooks/useItemDetail';
 import useLikeToggle from '../../hooks/useLikeToggle';
+import useLoadImg from '../../hooks/useLoadImg';
 
 function ItemDetailPage() {
   const { itemId } = useParams();
+  const [img, loadImage] = useLoadImg();
   const data = useItemDetail(itemId);
   const [like, setLike, changer] = useLikeToggle();
   useEffect(() => {
     if (data.likesStatus !== undefined) {
       setLike(data.likesStatus);
+      loadImage(data.imageResponses);
     }
   }, [data.likesStatus]);
   const date = new Date(data.regDate);
@@ -32,7 +35,7 @@ function ItemDetailPage() {
         <BackBtn />
         <div />
       </LocalHeader>
-      <ImageSlide />
+      <ImageSlide data={img} />
       <SMainContainer>
         <SProfile>
           <ImageCircle />

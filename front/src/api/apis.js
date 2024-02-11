@@ -62,6 +62,10 @@ export const updateStatus = () =>
     itemStatus: `WITHDRAW`,
   });
 
+/* 이미지 */
+
+/** 이미지 불러오기 */
+export const loadImg = (folder, file) => API.get(`image/${folder}/${file}`);
 /** 이미지 업로드 */
 export const postImg = (data, img) => {
   const formData = new FormData();
