@@ -5,10 +5,10 @@ import { styled } from 'styled-components';
  * @params (string) name - 입력필드의 이름
  * @params (string) placeholder - 플레이스홀더
  */
-function SelectBox({ id, name, options }) {
+function SelectBox({ id, name, options, onChange }) {
   return (
-    <SBox id={id} name={name}>
-      <option value="" disabled selected>
+    <SBox id={id} name={name} onChange={onChange}>
+      <option value="" disabled>
         카테고리를 선택해주세요.
       </option>
       {options.map((option) => (

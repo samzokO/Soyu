@@ -71,8 +71,8 @@ function ItemAddPage() {
         />
         <SelectBox
           id="category"
-          name="category"
-          value="s"
+          name="itemCategories"
+          value={Data.itemCategories}
           onChange={handleChange}
           options={options}
         />

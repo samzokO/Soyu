@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-function TextArea({ title, id, placeholder }) {
+function TextArea({ title, name, placeholder, onChange }) {
   return (
     <SWrap>
       <SLabel>{title}</SLabel>
-      <SArea id={id} placeholder={placeholder} />
+      <SArea name={name} placeholder={placeholder} onChange={onChange} />
     </SWrap>
   );
 }

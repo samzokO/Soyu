@@ -9,11 +9,18 @@ import InputBox from '../atoms/InputBox';
  * @params (string) image - 입력필드에 넣을 아이콘 주소
  * @returns input
  */
-function TextField({ title, type, id, placeholder, image }) {
+function TextField({ title, type, name, id, placeholder, image, onChange }) {
   return (
     <SField>
       <SLabel>{title}</SLabel>
-      <InputBox type={type} id={id} placeholder={placeholder} image={image} />
+      <InputBox
+        type={type}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        image={image}
+        onChange={onChange}
+      />
     </SField>
   );
 }
