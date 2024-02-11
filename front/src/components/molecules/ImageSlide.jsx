@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 function ImageSlide({ data }) {
-  return <Container />;
   return (
     <SContainer>
       {data && data.map((item) => <SImg key={item} src={item} alt="사진" />)}

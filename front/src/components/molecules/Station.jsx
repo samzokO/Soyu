@@ -10,25 +10,28 @@ function Station({ data }) {
     <article>
       <STitle>{data.stationName}</STitle>
       <SUl>
-        {data?.lockers.map((item) => (
-          <SLi key={item.itemId} to={`/item/${item.itemId}`}>
-            <SNumber>{item.lockerLocation}</SNumber>
-            <SImg src="#" alt="#" />
-            <SPadding>
-              <SFlexWrap>
-                <SSubTitle>{item.title}</SSubTitle>
-                <SFlexHeart>
-                  <SIcon src={Heart} alt="좋아요 수" />
-                  <SBody2>{item.likeCount}</SBody2>
-                </SFlexHeart>
-              </SFlexWrap>
-              <SPrice>
-                {'itemStatus' !== 5 && <Badge status={0} />}
-                <div>{item.price}원</div>
-              </SPrice>
-            </SPadding>
-          </SLi>
-        ))}
+        {data?.lockers.map(
+          (item) =>
+            item.title && (
+              <SLi key={item.itemId} to={`/item/${item.itemId}`}>
+                <SNumber>{item.lockerLocation}</SNumber>
+                <SImg src="#" alt="#" />
+                <SPadding>
+                  <SFlexWrap>
+                    <SSubTitle>{item.title}</SSubTitle>
+                    <SFlexHeart>
+                      <SIcon src={Heart} alt="좋아요 수" />
+                      <SBody2>{item.likeCount}</SBody2>
+                    </SFlexHeart>
+                  </SFlexWrap>
+                  <SPrice>
+                    {'itemStatus' !== 5 && <Badge status={0} />}
+                    <div>{item.price}원</div>
+                  </SPrice>
+                </SPadding>
+              </SLi>
+            ),
+        )}
       </SUl>
     </article>
   );
