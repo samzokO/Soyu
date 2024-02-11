@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
@@ -16,7 +17,12 @@ import useLikeToggle from '../../hooks/useLikeToggle';
 function ItemDetailPage() {
   const { itemId } = useParams();
   const data = useItemDetail(itemId);
-  const [like, changer] = useLikeToggle(data.likesStatus);
+  const [like, setLike, changer] = useLikeToggle();
+  useEffect(() => {
+    if (data.likesStatus !== undefined) {
+      setLike(data.likesStatus);
+    }
+  }, [data.likesStatus]);
   const date = new Date(data.regDate);
   const Month = date.getMonth() + 1;
   const Day = date.getDate();
@@ -80,4 +86,5 @@ const SCategory = styled.div`
 const SContent = styled.div`
   ${theme.font.Body1}
 `;
+
 export default ItemDetailPage;

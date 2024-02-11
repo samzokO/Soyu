@@ -6,7 +6,6 @@ function useLike() {
   useEffect(() => {
     getLikes().then((res) => {
       const result = res.data.data;
-      console.log(result);
       setData(result);
     });
   }, []);
