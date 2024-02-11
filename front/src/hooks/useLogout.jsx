@@ -7,6 +7,7 @@ function useLogout() {
     postLogout().then(() => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('fcmToken');
       navigate('/login');
     });
   };
