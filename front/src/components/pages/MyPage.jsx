@@ -15,7 +15,6 @@ function MyPage() {
   const data = useMyPage();
   const logout = useLogout();
   const signout = useSignout();
-  const [account, handler, g, p, d] = useAccount();
   return (
     <>
       <LocalHeader>
