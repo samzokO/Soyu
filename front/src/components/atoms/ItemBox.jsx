@@ -90,7 +90,7 @@ const SImgContainer = styled.div`
   border: 1px solid black;
   border-radius: 7px;
   text-align: center;
-  background-image: url({url});
+  background-image: url();
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
