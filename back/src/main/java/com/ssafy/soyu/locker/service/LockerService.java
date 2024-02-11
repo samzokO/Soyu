@@ -60,7 +60,7 @@ public class LockerService {
   }
 
   @Transactional
-  public void insertSellCode(String code) {
+  public LockerBuyResponse insertSellCode(String code) {
     Optional<Locker> optionalLocker = lockerRepository.findByCode(code);
     if (!optionalLocker.isPresent()) {
       throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
@@ -96,6 +96,8 @@ public class LockerService {
     ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), status, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
+
+    return new LockerBuyResponse(item.getId(), locker.getLockerNum());
   }
 
   public LockerBuyResponse insertBuyCode(Long stationId, String code) {

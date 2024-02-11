@@ -28,8 +28,7 @@ public class KioskController {
         @ApiResponse(responseCode = "400", description = "보관 시작 코드 불일치")
     })
     public ResponseEntity<?> insertSellCode(@PathVariable("code") String code){
-        lockerService.insertSellCode(code);
-        return getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK, lockerService.insertSellCode(code));
     }
 
     @GetMapping("/buy/{stationId}/{code}")
