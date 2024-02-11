@@ -8,11 +8,14 @@ import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
 import useMyPage from '../../hooks/useMypage';
 import useLogout from '../../hooks/useLogout';
+import useAccount from '../../hooks/useAccount';
+import useSignout from '../../hooks/useSignout';
 
 function MyPage() {
   const data = useMyPage();
   const logout = useLogout();
-
+  const signout = useSignout();
+  const [account, handler, g, p, d] = useAccount();
   return (
     <>
       <LocalHeader>
@@ -31,7 +34,9 @@ function MyPage() {
         <Button type="0" onClick={logout}>
           로그아웃
         </Button>
-        <Button type="5">회원탈퇴</Button>
+        <Button type="5" onClick={signout}>
+          회원탈퇴
+        </Button>
       </MainContainerWithNav>
       <BottomNav />
     </>
