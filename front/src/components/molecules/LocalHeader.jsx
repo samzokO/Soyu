@@ -11,7 +11,7 @@ export const Header = styled.nav`
   left: 0;
   right: 0;
   background-color: ${({ theme }) => theme.color.bgColor};
-  z-index: 9999;
+  z-index: 10;
   ${({ theme }) => theme.font.Title};
   padding: 0px 10px;
   height: 44px;
