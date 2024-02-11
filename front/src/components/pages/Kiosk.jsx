@@ -6,10 +6,12 @@ import useManageTab from '../../hooks/useManageTab';
 import Keypad from '../molecules/Keypad';
 import KeypadButton from '../atoms/KeypadButton';
 import useKiosk from '../../hooks/useKiosk';
+import useAsync from '../../hooks/useAsync';
 
 function Kiosk() {
   const [state, SetState] = useManageTab('sell');
-  const [d, s, w, p] = useKiosk();
+  const [data, sell, withdrawal, purchase] = useKiosk();
+  const [isLoading, loadingError, getKioskAsync] = useAsync(sell);
   const inputRefs = [
     useRef(),
     useRef(),
@@ -22,7 +24,7 @@ function Kiosk() {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   useEffect(() => {
-    // 모든 inputValues가 채워졌을 때 버튼 활성화
+    // 첫번째 inputValues가 채워졌을 때 버튼 활성화
     const isAllValuesFilled = inputValues[0];
     setIsButtonEnabled(isAllValuesFilled);
   }, [inputValues]);
@@ -47,15 +49,17 @@ function Kiosk() {
     inputRefs[0].current.focus();
   };
 
-  const combineValues = async () => {
+  const combineValues = () => {
     const combinedValue = inputRefs.map((ref) => ref.current.value).join('');
     clearValues();
     if (state === 'sell') {
-      const res = s(combinedValue);
+      getKioskAsync(combinedValue);
     } else if (state === 'withdrawal') {
-      const res = w(combinedValue);
+      const res = withdrawal(combinedValue);
+      console.log(data);
     } else if (state === 'buy') {
-      const res = p(combinedValue);
+      const res = purchase(combinedValue);
+      console.log(res);
     }
   };
 
