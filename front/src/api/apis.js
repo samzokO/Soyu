@@ -26,7 +26,11 @@ export const patchNickname = () => API.patch(`/member/nickname`);
 export const getAccount = () => API.get(`/member/account`);
 
 /** 계좌 변경 */
-export const patchAccount = () => API.patch(`/member/account`);
+export const patchAccount = (a, b) =>
+  API.patch(`/member/account`, {
+    bankName: a,
+    accountNumber: b,
+  });
 
 /** 계좌 삭제 */
 export const deleteAccount = () => API.delete(`/member/account`);
