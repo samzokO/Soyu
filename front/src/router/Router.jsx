@@ -15,6 +15,7 @@ import Notification from '../components/pages/Notification';
 import Map from '../components/pages/Map';
 import Kiosk from '../components/pages/Kiosk';
 import Category from '../components/pages/Category';
+import Account from '../components/pages/Account';
 
 const Router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const Router = createBrowserRouter([
     element: <Bookmark />,
   },
   {
+    path: '/bookmark/:heart',
+    element: <Bookmark />,
+  },
+  {
     path: '/category',
     element: <Category />,
   },
@@ -59,16 +64,20 @@ const Router = createBrowserRouter([
     element: <MyPage />,
   },
   {
+    path: '/mypage/:list',
+    element: <BuyList />,
+  },
+  {
+    path: '/mypage/account',
+    element: <Account />,
+  },
+  {
     path: '/map',
     element: <Map />,
   },
   {
     path: '/kiosk',
     element: <Kiosk />,
-  },
-  {
-    path: '/mypage/buylist',
-    element: <BuyList />,
   },
   {
     path: '/chat',

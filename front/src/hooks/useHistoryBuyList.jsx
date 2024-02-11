@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { getHistoryList } from '../api/apis';
+import { getPurchaseHistoryList } from '../api/apis';
 
-/** 판매내역 리스트 */
-function useHistoryList() {
+/** 구매내역 리스트 */
+function useHistoryBuyList() {
   const [data, setData] = useState('');
   useEffect(() => {
-    getHistoryList().then((response) => {
+    getPurchaseHistoryList().then((response) => {
       const result = response.data.data;
       setData(result);
     });
   }, []);
   return data;
 }
-export default useHistoryList;
+export default useHistoryBuyList;
