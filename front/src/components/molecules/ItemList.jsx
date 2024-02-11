@@ -18,7 +18,7 @@ function ItemList({ title, data }) {
               itemId={item.itemId}
               title={item.title}
               itemCategories={item.itemCategories}
-              regDate={`${new Date(item.regDate).getMonth() + 1}월 ${new Date(item.regDate).getDate()}일`}
+              regDate={item.regDate}
               itemStatus={0}
               price={item.price}
             />

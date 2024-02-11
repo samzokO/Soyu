@@ -14,6 +14,7 @@ import TextBtn from '../atoms/TextBtn';
 import useItemDetail from '../../hooks/useItemDetail';
 import useLikeToggle from '../../hooks/useLikeToggle';
 import useLoadImg from '../../hooks/useLoadImg';
+import { useTimeStamp } from '../../hooks/useTimeStamp';
 
 function ItemDetailPage() {
   const { itemId } = useParams();
@@ -26,9 +27,8 @@ function ItemDetailPage() {
       loadImage(data.imageResponses);
     }
   }, [data.likesStatus]);
-  const date = new Date(data.regDate);
-  const Month = date.getMonth() + 1;
-  const Day = date.getDate();
+  const date = useTimeStamp(data.regDate);
+
   return (
     <>
       <LocalHeader>
@@ -46,7 +46,7 @@ function ItemDetailPage() {
         </SProfile>
         <STitle>{data.title}</STitle>
         <SCategory>
-          {data.itemCategories} | {Month}월 {Day}일
+          {data.itemCategories} | {date}
         </SCategory>
         <SContent>{data.content}</SContent>
         <DetailBottomNav>

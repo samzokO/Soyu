@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
 import Badge from './Badge';
+import { useTimeStamp } from '../../hooks/useTimeStamp';
 
 /** 물품 리스트 아이템
  * @params (string)img - 이미지 주소
@@ -26,6 +27,7 @@ function ItemBox({
 }) {
   // 금액 , 삽입
   const Price = String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const date = useTimeStamp(regDate);
   return (
     <SFlexItem to={`/item/${itemId}`}>
       <SFlexCenterGap>
@@ -35,7 +37,8 @@ function ItemBox({
             <p>{title}</p>
             <SFontsize>
               <p>
-                {itemCategories} - {regDate}
+                {itemCategories}
+                <Sbody2> - {date}</Sbody2>
               </p>
               <SFlexCenterGap>
                 <p>{boxLocation}</p>
@@ -52,6 +55,10 @@ function ItemBox({
     </SFlexItem>
   );
 }
+
+const Sbody2 = styled.span`
+  ${theme.font.Body2}
+`;
 
 export const SFlexCenter = styled.div`
   display: flex;
