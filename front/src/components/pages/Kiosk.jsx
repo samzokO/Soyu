@@ -114,7 +114,7 @@ function Kiosk() {
                 key={button.type}
                 type="button"
                 onClick={() => handleButtonClick(button.type)}
-                current={state === button.type}
+                curr={state === button.type ? 'true' : 'false'}
               >
                 {button.label}
               </SButton>
@@ -165,8 +165,10 @@ const SButton = styled.button`
   padding: 10px;
   ${theme.font.Headline}
   color: ${(props) =>
-    props.current ? `${theme.color.action}` : `${theme.color.grayScale300}`};
-  transform: ${(props) => (props.current ? 'scale(1.1)' : '')};
+    props.curr === 'true'
+      ? `${theme.color.action}`
+      : `${theme.color.grayScale300}`};
+  transform: ${(props) => (props.curr === 'true' ? 'scale(1.1)' : '')};
 `;
 
 const SFlexWrap = styled.div`
