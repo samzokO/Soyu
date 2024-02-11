@@ -11,7 +11,7 @@ function InfoList() {
       <SH2>내 정보</SH2>
       <ul>
         <SLi>
-          <SFlexLink to="/">
+          <SFlexLink to="account">
             <SImg src={AccountWallet} alt="#" />
             <p>계좌번호 변경</p>
           </SFlexLink>

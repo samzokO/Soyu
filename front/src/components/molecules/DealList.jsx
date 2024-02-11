@@ -18,19 +18,19 @@ function DealList() {
           </SFlexLink>
         </SLi>
         <SLi>
-          <SFlexLink to="/">
+          <SFlexLink to="selllist">
             <SImg src={Receipt} alt="#" />
             <p>판매 내역</p>
           </SFlexLink>
         </SLi>
         <SLi>
-          <SFlexLink to="/">
+          <SFlexLink to="/bookmark/heart">
             <SImg src={Favorite} alt="#" />
             <p>찜 목록</p>
           </SFlexLink>
         </SLi>
         <SLi>
-          <SFlexLink to="/">
+          <SFlexLink to="/bookmark/">
             <SImg src={Inventory} alt="#" />
             <p>즐겨찾기 목록</p>
           </SFlexLink>

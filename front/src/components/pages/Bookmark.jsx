@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import BottomNav from '../molecules/BottomNav';
 import useManageTab from '../../hooks/useManageTab';
 import Station from '../molecules/Station';
@@ -11,11 +12,12 @@ import useLike from '../../hooks/useLike';
 import ItemList from '../molecules/ItemList';
 
 function Bookmark() {
+  const { heart } = useParams();
   const [state, Handler] = useManageTab();
   const data = useBookmark();
   const likes = useLike();
   useEffect(() => {
-    Handler('bookmark');
+    Handler(heart === 'heart' ? heart : 'bookmark');
   }, []);
   return (
     <>
