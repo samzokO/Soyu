@@ -1,12 +1,8 @@
 import API, { ImgAPI } from './config';
 
-export const getRoomList = () => {
-  const { data } = API.get('/chats');
-  return data;
-};
+export const getRooms = () => API.get('/chats');
 
-export const getChatList = (roomId) =>
-  API.get(`/chat/${roomId}`, 'data', 'config');
+export const getChats = (roomId) => API.get(`/chat/${roomId}`);
 
 /* 로그인 & 로그아웃 */
 
