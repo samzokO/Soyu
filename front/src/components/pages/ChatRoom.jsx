@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { over } from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
@@ -7,14 +7,16 @@ import ChatBottomNav from '../molecules/ChatBottomNav';
 import ChatHeader from '../molecules/ChatHeader';
 import ChatMessageList from '../molecules/ChatMessageList';
 
-function ChatRoom({ state }) {
-  console.log(state);
-  // 필요 데이터
-  // 1. 상품 헤더 : 물품 이미지(imageResponse), 물품명(title), 물품 가격(price)
-  // 2. 메시지 리스트 : 상대방 프로필 이미지(sellerProfileImageResponse), 채팅 내용 (messageResponses[])
+import { getChats } from '../../api/apis';
+
+function ChatRoom() {
+  const { state } = useLocation();
+  const [chats, setChats] = useState([]);
+  const [partnerImage, setPartnerImage] = useState('/');
 
   const { chatId } = useParams();
 
+  const scrollRef = useRef(null);
   const client = useRef(null);
 
   const connect = () => {
@@ -24,8 +26,11 @@ function ChatRoom({ state }) {
       {},
       () =>
         client.current.subscribe(`/sub/message/${chatId}`, (data) => {
-          console.log('data received');
-          console.log(data);
+          const message = {
+            memberId: parseInt(localStorage.getItem('memberId'), 10),
+            content: JSON.parse(data.body).content,
+          };
+          setChats((chat) => [...chat, message]);
         }),
       () => {
         console.error('connection error');
@@ -47,13 +52,35 @@ function ChatRoom({ state }) {
   };
 
   useEffect(() => {
-    connect();
+    (async () => {
+      const { data } = await getChats(chatId);
+      setChats([...data.data.messageResponses]);
+      // myMemberId === data.data.buyerId
+      //   ? buyerProfileImageResponse
+      //   : sellerProfileImageResponse;
+      // load image logic
+      connect();
+    })();
   }, []);
+
+  const scrollToBottom = () => {
+    if (scrollRef.current)
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chats]);
 
   return (
     <>
-      <ChatHeader itemId={state} />
-      <ChatMessageList />
+      <ChatHeader itemId={state.itemId} />
+      <ChatMessageList
+        chats={chats}
+        setChats={setChats}
+        imageURL={partnerImage}
+        ref={scrollRef}
+      />
       <ChatBottomNav sendHandler={send} />
     </>
   );

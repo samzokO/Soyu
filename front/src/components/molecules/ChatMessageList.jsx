@@ -1,45 +1,29 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 import LeftMessage from '../atoms/LeftMessage';
 import RightMessage from '../atoms/RightMessage';
-import { getChats } from '../../api/apis';
 
-function ChatMessageList() {
-  const [chats, setChats] = useState([]);
-  const [partnerImage, setPartnerImage] = useState('/');
-
-  const { chatId } = useParams();
+const ChatMessageList = forwardRef(({ chats, partnerImage }, ref) => {
   const myMemberId = localStorage.getItem('memberId');
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await getChats(chatId);
-      console.log('chat message list component : ', data);
-      setChats(data.data.messageResponse);
-      // myMemberId === data.data.buyerId
-      //   ? buyerProfileImageResponse
-      //   : sellerProfileImageResponse;
-      // load image logic
-    })();
-  }, []);
-
   return (
-    <SWrap>
-      {chats.map((chat) =>
-        myMemberId !== chat.memberId ? (
-          <LeftMessage img={partnerImage}>{chat.content}</LeftMessage>
-        ) : (
-          <RightMessage>{chat.content}</RightMessage>
-        ),
-      )}
+    <SWrap ref={ref}>
+      {chats?.map((chat, index) => {
+        if (parseInt(myMemberId, 10) === chat?.memberId)
+          return <RightMessage key={index}>{chat?.content}</RightMessage>;
+        return (
+          <LeftMessage key={index} img={partnerImage}>
+            {chat?.content}
+          </LeftMessage>
+        );
+      })}
     </SWrap>
   );
-}
+});
 
 export default ChatMessageList;
 
 const SWrap = styled.div`
-  padding: 16px;
+  padding: 112px 16px 52px;
+  height: 100vh;
+  overflow: scroll;
 `;

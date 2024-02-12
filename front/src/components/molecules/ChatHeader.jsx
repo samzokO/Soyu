@@ -24,7 +24,7 @@ const SSub = styled.div`
 `;
 
 const SDiv = styled.div`
-  position: sticky;
+  position: absolute;
   top: 0;
   width: 100%;
   background-color: ${color.bgColor};

@@ -6,7 +6,6 @@ import useLoadItem from '../../hooks/useLoadItem';
 
 function GoodsHeader({ itemId }) {
   const [imageURL, name, price] = useLoadItem(itemId);
-  console.log('in goods header, Data :', imageURL, name, price);
 
   return (
     <SFlex>

@@ -9,14 +9,26 @@ function ChatBottomNav({ sendHandler }) {
   const [input, setInput] = useState('');
 
   return (
-    <SForm action="#" onSubmit={() => sendHandler(input)}>
+    <SForm action="#">
       <img src={add} alt="추가" />
       <SInput
         type="text"
         onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            sendHandler(e, input);
+            setInput('');
+          }
+        }}
         value={input}
       />
-      <button type="submit">
+      <button
+        type="button"
+        onClick={(e) => {
+          sendHandler(e, input);
+          setInput('');
+        }}
+      >
         <img src={send} alt="전송" />
       </button>
     </SForm>
@@ -28,7 +40,7 @@ export default ChatBottomNav;
 const SForm = styled.form`
   display: flex;
   align-items: center;
-  position: sticky;
+  position: absolute;
   bottom: 0;
   width: 100%;
   padding: 8px 16px;
