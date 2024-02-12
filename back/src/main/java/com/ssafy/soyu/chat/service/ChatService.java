@@ -50,7 +50,7 @@ public class ChatService {
     }
 
     // 새로운 채팅방이 생성된다
-    Chat chat = new Chat(item, buyer, seller);
+    Chat chat = new Chat(item, seller, buyer);
     noticeService.createNoticeWithSender(seller.getId(), buyer.getId(),
         new NoticeRequestDto(item, NoticeType.CHAT_CREATE));
 
