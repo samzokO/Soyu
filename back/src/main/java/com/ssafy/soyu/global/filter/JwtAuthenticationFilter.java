@@ -24,22 +24,20 @@ public class JwtAuthenticationFilter implements Filter {
     private final static String main = "/";
     private final static List<String> whiteList = new ArrayList<>();
     static {
+        //jwt 토큰이 필요 없는 곳은 uri 추가
         whiteList.add("/naver");
         whiteList.add("/member/token");
         whiteList.add("/swagger-ui");
         whiteList.add("/v3/api-docs");
         whiteList.add("/ws/chat");
         whiteList.add("/pub/message");
-        whiteList.add("/pub/message");
         whiteList.add("/kiosk");
         whiteList.add("/trade/match");
         whiteList.add("/client");
         whiteList.add("/stomp/client");
-        whiteList.add("/station");
         whiteList.add("/item/items");
         whiteList.add("/item/keyword/");
         whiteList.add("/item/category/");
-        whiteList.add("/station");
     }
 
     @Override
