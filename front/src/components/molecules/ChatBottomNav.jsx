@@ -1,14 +1,24 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+
 import add from '../../assets/icons/material_24/add.svg';
 import send from '../../assets/icons/material_24/send.svg';
 import color from '../../styles/color';
 
-function ChatBottomNav() {
+function ChatBottomNav({ sendHandler }) {
+  const [input, setInput] = useState('');
+
   return (
-    <SForm action="#">
+    <SForm action="#" onSubmit={() => sendHandler(input)}>
       <img src={add} alt="추가" />
-      <SInput type="text" />
-      <img src={send} alt="전송" />
+      <SInput
+        type="text"
+        onChange={(e) => setInput(e.target.value)}
+        value={input}
+      />
+      <button type="submit">
+        <img src={send} alt="전송" />
+      </button>
     </SForm>
   );
 }
