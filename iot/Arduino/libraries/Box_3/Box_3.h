@@ -44,21 +44,19 @@ public:
     void visible();                     // 보여
     void invisible();                   // 안보여
 
-    /*
+    
     // [ 상태 ] 
     void available();               // AVAILABLE
     void reserve();                 // DP_RESERVE, TRADE_RESERVE
-    
-    void dpInsert(long price);       // DP_INSERT
-    void dpReady(long price);        // DP_READY
+    void insert();                  // TRADE_INSERT, DP_INSERT
 
-    void tradeInsert(long price);             // TRADE_INSERT
+    void dpReady(long price);        // DP_READY
     void tradeReady();              // TRADE_READY
     void tradeCheck();              // TRADE_CHECK
 
     void subtract();                // DP_SUBTRACT, TRADE_SUBTRACT, WITHDRAW_SUBTRACT
     void withdraw();                // WITHDRAW
-    */
+    
 };
 
 #endif

@@ -41,7 +41,7 @@ void Box::ledOff(){
 void Box::lcdPrice(long price) {
     char str[10]; // 충분한 크기의 char 배열 선언
     snprintf(str, sizeof(str), "%ld", price); // 숫자를 문자열로 변환
-    lcd.Clear();
+    lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("PRICE");
     lcd.setCursor(16 - strlen(str), 1);
@@ -49,7 +49,7 @@ void Box::lcdPrice(long price) {
 }
                
 void Box::lcdContent(char* content) {
-    lcd.Clear();
+    lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(content);
 }
@@ -57,7 +57,7 @@ void Box::lcdContent(char* content) {
 void Box::lcdTimer(long sec){
     char buffer[20];
     snprintf(buffer, sizeof(buffer), "%ld", sec);
-    lcd.Clear();
+    lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Remaining sec...");
     lcd.setCursor(16 - strlen(buffer), 1); // 숫자를 오른쪽 정렬
