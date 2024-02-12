@@ -27,6 +27,9 @@ public class PurchaseResponseDto {
   @Schema(description = "물품 ID")
   private Long itemId;
 
+  @Schema(description = "물품 이름")
+  private String title;
+
   @Schema(description = "가격")
   private int price;
 
@@ -45,6 +48,7 @@ public class PurchaseResponseDto {
 
   public PurchaseResponseDto(History h, List<ImageResponse> images) {
     this.itemId = h.getItem().getId();
+    this.title = h.getItem().getTitle();
     this.price = h.getItem().getPrice();
     this.sellerNickName = h.getMember().getNickName();
     this.regDate = h.getItem().getRegDate();

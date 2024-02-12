@@ -26,6 +26,9 @@ public class SaleResponseDto {
   @Schema(description = "물품 ID")
   private Long itemId;
 
+  @Schema(description = "물품 이름")
+  private String title;
+
   @Schema(description = "가격 ID")
   private int price;
 
@@ -43,6 +46,7 @@ public class SaleResponseDto {
 
   public SaleResponseDto(Item i, List<ImageResponse> images, Integer likeCount) {
     this.itemId = i.getId();
+    this.title = i.getTitle();
     this.price = i.getPrice();
     this.regDate = i.getRegDate();
     this.itemStatus = i.getItemStatus();
