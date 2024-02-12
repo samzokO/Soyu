@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { getRoomList } from '../api/apis';
+import { getRooms } from '../api/apis';
 
 function useLoadRooms() {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    setRooms(getRoomList);
+    (async () => {
+      const { data } = await getRooms();
+      setRooms(data.data);
+    })();
   }, []);
 
   return rooms;
