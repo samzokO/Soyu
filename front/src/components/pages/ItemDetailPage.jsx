@@ -10,11 +10,11 @@ import ImageCircle from '../atoms/ImageCircle';
 import DetailBottomNav from '../molecules/DetailBottomNav';
 import HeartIcon from '../../assets/icons/material_24/favorite.svg';
 import Heart from '../../assets/icons/material_24/heart.png';
-import TextBtn from '../atoms/TextBtn';
 import useItemDetail from '../../hooks/useItemDetail';
 import useLikeToggle from '../../hooks/useLikeToggle';
 import useLoadImg from '../../hooks/useLoadImg';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
+import useMakeTransaction from '../../hooks/useMakeTransaction';
 
 function ItemDetailPage() {
   const { itemId } = useParams();
@@ -28,6 +28,7 @@ function ItemDetailPage() {
     }
   }, [data.likesStatus]);
   const date = useTimeStamp(data.regDate);
+  const onClickHandler = useMakeTransaction();
 
   return (
     <>
@@ -54,7 +55,18 @@ function ItemDetailPage() {
             {like ? <img src={Heart} alt="" /> : <img src={HeartIcon} alt="" />}
           </button>
           <div>{data.price}원</div>
-          <TextBtn>채팅하기</TextBtn>
+          <button
+            type="button"
+            onClick={() =>
+              onClickHandler(
+                data.itemId,
+                localStorage.getItem('memberId'),
+                data.memberId,
+              )
+            }
+          >
+            채팅하기
+          </button>
         </DetailBottomNav>
       </SMainContainer>
     </>

@@ -1,5 +1,12 @@
 import API, { ImgAPI } from './config';
 
+export const makeChat = ({ itemId, buyerId, sellerId }) =>
+  API.post('/chat', {
+    itemId,
+    buyerId,
+    sellerId,
+  });
+
 export const getRooms = () => API.get('/chats');
 
 export const getChats = (roomId) => API.get(`/chat/${roomId}`);
