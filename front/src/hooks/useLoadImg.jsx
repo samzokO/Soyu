@@ -26,13 +26,14 @@ function useLoadImg() {
   };
 
   useEffect(() => {
-    //언마운트시 이미지 해제
-    return () => {
-      data.forEach((item) => {
-        URL.revokeObjectURL(item);
-      });
+    const cleanup = () => {
+      data.forEach(URL.revokeObjectURL);
     };
-  });
+
+    // 언마운트시 이미지 해제
+    return cleanup;
+  }, [data]);
+
   return [data, loadImage];
 }
 export default useLoadImg;
