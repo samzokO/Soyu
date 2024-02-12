@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import font from '../../styles/font';
-import StationItem from '../atoms/StationListItem';
+import StationItem from '../atoms/StationItem';
 
 function Station({ data }) {
   return (
