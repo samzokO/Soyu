@@ -51,4 +51,9 @@ public class Chat {
         this.buyer = buyer;
         this.seller = seller;
     }
+
+    public void changeLast(String lastMessage) {
+        this.lastMessage = lastMessage;
+        this.lastDate = LocalDateTime.now();
+    }
 }

@@ -21,11 +21,14 @@ public class MessageService {
   public void save(MessageRequest messageRequest) {
 
     // 각 저장소에서 저장을위해 가져와야 한다
-    Chat chat = chatRepository.getReferenceById(messageRequest.getChatId());
+    Chat chat = chatRepository.findChatById(messageRequest.getChatId());
 
     Member member = memberRepository.getReferenceById(messageRequest.getMemberId());
 
     Message message = new Message(chat, member, messageRequest.getContent());
+
+    // 더디 체킹을 통한 최근 메세지 및 시간 갱신
+    chat.changeLast(messageRequest.getContent());
 
     messageRepository.save(message);
   }
