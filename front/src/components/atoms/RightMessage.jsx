@@ -2,12 +2,10 @@ import styled from 'styled-components';
 import font from '../../styles/font';
 import color from '../../styles/color';
 
-function RightMessage() {
+function RightMessage({ children }) {
   return (
     <SWrap>
-      <SP>
-        채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅
-      </SP>
+      <SP>{children}</SP>
     </SWrap>
   );
 }

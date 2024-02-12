@@ -2,13 +2,11 @@ import styled from 'styled-components';
 import font from '../../styles/font';
 import color from '../../styles/color';
 
-function LeftMessage() {
+function LeftMessage({ children, img }) {
   return (
     <SWrap>
-      <SImg src="" alt="상대방 프로필 사진" />
-      <SP>
-        채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅채팅
-      </SP>
+      <SImg src={img} alt="상대방 프로필 사진" />
+      <SP>{children}</SP>
     </SWrap>
   );
 }
