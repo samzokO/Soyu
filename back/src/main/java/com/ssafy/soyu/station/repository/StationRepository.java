@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
 
-  @Query("SELECT s, f.status AS isFavorite " +
+  @Query("SELECT s, f.status " +
       "FROM Station s " +
       "LEFT JOIN Favorite f ON f.member.id = :memberId AND f.station.id = s.id")
   List<Object[]> findAllWithMemberId(@Param("memberId") Long memberId);
 
-  @Query("SELECT s, f.status AS isFavorite " +
+  @Query("SELECT s, f.status " +
       "FROM Station s " +
       "LEFT JOIN Favorite f ON f.member.id = :memberId AND f.station.id = s.id " +
       "WHERE s.id = :stationId")
