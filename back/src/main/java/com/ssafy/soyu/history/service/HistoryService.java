@@ -29,12 +29,12 @@ public class HistoryService {
   public List<PurchaseResponseDto> getPurchaseHistory(Long memberId) {
     return historyRepository.findByMemberId(memberId)
         .stream()
-        .map(h -> new PurchaseResponseDto(h, getImageResponse(h.getItem().getImage())))
+        .map(h -> new PurchaseResponseDto(h, getImageResponse(h.getItem().getImage()), likesRepository.countLikeByItemId(h.getItem().getId())))
         .collect(Collectors.toList());
   }
 
   /**
-   * item 테이블에서 조회하는 구매 내역
+   * item 테이블에서 조회하는 판매 내역
    *
    * @param memberId 사용자 식별자
    * @return SaleResponseDto

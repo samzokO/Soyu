@@ -42,15 +42,15 @@ public class SaleResponseDto {
   private LocalDateTime regDate;
 
   @Schema(description = "찜 개수")
-  private Integer likeCount;
+  private Integer likeCounts;
 
-  public SaleResponseDto(Item i, List<ImageResponse> images, Integer likeCount) {
+  public SaleResponseDto(Item i, List<ImageResponse> images, Integer likeCounts) {
     this.itemId = i.getId();
     this.title = i.getTitle();
     this.price = i.getPrice();
     this.regDate = i.getRegDate();
     this.itemStatus = i.getItemStatus();
     this.imageResponses = images;
-    this.likeCount = likeCount;
+    this.likeCounts = likeCounts;
   }
 }

@@ -46,7 +46,10 @@ public class PurchaseResponseDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
   LocalDateTime regDate;
 
-  public PurchaseResponseDto(History h, List<ImageResponse> images) {
+  @Schema(description = "물품 찜 개수")
+  Integer likeCounts;
+
+  public PurchaseResponseDto(History h, List<ImageResponse> images, Integer likeCounts) {
     this.itemId = h.getItem().getId();
     this.title = h.getItem().getTitle();
     this.price = h.getItem().getPrice();
@@ -54,5 +57,6 @@ public class PurchaseResponseDto {
     this.regDate = h.getItem().getRegDate();
     this.itemStatus = h.getItem().getItemStatus();
     this.imageResponses = images;
+    this.likeCounts = likeCounts;
   }
 }
