@@ -35,6 +35,7 @@ public enum NoticeType {
   DISCOUNT("DP 물품 할인 안내","DP 중인 물품에 할인이 적용되었습니다."),
   WILL_DISCOUNT("DP 물품 할인 예정 안내","DP 중인 물품이 12시간 뒤 할인이 적용됩니다."),
   BUYER_CANCEL("거래 예약 물품 판매 실패", "구매자가 물품을 구매하지 않았습니다."),
+  CHANGE_STATUS("거래 예약 물품 회수 전환","거래 물품을 DP로 전환 하실건지 결정해주세요. 회수 하실 거면 회수 코드를 입력해주세요."),
   SELLER_CANCEL("물품 거래 취소", "판매자가 물품의 거래를 취소하였습니다.");
 
   private final String title;

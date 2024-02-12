@@ -277,6 +277,8 @@ public class LockerService {
    * @param isBuy
    * @param itemId 구매 물품 식별자
    */
+
+  @Transactional
   public void reserveBuyDecision(boolean isBuy, Long itemId) {
     Locker locker = lockerRepository.findByItemId(itemId).get();
     Item item = locker.getItem();
@@ -287,6 +289,11 @@ public class LockerService {
     if (!isBuy) {
       noticeService.createNotice(item.getMember().getId(),
           new NoticeRequestDto(item, NoticeType.BUYER_CANCEL));
+
+      String code = payActionUtil.generateRandomCode();
+      noticeService.createNotice(item.getMember().getId(),
+          new NoticeRequestDto(item, NoticeType.CHANGE_STATUS, code));
+
 
       //페이액션 삭제
       payActionUtil.deletePayAction(item.getOrderNumber());
@@ -302,7 +309,7 @@ public class LockerService {
 
       //락커 상태 변경
       status = LockerStatus.WITHDRAW;
-      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, null, itemId, null);
+      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, LocalDateTime.now(), itemId, code);
 
     }
     //라즈베리 파이에 json 신호 보내기
