@@ -43,7 +43,6 @@ public class ItemListResponse {
   @Schema(description = "대표 사진")
   private List<ImageResponse> imageResponses;
 
-  public ItemListResponse() {
-
-  }
+  @Schema(description = "물품 찜 개수")
+  private Integer likeCounts;
 }

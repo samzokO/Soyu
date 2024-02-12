@@ -53,6 +53,7 @@ public class ItemResponse {
   @Schema(description = "사진 리스트")
   private List<ImageResponse> imageResponses;
 
+  @Schema(description = "로그인 중인 유저의 물품 찜 유무")
   private Boolean likesStatus;
 
   LockerStationResponse lockerStationResponse;

@@ -12,17 +12,22 @@ import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.dto.request.ItemStatusRequest;
 import com.ssafy.soyu.item.dto.request.ItemUpdateRequest;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.likes.repository.LikesRepository;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
+import com.ssafy.soyu.util.response.ErrorCode;
+import com.ssafy.soyu.util.response.exception.CustomException;
 import jakarta.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,6 +41,7 @@ public class ItemService {
 
   private final ItemRepository itemRepository;
   private final MemberRepository memberRepository;
+  private final LikesRepository likesRepository;
 
   @Value("${file.path.upload-images}")
   String uploadImagePath;
@@ -44,8 +50,17 @@ public class ItemService {
     return itemRepository.findItemById(itemId);
   }
 
-  public List<Item> getItems() {
-    return itemRepository.findItemAll();
+  public List<ItemListResponse> getItems() {
+    List<Item> items = itemRepository.findItemAll();
+    if (items == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
+    List<ItemListResponse> itemResponses =
+        items.stream()
+            .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
+            .collect(Collectors.toList());
+    Collections.reverse(itemResponses);
+    return itemResponses;
   }
 
   public List<Item> getItemByMemberId(Long memberId) {
@@ -53,20 +68,29 @@ public class ItemService {
   }
 
   public List<ItemListResponse> getItemByKeyword(String keyword) {
-    if(keyword.equals(""))
+    if (keyword.equals("")) {
       return new ArrayList<>();
+    }
 
     List<Item> items = itemRepository.findItemByKeyWord(keyword);
 
-    if(items.isEmpty())
+    if (items.isEmpty()) {
       return new ArrayList<>();
+    }
 
-    List<ItemListResponse> itemResponses = getItemListResponses(items);
+    List<ItemListResponse> itemResponses =
+        items.stream()
+            .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
+            .collect(Collectors.toList());
+    ;
     return itemResponses;
   }
 
-  public List<Item> getItemByCategory(ItemCategories itemCategories) {
-    return itemRepository.findItemByItemCategories(itemCategories);
+  public List<ItemListResponse> getItemByCategory(ItemCategories itemCategories) {
+    return itemRepository.findItemByItemCategories(itemCategories)
+        .stream()
+        .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
+        .collect(Collectors.toList());
   }
 
   public void save(Long memberId, ItemCreateRequest itemRequest, List<MultipartFile> files)

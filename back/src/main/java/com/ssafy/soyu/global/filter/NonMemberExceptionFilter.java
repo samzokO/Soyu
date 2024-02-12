@@ -31,7 +31,7 @@ public class NonMemberExceptionFilter implements Filter {
         whiteList.add("/stomp/client");
         whiteList.add("/station");
         whiteList.add("/item/items");
-        whiteList.add("/item/keyword/");
+        whiteList.add("/item/keyword");
         whiteList.add("/item/category/");
         whiteList.add("/station");
     }

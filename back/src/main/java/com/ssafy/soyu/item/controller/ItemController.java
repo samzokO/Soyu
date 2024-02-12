@@ -59,7 +59,8 @@ public class ItemController {
       @ApiResponse(responseCode = "200", description = "물품 단건 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 단건 조회 실패")
   })
-  public ResponseEntity<?> getItem(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
+  public ResponseEntity<?> getItem(HttpServletRequest request,
+      @PathVariable("itemId") Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
 
     Item item = itemService.getItem(itemId);
@@ -86,17 +87,11 @@ public class ItemController {
   @GetMapping("/items")
   @Operation(summary = "모든 물품 조회", description = "판매중인 모든 물품을 조회합니다.")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "모든 물품 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
+      @ApiResponse(responseCode = "200", description = "모든 물품 조회 성공", content = @Content(schema = @Schema(implementation = ItemListResponse.class))),
       @ApiResponse(responseCode = "400", description = "모든 물품 조회 실패")
   })
   public ResponseEntity<?> getItems() {
-    List<Item> items = itemService.getItems();
-    log.info(items.get(0).toString());
-    if (items == null) {
-      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
-    }
-    List<ItemListResponse> itemResponses = getItemListResponses(items);
-    Collections.reverse(itemResponses);
+    List<ItemListResponse> itemResponses = itemService.getItems();
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
@@ -104,7 +99,7 @@ public class ItemController {
   @PostMapping("/keyword")
   @Operation(summary = "물품 키워드 검색", description = "키워드를 이용해 물품을 조회합니다.")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "물품 키워드 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
+      @ApiResponse(responseCode = "200", description = "물품 키워드 조회 성공", content = @Content(schema = @Schema(implementation = ItemListResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 키워드 조회 실패")
   })
   public ResponseEntity<?> getItemByKeyWord(@RequestBody ItemKeyWordRequest itemKeyWordRequest) {
@@ -115,7 +110,7 @@ public class ItemController {
   @GetMapping("/category/{category}")
   @Operation(summary = "물품 카테고리 검색", description = "카테고리를 이용해 물품을 조회합니다.")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "물품 카테고리 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
+      @ApiResponse(responseCode = "200", description = "물품 카테고리 조회 성공", content = @Content(schema = @Schema(implementation = ItemListResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 카테고리 조회 실패")
   })
   public ResponseEntity<?> getItemByCategory(
@@ -123,11 +118,10 @@ public class ItemController {
     if (itemCategories == null) {
       throw new CustomException(ErrorCode.NO_MATCH_CATEGORY);
     }
-    List<Item> items = itemService.getItemByCategory(itemCategories);
-    if (items == null) {
+    List<ItemListResponse> itemResponses = itemService.getItemByCategory(itemCategories);
+    if (itemResponses == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-    List<ItemListResponse> itemResponses = getItemListResponses(items);
     // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
@@ -140,7 +134,8 @@ public class ItemController {
   })
   public ResponseEntity<?> createItem(HttpServletRequest request,
       @RequestPart(value = "image", required = false) List<MultipartFile> files,
-      @RequestPart(value = "itemCreateRequest") ItemCreateRequest itemCreateRequest, BindingResult bindingResult)
+      @RequestPart(value = "itemCreateRequest") ItemCreateRequest itemCreateRequest,
+      BindingResult bindingResult)
       throws IOException {
     log.info(String.valueOf(itemCreateRequest));
     Long memberId = (Long) request.getAttribute("memberId");
@@ -195,14 +190,14 @@ public class ItemController {
         (item.getId(), item.getMember().getId(),
             getProfileImageResponse(item.getMember().getProfileImage()),
             item.getMember().getNickName(), item.getTitle(), item.getContent(), item.getRegDate()
-            , item.getPrice(), item.getItemStatus(), item.getItemCategories(), getImageResponse(item.getImage()));
+            , item.getPrice(), item.getItemStatus(), item.getItemCategories(),
+            getImageResponse(item.getImage()));
   }
 
-  public static List<ItemListResponse> getItemListResponses(List<Item> items) {
-    return items.stream()
-        .map(i -> new ItemListResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),i.getTitle(),
-            i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(), getImageResponse(i.getImage())) )
-        .collect(Collectors.toList());
+  public static ItemListResponse getItemListResponses(Item i, Integer likeCount) {
+    return new ItemListResponse(i.getId(), i.getMember().getId(), i.getMember().getNickName(),
+        i.getTitle(), i.getRegDate(), i.getPrice(), i.getItemStatus(), i.getItemCategories(),
+        getImageResponse(i.getImage()), likeCount);
   }
 
 }

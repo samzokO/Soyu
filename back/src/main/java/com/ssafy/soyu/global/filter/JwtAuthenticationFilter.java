@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter implements Filter {
         whiteList.add("/client");
         whiteList.add("/stomp/client");
         whiteList.add("/item/items");
-        whiteList.add("/item/keyword/");
+        whiteList.add("/item/keyword");
         whiteList.add("/item/category/");
     }
 

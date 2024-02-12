@@ -46,11 +46,15 @@ public class LikesController {
   public ResponseEntity<?> getLikes(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
 
-    List<Item> items = likesService.getLikes(memberId).stream()
+    List<Item> items = likesService.getLikes(memberId)
+        .stream()
         .map(o -> o.getItem())
         .collect(Collectors.toList());
 
-    List<ItemListResponse> itemListResponses = getItemListResponses(items);
+    List<ItemListResponse> itemListResponses =
+        items.stream()
+            .map(o -> getItemListResponses(o, likesService.getLikeCountByItemId(o.getId())))
+            .collect(Collectors.toList());
 
     return getResponseEntity(SuccessCode.OK, itemListResponses);
   }
@@ -61,7 +65,8 @@ public class LikesController {
       @ApiResponse(responseCode = "200", description = "찜 등록 성공"),
       @ApiResponse(responseCode = "400", description = "찜 등록 실패")
   })
-  public ResponseEntity<?> onOffLikes(@PathVariable("itemId") Long itemId, HttpServletRequest request) {
+  public ResponseEntity<?> onOffLikes(@PathVariable("itemId") Long itemId,
+      HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
 
     likesService.onOff(itemId, memberId);
