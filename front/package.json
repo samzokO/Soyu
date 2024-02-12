@@ -16,12 +16,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",
     "react-scripts": "^5.0.1",
-<<<<<<< HEAD
     "react-toastify": "^10.0.4",
-=======
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
->>>>>>> b7e70a5 (refactor: useNaverCallback 로직 변경 및 토큰 파싱 구현)
     "styled-components": "^6.1.8",
     "styled-reset": "^4.5.2",
     "web-vitals": "^2.1.4",
