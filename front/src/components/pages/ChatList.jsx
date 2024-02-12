@@ -19,7 +19,7 @@ function ChatList() {
       <MainContainerWithNav>
         <SList>
           {rooms?.map((room) => (
-            <ChatComponent key={room.chatId} data={room} />
+            <ChatComponent key={room.chatId} room={room} />
           ))}
         </SList>
       </MainContainerWithNav>
