@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Badge from '../atoms/Badge';
@@ -5,22 +6,27 @@ import Favorite from '../../assets/icons/material_24/favorite.svg';
 import Button from '../atoms/Button';
 import theme from '../../styles/theme';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
+import useLoadImg from '../../hooks/useLoadImg';
 
 function BuyGoods({ data, list }) {
   const price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const date = useTimeStamp(data.regDate);
+  const [img, loadImage] = useLoadImg();
+  // const date = useTimeStamp(data.regDate);
+  useEffect(() => {
+    loadImage(data.imageResponses[0]);
+  });
   return (
     <SLiWrap>
       <Link to={`/item/${data.itemId}`}>
         <SSpaceBetween>
           <SFlexWrap>
-            <SImg src="#" alt="물건 사진" />
+            {img && <SImg src={img} alt="물건 사진" />}
             <div>
-              <SH3>{data.itemId}</SH3>
+              <SH3>{data.title}</SH3>
               <SPrice>{price}원</SPrice>
               <SFlexWrap>
                 <SHeart src={Favorite} alt="찜 아이콘" />
-                <SHeartCount>{data.likeCount}</SHeartCount>
+                <SHeartCount>{data.likeCounts}</SHeartCount>
               </SFlexWrap>
             </div>
           </SFlexWrap>
@@ -57,6 +63,7 @@ const SImg = styled.img`
   width: 60px;
   height: 60px;
   margin-right: 20px;
+  /* background-image: url(${(props) => props.img}); */
 `;
 
 const SH3 = styled.h3`

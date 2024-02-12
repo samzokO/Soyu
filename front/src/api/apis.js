@@ -75,11 +75,16 @@ export const updateStatus = () =>
 /* 이미지 */
 
 /** 이미지 불러오기 */
-export const loadImg = (folder, file) => API.get(`image/${folder}/${file}`);
+export const loadImg = (folder, file) =>
+  API.get(`image/${folder}/${file}`, {
+    responseType: 'blob',
+  });
 /** 이미지 업로드 */
 export const postImg = (data, img) => {
   const formData = new FormData();
-  formData.append('image', img);
+  Array.from(img).forEach((item) => {
+    formData.append('image', item);
+  });
   formData.append(
     'itemCreateRequest',
     new Blob(

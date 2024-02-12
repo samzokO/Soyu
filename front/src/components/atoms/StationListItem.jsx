@@ -5,10 +5,10 @@ import theme from '../../styles/theme';
 import FilledHeart from '../../assets/icons/material_24/heart.png';
 import useFavorite from '../../hooks/useFavorite';
 
-function StationItem({ data }) {
-  const [Handler, favorite, changer] = useFavorite(data.stationId);
+function StationListItem({ data }) {
+  const [Handler, favorite, changer] = useFavorite(data?.stationId);
   useEffect(() => {
-    changer(data.favorite);
+    changer(data?.favorite);
   }, []);
   return (
     <Box>
@@ -75,4 +75,4 @@ const Box = styled.li`
   }
 `;
 
-export default StationItem;
+export default StationListItem;
