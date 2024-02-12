@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         .setAllowedOriginPatterns("*")
         .withSockJS();
 
-    registry.addEndpoint("/stomp/raspberry")
+    registry.addEndpoint("/stomp/client")
         .setAllowedOriginPatterns("*");
   }
 
