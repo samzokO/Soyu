@@ -4,7 +4,7 @@ import color from '../../styles/color';
 import BackBtn from '../atoms/BackBtn';
 import theme from '../../styles/theme';
 
-function ChatHeader() {
+function ChatHeader({ itemId }) {
   return (
     <SDiv>
       <SHeader>
@@ -12,7 +12,7 @@ function ChatHeader() {
         <SSub>유저명</SSub>
         <div>추가 정보 아이콘</div>
       </SHeader>
-      <GoodsHeader />
+      <GoodsHeader itemId={itemId} />
     </SDiv>
   );
 }

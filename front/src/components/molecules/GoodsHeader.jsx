@@ -2,14 +2,18 @@ import styled from 'styled-components';
 import font from '../../styles/font';
 import Button from '../atoms/Button';
 import color from '../../styles/color';
+import useLoadItem from '../../hooks/useLoadItem';
 
-function GoodsHeader() {
+function GoodsHeader({ itemId }) {
+  const [imageURL, name, price] = useLoadItem(itemId);
+  console.log('in goods header, Data :', imageURL, name, price);
+
   return (
     <SFlex>
-      <SImg src="#" alt="물건 사진" />
+      <SImg src={imageURL} alt="물건 사진" />
       <SDiv>
-        <SH2>감자</SH2>
-        <SPrice>300,000원</SPrice>
+        <SH2>{name}</SH2>
+        <SPrice>{price}원</SPrice>
       </SDiv>
       <Button type="1">거래약속</Button>
     </SFlex>
