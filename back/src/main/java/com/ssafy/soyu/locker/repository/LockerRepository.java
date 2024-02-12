@@ -19,7 +19,7 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
   @Query("SELECT count(*) " +
       "FROM Locker l " +
       "WHERE l.station.id = :stationId AND l.status != 'AVAILABLE'")
-  Integer countNotEmptyLocker(Long stationId);
+  Integer countNotEmptyLocker(@Param("stationId") Long stationId);
 
   @Query("SELECT l FROM Locker l LEFT JOIN FETCH l.item i WHERE l.station.id = :stationId")
   List<Locker> findByStationIdWithItem(@Param("stationId") Long stationId);
