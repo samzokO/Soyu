@@ -1,30 +1,35 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import font from '../../styles/font';
 import theme from '../../styles/theme';
 
 function ChatComponent({ room }) {
   const memberId = localStorage.getItem('memberId');
+  const navigate = useNavigate();
 
   return (
     <li>
-      <Link to={`/chat/${room.chatId}`} state={room.itemId}>
+      <button
+        type="button"
+        onClick={() =>
+          navigate(`/chat/${room?.chatId}`, { state: { itemId: room?.itemId } })
+        }
+      >
         <SWrap>
           <SWrap>
             <SImg src="/" alt="물품 이미지" />
             <div>
               <SH2>
-                {memberId !== room.buyerId
-                  ? room.buyerNickname
-                  : room.sellerNickname}
+                {memberId !== room?.buyerId
+                  ? room?.buyerNickname
+                  : room?.sellerNickname}
               </SH2>
-              <SP>{room.lastMessage}</SP>
+              <SP>{room?.lastMessage}</SP>
             </div>
           </SWrap>
-          <p>{room.lastDate}</p>
+          <p>{room?.lastDate}</p>
         </SWrap>
-        <SBody2>5분전</SBody2>
-      </Link>
+      </button>
     </li>
   );
 }
