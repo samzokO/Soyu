@@ -5,6 +5,7 @@ import static com.ssafy.soyu.message.controller.MessageController.getMessageResp
 import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getProfileImageResponse;
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
+import com.ssafy.soyu.chat.dto.response.ChatIdResponse;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.dto.response.ChatResponse;
 import com.ssafy.soyu.chat.repository.ChatRepository;
@@ -64,11 +65,11 @@ public class ChatController {
 
   @PostMapping("chat")
   @Operation(summary = "채팅방 생성", description = "아이템 ID, 판매자와 구매자 ID를 이용해 채팅방을 생성합니다.")
-  @ApiResponse(responseCode = "200", description = "채팅방 생성 성공")
+  @ApiResponse(responseCode = "200", description = "채팅방 생성 성공", content = @Content(schema = @Schema(implementation = ChatIdResponse.class)))
   public ResponseEntity<?> createChat(@RequestBody ChatRequest chatRequest) {
     Chat chat = chatService.save(chatRequest);
 
-    return getResponseEntity(SuccessCode.OK);
+    return getResponseEntity(SuccessCode.OK, new ChatIdResponse(chat.getId()));
   }
 
   // make chat Response
