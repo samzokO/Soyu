@@ -26,7 +26,7 @@ function ItemAddPage() {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    const file = e.target.files[0];
+    const file = e.target.files;
     setFiles(file);
   };
 
@@ -78,7 +78,7 @@ function ItemAddPage() {
         />
         <PictureAddBtn />
         <form action="" encType="multipart/form-data" onSubmit={handleSubmit}>
-          <input type="file" onChange={handleUpload} />
+          <input type="file" onChange={handleUpload} multiple />
           <input type="submit" />
         </form>
       </Con>

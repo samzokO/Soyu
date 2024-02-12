@@ -8,7 +8,6 @@ import BackBtn from '../atoms/BackBtn';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
 import useMyPage from '../../hooks/useMypage';
 import useLogout from '../../hooks/useLogout';
-import useAccount from '../../hooks/useAccount';
 import useSignout from '../../hooks/useSignout';
 
 function MyPage() {

@@ -4,20 +4,20 @@ import { loadImg } from '../api/apis';
 function useLoadImg() {
   const [data, setData] = useState([]);
   const loadImage = (list) => {
-    list.forEach((item, index) => {
+    const itemList = Array.isArray(list) ? list : [list];
+
+    itemList.forEach((item, index) => {
       const { savePath, saveName } = item;
       loadImg(savePath, saveName)
         .then((res) => {
+          console.log(res);
           const newPrev = [...data];
-          console.log(res.data.data);
-          const blob = new Blob([res.data.data], { type: 'image/jpeg' });
+          const blob = new Blob([res.data], { type: 'image/jpeg' });
           const blobURL = URL.createObjectURL(blob);
           newPrev[index] = blobURL;
           setData(newPrev);
         })
-        .catch((e) => {
-          console.log(e);
-        });
+        .catch(() => {});
     });
   };
   return [data, loadImage];

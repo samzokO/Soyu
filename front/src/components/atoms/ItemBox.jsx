@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
 import Badge from './Badge';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
+import useLoadImg from '../../hooks/useLoadImg';
 
 /** 물품 리스트 아이템
  * @params (string)img - 이미지 주소
@@ -15,7 +17,7 @@ import { useTimeStamp } from '../../hooks/useTimeStamp';
  * @params (number) price - 가격
  */
 function ItemBox({
-  // img,
+  img,
   itemId,
   title,
   regDate,
@@ -26,12 +28,18 @@ function ItemBox({
   price,
 }) {
   // 금액 , 삽입
+  const [data, loadImage] = useLoadImg();
+  useEffect(() => {
+    if (img) {
+      loadImage([img]);
+    }
+  }, []);
   const Price = String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const date = useTimeStamp(regDate);
   return (
     <SFlexItem to={`/item/${itemId}`}>
       <SFlexCenterGap>
-        <SImgContainer $url={0} src="상품 이미지" />
+        {data && <SImgContainer img={data} alt="상품 이미지" />}
         <SFlexWrapColumn>
           <SFlexColumnGap>
             <p>{title}</p>
@@ -94,10 +102,9 @@ const SFlexWrapColumn = styled(SFlexColumn)`
 const SImgContainer = styled.div`
   width: 106px;
   height: 106px;
-  border: 1px solid black;
   border-radius: 7px;
   text-align: center;
-  background-image: url();
+  background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

@@ -8,17 +8,20 @@ function ImageSlide({ data }) {
   );
 }
 
-const SImg = styled.img`
-  width: 100px;
-  height: 100px;
-  background-color: blue;
+const SImg = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: url(${(props) => props.src});
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: contain;
 `;
 
 const SContainer = styled.div`
   width: 100%;
   height: 300px;
-  /* background-color: red; */
   color: black;
+  display: flex;
 `;
 
 export default ImageSlide;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import ItemBox from '../atoms/ItemBox';
 import theme from '../../styles/theme';
+import useLoadImg from '../../hooks/useLoadImg';
 
 /** 제목과 아이템 데이터(배열)를 넣으면 리스트로 표시
  * @params (String)title - 리스트 제목
@@ -14,6 +15,7 @@ function ItemList({ title, data }) {
         {data &&
           data?.map((item) => (
             <ItemBox
+              img={item.imageResponses[0]}
               key={item.itemId}
               itemId={item.itemId}
               title={item.title}
