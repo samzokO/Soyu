@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import theme from '../../styles/theme';
 import Badge from './Badge';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
@@ -26,6 +27,7 @@ function ItemBox({
   boxNumber,
   itemStatus = 5,
   price,
+  variants,
 }) {
   // 금액 , 삽입
   const [data, loadImage] = useLoadImg();
@@ -37,7 +39,7 @@ function ItemBox({
   const Price = String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const date = useTimeStamp(regDate);
   return (
-    <SFlexItem to={`/item/${itemId}`}>
+    <SFlexItem to={`/item/${itemId}`} variants={variants}>
       <SFlexCenterGap>
         {data && <SImgContainer img={data} alt="상품 이미지" />}
         <SFlexWrapColumn>
@@ -73,7 +75,7 @@ export const SFlexCenter = styled.div`
   align-items: center;
 `;
 
-const SFlexItem = styled(Link)`
+const SFlexItem = styled(motion(Link))`
   display: flex;
   align-items: center;
   height: 127px;

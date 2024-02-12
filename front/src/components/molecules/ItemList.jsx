@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import ItemBox from '../atoms/ItemBox';
 import theme from '../../styles/theme';
 import useLoadImg from '../../hooks/useLoadImg';
@@ -8,13 +9,31 @@ import useLoadImg from '../../hooks/useLoadImg';
  * @params (Json)data -파싱된 Item JSON 데이터
  */
 function ItemList({ title, data }) {
+  const list = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: 'beforeChildren',
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const listitem = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
   return (
     <>
       <STitle>{title}</STitle>
-      <SProductList>
+      <SProductList variants={list} initial="hidden" animate="visible">
         {data &&
           data?.map((item) => (
             <ItemBox
+              variants={listitem}
               img={item.imageResponses[0]}
               key={item.itemId}
               itemId={item.itemId}
@@ -30,7 +49,7 @@ function ItemList({ title, data }) {
   );
 }
 
-const SProductList = styled.article`
+const SProductList = styled(motion.article)`
   padding-top: 10px;
   padding-bottom: 53px;
   @media (min-width: 768px) {
