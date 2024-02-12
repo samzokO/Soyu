@@ -1,8 +1,11 @@
 package com.ssafy.soyu.util.client;
 
 import com.ssafy.soyu.item.entity.Item;
+import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
+import com.ssafy.soyu.locker.entity.Locker;
 import com.ssafy.soyu.locker.entity.LockerStatus;
+import com.ssafy.soyu.locker.repository.LockerRepository;
 import com.ssafy.soyu.notice.dto.request.NoticeRequestDto;
 import com.ssafy.soyu.notice.entity.NoticeType;
 import com.ssafy.soyu.notice.service.NoticeService;
@@ -22,6 +25,7 @@ public class ClientUtil {
     private final SimpMessagingTemplate messagingTemplate;
     private final NoticeService noticeService;
     private final ItemRepository itemRepository;
+    private final LockerRepository lockerRepository;
 
 
     public ClientRequestResponse makeClientResponse(Long itemId, Integer lockerNum, LockerStatus tradeReserve, Integer price) {
@@ -54,6 +58,9 @@ public class ClientUtil {
 
     public void withdrawNotice(ClientRequestResponse request) {
         Item item = itemRepository.findItemById(request.getItemId());
+        itemRepository.updateStatus(request.getItemId(), ItemStatus.WITHDRAW);
+        Locker locker = lockerRepository.findLockerByItem(item);
+        lockerRepository.updateLocker(locker.getId(), LockerStatus.AVAILABLE, null, null, null);
         noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.WITHDRAW_EXPIRED));
     }
 }
