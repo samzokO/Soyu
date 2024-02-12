@@ -26,10 +26,10 @@ public class initDB {
 
   private final InitService initService;
 
-  @PostConstruct
-  public void init() {
-    initService.dbInit1();
-  }
+//  @PostConstruct
+//  public void init() {
+//    initService.dbInit1();
+//  }
 
   @Component
   @Transactional
@@ -115,6 +115,7 @@ public class initDB {
       Locker locker4 = new Locker(station2, item4,null, LockerStatus.DP_READY, LocalDateTime.now(), 1);
       Locker locker5 = new Locker(station2, item5, "333333", LockerStatus.TRADE_READY, LocalDateTime.now(),2);
       Locker locker6 = new Locker(station2, item6, "444444", LockerStatus.WITHDRAW, LocalDateTime.now(), 3);
+
       em.persist(locker1);
       em.persist(locker2);
       em.persist(locker3);
