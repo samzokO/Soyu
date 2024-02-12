@@ -8,7 +8,7 @@ function ChatComponent({ room }) {
 
   return (
     <li>
-      <Link to={`/chat/${room.chatId}`}>
+      <Link to={`/chat/${room.chatId}`} state={room.itemId}>
         <SWrap>
           <SWrap>
             <SImg src="/" alt="물품 이미지" />
