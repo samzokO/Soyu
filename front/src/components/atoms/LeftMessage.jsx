@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 import font from '../../styles/font';
 import color from '../../styles/color';
+import defaultImage from '../../assets/icons/Logo.svg';
+import theme from '../../styles/theme';
 
 function LeftMessage({ children, img }) {
   return (
     <SWrap>
-      <SImg src={img} alt="상대방 프로필 사진" />
+      {img ? (
+        <SImg src={img} alt="상대방 프로필 사진" />
+      ) : (
+        <SImg src={defaultImage} alt="상대방 프로필 사진" />
+      )}
+
       <SP>{children}</SP>
     </SWrap>
   );
@@ -23,9 +30,7 @@ const SImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-
-  // for dx
-  border: 1px solid black;
+  ${theme.box}
 `;
 
 const SP = styled.p`

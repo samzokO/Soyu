@@ -8,14 +8,14 @@ import ChatHeader from '../molecules/ChatHeader';
 import ChatMessageList from '../molecules/ChatMessageList';
 
 import { getChats } from '../../api/apis';
+import useLoadImg from '../../hooks/useLoadImg';
 
 function ChatRoom() {
   const { state } = useLocation();
   const [chats, setChats] = useState([]);
-  const [partnerImage, setPartnerImage] = useState('/');
-
+  const [partnerImage, setPartnerImage] = useLoadImg();
   const { chatId } = useParams();
-
+  const myMemberId = localStorage.getItem('memberId');
   const scrollRef = useRef(null);
   const client = useRef(null);
 
@@ -55,10 +55,11 @@ function ChatRoom() {
     (async () => {
       const { data } = await getChats(chatId);
       setChats([...data.data.messageResponses]);
-      // myMemberId === data.data.buyerId
-      //   ? buyerProfileImageResponse
-      //   : sellerProfileImageResponse;
-      // load image logic
+      setPartnerImage(
+        myMemberId === data.data.buyerId
+          ? data.data.buyerProfileImageResponse
+          : data.data.sellerProfileImageResponse,
+      );
       connect();
     })();
   }, []);
