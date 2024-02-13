@@ -46,10 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ItemController {
 
-  private final MemberService memberService;
   private final ItemService itemService;
-  private final LikesService likesService;
-  private final LockerService lockerService;
 
   @GetMapping("/{itemId}")
   @Operation(summary = "물품 단건 조회", description = "물품 ID를 이용해 세부 정보를 조회합니다.")
@@ -59,27 +56,7 @@ public class ItemController {
   })
   public ResponseEntity<?> getItem(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
-
-    Item item = itemService.getItem(itemId);
-
-    Member member;
-    Likes likes = null;
-
-    if(memberId != null){
-      member = memberService.getMember(memberId);
-      likes = likesService.findLikesByItemAndMember(item, member);
-    }
-
-    ItemResponse itemResponse = getItemResponse(item);
-
-    // 찜 확인
-    itemResponse.setLikesStatus(likes != null ? likes.getStatus() : false);
-
-    // 스테이션 정보 조회
-    Locker locker = lockerService.findLockerByItem(item);
-    itemResponse.setLockerStationResponse(getLockerStationResponse(locker));
-
-    return getResponseEntity(SuccessCode.OK, itemResponse);
+    return getResponseEntity(SuccessCode.OK, itemService.getItem(memberId, itemId));
   }
 
   @GetMapping("/items")

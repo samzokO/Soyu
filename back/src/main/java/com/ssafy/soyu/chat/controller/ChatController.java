@@ -8,7 +8,6 @@ import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntit
 import com.ssafy.soyu.chat.dto.response.ChatIdResponse;
 import com.ssafy.soyu.chat.entity.Chat;
 import com.ssafy.soyu.chat.dto.response.ChatResponse;
-import com.ssafy.soyu.chat.repository.ChatRepository;
 import com.ssafy.soyu.chat.dto.request.ChatRequest;
 import com.ssafy.soyu.chat.dto.response.ChatListResponse;
 import com.ssafy.soyu.chat.service.ChatService;
@@ -37,7 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Chat 컨트롤러", description = "Chat API 입니다.")
 public class ChatController {
 
-  private final ChatRepository chatRepository;
   private final ChatService chatService;
 
   @GetMapping("chats")

@@ -27,17 +27,23 @@ public class FavoriteService {
   private final StationRepository stationRepository;
   private final LockerService lockerService;
 
+  /**
+   * 토글식 즐겨찾기
+   *
+   * @param memberId 사용자 식별자
+   * @param stationId 즐겨찾기 대상
+   */
   @Transactional
   public void onOffFavorite(Long memberId, Long stationId) {
-    Optional<Member> member = memberRepository.findById(memberId);
+    Member member = memberRepository.findMemberById(memberId);
 
-    if (member.isEmpty()) {
+    if (member == null) {
       throw new CustomException((ErrorCode.USER_NOT_FOUND));
     }
 
-    Optional<Station> station = stationRepository.findById(stationId);
+    Station station = stationRepository.findStationById(stationId);
 
-    if (station.isEmpty()) {
+    if (station == null) {
       throw new CustomException(ErrorCode.STATION_NOT_FOUND);
     }
 
@@ -46,7 +52,7 @@ public class FavoriteService {
     if (favorite != null) {
       favorite.changeStatus();
     } else {
-      favoriteRepository.save(new Favorite(member.get(), station.get(), true));
+      favoriteRepository.save(new Favorite(member, station, true));
     }
   }
 

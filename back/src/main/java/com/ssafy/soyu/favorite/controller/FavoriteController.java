@@ -31,11 +31,6 @@ public class FavoriteController {
 
   private final FavoriteService favoriteService;
 
-  /**
-   * 스테이션 즐겨찾기 등록
-   *
-   * @return USER | STATION_NOT_FOUND || OK
-   */
   @PostMapping("/{stationId}")
   @Operation(summary = "즐겨찾기 On & Off", description = "사용자 ID와 스테이션 ID를 이용해 즐겨찾기를 On / Off합니다.")
   @ApiResponses(value = {
@@ -50,11 +45,6 @@ public class FavoriteController {
     return getResponseEntity(SuccessCode.OK);
   }
 
-  /**
-   * 사용자가 즐겨찾기한 목록 조회
-   *
-   * @return USER | FAVORITE_NOT_FOUND || FavoriteListResponseDto
-   */
   @GetMapping("")
   @Operation(summary = "즐겨찾기 조회", description = "사용자 ID를 이용해 즐겨찾기를 조회합니다.")
   @ApiResponses(value = {

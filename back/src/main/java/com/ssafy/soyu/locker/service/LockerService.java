@@ -6,7 +6,6 @@ import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
 
-import com.ssafy.soyu.item.service.ItemService;
 import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.dto.response.LockerResponseDto;
 import com.ssafy.soyu.member.entity.Member;
@@ -40,7 +39,6 @@ import java.util.Optional;
 public class LockerService {
 
   //==Service==//
-  private final ItemService itemService;
   private final NoticeService noticeService;
   private final LikesService likesService;
   //==Repository==//
@@ -151,18 +149,15 @@ public class LockerService {
   }
 
   /**
-   * DP 예약 로직<br/>
-   * 1. DP 조건 충족 & 본인 여부 & 빈자리 여부 확인<br/>
-   * 2. Item, Locker 상태 변경<br/>
-   * 3. payAction 등록<br/>
-   * 4. Notice 전송<br/>
+   * DP 예약 로직<br/> 1. DP 조건 충족 & 본인 여부 & 빈자리 여부 확인<br/> 2. Item, Locker 상태 변경<br/> 3. payAction
+   * 등록<br/> 4. Notice 전송<br/>
    *
    * @param memberId 판매자 식별자
    * @param dp       ItemId, lockerId
    */
   @Transactional
   public void dpReserve(Long memberId, ReserveDpRequestDto dp) {
-    Item item = itemService.getItem(dp.getItemId());
+    Item item = itemRepository.findItemById(dp.getItemId());
     Locker locker = lockerRepository.findById(dp.getLockerId()).get();
     Long nonMember = (long) 1;
 
@@ -271,13 +266,11 @@ public class LockerService {
   }
 
   /**
-   * 거래 예약 물품 구매 결정 Service<br/>
-   * 거래중이던 물품<br/>
+   * 거래 예약 물품 구매 결정 Service<br/> 거래중이던 물품<br/>
    *
    * @param isBuy
    * @param itemId 구매 물품 식별자
    */
-
   @Transactional
   public void reserveBuyDecision(boolean isBuy, Long itemId) {
     Locker locker = lockerRepository.findByItemId(itemId).get();
@@ -294,7 +287,6 @@ public class LockerService {
       noticeService.createNotice(item.getMember().getId(),
           new NoticeRequestDto(item, NoticeType.CHANGE_STATUS, code));
 
-
       //페이액션 삭제
       payActionUtil.deletePayAction(item.getOrderNumber());
 
@@ -309,7 +301,8 @@ public class LockerService {
 
       //락커 상태 변경
       status = LockerStatus.WITHDRAW;
-      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, LocalDateTime.now(), itemId, code);
+      lockerRepository.updateLocker(locker.getId(), LockerStatus.WITHDRAW, LocalDateTime.now(),
+          itemId, code);
 
     }
     //라즈베리 파이에 json 신호 보내기
@@ -319,8 +312,7 @@ public class LockerService {
   }
 
   /**
-   * DP 물품 구매 결정 Service<br/>
-   * DP중이던 물품 구매<br/>
+   * DP 물품 구매 결정 Service<br/> DP중이던 물품 구매<br/>
    *
    * @param itemId 구매 물품 식별자
    */
@@ -333,8 +325,7 @@ public class LockerService {
   }
 
   /**
-   * 거래 예약 물품 DP 전환 Service<br/>
-   * 거래 예약 물품 판매 실패 후 DP 전환 <br/>
+   * 거래 예약 물품 DP 전환 Service<br/> 거래 예약 물품 판매 실패 후 DP 전환 <br/>
    *
    * @param memberId 판매자 식별자
    * @param itemId   구매 물품 식별자
@@ -377,10 +368,6 @@ public class LockerService {
         locker.getLockerNum(), LockerStatus.DP_READY, locker.getItem().getPrice());
     raspberryUtil.sendMessageToClient(response);
 
-  }
-
-  public Locker findLockerByItem(Item item) {
-    return lockerRepository.findLockerByItem(item);
   }
 
   public List<LockerResponseDto> getLockerResponse(List<Locker> ls, Long memberId) {
