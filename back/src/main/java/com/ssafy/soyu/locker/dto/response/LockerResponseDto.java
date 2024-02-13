@@ -1,5 +1,8 @@
 package com.ssafy.soyu.locker.dto.response;
 
+import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
+
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.ItemCategories;
 import com.ssafy.soyu.locker.entity.Locker;
@@ -47,7 +50,7 @@ public class LockerResponseDto {
   private Integer likeCount;
 
   @Schema(description = "물품 이미지")
-  private List<Image> itemImage;
+  private List<ImageResponse> imageResponses;
 
   public LockerResponseDto(Locker l) {
     this.lockerId = l.getId();
@@ -60,12 +63,12 @@ public class LockerResponseDto {
     this.lockerLocation = l.getLockerNum();
     this.status = l.getStatus().toString();
     this.itemId = l.getItem().getId();
-    this.itemImage = l.getItem().getImage();
     this.title = l.getItem().getTitle();
     this.regDate = l.getItem().getRegDate();
     this.price = l.getItem().getPrice();
     this.categories = l.getItem().getItemCategories();
     this.isLike = isLike;
     this.likeCount = likeCount;
+    this.imageResponses = getImageResponse(l.getItem().getImage());
   }
 }
