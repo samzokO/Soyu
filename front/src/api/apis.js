@@ -192,3 +192,10 @@ export const deleteSale = (itemId) => API.delete(`/trade/sale/${itemId}`);
 /** 구매자가 거래 취소 */
 export const deleteReservation = (historyId) =>
   API.delete(`/trade/code/${historyId}`);
+/** 스테이션 상세 조회 */
+export const getStationDetail = (stationId) => API.get(`/station/${stationId}`);
+
+/* 거래 */
+
+/** 거래 약속 잡기 */
+export const makeAppointment = (body) => API.post(`/trade/reserve`, body);
