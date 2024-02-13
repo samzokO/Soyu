@@ -24,10 +24,11 @@ import java.util.concurrent.ExecutionException;
 @EnableScheduling
 public class WebSocketClientService {
 
-    private final String url = "ws://172.30.1.7:8080/stomp/client"; // ip 확인해서 바꾸면 될듯
+    private final String url = "ws://i10b311.p.ssafy.io:8080/stomp/client";
+//    private final String url = "ws://172.30.1.90:8080/stomp/client"; // ip 확인해서 바꾸면 될듯
     private final String topic = "/sub/client";
     private long systemTime = 0; // 시스템 시작으로부터 지난 시간을 저장(초) -> 알림에 사용
-    private final long TIMER_LIMIT = 30; // 상태 변화에 필요한 시간
+    private final long TIMER_LIMIT = 20; // 상태 변화에 필요한 시간
     private final long TWELVE_HOURS = 60*60*12 ; // 12시간
     private Locker[] lockers;
 
@@ -74,7 +75,7 @@ public class WebSocketClientService {
                             // TRADE_INSERT : 30초 후 TRADE_READY 전환    blink
                             // TRADE_READY
                             // TRADE_CHECK  : 별도 요청 전까지 상태 유지     blink
-                            arduinoCommunicator.sendDataToArduino(lockerNum, price, command);
+                            //arduinoCommunicator.sendDataToArduino(lockerNum, price, command);
                         }
                     });
                 }
@@ -91,7 +92,8 @@ public class WebSocketClientService {
         stompClient = new WebSocketStompClient(new StandardWebSocketClient());
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         stompClient.setTaskScheduler(taskScheduler);
-        arduinoCommunicator = new ArduinoSerialCommunicator("COM3");
+        arduinoCommunicator = new ArduinoSerialCommunicator("COM4");
+        arduinoCommunicator.openConnection();
         lockers = new Locker[3];
         lockers[0] = new Locker();
         lockers[1] = new Locker();
@@ -109,6 +111,8 @@ public class WebSocketClientService {
 
             String command = lockers[num].getLastCommand();
             long duration = systemTime - lockers[num].getRecordTime();
+
+            if(duration == 1 ) arduinoCommunicator.sendDataToArduino(num, lockers[num].getItemPrice(), command);
 
             // blink 필요할 경우 수행
             if (duration <=8 )blink(command, num, duration);
