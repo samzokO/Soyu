@@ -59,8 +59,7 @@ public class ItemController {
       @ApiResponse(responseCode = "200", description = "물품 단건 조회 성공", content = @Content(schema = @Schema(implementation = ItemResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 단건 조회 실패")
   })
-  public ResponseEntity<?> getItem(HttpServletRequest request,
-      @PathVariable("itemId") Long itemId) {
+  public ResponseEntity<?> getItem(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
     Long memberId = (Long) request.getAttribute("memberId");
 
     Item item = itemService.getItem(itemId);
@@ -68,9 +67,13 @@ public class ItemController {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
 
-    Member member = memberService.getMember(memberId);
+    Member member;
+    Likes likes = null;
 
-    Likes likes = likesService.findLikesByItemAndMember(item, member);
+    if(memberId != null){
+      member = memberService.getMember(memberId);
+      likes = likesService.findLikesByItemAndMember(item, member);
+    }
 
     ItemResponse itemResponse = getItemResponse(item);
 
@@ -113,17 +116,11 @@ public class ItemController {
       @ApiResponse(responseCode = "200", description = "물품 카테고리 조회 성공", content = @Content(schema = @Schema(implementation = ItemListResponse.class))),
       @ApiResponse(responseCode = "400", description = "물품 카테고리 조회 실패")
   })
-  public ResponseEntity<?> getItemByCategory(
-      @PathVariable("category") ItemCategories itemCategories) {
+  public ResponseEntity<?> getItemByCategory(@PathVariable("category") ItemCategories itemCategories) {
     if (itemCategories == null) {
       throw new CustomException(ErrorCode.NO_MATCH_CATEGORY);
     }
-    List<ItemListResponse> itemResponses = itemService.getItemByCategory(itemCategories);
-    if (itemResponses == null) {
-      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
-    }
-    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
-    return getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemService.getItemByCategory(itemCategories));
   }
 
   @PostMapping("")

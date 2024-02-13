@@ -5,6 +5,7 @@ import static com.ssafy.soyu.item.entity.Item.createItem;
 
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.dto.response.ItemListResponse;
+import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
 import com.ssafy.soyu.item.entity.ItemCategories;
@@ -87,10 +88,16 @@ public class ItemService {
   }
 
   public List<ItemListResponse> getItemByCategory(ItemCategories itemCategories) {
-    return itemRepository.findItemByItemCategories(itemCategories)
+    List<ItemListResponse> itemResponses = itemRepository.findItemByItemCategories(itemCategories)
         .stream()
         .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
         .collect(Collectors.toList());
+
+    if (itemResponses == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
+
+    return itemResponses;
   }
 
   public void save(Long memberId, ItemCreateRequest itemRequest, List<MultipartFile> files)
