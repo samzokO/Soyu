@@ -6,7 +6,7 @@ import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.entity.ItemStatus;
 import com.ssafy.soyu.item.repository.ItemRepository;
-import com.ssafy.soyu.member.dto.request.MemberRequest;
+import com.ssafy.soyu.member.dto.request.MemberNickNameRequest;
 import com.ssafy.soyu.member.dto.response.AccountResponse;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.dto.request.AccountDto;
@@ -160,7 +160,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(MemberRequest memberRequest, Long memberId, MultipartFile file)
+    public void updateProfile(Long memberId, MultipartFile file)
         throws IOException {
 
         ProfileImage profileImage = new ProfileImage();
@@ -189,8 +189,15 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).get();
 
         // 더티체킹
-        member.updateMember(memberRequest.getSnsId(), memberRequest.getBank_name(),
-            memberRequest.getAccount_number(), memberRequest.getIsWithdraw(), profileImage);
+        member.updateProfile(profileImage);
+    }
+
+    @Transactional
+    public void updateNickName(MemberNickNameRequest memberNickNameRequest, Long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+
+        // 더티체킹
+        member.updateNickName(memberNickNameRequest.getNickName());
     }
 
     public Member getMember(Long memberId) {

@@ -38,19 +38,19 @@ public class initDB {
     private final EntityManager em;
     public void dbInit1() {
       Member member1 = new Member("jun", "최준영", "팔거에유", "01011111111");
-      member1.updateMember(1L,"농협", "1234567890123", false, null);
+//      member1.updateMember(1L,"농협", "1234567890123", false, null);
       Member member2 = new Member("sung", "이성현", "나만믿어", "01022222222");
-      member2.updateMember(2L,"국민", "1234567890123", false, null);
+//      member2.updateMember(2L,"국민", "1234567890123", false, null);
       Member member3 = new Member("jin", "엄진식", "감자스프", "01033333333");
-      member3.updateMember(3L,"신한", "1234567890123", false, null);
+//      member3.updateMember(3L,"신한", "1234567890123", false, null);
       Member member4 = new Member("ho", "이호진", "경매빌런", "010-4444-4444");
-      member4.updateMember(4L,"우리", "1234567890123", false, null);
+//      member4.updateMember(4L,"우리", "1234567890123", false, null);
       Member member5 = new Member("son", "손주현", "손다르크", "010-5555-4444");
-      member5.updateMember(5L,"기업", "1234567890123", false, null);
+//      member5.updateMember(5L,"기업", "1234567890123", false, null);
       Member member6 = new Member("jae", "이재신", "예뻤어", "010-6666-4444");
-      member6.updateMember(6L,"하나", "1234567890123", false, null);
+//      member6.updateMember(6L,"하나", "1234567890123", false, null);
       Member member7 = new Member("none", "비회원", "비회원", "010-9999-9999");
-      member7.updateMember(7L,"신협", "1234567890123", false, null);
+//      member7.updateMember(7L,"신협", "1234567890123", false, null);
 
       em.persist(member1);
       em.persist(member2);

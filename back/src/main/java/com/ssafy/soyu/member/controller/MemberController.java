@@ -4,7 +4,7 @@ import static com.ssafy.soyu.profileImage.dto.response.ProfileImageResponse.getP
 import static com.ssafy.soyu.util.response.CommonResponseEntity.getResponseEntity;
 
 import com.ssafy.soyu.member.dto.request.AccountDto;
-import com.ssafy.soyu.member.dto.request.MemberRequest;
+import com.ssafy.soyu.member.dto.request.MemberNickNameRequest;
 import com.ssafy.soyu.member.dto.response.MemberDetailResponse;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.service.MemberService;
@@ -59,22 +59,6 @@ public class MemberController {
         return getResponseEntity(SuccessCode.OK);
     }
 
-    @PatchMapping("/account")
-    @Operation(summary = "계좌 등록", description = "AccountDto를 이용해 계좌를 등록합니다.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "계좌 등록 성공"),
-        @ApiResponse(responseCode = "400", description = "계좌 등록 실패")
-    })
-    public ResponseEntity<?> registrationAccount(@Validated @RequestBody AccountDto accountDto, BindingResult bindingResult, HttpServletRequest request){
-        // HttpServletRequest에서  멤버 id 가져오기
-        Long memberId = (Long) request.getAttribute("memberId");
-        if (bindingResult.hasErrors())
-            throw new CustomException(ErrorCode.INPUT_EXCEPTION);
-        memberService.updateAccount(memberId, accountDto);
-
-        return getResponseEntity(SuccessCode.OK);
-    }
-
     @GetMapping("/account")
     @Operation(summary = "계좌 조회", description = "사용자 ID(In Header)를 이용해 계좌를 조회합니다.")
     @ApiResponses(value = {
@@ -113,35 +97,75 @@ public class MemberController {
         return getResponseEntity(SuccessCode.OK);
     }
 
-    @PatchMapping("/nickname")
-    @Operation(summary = "별명 수정", description = "nickName과 사용자 ID를 이용해 중복 확인 후 별명을 수정합니다.")
+//    @PatchMapping("/nickname")
+//    @Operation(summary = "별명 수정", description = "nickName과 사용자 ID를 이용해 중복 확인 후 별명을 수정합니다.")
+//    @ApiResponses(value = {
+//        @ApiResponse(responseCode = "200", description = "별명 수정 성공"),
+//        @ApiResponse(responseCode = "400", description = "별명 수정 실패")
+//    })
+//    public ResponseEntity<?> makeNickname(@RequestParam("nickName") String nickName, HttpServletRequest request){
+//        Long memberId = (Long) request.getAttribute("memberId");
+//        memberService.checkNickName(memberId, nickName);
+//        return getResponseEntity(SuccessCode.OK);
+//    }
+
+    // 회원 가입 이후 개인정보 수정으로 나머지 정보 입력
+    // 계좌 업로드
+    @PatchMapping("/account")
+    @Operation(summary = "계좌 등록", description = "AccountDto를 이용해 계좌를 등록합니다.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "별명 수정 성공"),
-        @ApiResponse(responseCode = "400", description = "별명 수정 실패")
+        @ApiResponse(responseCode = "200", description = "계좌 등록 성공"),
+        @ApiResponse(responseCode = "400", description = "계좌 등록 실패")
     })
-    public ResponseEntity<?> makeNickname(@RequestParam("nickName") String nickName, HttpServletRequest request){
+    public ResponseEntity<?> registrationAccount(@Validated @RequestBody AccountDto accountDto, BindingResult bindingResult, HttpServletRequest request){
+        // HttpServletRequest에서  멤버 id 가져오기
         Long memberId = (Long) request.getAttribute("memberId");
-        memberService.checkNickName(memberId, nickName);
+        if (bindingResult.hasErrors())
+            throw new CustomException(ErrorCode.INPUT_EXCEPTION);
+        memberService.updateAccount(memberId, accountDto);
+
         return getResponseEntity(SuccessCode.OK);
     }
 
-    // 회원 가입 이후 개인정보 수정으로 나머지 정보 입력
-    @PatchMapping("")
-    public ResponseEntity<?> updateMember(HttpServletRequest request,
-        @RequestPart(value = "image", required = false) MultipartFile file,
-        @RequestPart(value = "memberCreateRequest") MemberRequest memberRequest, BindingResult bindingResult) throws IOException {
+
+    // 프로필 이미지 업로드
+    @PatchMapping("/profile")
+    @Operation(summary = "프로필사진 등록", description = "image를 이용해 프로필을 등록합니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "프로필 등록 성공"),
+        @ApiResponse(responseCode = "400", description = "프로필 등록 실패")
+    })
+    public ResponseEntity<?> updateProfile(HttpServletRequest request,
+        @RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
         Long memberId = (Long) request.getAttribute("memberId");
 
         if (file == null) {
             throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
         }
+
+        memberService.updateProfile(memberId, file);
+        return getResponseEntity(SuccessCode.OK);
+    }
+
+    // 닉네임 업로드
+    @PatchMapping("/nickname")
+    @Operation(summary = "닉네임 등록", description = "memberNickNameRequest 이용해 닉네임을 등록합니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "닉네임 등록 성공"),
+        @ApiResponse(responseCode = "400", description = "닉네임 등록 실패")
+    })
+    public ResponseEntity<?> updateNickName(HttpServletRequest request,
+        @Validated @RequestBody MemberNickNameRequest memberNickNameRequest, BindingResult bindingResult) {
+        Long memberId = (Long) request.getAttribute("memberId");
+
         if (bindingResult.hasErrors()) {
             throw new CustomException(ErrorCode.INPUT_EXCEPTION);
         }
 
-        memberService.updateMember(memberRequest, memberId, file);
+        memberService.updateNickName(memberNickNameRequest, memberId);
         return getResponseEntity(SuccessCode.OK);
     }
+
 
     // 내정보
     @GetMapping("")

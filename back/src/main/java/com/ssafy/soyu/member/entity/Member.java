@@ -1,5 +1,6 @@
 package com.ssafy.soyu.member.entity;
 
+import com.ssafy.soyu.member.dto.request.MemberNickNameRequest;
 import com.ssafy.soyu.profileImage.ProfileImage;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -37,11 +38,7 @@ public class Member {
         this.mobile = mobile;
     }
 
-    public void updateMember(Long snsId, String bank_name, String account_number, Boolean isWithdraw, ProfileImage ProfileImage) {
-        this.snsId = snsId;
-        this.bank_name = bank_name;
-        this.account_number = account_number;
-        this.isWithdraw = isWithdraw;
+    public void updateProfile(ProfileImage ProfileImage) {
         this.profileImage = ProfileImage;
     }
 
