@@ -32,8 +32,9 @@ public class NonMemberExceptionFilter implements Filter {
         whiteList.add("/station");
         whiteList.add("/item/items");
         whiteList.add("/item/keyword");
-        whiteList.add("/item/category/");
+        whiteList.add("/item/category");
         whiteList.add("/station");
+        whiteList.add("/image");
     }
 
     @Override
