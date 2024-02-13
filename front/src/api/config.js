@@ -4,12 +4,19 @@ const API = axios.create({
   baseURL: '/api',
 });
 
-API.interceptors.request.use((config) => ({
-  ...config,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  },
-}));
+API.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    return {
+      ...config,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ...config.headers,
+      },
+    };
+  }
+  return config;
+});
 
 API.interceptors.response.use(
   (response) => response,

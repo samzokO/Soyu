@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import BuyGoods from '../molecules/BuyGoods';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
@@ -11,7 +12,23 @@ function BuyList() {
   const { list } = useParams();
   const name = list === 'buylist' ? '구매내역' : '판매내역';
   const data = list === 'buylist' ? useHistoryBuyList() : useHistoryList();
-  console.log(data);
+  const transitionList = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: 'beforeChildren',
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const transitionListitem = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
   return (
     <>
       <LocalHeader>
@@ -19,21 +36,34 @@ function BuyList() {
         {name}
         <div />
       </LocalHeader>
-      <MainContainerWithoutNav>
+      <SBuyListContainer
+        variants={transitionList}
+        initial="hidden"
+        animate="visible"
+      >
         {data &&
           data.map((item) => (
-            <BuyGoods key={item.itemId} data={item} list={list} />
+            <BuyGoods
+              variants={transitionListitem}
+              key={item.itemId}
+              data={item}
+              list={list}
+            />
           ))}
         {Array.isArray(data) && data.length === 0 && (
           <div>마다 {name} 나이네</div>
         )}
-      </MainContainerWithoutNav>
+      </SBuyListContainer>
     </>
   );
 }
+const SBuyListContainer = styled(motion(MainContainerWithoutNav))`
+  @media (min-width: 768px) {
+    display: grid;
+    min-height: 0px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+`;
 
 export default BuyList;
-
-const SWrap = styled.ul`
-  padding: 16px;
-`;
