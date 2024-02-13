@@ -105,7 +105,7 @@ public class PayActionUtil {
   }
 
   public String getCurrentDateTime(LocalDateTime time) {
-    ZonedDateTime zonedDateTime = time.atZone(ZoneId.systemDefault());
+    ZonedDateTime zonedDateTime = time.atZone(ZoneId.of("Asia/Seoul"));
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
     return zonedDateTime.format(formatter);
   }
