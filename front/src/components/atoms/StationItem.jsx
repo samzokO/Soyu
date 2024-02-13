@@ -10,12 +10,12 @@ import useLoadImg from '../../hooks/useLoadImg';
 function StationItem({ item }) {
   const [data, setData] = useLoadImg();
   useEffect(() => {
-    setData(item);
+    setData(item.imageResponses);
   }, []);
   return (
     <SLi key={item.itemId} to={`/item/${item.itemId}`}>
       <SNumber>{item.lockerLocation}</SNumber>
-      {data && <SImg img={data} alt="#" />}
+      {data && <SImg src={data} alt="물품" />}
       <SPadding>
         <SFlexWrap>
           <SSubTitle>{item.title}</SSubTitle>
@@ -115,8 +115,5 @@ const SSubTitle = styled.span`
 const SImg = styled.img`
   height: 100px;
   border-radius: 5px;
-  background-image: url(${(props) => props.img});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
 `;
