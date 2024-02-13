@@ -104,24 +104,25 @@ public class TradeService {
     Optional<Locker> optionalLocker = lockerRepository.findByItemId(item.getId());
     if(optionalLocker.isPresent()){
       Locker locker = optionalLocker.get();
-      NoticeType noticeType = null;
       LockerStatus lockerStatus = null;
       ItemStatus itemStatus = null;
 
       //보관한 물건 취소 했을 때
       if(locker.getStatus() == LockerStatus.TRADE_READY) {
-        noticeType = NoticeType.CONVERT;
         lockerStatus = LockerStatus.WITHDRAW;
         itemStatus = ItemStatus.WITHDRAW;
+        //판매자 알림
+        noticeService.createNoticeWithSender(item.getMember().getId(), memberId, new NoticeRequestDto(item, NoticeType.CONVERT));
+        String code = payActionUtil.generateRandomCode();
+        noticeService.createNotice(item.getMember().getId(), new NoticeRequestDto(item, NoticeType.CHANGE_STATUS, code));
       }
       //물건 넣기 전 취소
       else if(locker.getStatus() == LockerStatus.TRADE_RESERVE){
-        noticeType = NoticeType.RESERVE_CANCEL;
         lockerStatus = LockerStatus.AVAILABLE;
         itemStatus = ItemStatus.ONLINE;
+        noticeService.createNoticeWithSender(item.getMember().getId(), memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
       }
-      //판매자 알림 noticeType = CONVERT / RESERVE_CANCEL
-      noticeService.createNoticeWithSender(item.getMember().getId(), memberId, new NoticeRequestDto(item, noticeType));
+
       //구매자 알림 noticeType = RESERVE_CANCEL
       noticeService.createNotice(memberId, new NoticeRequestDto(item, NoticeType.RESERVE_CANCEL));
 
