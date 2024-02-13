@@ -33,16 +33,12 @@ public class StationService {
         .collect(Collectors.toList());
   }
 
-  public List<DetailResponseDto> findOneStation(Long memberId, Long stationId) {
-    return stationRepository.findOneWithMemberId(memberId, stationId)
-        .stream()
-        .map(o -> {
-          Station s = (Station) o[0];
-          List<LockerResponseDto> ls = lockerService.getLockerResponse(s.getLockers(), memberId);
-          boolean isFavorite = o[1] == null ? false : (Boolean) o[1];
-          return new DetailResponseDto(s, ls, isFavorite);
-        })
-        .collect(Collectors.toList());
+  public DetailResponseDto findOneStation(Long memberId, Long stationId) {
+    List<Object[]> result = stationRepository.findOneWithMemberId(memberId, stationId);
+    Station s = (Station) result.get(0)[0];
+    List<LockerResponseDto> ls = lockerService.getLockerResponse(s.getLockers(), memberId);
+    boolean isFavorite = result.get(0)[1] == null ? false : (Boolean) result.get(0)[1];
+    return new DetailResponseDto(s, ls, isFavorite);
   }
 
 }

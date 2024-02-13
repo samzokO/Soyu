@@ -59,7 +59,7 @@ public class StationController {
   public ResponseEntity<?> detailStation(HttpServletRequest request, @PathVariable("stationId") Long stationId){
     Long memberId = (Long) request.getAttribute("memberId");
 
-    List<DetailResponseDto> result = stationService.findOneStation(memberId, stationId);
+    DetailResponseDto result = stationService.findOneStation(memberId, stationId);
     if(result == null) throw new CustomException(ErrorCode.STATION_NOT_FOUND);
 
     return getResponseEntity(SuccessCode.OK, result);
