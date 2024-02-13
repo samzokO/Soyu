@@ -16,6 +16,7 @@ import Map from '../components/pages/Map';
 import Kiosk from '../components/pages/Kiosk';
 import Category from '../components/pages/Category';
 import Account from '../components/pages/Account';
+import AppointmentModal from '../components/pages/AppointmentModal';
 
 const Router = createBrowserRouter([
   {
@@ -86,6 +87,10 @@ const Router = createBrowserRouter([
   {
     path: '/chat/:chatId',
     element: <ChatRoom />,
+  },
+  {
+    path: '/station/:chatId',
+    element: <AppointmentModal />,
   },
 ]);
 

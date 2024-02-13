@@ -74,7 +74,7 @@ function ChatRoom() {
 
   return (
     <>
-      <ChatHeader itemId={state.itemId} />
+      <ChatHeader itemId={state?.itemId} />
       <ChatMessageList
         chats={chats}
         setChats={setChats}

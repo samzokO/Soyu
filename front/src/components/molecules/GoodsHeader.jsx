@@ -1,3 +1,4 @@
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import font from '../../styles/font';
 import Button from '../atoms/Button';
@@ -6,6 +7,8 @@ import useLoadItem from '../../hooks/useLoadItem';
 
 function GoodsHeader({ itemId }) {
   const [imageURL, name, price] = useLoadItem(itemId);
+  const navigate = useNavigate();
+  const { chatId } = useParams();
 
   return (
     <SFlex>
@@ -14,7 +17,14 @@ function GoodsHeader({ itemId }) {
         <SH2>{name}</SH2>
         <SPrice>{price}원</SPrice>
       </SDiv>
-      <Button type="1">거래약속</Button>
+      <Button
+        type="1"
+        onClick={() => {
+          navigate(`/station/${chatId}`);
+        }}
+      >
+        거래약속
+      </Button>
     </SFlex>
   );
 }
