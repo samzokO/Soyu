@@ -175,7 +175,7 @@ public class MemberService {
             }
 
             String originalFileName = file.getOriginalFilename();
-            if (!originalFileName.isEmpty()) {
+            if (originalFileName != null) {
                 String saveFileName = UUID.randomUUID().toString() // UUID 사용으로 고유한 파일의 이름 지정
                     + originalFileName.substring(originalFileName.lastIndexOf('.')); // 확장자 확인
 

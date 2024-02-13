@@ -23,9 +23,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   List<Item> findItemAll();
 
   @EntityGraph(attributePaths = {"member" , "image"})
-  List<Item> findItemByMember(Member member);
-
-  @EntityGraph(attributePaths = {"member" , "image"})
   @Query("select i from Item i "
       + "where i.title like concat('%', :keyword, '%') AND "
       + "i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED'")
@@ -39,9 +36,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
   @Query("select i from Item i join fetch i.member m where i.member.id = :memberId")
   List<Item> findByMemberId(@Param("memberId") Long memberId);
-
-  @Query(value = "select * from image i left join item_image im on i.id = im.image_id where im.item_id = :itemId limit 1", nativeQuery = true)
-  Image findImageByItem(Long itemId);
 
   @Modifying
   @Query("UPDATE Item SET itemStatus= :status where id=:itemId")

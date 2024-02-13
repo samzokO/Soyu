@@ -3,7 +3,6 @@ package com.ssafy.soyu.favorite.service;
 import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
 import com.ssafy.soyu.favorite.entity.Favorite;
 import com.ssafy.soyu.favorite.repository.FavoriteRepository;
-import com.ssafy.soyu.likes.service.LikesService;
 import com.ssafy.soyu.locker.service.LockerService;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;

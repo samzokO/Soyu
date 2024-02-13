@@ -25,7 +25,7 @@ public class StationService {
         .stream()
         .map(o -> {
           Station s = (Station) o[0];
-          boolean isFavorite = o[1] == null ? false : (Boolean) o[1];
+          boolean isFavorite = o[1] != null && (Boolean) o[1];
           Integer total = s.getLockers().size();
           Integer count = lockerRepository.countNotEmptyLocker(s.getId());
           return new ListResponseDto(s, total, count, isFavorite);
@@ -37,7 +37,7 @@ public class StationService {
     List<Object[]> result = stationRepository.findOneWithMemberId(memberId, stationId);
     Station s = (Station) result.get(0)[0];
     List<LockerResponseDto> ls = lockerService.getLockerResponse(s.getLockers(), memberId);
-    boolean isFavorite = result.get(0)[1] == null ? false : (Boolean) result.get(0)[1];
+    boolean isFavorite = result.get(0)[1] != null && (Boolean) result.get(0)[1];
     return new DetailResponseDto(s, ls, isFavorite);
   }
 

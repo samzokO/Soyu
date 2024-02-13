@@ -146,20 +146,19 @@ public class TradeService {
    *
    * @param memberId 구매자의 식별자
    * @param itemId   보관함의 식별자
-   * @return
+   * @return code
    */
   public String getPurchaseCode(Long memberId, Long itemId) {
     Optional<History> h = historyRepository.checkMatchHistory(memberId, itemId);
-    if (!h.isPresent()) {
+    if (h.isEmpty()) {
       throw new CustomException(ErrorCode.NO_MATCH_HISTORY);
     }
 
     Optional<String> code = lockerRepository.getCode(itemId);
-    if(code.isPresent()){
-      throw new CustomException(ErrorCode.NOT_READY_YET);
+    if (code.isPresent()) {
+      return code.get();
     }
-
-    return code.get();
+    throw new CustomException(ErrorCode.NOT_READY_YET);
   }
 
   /**
@@ -171,7 +170,7 @@ public class TradeService {
     Item item = itemRepository.findById(itemId).get();
 
     //1. 유저의 판매 아이템이 맞는지
-    if (item == null || !Objects.equals(item.getMember().getId(), memberId)) {
+    if (item.getId() == null || !Objects.equals(item.getMember().getId(), memberId)) {
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
     }
 

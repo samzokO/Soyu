@@ -7,7 +7,6 @@ import com.ssafy.soyu.favorite.dto.response.FavoriteListResponseDto;
 import com.ssafy.soyu.favorite.service.FavoriteService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.SuccessCode;
-import com.ssafy.soyu.util.response.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +17,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,7 +65,7 @@ public class FavoriteController {
     Long memberId = (Long) request.getAttribute("memberId");
 
     List<FavoriteListResponseDto> result = favoriteService.findByMemberId(memberId);
-    if (result == null || result.size() == 0) {
+    if (result == null || result.isEmpty()) {
       return toResponseEntity(ErrorCode.FAVORITE_NOT_FOUND);
     }
 

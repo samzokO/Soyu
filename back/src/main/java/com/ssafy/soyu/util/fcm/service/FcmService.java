@@ -40,17 +40,16 @@ public class FcmService {
 
   /**
    * FcmMessage 전송
-   * @param fcmMessage
-   * @return 성공 URL
-   * @throws FirebaseMessagingException
+   * @param fcmMessage 메세지 dto
+   * @throws FirebaseMessagingException 예외
    */
-  public String sendNotice(FcmMessage fcmMessage) throws FirebaseMessagingException {
+  public void sendNotice(FcmMessage fcmMessage) throws FirebaseMessagingException {
     Message message = Message.builder()
         .setToken(fcmMessage.getToken())
         .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
             .setNotification(new WebpushNotification(fcmMessage.getTitle(), fcmMessage.getContent()))
             .build())
         .build();
-    return firebaseMessaging.send(message);
+    firebaseMessaging.send(message);
   }
 }

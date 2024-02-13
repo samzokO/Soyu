@@ -62,7 +62,7 @@ public class LockerService {
   @Transactional
   public LockerBuyResponse insertSellCode(String code) {
     Optional<Locker> optionalLocker = lockerRepository.findByCode(code);
-    if (!optionalLocker.isPresent()) {
+    if (optionalLocker.isEmpty()) {
       throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
     }
 
@@ -120,7 +120,7 @@ public class LockerService {
     } else { //거래 예약 구매자인 경우
       optionalLocker = lockerRepository.findByCode(code);
 
-      if (!optionalLocker.isPresent()) {
+      if (optionalLocker.isEmpty()) {
         throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
       }
       Locker locker = optionalLocker.get();
@@ -137,7 +137,7 @@ public class LockerService {
   public void insertWithdrawCode(String code) {
     Optional<Locker> optionalLocker = lockerRepository.findByCode(code);
 
-    if (!optionalLocker.isPresent()) {
+    if (optionalLocker.isEmpty()) {
       throw new CustomException(ErrorCode.INVALID_AUTH_CODE);
     }
     Locker locker = optionalLocker.get();

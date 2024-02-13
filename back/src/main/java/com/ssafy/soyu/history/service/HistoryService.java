@@ -7,8 +7,6 @@ import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.likes.repository.LikesRepository;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +32,7 @@ public class HistoryService {
         .stream()
         .map(h -> new PurchaseResponseDto(h, getImageResponse(h.getItem().getImage()),
             likesRepository.countLikeByItemId(h.getItem().getId())))
-        .sorted(Comparator.comparing(h -> h.getItemStatus()))
+        .sorted(Comparator.comparing(PurchaseResponseDto::getItemStatus))
         .collect(Collectors.toList());
   }
 
@@ -49,7 +47,7 @@ public class HistoryService {
         .stream()
         .map(i -> new SaleResponseDto(i, getImageResponse(i.getImage()),
             likesRepository.countLikeByItemId(i.getId())))
-        .sorted(Comparator.comparing(h -> h.getItemStatus()))
+        .sorted(Comparator.comparing(SaleResponseDto::getItemStatus))
         .collect(Collectors.toList());
   }
 

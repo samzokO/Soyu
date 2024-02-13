@@ -28,9 +28,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +61,6 @@ public class ItemController {
     Long memberId = (Long) request.getAttribute("memberId");
 
     Item item = itemService.getItem(itemId);
-    if (item == null) {
-      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
-    }
 
     Member member;
     Likes likes = null;
@@ -78,7 +73,7 @@ public class ItemController {
     ItemResponse itemResponse = getItemResponse(item);
 
     // 찜 확인
-    itemResponse.setLikesStatus((likes != null && likes.getStatus()) ? true : false);
+    itemResponse.setLikesStatus(likes != null ? likes.getStatus() : false);
 
     // 스테이션 정보 조회
     Locker locker = lockerService.findLockerByItem(item);
@@ -95,7 +90,6 @@ public class ItemController {
   })
   public ResponseEntity<?> getItems() {
     List<ItemListResponse> itemResponses = itemService.getItems();
-    // 물품이 없다면 null 값이 넘어간다 -> 에러처리 불 필요
     return getResponseEntity(SuccessCode.OK, itemResponses);
   }
 
@@ -106,8 +100,7 @@ public class ItemController {
       @ApiResponse(responseCode = "400", description = "물품 키워드 조회 실패")
   })
   public ResponseEntity<?> getItemByKeyWord(@RequestBody ItemKeyWordRequest itemKeyWordRequest) {
-    List<ItemListResponse> itemResponses = itemService.getItemByKeyword(itemKeyWordRequest.getKeyword());
-    return getResponseEntity(SuccessCode.OK, itemResponses);
+    return getResponseEntity(SuccessCode.OK, itemService.getItemByKeyword(itemKeyWordRequest.getKeyword()));
   }
 
   @GetMapping("/category/{category}")

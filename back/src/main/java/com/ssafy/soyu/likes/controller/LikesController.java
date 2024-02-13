@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +47,8 @@ public class LikesController {
 
     List<Item> items = likesService.getLikes(memberId)
         .stream()
-        .map(o -> o.getItem())
-        .collect(Collectors.toList());
+        .map(Likes::getItem)
+        .toList();
 
     List<ItemListResponse> itemListResponses =
         items.stream()

@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,9 +19,6 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
       "FROM Locker l " +
       "WHERE l.station.id = :stationId AND l.status != 'AVAILABLE'")
   Integer countNotEmptyLocker(@Param("stationId") Long stationId);
-
-  @Query("SELECT l FROM Locker l LEFT JOIN FETCH l.item i WHERE l.station.id = :stationId")
-  List<Locker> findByStationIdWithItem(@Param("stationId") Long stationId);
 
   Optional<Locker> findByItemId(Long id);
 

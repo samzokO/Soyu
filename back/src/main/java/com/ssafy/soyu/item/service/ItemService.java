@@ -5,7 +5,6 @@ import static com.ssafy.soyu.item.entity.Item.createItem;
 
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.dto.response.ItemListResponse;
-import com.ssafy.soyu.item.dto.response.ItemResponse;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.item.dto.request.ItemCreateRequest;
 import com.ssafy.soyu.item.entity.ItemCategories;
@@ -48,7 +47,13 @@ public class ItemService {
   String uploadImagePath;
 
   public Item getItem(Long itemId) {
-    return itemRepository.findItemById(itemId);
+    Item item = itemRepository.findItemById(itemId);
+
+    if (item == null) {
+      throw new CustomException(ErrorCode.NO_RESULT_ITEM);
+    }
+
+    return item;
   }
 
   public List<ItemListResponse> getItems() {
@@ -64,12 +69,8 @@ public class ItemService {
     return itemResponses;
   }
 
-  public List<Item> getItemByMemberId(Long memberId) {
-    return itemRepository.findItemByMember(memberRepository.getReferenceById(memberId));
-  }
-
   public List<ItemListResponse> getItemByKeyword(String keyword) {
-    if (keyword.equals("")) {
+    if (keyword.isEmpty()) {
       return new ArrayList<>();
     }
 
@@ -79,12 +80,9 @@ public class ItemService {
       return new ArrayList<>();
     }
 
-    List<ItemListResponse> itemResponses =
-        items.stream()
-            .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
-            .collect(Collectors.toList());
-    ;
-    return itemResponses;
+    return items.stream()
+        .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
+        .collect(Collectors.toList());
   }
 
   public List<ItemListResponse> getItemByCategory(ItemCategories itemCategories) {
@@ -93,7 +91,7 @@ public class ItemService {
         .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
         .collect(Collectors.toList());
 
-    if (itemResponses == null) {
+    if (itemResponses.isEmpty()) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
 
@@ -108,7 +106,7 @@ public class ItemService {
         ItemStatus.ONLINE);
     Item now_item = itemRepository.save(item);
 
-    List<Image> images = new ArrayList<Image>();
+    List<Image> images = new ArrayList<>();
 
     if (files != null) {
       String today = new SimpleDateFormat("yyMMdd").format(new Date());
