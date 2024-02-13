@@ -14,7 +14,7 @@ function GoodsHeader({ itemId }) {
   const [img, loadImg] = useLoadImg();
   useEffect(() => {
     loadImg(imageURL);
-  }, []);
+  }, [imageURL]);
   return (
     <SFlex>
       <SImg src={img} alt="물건 사진" />
