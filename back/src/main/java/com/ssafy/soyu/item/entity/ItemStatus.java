@@ -13,12 +13,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  */
 public enum ItemStatus {
   ONLINE,
-  DP_RESERVE,
   DP,
-  SOLD,
-  DELETED,
+  DP_RESERVE,
   TRADE_RESERVE,
-  WITHDRAW;
+  WITHDRAW,
+  SOLD,
+  DELETED;
   @JsonCreator
   public static ItemStatus from(String s) {
     return ItemStatus.valueOf(s.toUpperCase());

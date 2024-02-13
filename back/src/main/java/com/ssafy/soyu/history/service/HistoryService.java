@@ -7,6 +7,9 @@ import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.history.repository.HistoryRepository;
 import com.ssafy.soyu.item.repository.ItemRepository;
 import com.ssafy.soyu.likes.repository.LikesRepository;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +32,9 @@ public class HistoryService {
   public List<PurchaseResponseDto> getPurchaseHistory(Long memberId) {
     return historyRepository.findByMemberId(memberId)
         .stream()
-        .map(h -> new PurchaseResponseDto(h, getImageResponse(h.getItem().getImage()), likesRepository.countLikeByItemId(h.getItem().getId())))
+        .map(h -> new PurchaseResponseDto(h, getImageResponse(h.getItem().getImage()),
+            likesRepository.countLikeByItemId(h.getItem().getId())))
+        .sorted(Comparator.comparing(h -> h.getItemStatus()))
         .collect(Collectors.toList());
   }
 
@@ -42,7 +47,9 @@ public class HistoryService {
   public List<SaleResponseDto> getSaleHistory(Long memberId) {
     return itemRepository.findByMemberId(memberId)
         .stream()
-        .map(i -> new SaleResponseDto(i, getImageResponse(i.getImage()), likesRepository.countLikeByItemId(i.getId())))
+        .map(i -> new SaleResponseDto(i, getImageResponse(i.getImage()),
+            likesRepository.countLikeByItemId(i.getId())))
+        .sorted(Comparator.comparing(h -> h.getItemStatus()))
         .collect(Collectors.toList());
   }
 
