@@ -63,6 +63,7 @@ public class MemberService {
     }
 
     public Member signUp(Member member) {
+        member.updateNickName(member.getName());
         return memberRepository.save(member);
     }
 
