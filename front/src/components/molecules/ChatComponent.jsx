@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import font from '../../styles/font';
 import theme from '../../styles/theme';
+import useLoadImg from '../../hooks/useLoadImg';
 
 function ChatComponent({ room }) {
   const memberId = localStorage.getItem('memberId');
   const navigate = useNavigate();
-
+  const [img, LoadImg] = useLoadImg();
+  useEffect(() => {
+    LoadImg(room.imageResponses);
+  });
   return (
     <li>
       <button
@@ -17,7 +22,7 @@ function ChatComponent({ room }) {
       >
         <SWrap>
           <SWrap>
-            <SImg src="/" alt="물품 이미지" />
+            {img && <SImg src={img} alt="물품 이미지" />}
             <div>
               <SH2>
                 {memberId !== room?.buyerId
@@ -55,7 +60,6 @@ const SImg = styled.img`
   width: 95px;
   height: 95px;
   border-radius: 7px;
-  border: 1px solid black;
 `;
 
 const SH2 = styled.h2`
