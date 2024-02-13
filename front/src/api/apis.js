@@ -26,7 +26,8 @@ export const postLogout = () => API.post('/member');
 export const getMine = () => API.get(`/member`);
 
 /** 닉네임 수정 */
-export const patchNickname = () => API.patch(`/member/nickname`);
+export const patchNickname = (nickname) =>
+  API.patch(`/member/nickname`, null, { params: { nickName: `${nickname}` } });
 
 /** 계좌 조회 */
 export const getAccount = () => API.get(`/member/account`);
@@ -127,9 +128,25 @@ export const kioskBuy = (stationId, code) => {
 };
 
 /** 키오스크 물건 구매 결정시에만  */
-export const kioskMakePurchase = () => {
-  API.get(`/kiosk/dp`);
-};
+export const kioskMakePurchase = () => API.get(`/kiosk/dp`);
+
+/* 라커 */
+
+/** lockerId, itemI로 보관함 예약 */
+export const makeReservation = ({ lockerId, itemId }) =>
+  API.post(`/locker/dp`, {
+    lockerId,
+    itemId,
+  });
+
+/** 보관함 상태 확인 */
+export const getLockerStatus = (lockerId) => API.get(`/locker/${lockerId}`);
+
+/** 거래 예약 물품 DP 전환 */
+export const patchChangeDp = (itemId) => API.patch(`/locker/${itemId}`);
+
+/** 오프라인 물품 DP 취소 */
+export const postWithdraw = (itemId) => API.post(`/locker/${itemId}`);
 
 /* 알림 */
 
@@ -149,3 +166,29 @@ export const favoriteOnOff = (stationId) => API.post(`/favorite/${stationId}`);
 
 /** 즐겨찾기한 스테이션 조회 */
 export const getFavorite = () => API.get(`/favorite`);
+
+/* 거래 */
+
+/** 거래예약 코드 조회 */
+export const getCode = (itemId) => API.get(`/trade/code/${itemId}`);
+
+/** 입금 매칭 */
+export const postMatch = ({
+  mallId,
+  orderNumber,
+  orderStatus,
+  processingDate,
+}) =>
+  API.post(`/trade/match`, {
+    mall_id: { mallId },
+    order_number: { orderNumber },
+    order_status: { orderStatus },
+    processing_date: { processingDate },
+  });
+
+/** 판매자가 거래 취소 */
+export const deleteSale = (itemId) => API.delete(`/trade/sale/${itemId}`);
+
+/** 구매자가 거래 취소 */
+export const deleteReservation = (historyId) =>
+  API.delete(`/trade/code/${historyId}`);
