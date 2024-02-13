@@ -48,8 +48,8 @@ public class Chat {
 
     public Chat(Item item, Member seller, Member buyer) {
         this.item = item;
-        this.buyer = buyer;
         this.seller = seller;
+        this.buyer = buyer;
     }
 
     public void changeLast(String lastMessage) {

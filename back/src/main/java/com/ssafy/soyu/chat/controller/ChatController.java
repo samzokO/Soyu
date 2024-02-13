@@ -75,8 +75,8 @@ public class ChatController {
   // make chat Response
   private static ChatResponse getChatAndMessageResponse(Chat chat, List<MessageResponse> messageResponses) {
     return new ChatResponse(chat.getItem().getId(), chat.getItem().getTitle(), chat.getItem().getPrice() ,getImageResponse(chat.getItem().getImage()),
-        chat.getSeller().getId(), chat.getSeller().getNickName(),getProfileImageResponse(chat.getSeller().getProfileImage()),
         chat.getBuyer().getId(), chat.getBuyer().getNickName(), getProfileImageResponse(chat.getBuyer().getProfileImage()),
+        chat.getSeller().getId(), chat.getSeller().getNickName(),getProfileImageResponse(chat.getSeller().getProfileImage()),
         chat.getLastMessage(), chat.getLastDate(), chat.getIsChecked(), chat.getLastChecked(), messageResponses);
   }
 
@@ -84,8 +84,8 @@ public class ChatController {
   private static List<ChatListResponse> getChatResponses(List<Chat> chats) {
     return chats.stream()
         .map(c -> new ChatListResponse(c.getId(), c.getItem().getId(), getImageResponse(c.getItem().getImage()),
-            c.getSeller().getId(), c.getSeller().getNickName(),
             c.getBuyer().getId(), c.getBuyer().getNickName(),
+            c.getSeller().getId(), c.getSeller().getNickName(),
             c.getLastMessage(), c.getLastDate(), c.getLastChecked(), c.getIsChecked()))
         .collect(Collectors.toList());
   }
