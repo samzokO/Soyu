@@ -22,12 +22,12 @@ function InfoList() {
             <p>프로필 이미지 변경</p>
           </SFlexLink>
         </SLi>
-        <li>
-          <SFlexLink to="/">
+        <SLi>
+          <SFlexLink to="/auth">
             <SImg src={Edit} alt="#" />
             <p>닉네임 변경</p>
           </SFlexLink>
-        </li>
+        </SLi>
       </ul>
     </>
   );
