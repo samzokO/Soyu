@@ -26,13 +26,20 @@ function ItemAddPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAccount();
-    if (!account) {
-      toast.error(`계좌등록을 먼저 해주세요`, {
-        position: 'top-center',
+    getAccount()
+      .then((res) => {
+        if (res.bankName && res.accountNumber) {
+          toast.success(`계좌 정보가 확인되었습니다`, {
+            position: 'top-center',
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error(`${e} 계좌 등록후 거래 가능합니다`, {
+          position: 'top-center',
+        });
+        navigate('/');
       });
-      navigate('/');
-    }
   }, []);
 
   const handleSubmit = (e) => {
