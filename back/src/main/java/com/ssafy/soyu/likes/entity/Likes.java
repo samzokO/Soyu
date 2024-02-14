@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString(exclude = {"item"})
 public class Likes {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "likes_id")
     private Long id;
 

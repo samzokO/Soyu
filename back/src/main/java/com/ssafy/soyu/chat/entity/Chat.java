@@ -20,7 +20,7 @@ import lombok.ToString;
 @ToString(exclude = {"item", "buyer", "seller"})
 public class Chat {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "chat_id")
     private Long id;
 

@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString(exclude = {"member", "image"})
 public class Item {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   @Column(name = "item_id")
   private Long id;
 

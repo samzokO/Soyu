@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString(exclude = {"chat", "member", "profileImage"})
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "message_id")
     private Long id;
 
