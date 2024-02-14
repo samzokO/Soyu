@@ -8,9 +8,9 @@ Box::Box(int lcdAddr, int ledPinNum, int lockPinNum, int pdlcPinNum)
     :
     lcd(lcdAddr, 16, 2),                 // LCD i2c 주소, 열, 행 크기
     led(15, ledPinNum),                 // LED 소자 갯수, led핀 번호
-    lockPin(lockPinNum),                       
+    lockPin(lockPinNum),
     pdlcPin(pdlcPinNum)
-    {   
+    {
         Serial.println(F("CALL Box Constructor! "));
     }
 
@@ -21,23 +21,24 @@ void Box::initialize() {
     lcd.backlight();
     led.setBrightness(255); // 0~255
     led.begin();
+    available();
 }
 
 void Box::ledOn(){
-    Serial.println(F("call ledOn()"));
-    for (int i = 0; i < 15 ; i++) {
-        led.setPixelColor(i, 255, 255, 150);
-    }
-    led.show();
+    // Serial.println(F("call ledOn()"));
+    // for (int i = 0; i < 15 ; i++) {
+    //     led.setPixelColor(i, 255, 255, 150);
+    // }
+    // led.show();
 }
 
 void Box::ledOff(){
-    for (int i = 0; i < 15 ; i++) {
-        led.setPixelColor(i, 0, 0, 0);
-    }
-    led.show();
+    // for (int i = 0; i < 15 ; i++) {
+    //     led.setPixelColor(i, 0, 0, 0);
+    // }
+    // led.show();
 }
- 
+
 void Box::lcdPrice(long price) {
     char str[10]; // 충분한 크기의 char 배열 선언
     snprintf(str, sizeof(str), "%ld", price); // 숫자를 문자열로 변환
@@ -47,7 +48,7 @@ void Box::lcdPrice(long price) {
     lcd.setCursor(16 - strlen(str), 1);
     lcd.print(str);
 }
-               
+
 void Box::lcdContent(char* content) {
     lcd.clear();
     lcd.setCursor(0, 0);
@@ -65,7 +66,7 @@ void Box::lcdTimer(long sec){
 }
 
 void Box::lock() {
-    digitalWrite(lockPin, HIGH); 
+    digitalWrite(lockPin, HIGH);
 }
 
 void Box::unlock() {
@@ -73,11 +74,11 @@ void Box::unlock() {
 }
 
 void Box::visible() {
-    if(pdlcPin!=-1) digitalWrite(pdlcPin, HIGH); 
+    if(pdlcPin!=-1) digitalWrite(pdlcPin, LOW);
 }
 
 void Box::invisible() {
-    if(pdlcPin!=-1) digitalWrite(pdlcPin, LOW);
+    if(pdlcPin!=-1) digitalWrite(pdlcPin, HIGH);
 }
 
 
@@ -96,14 +97,14 @@ void Box::reserve() {
 
 void Box::insert() {
     Serial.println(F("CALL insert()"));
-    unlock();   
+    unlock();
 }
 
 void Box::dpReady(long price) {
     Serial.println(F("CALL dpReady()"));
     lock();
     visible();
-    ledOn();
+    //ledOn();
     lcdPrice(price);
 }
 
@@ -117,12 +118,14 @@ void Box::tradeReady() {
 
 void Box::tradeCheck() {
     Serial.println(F("CALL tradeCheck()"));
+    //ledOn();
     visible();
     lcdContent("CHECKING..");
 }
 
 void Box::subtract() {
     Serial.println(F("CALL subtract()"));
+    ledOff();
     unlock();
 }
 
