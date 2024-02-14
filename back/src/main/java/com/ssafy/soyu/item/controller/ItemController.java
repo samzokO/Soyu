@@ -140,13 +140,16 @@ public class ItemController {
       @ApiResponse(responseCode = "200", description = "물품 상태 변경 성공"),
       @ApiResponse(responseCode = "400", description = "물품 상태 변경 실패")
   })
-  public ResponseEntity<?> updateStatus(@Validated @RequestBody ItemStatusRequest itemStatusRequest,
+  public ResponseEntity<?> updateStatus(HttpServletRequest request, @Validated @RequestBody ItemStatusRequest itemStatusRequest,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       log.info(bindingResult.toString());
       throw new CustomException(ErrorCode.INPUT_EXCEPTION);
     }
-    itemService.updateStatus(itemStatusRequest);
+
+    Long memberId = (Long) request.getAttribute("memberId");
+
+    itemService.updateStatus(memberId, itemStatusRequest);
 
     return getResponseEntity(SuccessCode.OK);
   }

@@ -206,8 +206,12 @@ public class ItemService {
         itemUpdateRequest.getPrice(), itemUpdateRequest.getItemCategories());
   }
 
-  public void updateStatus(ItemStatusRequest itemStatusRequest) {
+  public void updateStatus(Long memberId, ItemStatusRequest itemStatusRequest) {
     Item item = itemRepository.findItemById(itemStatusRequest.getItemId());
+
+    if(item.getMember().getId() != memberId){
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    }
 
     if (item.getItemStatus() == ItemStatus.TRADE_RESERVE && itemStatusRequest.getItemStatus() == ItemStatus.DELETED) {
       throw new CustomException(ErrorCode.CANT_DELETE_RESERVED_ITEM);
