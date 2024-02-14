@@ -41,14 +41,25 @@ function AppointmentModal() {
     })();
   }, [selectStation]);
 
+  const [success, setSuccess] = useState(false);
+
   useEffect(() => {
     (async () => {
       if (selectedLocker !== null) {
         await makeAppointment({
           chatId,
           lockerId: selectedLocker,
-        });
-        setTimeout(() => navigate(-1), 1200);
+        })
+          .then(() => {
+            setSuccess(true);
+            setTimeout(() => navigate('/'), 1200);
+          })
+          .catch((error) => {
+            toast.error(`${error?.response?.data?.message}`, {
+              position: 'top-center',
+            });
+            navigate(-1);
+          });
       }
     })();
   }, [selectedLocker]);
@@ -134,10 +145,12 @@ function AppointmentModal() {
     );
 
   return (
-    <SCanvas>
-      <LogoMotion />
-      <SComplete>예약완료</SComplete>
-    </SCanvas>
+    success && (
+      <SCanvas>
+        <LogoMotion />
+        <SComplete>예약완료</SComplete>
+      </SCanvas>
+    )
   );
 }
 
