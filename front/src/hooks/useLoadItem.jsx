@@ -5,6 +5,7 @@ function useLoadItem(itemId) {
   const [goodsImageURL, setGoodsImageURL] = useState('');
   const [goodsName, setGoodsName] = useState('');
   const [goodsPrice, setGoodsPrice] = useState(0);
+  const [goodsStatus, setGoodsStatus] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -12,10 +13,11 @@ function useLoadItem(itemId) {
       setGoodsImageURL(data.data.imageResponses);
       setGoodsName(data.data.title);
       setGoodsPrice(data.data.price);
+      setGoodsStatus(data.data.itemStatus);
     })();
   }, []);
 
-  return [goodsImageURL, goodsName, goodsPrice];
+  return [goodsImageURL, goodsName, goodsPrice, goodsStatus];
 }
 
 export default useLoadItem;
