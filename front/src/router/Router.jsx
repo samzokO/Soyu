@@ -18,6 +18,8 @@ import Category from '../components/pages/Category';
 import Account from '../components/pages/Account';
 import AppointmentModal from '../components/pages/AppointmentModal';
 import Auth from '../components/pages/Auth';
+import ProfileImage from '../components/pages/InsertProfile';
+import KioskPurchase from '../components/pages/Purchase';
 
 const Router = createBrowserRouter([
   {
@@ -32,6 +34,10 @@ const Router = createBrowserRouter([
   {
     path: '/auth',
     element: <Auth />,
+  },
+  {
+    path: '/insertProfile',
+    element: <ProfileImage />,
   },
   {
     path: '/item',
@@ -84,6 +90,10 @@ const Router = createBrowserRouter([
   {
     path: '/kiosk',
     element: <Kiosk />,
+  },
+  {
+    path: '/kiosk/purchase/:itemId/:lockerNumber',
+    element: <KioskPurchase />,
   },
   {
     path: '/chat',

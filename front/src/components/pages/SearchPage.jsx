@@ -22,7 +22,7 @@ function SearchPage() {
   };
 
   return (
-    <MainContainerWithoutNav>
+    <>
       <LocalHeader>
         <BackBtn />
         <SForm onSubmit={handleSubmit}>
@@ -36,12 +36,14 @@ function SearchPage() {
           />
         </SForm>
       </LocalHeader>
-      {Search && (
-        <div>
-          <ItemList title="검색결과" data={Search} />
-        </div>
-      )}
-    </MainContainerWithoutNav>
+      <MainContainerWithoutNav>
+        {Search && (
+          <div>
+            <ItemList title="검색결과" data={Search} />
+          </div>
+        )}
+      </MainContainerWithoutNav>
+    </>
   );
 }
 

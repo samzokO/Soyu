@@ -21,7 +21,7 @@ function ChatRoom() {
   const client = useRef(null);
 
   const connect = () => {
-    const Sock = new SockJS('http:/i10b311.p.ssafy.io:8080/ws/chat');
+    const Sock = new SockJS('http:/i10b311.p.ssafy.io:8080/api/ws/chat');
     client.current = over(Sock);
     client.current.connect(
       {},
@@ -55,7 +55,13 @@ function ChatRoom() {
   useEffect(() => {
     (async () => {
       const { data } = await getChats(chatId);
+      console.log(data);
       setChats([...data.data.messageResponses]);
+      setNickName(
+        myMemberId === data.data.buyerId
+          ? data.data.buyerNickname
+          : data.data.sellerNickname,
+      );
       setPartnerImage(
         myMemberId === data.data.buyerId
           ? data.data.buyerProfileImageResponse

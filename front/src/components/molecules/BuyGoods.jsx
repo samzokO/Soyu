@@ -9,11 +9,14 @@ import theme from '../../styles/theme';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
 import useLoadImg from '../../hooks/useLoadImg';
 import useReservation from '../../hooks/useReservation';
+import useCodeConfirm from '../../hooks/code/useCodeConfirm';
 
 function BuyGoods({ data, list, variants, itemStatus }) {
   const price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const [img, loadImage] = useLoadImg();
   const [r, reservation] = useReservation();
+  const [codeData, sellerCode, buyerCode] = useCodeConfirm();
+
   useEffect(() => {
     loadImage(data.imageResponses[0]);
   }, []);
@@ -56,7 +59,7 @@ function BuyGoods({ data, list, variants, itemStatus }) {
   };
 
   const makeReservation = () => {
-    reservation(1, data.itemId);
+    buyerCode(data.itemId);
   };
   return (
     <SLiWrap variants={variants}>

@@ -31,7 +31,7 @@ API.interceptors.response.use(
       // 리프레시 토큰 api
       const response = await axios
         .post(
-          '/member/token',
+          '/api/member/token',
           {},
           {
             headers: {
@@ -76,7 +76,8 @@ API.interceptors.response.use(
 );
 
 export const ImgAPI = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: '/api',
   headers: {
     ContentType: 'multipart/form-data',
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

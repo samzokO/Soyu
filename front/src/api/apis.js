@@ -80,6 +80,7 @@ export const loadImg = (folder, file) =>
   API.get(`image/${folder}/${file}`, {
     responseType: 'blob',
   });
+
 /** 이미지 업로드 */
 export const postImg = (data, img) => {
   const formData = new FormData();
@@ -119,14 +120,10 @@ export const kioskWithdraw = (code) => {
 };
 
 /**  키오스크 DP/거래예약 보관시작 코드 확인 */
-export const kioskSell = (code) => {
-  API.get(`/kiosk/sell/${code}`);
-};
+export const kioskSell = (code) => API.get(`/kiosk/sell/${code}`);
 /** 키오스크 회수 코드 확인 */
-export const kioskBuy = (stationId, code) => {
+export const kioskBuy = (stationId, code) =>
   API.get(`/kiosk/buy/${stationId}/${code}`);
-};
-
 /** 키오스크 물건 구매 결정시에만  */
 export const kioskMakePurchase = () => API.get(`/kiosk/dp`);
 
@@ -169,8 +166,12 @@ export const getFavorite = () => API.get(`/favorite`);
 
 /* 거래 */
 
-/** 거래예약 코드 조회 */
-export const getCode = (itemId) => API.get(`/trade/code/${itemId}`);
+/** 판매자의 거래예약 코드 조회 */
+export const getSellerCode = (itemId) => API.get(`/trade/sale/code/${itemId}`);
+
+/** 구매자의 거래예약 코드 조회 */
+export const getPurchaseCode = (itemId) =>
+  API.get(`/trade/purchase/code/${itemId}`);
 
 /** 입금 매칭 */
 export const postMatch = ({
@@ -199,3 +200,9 @@ export const getStationDetail = (stationId) => API.get(`/station/${stationId}`);
 
 /** 거래 약속 잡기 */
 export const makeAppointment = (body) => API.post(`/trade/reserve`, body);
+
+/** 거래 물품 구매 결정 */
+export const makePurchase = (buy, itemId) =>
+  API.get(`/kiosk/reserve`, {
+    params: { isBuy: `${buy}`, itemId: `${itemId}` },
+  });

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -15,8 +15,13 @@ import {
 function InfoList() {
   const [isOpen, setIsOpen] = useState(false);
   const onClickButton = () => {
+    console.log(isOpen);
     setIsOpen(true);
+    console.log(isOpen);
   };
+  useEffect(() => {
+    console.log('ㅅㅂ');
+  }, [isOpen]);
   return (
     <>
       <SH2>내 정보</SH2>

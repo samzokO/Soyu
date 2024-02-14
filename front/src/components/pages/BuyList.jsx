@@ -48,22 +48,21 @@ function BuyList() {
               key={item.itemId}
               data={item}
               list={list}
+              itemStatus={item.itemStatus}
             />
           ))}
         {Array.isArray(data) && data.length === 0 && (
-          <div>마다 {name} 나이네</div>
+          <div>{name} 내역 없음ㅇㅇ</div>
         )}
       </SBuyListContainer>
     </>
   );
 }
 const SBuyListContainer = styled(motion(MainContainerWithoutNav))`
-  @media (min-width: 768px) {
-    display: grid;
-    min-height: 0px;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-  }
+  display: grid;
+  min-height: 0px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
 `;
 
 export default BuyList;

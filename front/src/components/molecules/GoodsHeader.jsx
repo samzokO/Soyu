@@ -21,7 +21,7 @@ function GoodsHeader({ itemId }) {
       content: '예약중',
       warning: '예약된 물품이에요',
     },
-    DP: { status: 1, content: 'DP 전시중', warning: '예약된 물품이에요' },
+    DP: { status: 1, content: 'DP 전시중', warning: 'DP 전시중인 물품이에요!' },
     DP_RESERVE: {
       status: 2,
       content: 'DP 예정',
@@ -34,7 +34,7 @@ function GoodsHeader({ itemId }) {
       warning: '회수 예정인 물품이에요',
     },
     ONLINE: {
-      status: 5,
+      status: 1,
       content: '거래 약속 하기',
     },
   };
@@ -54,7 +54,7 @@ function GoodsHeader({ itemId }) {
         <Button
           type={itemStatusArr[itemStatus].status}
           onClick={() => {
-            if (itemStatusArr[itemStatus].status === 5) {
+            if (itemStatusArr[itemStatus].status === 1) {
               navigate(`/station/${chatId}`);
             } else {
               toast.error(`${itemStatusArr[itemStatus].warning}`, {

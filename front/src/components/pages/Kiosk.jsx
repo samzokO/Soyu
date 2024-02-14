@@ -6,12 +6,11 @@ import useManageTab from '../../hooks/useManageTab';
 import Keypad from '../molecules/Keypad';
 import KeypadButton from '../atoms/KeypadButton';
 import useKiosk from '../../hooks/useKiosk';
-import useAsync from '../../hooks/useAsync';
+import { showErrorToast } from '../../utils/toastUtil';
 
 function Kiosk() {
   const [state, SetState] = useManageTab('sell');
   const [data, sell, withdrawal, purchase] = useKiosk();
-  const [isLoading, loadingError, getKioskAsync] = useAsync(sell);
   const inputRefs = [
     useRef(),
     useRef(),
@@ -53,13 +52,19 @@ function Kiosk() {
     const combinedValue = inputRefs.map((ref) => ref.current.value).join('');
     clearValues();
     if (state === 'sell') {
-      getKioskAsync(combinedValue);
+      sell(combinedValue).then((res) => {
+        console.log(res);
+      });
     } else if (state === 'withdrawal') {
-      const res = withdrawal(combinedValue);
-      console.log(data);
+      withdrawal(combinedValue).then((res) => {
+        console.log(res);
+      });
     } else if (state === 'buy') {
-      const res = purchase(combinedValue);
-      console.log(res);
+      purchase(combinedValue).then((res) => {
+        console.log(res);
+      });
+    } else {
+      showErrorToast('하고싶은 행동을 먼저 선택해주세요');
     }
   };
 
