@@ -36,6 +36,14 @@ function ItemBox({
       loadImage([img]);
     }
   }, []);
+  const itemStatusArr = {
+    TRADE_RESERVE: 0,
+    DP: 1,
+    DP_RESERVE: 2,
+    SOLD: 3,
+    WITHDRAW: 4,
+    ONLINE: 5,
+  };
   const Price = String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const date = useTimeStamp(regDate);
   return (
@@ -57,7 +65,9 @@ function ItemBox({
             </SFontsize>
           </SFlexColumnGap>
           <SFlexCenterGap>
-            {itemStatus !== 5 && <Badge status={itemStatus} />}
+            {itemStatusArr[itemStatus] !== 5 && (
+              <Badge status={itemStatusArr[itemStatus]} />
+            )}
             <div>{Price}원</div>
           </SFlexCenterGap>
         </SFlexWrapColumn>

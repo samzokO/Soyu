@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ItemBox from '../atoms/ItemBox';
 import theme from '../../styles/theme';
-import useLoadImg from '../../hooks/useLoadImg';
 
 /** 제목과 아이템 데이터(배열)를 넣으면 리스트로 표시
  * @params (String)title - 리스트 제목
@@ -21,7 +20,6 @@ function ItemList({ title, data }) {
       },
     },
   };
-
   const listitem = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
@@ -40,7 +38,7 @@ function ItemList({ title, data }) {
               title={item.title}
               itemCategories={item.itemCategories}
               regDate={item.regDate}
-              itemStatus={0}
+              itemStatus={item.itemStatus}
               price={item.price}
             />
           ))}
