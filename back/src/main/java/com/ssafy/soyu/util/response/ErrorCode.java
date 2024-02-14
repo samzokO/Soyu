@@ -46,14 +46,13 @@ public enum ErrorCode {
     IMPOSSIBLE_ITEM_DP(HttpStatus.BAD_REQUEST, "해당 Item은 아직 DP 조건이 충족되지 않았습니다."),
     NO_HAVE_IMAGE(HttpStatus.BAD_REQUEST, "이미지를 같이 로드 해주세요 ."),
     NOT_IN_LOCKER(HttpStatus.BAD_REQUEST, "락커에 보관된 물건이 아닙니다."),
+    NO_HAVE_ACCOUNT(HttpStatus.NOT_FOUND, "계좌 등록후 물품 등록을 진행하세요"),
 
     //내역 관련 예외
     NO_MATCH_HISTORY(HttpStatus.BAD_REQUEST, "해당하는 정보의 내역을 찾을 수 없습니다."),
     NOT_READY_YET(HttpStatus.BAD_REQUEST, "아직 물품이 스테이션에 도착하지 않았습니다."),
-
     IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다."),
     IMPOSSIBLE_WITHDRAW(HttpStatus.BAD_REQUEST, "회수 할 수 없는 상태입니다."),
-
     ALREADY_REGISTER_TOKEN(HttpStatus.BAD_REQUEST, "이미 등록된 토큰입니다.");
 
     private final HttpStatus httpStatus;

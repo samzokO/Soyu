@@ -4,6 +4,7 @@ import static com.ssafy.soyu.item.controller.ItemController.getItemListResponses
 import static com.ssafy.soyu.item.controller.ItemController.getItemResponse;
 import static com.ssafy.soyu.item.entity.Item.createItem;
 import static com.ssafy.soyu.locker.controller.LockerController.getLockerStationResponse;
+import static io.grpc.InternalChannelz.id;
 
 import com.ssafy.soyu.history.dto.response.SaleResponseDto;
 import com.ssafy.soyu.image.entity.Image;
@@ -154,8 +155,11 @@ public class ItemService {
    */
   public void save(Long memberId, ItemCreateRequest itemRequest,
       List<MultipartFile> files) throws IOException {
-
     Member member = memberRepository.getReferenceById(memberId);
+
+    if(member.getAccount_number() == null || member.getBank_name() == null) {
+      throw new CustomException(ErrorCode.NO_HAVE_ACCOUNT);
+    }
     Item item = createItem(member, itemRequest.getTitle(), itemRequest.getContent(),
         LocalDateTime.now(), itemRequest.getPrice(), itemRequest.getItemCategories(),
         ItemStatus.ONLINE);
