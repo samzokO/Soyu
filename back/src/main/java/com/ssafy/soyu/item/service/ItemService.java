@@ -69,7 +69,7 @@ public class ItemService {
     if (item == null) {
       throw new CustomException(ErrorCode.NO_RESULT_ITEM);
     }
-
+//    itemRepository.findItemWithLikesByItemIdAndMemberId(memberId, itemId);
     Member member;
     Likes likes = null;
     if (memberId != null) {
