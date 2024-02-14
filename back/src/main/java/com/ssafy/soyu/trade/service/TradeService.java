@@ -55,6 +55,11 @@ public class TradeService {
       throw new CustomException(ErrorCode.IN_USE_LOCKER);
     }
 
+    History existHistory = historyRepository.findByItemIdNotDeleted(item.getId());
+    if(existHistory != null){
+      throw new CustomException(ErrorCode.ALREADY_RESERVED_ITEM);
+    }
+
     //아이템 상태 변경
     itemRepository.updateStatus(item.getId(), ItemStatus.TRADE_RESERVE); //아이템 상태 변경
 

@@ -210,7 +210,7 @@ public class ItemService {
     Item item = itemRepository.findItemById(itemStatusRequest.getItemId());
 
     if (item.getItemStatus() == ItemStatus.TRADE_RESERVE && itemStatusRequest.getItemStatus() == ItemStatus.DELETED) {
-      throw new CustomException(ErrorCode.ALREADY_RESERVED_ITEM);
+      throw new CustomException(ErrorCode.CANT_DELETE_RESERVED_ITEM);
     }
 
     // 더티 체킹을 통한 update
