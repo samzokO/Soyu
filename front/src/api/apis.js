@@ -122,9 +122,7 @@ export const getLikeOnOff = (itemId) => API.post(`/likes/${itemId}`);
 /* 키오스크 */
 
 /** 키오스크 회수 코드 확인 */
-export const kioskWithdraw = (code) => {
-  API.get(`/kiosk/withdraw/${code}`);
-};
+export const kioskWithdraw = (code) => API.get(`/kiosk/withdraw/${code}`);
 
 /**  키오스크 DP/거래예약 보관시작 코드 확인 */
 export const kioskSell = (code) => API.get(`/kiosk/sell/${code}`);

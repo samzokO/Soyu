@@ -10,6 +10,7 @@ import { useTimeStamp } from '../../hooks/useTimeStamp';
 import useLoadImg from '../../hooks/useLoadImg';
 import useReservation from '../../hooks/useReservation';
 import useCodeConfirm from '../../hooks/code/useCodeConfirm';
+import { showErrorToast } from '../../utils/toastUtil';
 
 function BuyGoods({ data, list, variants, itemStatus }) {
   const price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -59,7 +60,13 @@ function BuyGoods({ data, list, variants, itemStatus }) {
   };
 
   const makeReservation = () => {
-    buyerCode(data.itemId);
+    if (list === 'buylist') {
+      buyerCode(data.itemId);
+    } else if (list === 'selllist') {
+      sellerCode(data.itemId);
+    } else {
+      showErrorToast('전혀 예상치못한 에러');
+    }
   };
   return (
     <SLiWrap variants={variants}>
