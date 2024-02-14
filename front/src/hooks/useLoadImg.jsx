@@ -10,30 +10,30 @@ function useLoadImg() {
   const loadImage = (list) => {
     // 들어온 값을 무조건 리스트로 변환
     const itemList = Array.isArray(list) ? list : [list];
-
     itemList.forEach((item, index) => {
       const { savePath, saveName } = item;
-      loadImg(savePath, saveName)
-        .then((res) => {
-          const newPrev = [...data];
-          const blob = new Blob([res.data], { type: 'image/jpeg' });
-          const blobURL = URL.createObjectURL(blob);
-          newPrev[index] = blobURL;
-          setData(newPrev);
-        })
-        .catch(() => {});
+      if (savePath === false || saveName === false) {
+        loadImg(savePath, saveName)
+          .then((res) => {
+            const newPrev = [...data];
+            const blob = new Blob([res.data], { type: 'image/jpeg' });
+            const blobURL = URL.createObjectURL(blob);
+            newPrev[index] = blobURL;
+            setData(newPrev);
+          })
+          .catch(() => {});
+      }
     });
   };
 
   useEffect(() => {
-    const cleanup = () => {
-      data.forEach(URL.revokeObjectURL);
+    console.log();
+    return () => {
+      data.forEach((item) => {
+        URL.revokeObjectURL(item);
+      });
     };
-
-    // 언마운트시 이미지 해제
-    return cleanup;
-  }, [data]);
-
+  });
   return [data, loadImage];
 }
 export default useLoadImg;
