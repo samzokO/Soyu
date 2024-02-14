@@ -19,19 +19,21 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   Item findItemById(Long id);
 
   @EntityGraph(attributePaths = {"member" , "image"})
-  @Query("select i from Item i where i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED'")
+  @Query("select i from Item i where i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED' order by i.regDate desc")
   List<Item> findItemAll();
 
   @EntityGraph(attributePaths = {"member" , "image"})
   @Query("select i from Item i "
       + "where i.title like concat('%', :keyword, '%') AND "
-      + "i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED'")
+      + "i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED' "
+      + "order by i.regDate desc")
   List<Item> findItemByKeyWord(@Param("keyword") String keyword);
 
   @EntityGraph(attributePaths = {"member" , "image"})
   @Query("select i from Item i "
       + "where i.itemCategories = :itemCategories AND "
-      + "i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED'")
+      + "i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED' "
+      + "order by i.regDate desc")
   List<Item> findItemByItemCategories(ItemCategories itemCategories);
 
   @Query("select i from Item i join fetch i.member m where i.member.id = :memberId order by i.regDate desc")

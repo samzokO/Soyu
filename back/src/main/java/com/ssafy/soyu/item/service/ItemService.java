@@ -101,7 +101,6 @@ public class ItemService {
         items.stream()
             .map(o -> getItemListResponses(o, likesRepository.countLikeByItemId(o.getId())))
             .collect(Collectors.toList());
-    Collections.reverse(itemResponses);
     return itemResponses;
   }
 
