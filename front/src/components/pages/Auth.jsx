@@ -12,12 +12,12 @@ import useChangeNickname from '../../hooks/useChangeNickname';
 function Auth() {
   const data = useMyPage();
   const [nick, setNick] = useState(data.nickName);
-  const [nickName, changeNickname] = useChangeNickname();
+  const changeNickname = useChangeNickname();
   const controls = useAnimation();
   const [isBouncing, setBouncing] = useState(false);
   const slide = {
-    hidden: { opacity: 1, x: 10000, y: 0 },
-    visible: { opacity: 1, x: 0, y: 0 },
+    hidden: { opacity: 1, x: 1000, y: -500, rotate: 90 },
+    visible: { opacity: 1, x: 0, y: 0, rotate: 0 },
   };
 
   const handleButtonClick = () => {
@@ -61,7 +61,9 @@ function Auth() {
         <Button
           type={0}
           onClick={() => {
-            changeNickname(nick);
+            if (nick) {
+              changeNickname(nick);
+            }
           }}
         >
           변경
