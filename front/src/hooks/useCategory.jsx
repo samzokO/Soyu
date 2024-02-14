@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getCategory } from '../api/apis';
 
 function useCategory() {
@@ -9,10 +11,20 @@ function useCategory() {
   };
   useEffect(() => {
     if (data)
-      getCategory(data).then((response) => {
-        const res = response.data.data;
-        setResult(res);
-      });
+      getCategory(data)
+        .then((response) => {
+          if (response.response.status === 404) {
+            throw new Error(response?.response?.data?.message);
+          }
+          const res = response?.data?.data;
+          setResult(res);
+        })
+        .catch((error) => {
+          setResult([]);
+          toast.error(`${error}`, {
+            position: 'top-center',
+          });
+        });
   }, [data]);
   return [result, categoryChanger];
 }
