@@ -106,7 +106,7 @@ public class ItemController {
       throws IOException {
     log.info(String.valueOf(itemCreateRequest));
     Long memberId = (Long) request.getAttribute("memberId");
-    if (files == null) {
+    if (files.isEmpty()) {
       throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
     }
     if (bindingResult.hasErrors()) {

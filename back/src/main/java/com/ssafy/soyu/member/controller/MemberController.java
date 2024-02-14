@@ -139,7 +139,7 @@ public class MemberController {
         @RequestPart(value = "image", required = false) MultipartFile file) throws IOException {
         Long memberId = (Long) request.getAttribute("memberId");
 
-        if (file == null) {
+        if (file.isEmpty()) {
             throw new CustomException(ErrorCode.NO_HAVE_IMAGE);
         }
 
