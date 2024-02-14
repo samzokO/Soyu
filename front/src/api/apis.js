@@ -100,7 +100,7 @@ export const postImg = (data, img) => {
       { type: 'application/json' },
     ),
   );
-  ImgAPI.post('item', formData);
+  return ImgAPI.post('item', formData);
 };
 
 /* 좋아요 */
