@@ -19,7 +19,7 @@ const Condition = [
   {
     bgColor: theme.color.cancel,
     textColor: theme.color.white,
-    content: '판매완료',
+    content: '거래완료',
   },
   {
     bgColor: theme.color.delete,

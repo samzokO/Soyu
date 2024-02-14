@@ -10,6 +10,7 @@ import Condition from '../../styles/BadgeCondition';
  * 3: 판매완료
  * 4: 판매대기
  * 5: No Badge
+ * 6: 회수대기
  */
 function Badge({ status }) {
   return (
