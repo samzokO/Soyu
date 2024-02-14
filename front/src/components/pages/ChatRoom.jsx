@@ -28,7 +28,7 @@ function ChatRoom() {
       () =>
         client.current.subscribe(`/sub/message/${chatId}`, (data) => {
           const message = {
-            memberId: parseInt(localStorage.getItem('memberId'), 10),
+            memberId: JSON.parse(data.body).memberId,
             content: JSON.parse(data.body).content,
           };
           setChats((chat) => [...chat, message]);
