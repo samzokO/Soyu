@@ -42,8 +42,8 @@ public class TradeController {
     return getResponseEntity(SuccessCode.OK);
   }
 
-  @GetMapping("/code/{itemId}")
-  @Operation(summary = "거래예약 코드 조회", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
+  @GetMapping("/purchase/code/{itemId}")
+  @Operation(summary = "거래예약 코드 조회(구매자)", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "거래예약 코드 조회 성공"),
       @ApiResponse(responseCode = "400", description = "거래예약 코드 조회 실패")
@@ -52,6 +52,19 @@ public class TradeController {
     Long memberId = (Long) request.getAttribute("memberId");
 
     String code = tradeService.getPurchaseCode(memberId, itemId);
+    return getResponseEntity(SuccessCode.OK, code);
+  }
+
+  @GetMapping("/sale/code/{itemId}")
+  @Operation(summary = "거래예약 코드 조회(판매자)", description = "사용자 ID와 아이템 ID를 이용해 거래예약 코드를 조회합니다.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "거래예약 코드 조회 성공"),
+      @ApiResponse(responseCode = "400", description = "거래예약 코드 조회 실패")
+  })
+  public ResponseEntity<?> saleCode(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
+    Long memberId = (Long) request.getAttribute("memberId");
+
+    String code = tradeService.getSaleCode(memberId, itemId);
     return getResponseEntity(SuccessCode.OK, code);
   }
 

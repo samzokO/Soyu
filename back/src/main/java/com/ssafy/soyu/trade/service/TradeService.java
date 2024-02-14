@@ -217,4 +217,11 @@ public class TradeService {
     payActionUtil.deletePayAction(item.getOrderNumber());
     itemRepository.deleteOrderNumber(item.getId());
   }
+
+  public String getSaleCode(Long memberId, Long itemId) {
+    Optional<String> code = lockerRepository.getSaleCode(memberId, itemId);
+    if(code.isEmpty())
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    return code.get();
+  }
 }
