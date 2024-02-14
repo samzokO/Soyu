@@ -55,7 +55,6 @@ function ChatRoom() {
   useEffect(() => {
     (async () => {
       const { data } = await getChats(chatId);
-      console.log(data);
       setChats([...data.data.messageResponses]);
       setNickName(
         myMemberId === data.data.buyerId

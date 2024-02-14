@@ -20,7 +20,6 @@ function Account() {
   }, []);
 
   const HandleChange = (e) => {
-    console.log(e.target.value);
     const { name, value } = e.target;
     setInputData((prevFormData) => ({
       ...prevFormData,

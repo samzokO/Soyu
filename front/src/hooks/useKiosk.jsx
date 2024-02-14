@@ -49,9 +49,7 @@ function useKiosk() {
     try {
       kioskBuy(1, code).then((res) => {
         console.log(res);
-        console.log(res?.data?.data?.itemId);
         const id = res?.data?.data?.itemId;
-        console.log(res?.data?.data?.lockerNum);
         const num = res?.data?.data?.lockerNum;
         setData(res.data.data);
         showSuccessToast(`성공?  ${num} ${id}`);

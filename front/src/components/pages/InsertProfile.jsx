@@ -10,7 +10,6 @@ import useChangeNickname from '../../hooks/useChangeNickname';
 
 function insertProfile() {
   const data = useMyPage();
-  console.log(data);
   const [nick, setNick] = useState();
   const [nickName, changeNickname] = useChangeNickname();
   const controls = useAnimation();
@@ -31,7 +30,6 @@ function insertProfile() {
 
   const handleChange = (e) => {
     setNick(e.target.value);
-    console.log(nick);
   };
 
   return (

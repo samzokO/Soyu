@@ -26,11 +26,7 @@ function useAccount() {
     });
 
   const patchHandler = (bankName, accountNumber) => {
-    console.log(bankName);
-    console.log(accountNumber);
-    patchAccount(bankName, accountNumber).then(() => {
-      console.log('된거임?');
-    });
+    patchAccount(bankName, accountNumber).then(() => {});
   };
   const deleteHandler = () => {
     deleteAccount().then((res) => {

@@ -15,13 +15,10 @@ import {
 function InfoList() {
   const [isOpen, setIsOpen] = useState(false);
   const onClickButton = () => {
-    console.log(isOpen);
     setIsOpen(true);
-    console.log(isOpen);
+    isOpen;
   };
-  useEffect(() => {
-    console.log('ㅅㅂ');
-  }, [isOpen]);
+  useEffect(() => {}, [isOpen]);
   return (
     <>
       <SH2>내 정보</SH2>
@@ -40,9 +37,7 @@ function InfoList() {
               <Modal
                 open={isOpen}
                 onClose={() => {
-                  console.log(isOpen);
                   setIsOpen(false);
-                  console.log(isOpen);
                 }}
               />
             )}

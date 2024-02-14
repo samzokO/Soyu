@@ -31,7 +31,6 @@ function Auth() {
 
   const handleChange = (e) => {
     setNick(e.target.value);
-    console.log(nick);
   };
 
   return (

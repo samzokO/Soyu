@@ -6,19 +6,17 @@ import { patchNickname } from '../api/apis';
 import { validateName } from '../utils/validationUtil';
 
 function useChangeNickname() {
-  const [data, setData] = useState();
   const navigate = useNavigate();
 
   const changeNick = (nickname) => {
     if (!validateName(nickname)) {
-      toast.error(`한글 또는 영어를 포함해 2~10글자로 작성해주세요.`, {
+      toast.error(`한글 또는 영어를 포함해 공백없이 2~10글자로 작성해주세요.`, {
         position: 'top-center',
       });
     } else {
       patchNickname(nickname)
         .then((res) => {
           if (res.response?.status === 200 || res.status === 200) {
-            setData(nickname);
             navigate(-1);
           } else {
             throw new Error(
