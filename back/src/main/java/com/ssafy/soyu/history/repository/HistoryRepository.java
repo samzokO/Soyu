@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
-  @Query("select h from History h join fetch h.member m join fetch h.item i where h.member.id = :memberId")
+  @Query("select h from History h join fetch h.member m join fetch h.item i where h.member.id = :memberId order by i.regDate desc")
   Optional<History> findByMemberId(@Param("memberId") Long memberId);
 
   @Modifying
@@ -18,7 +18,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
   void updateIsDelete(@Param("historyIdList") List<Long> historyIdList);
 
   @Modifying
-  @Query("UPDATE History h SET h.is_Delete = true WHERE h.id = :id")
+  @Query("UPDATE History  h SET h.is_Delete = true WHERE h.id = :id")
   void updateIsDelete(@Param("id") Long id);
 
   @Query("SELECT h from History h where h.item.id = :id and h.is_Delete = false")

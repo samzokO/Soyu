@@ -34,7 +34,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
       + "i.itemStatus != 'SOLD' AND i.itemStatus != 'DELETED'")
   List<Item> findItemByItemCategories(ItemCategories itemCategories);
 
-  @Query("select i from Item i join fetch i.member m where i.member.id = :memberId")
+  @Query("select i from Item i join fetch i.member m where i.member.id = :memberId order by i.regDate desc")
   List<Item> findByMemberId(@Param("memberId") Long memberId);
 
   @Modifying
