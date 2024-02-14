@@ -25,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 public class WebSocketClientService {
 
     private final String url = "ws://i10b311.p.ssafy.io:8080/stomp/client";
-//    private final String url = "ws://172.30.1.90:8080/stomp/client"; // ip 확인해서 바꾸면 될듯
     private final String topic = "/sub/client";
     private long systemTime = 0; // 시스템 시작으로부터 지난 시간을 저장(초) -> 알림에 사용
     private final long TIMER_LIMIT = 20; // 상태 변화에 필요한 시간
@@ -54,7 +53,6 @@ public class WebSocketClientService {
                         public void handleFrame(StompHeaders headers, Object payload) {
                             RaspberryRequestResponse response = (RaspberryRequestResponse) payload;
                             System.out.println("Received message: " + response);
-                            // 여기서 뭐 서비스를 호출 하던 해서 로직 실행하면 될듯!!!!!!!!!
 
                             long itemId = response.getItemId();
                             int lockerNum = response.getLockerNum() - 1; // 배열 인덱스에 맞추기~

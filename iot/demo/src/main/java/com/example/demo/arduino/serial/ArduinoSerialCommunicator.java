@@ -2,7 +2,6 @@ package com.example.demo.arduino.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Bean;
 
 public class ArduinoSerialCommunicator {
 

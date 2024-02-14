@@ -21,7 +21,7 @@ public class WebSocketClientRunner implements CommandLineRunner {
         webSocketClientService.connect();
         System.out.println("WebSocket Client is trying to connect...");
 
-        // 이거는 그냥 내가 클라이언트 -> 서버로 보내는 로직 테스트 해보려고 여기다가 넣었는데 오빠가 필요한 곳에 이런식으로 해서 넘겨주면 될 듯 함.
+        // 클라이언트 -> 서버
         RaspberryRequestResponse response = new RaspberryRequestResponse();
         response.setItemId((long)100);
         response.setPrice(100);
