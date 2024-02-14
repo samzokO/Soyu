@@ -47,6 +47,7 @@ public enum ErrorCode {
     NO_HAVE_IMAGE(HttpStatus.BAD_REQUEST, "이미지를 같이 로드 해주세요 ."),
     NOT_IN_LOCKER(HttpStatus.BAD_REQUEST, "락커에 보관된 물건이 아닙니다."),
     NO_HAVE_ACCOUNT(HttpStatus.NOT_FOUND, "계좌 등록후 물품 등록을 진행하세요"),
+    ALREADY_RESERVED_ITEM(HttpStatus.BAD_REQUEST, "거래 약속된 아이템을 삭제할수 없습니다."),
 
     //내역 관련 예외
     NO_MATCH_HISTORY(HttpStatus.BAD_REQUEST, "해당하는 정보의 내역을 찾을 수 없습니다."),
