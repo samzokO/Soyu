@@ -37,7 +37,8 @@ function Bookmark() {
         {state === 'heart' ? (
           <ItemList data={likes} />
         ) : (
-          data && data.map((item) => <Station key={item.itemId} data={item} />)
+          data &&
+          data.map((item) => item && <Station key={item?.itemId} data={item} />)
         )}
       </MainContainerWithNav>
       <BottomNav />
@@ -48,8 +49,12 @@ function Bookmark() {
 export default Bookmark;
 
 const SBookmarkTap = styled.nav`
-  margin-top: 44px;
   width: 100%;
+  padding-top: 44px;
+  @media screen and (min-width: 769px) {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
 `;
 
 const SButton = styled.button`

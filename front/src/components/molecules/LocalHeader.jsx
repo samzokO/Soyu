@@ -22,6 +22,8 @@ export const Header = styled.nav`
   white-space: nowrap;
   border-bottom: 1px solid ${({ theme }) => theme.color.grayScale200};
   @media screen and (min-width: 769px) {
+    max-width: 1024px;
+    margin: 0 auto;
   }
 `;
 

@@ -52,7 +52,7 @@ const SProductList = styled(motion.article)`
   padding-bottom: 53px;
   @media (min-width: 768px) {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
     gap: 10px;
   }
 `;
