@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import Heart from '../../assets/icons/material_24/favorite.svg';
 import theme from '../../styles/theme';
 import FilledHeart from '../../assets/icons/material_24/heart.png';
 import useFavorite from '../../hooks/useFavorite';
 
-function StationListItem({ data }) {
+function StationItem({ data, variants }) {
   const [Handler, favorite, changer] = useFavorite(data?.stationId);
   useEffect(() => {
     changer(data?.favorite);
   }, []);
   return (
-    <Box>
+    <Box variants={variants}>
       <SImg src="/icons/favicon-96x96.png" alt="소유박스 사진" />
       <SContent>
         <div>
@@ -58,7 +59,7 @@ const STitle = styled.div`
   white-space: nowrap;
 `;
 
-const Box = styled.li`
+const Box = styled(motion.li)`
   list-style: none;
   padding: 10px 10px;
   display: flex;
@@ -75,4 +76,4 @@ const Box = styled.li`
   }
 `;
 
-export default StationListItem;
+export default StationItem;

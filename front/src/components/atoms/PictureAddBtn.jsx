@@ -1,25 +1,26 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-function PictureAddBtn() {
+function PictureAddBtn({ id, name, onChange }) {
   return (
     <div>
-      <SLabel>사진 추가</SLabel>
-      <SBtn>+</SBtn>
+      <SLabel htmlFor="file">+</SLabel>
+      <input
+        name={name}
+        id={id}
+        type="file"
+        onChange={onChange}
+        accept=".jpg, .jpeg"
+        style={{ display: 'none' }}
+      />
     </div>
   );
 }
 
-const SBtn = styled.button`
-  width: 50px;
-  height: 50px;
+const SLabel = styled.label`
+  padding: 25px;
   background-color: ${theme.color.grayScale200};
   border-radius: 7px;
-`;
-
-const SLabel = styled.div`
-  margin-left: 3px;
-  ${theme.font.Body2};
 `;
 
 export default PictureAddBtn;
