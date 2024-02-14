@@ -27,7 +27,7 @@ export const getMine = () => API.get(`/member`);
 
 /** 닉네임 수정 */
 export const patchNickname = (nickname) =>
-  API.patch(`/member/nickname`, null, { params: { nickName: `${nickname}` } });
+  API.patch(`/member/nickname`, { nickName: `${nickname}` });
 
 /** 계좌 조회 */
 export const getAccount = () => API.get(`/member/account`);
