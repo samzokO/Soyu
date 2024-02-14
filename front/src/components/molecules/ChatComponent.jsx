@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import font from '../../styles/font';
 import theme from '../../styles/theme';
 import useLoadImg from '../../hooks/useLoadImg';
+import { useTimeStamp } from '../../hooks/useTimeStamp';
 
 function ChatComponent({ room }) {
   const memberId = localStorage.getItem('memberId');
   const navigate = useNavigate();
+  const date = useTimeStamp(room?.lastDate);
   const [img, LoadImg] = useLoadImg();
   useEffect(() => {
     LoadImg(room.imageResponses);
@@ -32,7 +34,7 @@ function ChatComponent({ room }) {
               <SP>{room?.lastMessage}</SP>
             </div>
           </SWrap>
-          <p>{room?.lastDate}</p>
+          <p>{date}</p>
         </SWrap>
       </button>
     </li>
