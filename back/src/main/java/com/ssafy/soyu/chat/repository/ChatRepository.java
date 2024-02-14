@@ -13,7 +13,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
   // 유저의 채팅방 목록
   @EntityGraph(attributePaths = {"buyer", "seller"})
-  @Query("select c from Chat c where c.buyer.id = :userId or c.seller.id = :userId and c.lastMessage is not null order by c.lastDate desc")
+  @Query("select c from Chat c where (c.buyer.id = :userId or c.seller.id = :userId) and c.lastMessage is not null order by c.lastDate desc")
   List<Chat> findChatByUserId(@Param("userId") Long userId);
 
   // 채팅방 상세 조회
