@@ -25,20 +25,20 @@ public class JwtAuthenticationFilter implements Filter {
     private final static List<String> whiteList = new ArrayList<>();
     static {
         //jwt 토큰이 필요 없는 곳은 uri 추가
-        whiteList.add("/naver");
-        whiteList.add("/member/token");
-        whiteList.add("/swagger-ui");
-        whiteList.add("/v3/api-docs");
-        whiteList.add("/ws/chat");
-        whiteList.add("/pub/message");
-        whiteList.add("/kiosk");
-        whiteList.add("/trade/match");
-        whiteList.add("/client");
-        whiteList.add("/stomp/client");
-        whiteList.add("/item/items");
-        whiteList.add("/item/keyword");
-        whiteList.add("/item/category");
-        whiteList.add("/image");
+        whiteList.add("/api/naver");
+        whiteList.add("/api/member/token");
+        whiteList.add("/api/swagger-ui");
+        whiteList.add("/api/v3/api-docs");
+        whiteList.add("/api/ws/chat");
+        whiteList.add("/api/pub/message");
+        whiteList.add("/api/kiosk");
+        whiteList.add("/api/trade/match");
+        whiteList.add("/api/client");
+        whiteList.add("/api/stomp/client");
+        whiteList.add("/api/item/items");
+        whiteList.add("/api/item/keyword");
+        whiteList.add("/api/item/category");
+        whiteList.add("/api/image");
     }
 
     @Override
