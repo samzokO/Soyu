@@ -229,4 +229,11 @@ public class TradeService {
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
     return code.get();
   }
+
+  public String getWithDrawCode(Long memberId, Long itemId) {
+    Optional<String> code = lockerRepository.getWithdrawCode(memberId, itemId);
+    if(code.isEmpty())
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    return code.get();
+  }
 }

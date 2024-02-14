@@ -68,6 +68,19 @@ public class TradeController {
     return getResponseEntity(SuccessCode.OK, code);
   }
 
+  @GetMapping("/withdraw/code/{itemId}")
+  @Operation(summary = "회수 코드 조회(판매자)", description = "사용자 ID와 아이템 ID를 이용해 회수 코드를 조회합니다.")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "회수 코드 조회 성공"),
+          @ApiResponse(responseCode = "400", description = "회수 코드 조회 실패")
+  })
+  public ResponseEntity<?> withdrawCode(HttpServletRequest request, @PathVariable("itemId") Long itemId) {
+    Long memberId = (Long) request.getAttribute("memberId");
+
+    String code = tradeService.getWithDrawCode(memberId, itemId);
+    return getResponseEntity(SuccessCode.OK, code);
+  }
+
   @DeleteMapping("/reserve/{historyId}")
   @Operation(summary = "구매자가 거래 취소", description = "구매내역 ID를 이용해 거래예약을 취소합니다.")
   @ApiResponses(value = {
