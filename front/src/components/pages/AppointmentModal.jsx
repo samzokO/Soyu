@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
 import { styled } from 'styled-components';
 import { getStation, getStationDetail, makeAppointment } from '../../api/apis';
@@ -114,6 +116,10 @@ function AppointmentModal() {
                     if (locker.status === 'AVAILABLE') {
                       setSelectedLocker(locker.lockerId);
                       setIsSelectLocker(true);
+                    } else {
+                      toast.error(`이미 사용중이에요!`, {
+                        position: 'top-center',
+                      });
                     }
                   }}
                 >
@@ -155,10 +161,8 @@ const SImg = styled.img`
 `;
 
 const SListItem = styled(motion.li)`
-  padding: 1.5em;
-  min-width: 200px;
-  min-height: 110px;
   ${theme.box};
+  padding: 20px;
 `;
 
 const SLockerListItem = styled(SListItem)`
@@ -167,8 +171,11 @@ const SLockerListItem = styled(SListItem)`
 `;
 
 const SGridList = styled(motion.ul)`
+  width: 80%;
+  height: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(auto-fill);
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 10px;
 `;
 

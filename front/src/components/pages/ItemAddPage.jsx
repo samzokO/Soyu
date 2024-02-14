@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 import BackBtn from '../atoms/BackBtn';
 import TextBtn from '../atoms/TextBtn';
 import LocalHeader from '../molecules/LocalHeader';
@@ -9,8 +12,10 @@ import TextArea from '../molecules/TextArea';
 import PictureAddBtn from '../atoms/PictureAddBtn';
 import { postImg } from '../../api/apis';
 import SelectBox from '../atoms/SelectBox';
+import useAccount from '../../hooks/useAccount';
 
 function ItemAddPage() {
+  const [account, getAccount] = useAccount();
   const [files, setFiles] = useState();
   const [Data, setData] = useState({
     title: '',
@@ -18,15 +23,40 @@ function ItemAddPage() {
     price: '',
     itemCategories: '',
   });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAccount();
+    if (!account) {
+      toast.error(`계좌등록을 먼저 해주세요`, {
+        position: 'top-center',
+      });
+      navigate('/');
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postImg(Data, files);
+    if (Object.values(Data).some((value) => !value) || !files) {
+      toast.error(`마저 작성하세요`, {
+        position: 'top-center',
+      });
+      return;
+    }
+    postImg(Data, files).then((res) => {
+      if (res.status === 200) {
+        toast.success(`작성완료`, {
+          position: 'top-center',
+        });
+        navigate('/');
+      }
+    });
   };
 
   const handleUpload = (e) => {
     e.preventDefault();
     const file = e.target.files;
+    console.log(file);
     setFiles(file);
   };
 
@@ -41,11 +71,11 @@ function ItemAddPage() {
   const options = ['Books', 'Electronics', 'Clothing', 'Furniture', 'Sports'];
 
   return (
-    <>
+    <form action="" encType="multipart/form-data" onSubmit={handleSubmit}>
       <LocalHeader>
         <BackBtn />
         물품 등록하기
-        <TextBtn>등록</TextBtn>
+        <TextBtn type="submit">등록</TextBtn>
       </LocalHeader>
       <Con>
         <TextField
@@ -76,13 +106,15 @@ function ItemAddPage() {
           onChange={handleChange}
           options={options}
         />
-        <PictureAddBtn />
-        <form action="" encType="multipart/form-data" onSubmit={handleSubmit}>
-          <input type="file" onChange={handleUpload} multiple />
-          <input type="submit" />
-        </form>
+
+        <PictureAddBtn
+          id="file"
+          name="file"
+          type="file"
+          onChange={handleUpload}
+        />
       </Con>
-    </>
+    </form>
   );
 }
 
