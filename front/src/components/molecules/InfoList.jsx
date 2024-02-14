@@ -16,7 +16,6 @@ function InfoList() {
   const [isOpen, setIsOpen] = useState(false);
   const onClickButton = () => {
     setIsOpen(true);
-    isOpen;
   };
   useEffect(() => {}, [isOpen]);
   return (

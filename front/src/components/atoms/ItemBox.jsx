@@ -43,6 +43,7 @@ function ItemBox({
     SOLD: 3,
     WITHDRAW: 4,
     ONLINE: 5,
+    DELETED: 3,
   };
   const Price = String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const date = useTimeStamp(regDate);
@@ -66,7 +67,7 @@ function ItemBox({
           </SFlexColumnGap>
           <SFlexCenterGap>
             {itemStatusArr[itemStatus] !== 5 && (
-              <Badge status={itemStatusArr[itemStatus]} />
+              <Badge status={itemStatusArr[itemStatus] ?? 5} />
             )}
             <div>{Price}원</div>
           </SFlexCenterGap>

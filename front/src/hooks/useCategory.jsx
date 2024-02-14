@@ -13,7 +13,7 @@ function useCategory() {
     if (data)
       getCategory(data)
         .then((response) => {
-          if (response.response.status === 404) {
+          if (response.response?.status === 404) {
             throw new Error(response?.response?.data?.message);
           }
           const res = response?.data?.data;

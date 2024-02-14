@@ -26,9 +26,9 @@ function Category() {
       </LocalHeader>
       <MainContainerWithoutNav>
         <SList>
-          {itemCategory.map((item) => (
+          {itemCategory.map((item, index) => (
             <STag
-              key={item.value}
+              key={index}
               value={item.value}
               onClick={() => categoryChanger(item.value)}
             >

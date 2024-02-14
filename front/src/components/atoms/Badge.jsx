@@ -14,7 +14,9 @@ import Condition from '../../styles/BadgeCondition';
  */
 function Badge({ status }) {
   return (
-    <SBadgeContainer type={status}>{Condition[status].content}</SBadgeContainer>
+    <SBadgeContainer type={status ?? 0}>
+      {Condition[status]?.content ?? ''}
+    </SBadgeContainer>
   );
 }
 

@@ -8,7 +8,8 @@ function useCodeConfirm() {
     try {
       getSellerCode(itemId)
         .then((res) => {
-          showSuccessToast(`확인코드 : ${res.data.data}`);
+          console.log(res);
+          showSuccessToast(`확인코드 : ${res?.data?.data}`);
         })
         .catch((e) => {
           console.log(e);
@@ -22,7 +23,7 @@ function useCodeConfirm() {
     try {
       getPurchaseCode(itemId)
         .then((res) => {
-          showSuccessToast(`확인코드 : ${res.data.data}`);
+          showSuccessToast(`확인코드 : ${res?.data?.data}`);
         })
         .catch((e) => {
           console.log(e);

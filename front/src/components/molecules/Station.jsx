@@ -8,7 +8,7 @@ function Station({ data }) {
       <STitle>{data.stationName}</STitle>
       <SUl>
         {data?.lockers.map(
-          (item) => item.title && <StationItem key={item} item={item} />,
+          (item) => item.title && <StationItem key={item.itemId} item={item} />,
         )}
       </SUl>
     </article>
