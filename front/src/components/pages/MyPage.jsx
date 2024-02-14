@@ -23,7 +23,7 @@ function MyPage() {
       </LocalHeader>
       <MainContainerWithNav>
         <Profile
-          nickName={data?.nickName ?? data?.name}
+          nickName={data?.nickName ?? '닉네임을 등록해주세요'}
           bankName={data?.bankName ?? '계좌 등록후 판매거래가 가능합니다'}
           accountNumber={data?.accountNumber}
         />

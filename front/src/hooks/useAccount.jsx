@@ -11,10 +11,14 @@ function useAccount() {
         const result = res?.data?.data;
         setDate(result);
       })
-      .catch((e) => {});
+      .catch(() => {
+        toast.error(`등록된 계좌가 없습니다.`, {
+          position: 'top-center',
+        });
+      });
   };
   const patchHandler = (bankName, accountNumber) => {
-    patchAccount(bankName, accountNumber).then((res) => {});
+    patchAccount(bankName, accountNumber).then(() => {});
   };
   const deleteHandler = () => {
     deleteAccount().then((res) => {

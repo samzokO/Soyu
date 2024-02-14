@@ -24,7 +24,7 @@ const Condition = [
   {
     bgColor: theme.color.delete,
     textColor: theme.color.white,
-    content: '판매대기',
+    content: '회수대기',
   },
   {},
 ];

@@ -13,13 +13,13 @@ function useSignout() {
           localStorage.removeItem('fcmToken');
           Navigate('/login');
         } else {
-          toast.error(`${res.response.data.message}`, {
+          toast.error(`${res.response?.data.message}`, {
             position: 'top-center',
           });
         }
       })
       .catch((error) => {
-        toast.error(`${error.response.data.message}`, {
+        toast.error(`${error.response?.data.message}`, {
           position: 'top-center',
         });
       });

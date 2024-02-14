@@ -9,7 +9,7 @@ function useLoadItem(itemId) {
   useEffect(() => {
     (async () => {
       const { data } = await getItem(itemId);
-      // setGoodsImageURL(); data.data.imageResponses
+      setGoodsImageURL(data.data.imageResponses);
       setGoodsName(data.data.title);
       setGoodsPrice(data.data.price);
     })();

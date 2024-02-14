@@ -13,9 +13,10 @@ import useLoadImg from '../../hooks/useLoadImg';
 function ChatRoom() {
   const { state } = useLocation();
   const [chats, setChats] = useState([]);
+  const [nickName, setNickName] = useState();
   const [partnerImage, setPartnerImage] = useLoadImg();
   const { chatId } = useParams();
-  const myMemberId = localStorage.getItem('memberId');
+  const myMemberId = parseInt(localStorage.getItem('memberId'), 10);
   const scrollRef = useRef(null);
   const client = useRef(null);
 
@@ -75,7 +76,7 @@ function ChatRoom() {
 
   return (
     <>
-      <ChatHeader itemId={state?.itemId} />
+      <ChatHeader nickName={nickName} itemId={state.itemId} />
       <ChatMessageList
         chats={chats}
         setChats={setChats}

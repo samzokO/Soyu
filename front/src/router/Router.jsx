@@ -17,6 +17,7 @@ import Kiosk from '../components/pages/Kiosk';
 import Category from '../components/pages/Category';
 import Account from '../components/pages/Account';
 import AppointmentModal from '../components/pages/AppointmentModal';
+import Auth from '../components/pages/Auth';
 
 const Router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const Router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/auth',
+    element: <Auth />,
   },
   {
     path: '/item',

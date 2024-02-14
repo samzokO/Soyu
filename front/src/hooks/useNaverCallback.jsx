@@ -13,7 +13,9 @@ function useNaverCallback() {
     getNaverCode(code, state)
       .then(({ data }) => {
         const token = data.data.accessToken;
+        const refresh = data.data.refreshToken;
         localStorage.setItem('accessToken', token);
+        localStorage.setItem('refreshToken', refresh);
         localStorage.setItem('memberId', jwtDecode(token).sub);
         navigate('/');
       })

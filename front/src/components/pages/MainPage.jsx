@@ -33,10 +33,10 @@ function MainPage() {
         </SMenuBox>
       </LocalHeader>
       <MainContainerWithNav>
-        <ItemList title="최근 올라온 매물" data={data} />
+        {data && <ItemList title="최근 올라온 매물" data={data} />}
       </MainContainerWithNav>
       <BottomNav />
-      <Link to="/login">
+      <Link to="/item">
         <SBtn />
       </Link>
     </>
