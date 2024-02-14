@@ -49,7 +49,7 @@ function ItemBox({
   return (
     <SFlexItem to={`/item/${itemId}`} variants={variants}>
       <SFlexCenterGap>
-        {data && <SImgContainer img={data} alt="상품 이미지" />}
+        {data && <SImgContainer src={data} alt="상품 이미지" />}
         <SFlexWrapColumn>
           <SFlexColumnGap>
             <p>{title}</p>
@@ -111,7 +111,7 @@ const SFlexWrapColumn = styled(SFlexColumn)`
   height: 100px;
 `;
 
-const SImgContainer = styled.div`
+const SImgContainer = styled.img`
   width: 106px;
   height: 106px;
   border-radius: 7px;
