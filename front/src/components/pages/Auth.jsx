@@ -54,6 +54,7 @@ function Auth() {
           placeholder={data.nickName}
           id="nickName"
           name="nickName"
+          defaultValue={data.nickName}
           value={nick}
           onChange={handleChange}
         />

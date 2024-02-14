@@ -5,13 +5,20 @@ import { styled } from 'styled-components';
  * @params (string) name - 입력필드의 이름
  * @params (string) placeholder - 플레이스홀더
  */
-function InputBox({ type = 'text', name, placeholder, onChange }) {
+function InputBox({
+  type = 'text',
+  name,
+  placeholder,
+  onChange,
+  defaultValue,
+}) {
   return (
     <SBox
       type={type}
       name={name}
       placeholder={placeholder}
       onChange={onChange}
+      defaultValue={defaultValue}
     />
   );
 }
