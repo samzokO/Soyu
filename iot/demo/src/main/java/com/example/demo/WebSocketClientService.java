@@ -24,7 +24,8 @@ import java.util.concurrent.ExecutionException;
 @EnableScheduling
 public class WebSocketClientService {
 
-    private final String url = "ws://i10b311.p.ssafy.io:8080/stomp/client";
+    private final String url = "ws://i10b311.p.ssafy.io:8080/api/stomp/client";
+    //private final String url = "ws://192.168.31.148:8080/stomp/client";
     private final String topic = "/sub/client";
     private long systemTime = 0; // 시스템 시작으로부터 지난 시간을 저장(초) -> 알림에 사용
     private final long TIMER_LIMIT = 20; // 상태 변화에 필요한 시간
@@ -116,7 +117,7 @@ public class WebSocketClientService {
             }
 
             // blink 필요할 경우 수행
-            if (duration <= 8)blink(command, num, duration);
+//            if (duration <= 8)blink(command, num, duration);
 
             // 타이머 필요할 때 수행(INSERT, SUBTRACT, CHECK)
             if (duration <= TIMER_LIMIT) showTimer(command, num, duration);
