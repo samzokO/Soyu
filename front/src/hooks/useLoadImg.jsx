@@ -12,7 +12,7 @@ function useLoadImg() {
     const itemList = Array.isArray(list) ? list : [list];
     itemList.forEach((item, index) => {
       const { savePath, saveName } = item;
-      if (savePath === false || saveName === false) {
+      if (savePath && saveName) {
         loadImg(savePath, saveName)
           .then((res) => {
             const newPrev = [...data];
@@ -21,7 +21,9 @@ function useLoadImg() {
             newPrev[index] = blobURL;
             setData(newPrev);
           })
-          .catch(() => {});
+          .catch(() => {
+            setData();
+          });
       }
     });
   };
@@ -33,7 +35,7 @@ function useLoadImg() {
         URL.revokeObjectURL(item);
       });
     };
-  });
+  }, []);
   return [data, loadImage];
 }
 export default useLoadImg;

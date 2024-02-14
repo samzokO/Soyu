@@ -10,10 +10,12 @@ function ChatComponent({ room }) {
   const memberId = localStorage.getItem('memberId');
   const navigate = useNavigate();
   const date = useTimeStamp(room?.lastDate);
-  const [img, LoadImg] = useLoadImg();
+  const [img, loadImg] = useLoadImg();
+
   useEffect(() => {
-    LoadImg(room.imageResponses);
+    loadImg(room.imageResponses);
   });
+
   return (
     <li>
       <button

@@ -16,7 +16,7 @@ function BuyGoods({ data, list, variants, itemStatus }) {
   const [r, reservation] = useReservation();
   useEffect(() => {
     loadImage(data.imageResponses[0]);
-  });
+  }, []);
 
   const itemStatusList = {
     TRADE_RESERVE: {
