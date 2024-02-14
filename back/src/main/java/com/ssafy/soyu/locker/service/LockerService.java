@@ -132,7 +132,7 @@ public class LockerService {
   }
 
   @Transactional
-  public void insertWithdrawCode(String code) {
+  public LockerBuyResponse insertWithdrawCode(String code) {
     Optional<Locker> optionalLocker = lockerRepository.findByCode(code);
 
     if (optionalLocker.isEmpty()) {
@@ -146,6 +146,8 @@ public class LockerService {
     ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), LockerStatus.SUBTRACT, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
+
+    return new LockerBuyResponse(item.getId(), locker.getLockerNum());
   }
 
   /**
@@ -272,7 +274,7 @@ public class LockerService {
    * @param itemId 구매 물품 식별자
    */
   @Transactional
-  public void reserveBuyDecision(boolean isBuy, Long itemId) {
+  public LockerBuyResponse reserveBuyDecision(boolean isBuy, Long itemId) {
     Locker locker = lockerRepository.findByItemId(itemId).get();
     Item item = locker.getItem();
 
@@ -309,6 +311,8 @@ public class LockerService {
     ClientRequestResponse response = raspberryUtil.makeClientResponse(item.getId(),
         locker.getLockerNum(), status, item.getPrice());
     raspberryUtil.sendMessageToClient(response);
+
+    return new LockerBuyResponse(itemId, locker.getLockerNum());
   }
 
   /**

@@ -49,8 +49,7 @@ public class KioskController {
         @ApiResponse(responseCode = "400", description = "회수 코드 불일치")
     })
     public ResponseEntity<?> insertWithdrawCode(@PathVariable("code") String code){
-        lockerService.insertWithdrawCode(code);
-        return getResponseEntity(SuccessCode.OK);
+        return getResponseEntity(SuccessCode.OK, lockerService.insertWithdrawCode(code));
     }
 
     @GetMapping("/reserve")
@@ -59,8 +58,8 @@ public class KioskController {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     public ResponseEntity<?> reserveBuyDecision(@RequestParam("isBuy") boolean isBuy, @RequestParam("itemId") Long itemId){
-        lockerService.reserveBuyDecision(isBuy, itemId);
-        return getResponseEntity(SuccessCode.OK);
+        LockerBuyResponse response = lockerService.reserveBuyDecision(isBuy, itemId);
+        return getResponseEntity(SuccessCode.OK, response);
     }
 
     @GetMapping("/dp")
