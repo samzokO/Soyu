@@ -55,7 +55,10 @@ public enum ErrorCode {
     NOT_READY_YET(HttpStatus.BAD_REQUEST, "아직 물품이 스테이션에 도착하지 않았습니다."),
     IS_NOT_YOURS(HttpStatus.BAD_REQUEST, "Item과 사용자의 정보가 일치하지 않습니다."),
     IMPOSSIBLE_WITHDRAW(HttpStatus.BAD_REQUEST, "회수 할 수 없는 상태입니다."),
-    ALREADY_REGISTER_TOKEN(HttpStatus.BAD_REQUEST, "이미 등록된 토큰입니다.");
+    ALREADY_REGISTER_TOKEN(HttpStatus.BAD_REQUEST, "이미 등록된 토큰입니다."),
+    IS_NOT_TRADE_RESERVE(HttpStatus.BAD_REQUEST, "TRADE_RESERVE 상태가 아닙니다."),
+    IS_NOT_WITHDRAW(HttpStatus.BAD_REQUEST, "WITHDRAW 상태가 아닙니다."),
+    IS_NOT_DP_RESERVE(HttpStatus.BAD_REQUEST, "DP_RESERVE 상태가 아닙니다.");
 
     private final HttpStatus httpStatus;
 

@@ -38,18 +38,12 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
 
   @Query("SELECT l.code FROM Locker l " +
       "WHERE l.item.id = :itemId AND l.status = 'TRADE_READY' ")
-  Optional<String> getCode(@Param("itemId") Long itemId);
+  Optional<String> getPurchaseCode(@Param("itemId") Long itemId);
 
   @Query("SELECT l.code from Locker l "
-      + "where l.item.id = :itemId and l.item.member.id = :memberId "
-      + "and l.status = 'TRADE_RESERVE'")
-  Optional<String> getSaleCode(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
+      + "where l.item.id = :itemId and l.item.member.id = :memberId")
+  Optional<Locker> getCode(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
 
   @EntityGraph(attributePaths = {"station"})
   Locker findLockerByItem(Item item);
-
-  @Query("SELECT l.code from Locker l "
-          + "where l.item.id = :itemId and l.item.member.id = :memberId "
-          + "and l.status = 'WITHDRAW'")
-  Optional<String> getWithdrawCode(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
 }

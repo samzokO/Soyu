@@ -159,7 +159,7 @@ public class TradeService {
       throw new CustomException(ErrorCode.NO_MATCH_HISTORY);
     }
 
-    Optional<String> code = lockerRepository.getCode(itemId);
+    Optional<String> code = lockerRepository.getPurchaseCode(itemId);
     if (code.isPresent()) {
       return code.get();
     }
@@ -224,16 +224,47 @@ public class TradeService {
   }
 
   public String getSaleCode(Long memberId, Long itemId) {
-    Optional<String> code = lockerRepository.getSaleCode(memberId, itemId);
-    if(code.isEmpty())
+    Optional<Locker> locker = lockerRepository.getCode(memberId, itemId);
+
+    if(locker.isEmpty()){
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
-    return code.get();
+    }
+
+    Locker l = locker.get();
+    if(l.getStatus() != LockerStatus.TRADE_RESERVE){
+      throw new CustomException(ErrorCode.IS_NOT_TRADE_RESERVE);
+    }
+
+    return l.getCode();
   }
 
   public String getWithDrawCode(Long memberId, Long itemId) {
-    Optional<String> code = lockerRepository.getWithdrawCode(memberId, itemId);
-    if(code.isEmpty())
+    Optional<Locker> locker = lockerRepository.getCode(memberId, itemId);
+
+    if(locker.isEmpty()){
       throw new CustomException(ErrorCode.IS_NOT_YOURS);
-    return code.get();
+    }
+
+    Locker l = locker.get();
+    if(l.getStatus() != LockerStatus.WITHDRAW){
+      throw new CustomException(ErrorCode.IS_NOT_WITHDRAW);
+    }
+
+    return l.getCode();
+  }
+
+  public String getDisplayCode(Long memberId, Long itemId) {
+    Optional<Locker> locker = lockerRepository.getCode(memberId, itemId);
+
+    if(locker.isEmpty()){
+      throw new CustomException(ErrorCode.IS_NOT_YOURS);
+    }
+
+    Locker l = locker.get();
+    if(l.getStatus() != LockerStatus.DP_RESERVE){
+      throw new CustomException(ErrorCode.IS_NOT_DP_RESERVE);
+    }
+
+    return l.getCode();
   }
 }
