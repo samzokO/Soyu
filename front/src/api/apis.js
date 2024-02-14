@@ -73,6 +73,13 @@ export const updateStatus = () =>
     itemStatus: `WITHDRAW`,
   });
 
+/** 아이템 상태 변경 */
+export const deleteItemStatus = (itemId) =>
+  API.put('/item/status', {
+    itemId,
+    itemStatus: 'DELETED',
+  });
+
 /* 이미지 */
 
 /** 이미지 불러오기 */

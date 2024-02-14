@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MainContainerWithNav } from '../../styles/Maincontainer';
 import BackBtn from '../atoms/BackBtn';
 import ImageSlide from '../molecules/ImageSlide';
@@ -15,6 +15,7 @@ import useLikeToggle from '../../hooks/useLikeToggle';
 import useLoadImg from '../../hooks/useLoadImg';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
 import useMakeTransaction from '../../hooks/useMakeTransaction';
+import { deleteItemStatus } from '../../api/apis';
 
 function ItemDetailPage() {
   const { itemId } = useParams();
@@ -29,12 +30,19 @@ function ItemDetailPage() {
   }, [data.likesStatus]);
   const date = useTimeStamp(data.regDate);
   const onClickHandler = useMakeTransaction();
+  const navigate = useNavigate();
 
   return (
     <>
       <LocalHeader>
         <BackBtn />
         <div />
+        <button
+          type="button"
+          onClick={() => deleteItemStatus(itemId).then(() => navigate(-1))}
+        >
+          삭제
+        </button>
       </LocalHeader>
       <ImageSlide data={img} />
       <SMainContainer>
