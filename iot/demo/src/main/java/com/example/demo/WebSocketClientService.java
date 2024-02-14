@@ -110,10 +110,13 @@ public class WebSocketClientService {
             String command = lockers[num].getLastCommand();
             long duration = systemTime - lockers[num].getRecordTime();
 
-            if(duration == 1 ) arduinoCommunicator.sendDataToArduino(num, lockers[num].getItemPrice(), command);
+            if(duration == 1) {
+                arduinoCommunicator.sendDataToArduino(num, lockers[num].getItemPrice(), command);
+                continue;
+            }
 
             // blink 필요할 경우 수행
-            if (duration <=8 )blink(command, num, duration);
+            if (duration <= 8)blink(command, num, duration);
 
             // 타이머 필요할 때 수행(INSERT, SUBTRACT, CHECK)
             if (duration <= TIMER_LIMIT) showTimer(command, num, duration);

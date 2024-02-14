@@ -32,6 +32,7 @@ public class ArduinoSerialCommunicator {
         String jsonString = json.toString() + "\n"; // 아두이노에서 개행 문자를 통해 메시지의 끝을 인식하게 합니다.
 
         serialPort.writeBytes(jsonString.getBytes(), jsonString.getBytes().length);
+        System.out.println(jsonString);
     }
 
     public boolean closeConnection() {
