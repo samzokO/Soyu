@@ -52,4 +52,8 @@ public class Locker {
         this.time = reserveTime;
         this.lockerNum = lockerNum;
     }
+
+    public void updateLocker(LockerStatus lockerStatus) {
+        this.status = lockerStatus;
+    }
 }
