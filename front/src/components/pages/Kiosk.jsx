@@ -58,7 +58,7 @@ function Kiosk() {
           console.log(res);
         })
         .catch(() => {
-          showErrorToast('잘못된 코드입니다.');
+          console.log();
         });
     } else if (state === 'withdrawal') {
       withdrawal(combinedValue)

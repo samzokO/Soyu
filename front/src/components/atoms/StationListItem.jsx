@@ -64,7 +64,7 @@ const Box = styled(motion.li)`
   padding: 10px 10px;
   display: flex;
   gap: 25px;
-  min-width: 400px;
+  min-width: 250px;
   max-width: 600px;
   position: relative;
   border-radius: 7px;

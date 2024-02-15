@@ -15,7 +15,7 @@ function useKiosk() {
         }
       });
     } catch {
-      console.log();
+      showErrorToast('잘못된 코드입니다.');
     }
     return new Promise((resolve, reject) => {
       if (data) {
