@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
-  @Query("select l from Likes l join fetch l.item i where l.member.id = :memberId and l.status = true")
+  @Query("select l from Likes l join fetch l.item i where l.member.id = :memberId and l.status = true and i.itemStatus != 'DELETED'")
   List<Likes> findLikesByMemberId(@Param("memberId") Long memberId);
 
   Likes findLikesByItemAndMember(Item item, Member member);
