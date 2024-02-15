@@ -2,6 +2,7 @@ package com.ssafy.soyu.notice.service;
 
 
 import com.google.firebase.messaging.FirebaseMessagingException;
+import com.ssafy.soyu.history.dto.response.PurchaseResponseDto;
 import com.ssafy.soyu.member.entity.Member;
 import com.ssafy.soyu.member.repository.MemberRepository;
 import com.ssafy.soyu.notice.entity.Notice;
@@ -14,6 +15,7 @@ import com.ssafy.soyu.util.fcm.repository.FcmRepository;
 import com.ssafy.soyu.util.fcm.service.FcmService;
 import com.ssafy.soyu.util.response.ErrorCode;
 import com.ssafy.soyu.util.response.exception.CustomException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +83,7 @@ public class NoticeService {
     return noticeRepository.findByMemberId(memberId)
         .stream()
         .map(NoticeResponseDto::new)
+        .sorted(Comparator.comparing(NoticeResponseDto::getStatus))
         .collect(Collectors.toList());
   }
 
