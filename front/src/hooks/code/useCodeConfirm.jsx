@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import { getSellerCode, getPurchaseCode } from '../../api/apis';
 import { showSuccessToast } from '../../utils/toastUtil';
 
 function useCodeConfirm() {
-  const [data, setData] = useState();
   const sellerPCode = (itemId) => {
     try {
       getSellerCode(itemId)
         .then((res) => {
-          console.log(res);
           showSuccessToast(`확인코드 : ${res?.data?.data}`);
         })
         .catch((e) => {
@@ -33,6 +30,6 @@ function useCodeConfirm() {
     }
   };
 
-  return [data, sellerPCode, buyerPCode];
+  return [sellerPCode, buyerPCode];
 }
 export default useCodeConfirm;

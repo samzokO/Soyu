@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import font from '../../styles/font';
-import theme from '../../styles/theme';
 import useLoadImg from '../../hooks/useLoadImg';
 import { useTimeStamp } from '../../hooks/useTimeStamp';
 
@@ -14,7 +13,7 @@ function ChatComponent({ room }) {
 
   useEffect(() => {
     loadImg(room.imageResponses);
-  });
+  }, []);
 
   return (
     <li>
@@ -45,19 +44,11 @@ function ChatComponent({ room }) {
 
 export default ChatComponent;
 
-const SBody2 = styled.p`
-  ${theme.font.Body2}
-`;
-
 const SWrap = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
   white-space: nowrap;
-`;
-
-const SWrap2 = styled(SWrap)`
-  justify-content: space-between;
 `;
 
 const SImg = styled.img`
@@ -73,21 +64,4 @@ const SH2 = styled.h2`
 
 const SP = styled.p`
   ${font.Body1}
-`;
-
-const SLi = styled(Link)`
-  list-style: none;
-  padding: 12px;
-  display: flex;
-  gap: 25px;
-  min-width: 400px;
-  max-width: 600px;
-  position: relative;
-  border-radius: 7px;
-  transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
-  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.08);
-  &:hover {
-    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.16);
-    cursor: pointer;
-  }
 `;

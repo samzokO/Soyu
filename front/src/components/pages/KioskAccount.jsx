@@ -54,13 +54,6 @@ const Ssub = styled.h1`
   color: ${theme.color.action};
 `;
 
-const SClose = styled.button`
-  background-color: ${theme.color.delete};
-  padding: 10px;
-  border-radius: 7px;
-  ${theme.font.Subtitle}
-`;
-
 const SBtn = styled.button`
   padding: 60px;
   ${theme.box}

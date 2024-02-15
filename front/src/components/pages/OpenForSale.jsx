@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { easeOut, motion } from 'framer-motion';
 import theme from '../../styles/theme';
 import Button from '../atoms/Button';
-import { showErrorToast } from '../../utils/toastUtil';
-import { makePurchase } from '../../api/apis';
 import Keypad from '../molecules/Keypad';
 import KeypadButton from '../atoms/KeypadButton';
 

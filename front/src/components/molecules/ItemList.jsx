@@ -28,7 +28,7 @@ function ItemList({ title, data }) {
     <>
       <STitle>{title}</STitle>
       <SProductList variants={list} initial="hidden" animate="visible">
-        {data &&
+        {data ? (
           data?.map((item) => (
             <ItemBox
               variants={listitem}
@@ -41,7 +41,10 @@ function ItemList({ title, data }) {
               itemStatus={item.itemStatus}
               price={item.price}
             />
-          ))}
+          ))
+        ) : (
+          <div>죽을래dddfasdafdsfsad</div>
+        )}
       </SProductList>
     </>
   );

@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import { easeIn, easeInOut, easeOut, motion } from 'framer-motion';
+import { useRef } from 'react';
+import { easeOut, motion } from 'framer-motion';
 import theme from '../../styles/theme';
 import Button from '../atoms/Button';
-import { showErrorToast, showSuccessToast } from '../../utils/toastUtil';
+import { showErrorToast } from '../../utils/toastUtil';
 import { makePurchase } from '../../api/apis';
 import Keypad from '../molecules/Keypad';
 import KeypadButton from '../atoms/KeypadButton';
 
 function KioskPurchase() {
-  const { itemId, lockerNumber } = useParams();
+  const { lockerNumber } = useParams();
   const navigate = useNavigate();
   const inputRefs = [
     useRef(),
@@ -20,10 +20,6 @@ function KioskPurchase() {
     useRef(),
     useRef(),
   ];
-  const [inputValues, setInputValues] = useState(['', '', '', '', '', '']);
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-
-  const combineValues = () => {};
 
   const buttons = [
     { type: 'sell', label: '판매' },
@@ -49,12 +45,13 @@ function KioskPurchase() {
   };
 
   const Buy = () => {
-    makePurchase(true, lockerNumber).then((res) => {
+    makePurchase(true, lockerNumber).then(() => {
       navigate(`/kiosk/account`);
     });
   };
 
   const NoBuy = () => {
+    // eslint-disable-next-line
     makePurchase(false, lockerNumber).then(() => {
       showErrorToast('반려되었습니다.');
       navigate(`/kiosk`);
@@ -76,9 +73,7 @@ function KioskPurchase() {
               <SInput key={index} />
             ))}
           </SFlexWrap>
-          <Button type="0" onClick={combineValues} disabled={!isButtonEnabled}>
-            입력
-          </Button>
+          <Button type="0">입력</Button>
           <SBody1>물건의 확인번호를 입력해주세요.</SBody1>
         </SNumberContainer>
         <Keypad>

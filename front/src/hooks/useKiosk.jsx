@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kioskSell, kioskWithdraw, kioskBuy } from '../api/apis';
-import { showSuccessToast } from '../utils/toastUtil';
+import { showErrorToast, showSuccessToast } from '../utils/toastUtil';
 
 function useKiosk() {
   const [data, setData] = useState();
@@ -48,12 +48,15 @@ function useKiosk() {
   const purchase = (code) => {
     try {
       kioskBuy(1, code).then((res) => {
-        console.log(res);
-        const id = res?.data?.data?.itemId;
-        const num = res?.data?.data?.lockerNum;
-        setData(res.data.data);
-        showSuccessToast(`성공?  ${num} ${id}`);
-        navigate(`purchase/${num}/${id}`);
+        if (res.status === 200) {
+          const id = res?.data?.data?.itemId;
+          const num = res?.data?.data?.lockerNum;
+          setData(res?.data?.data);
+          showSuccessToast(`성공?  ${num} ${id}`);
+          navigate(`purchase/${num}/${id}`);
+        } else {
+          showErrorToast(`${res?.response?.data?.message}`);
+        }
       });
     } catch (error) {
       console.error('Error while purchasing:', error);

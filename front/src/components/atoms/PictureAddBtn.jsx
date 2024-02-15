@@ -3,7 +3,7 @@ import theme from '../../styles/theme';
 
 function PictureAddBtn({ id, name, onChange }) {
   return (
-    <div>
+    <SContainer>
       <SLabel htmlFor="file">+</SLabel>
       <input
         name={name}
@@ -13,7 +13,7 @@ function PictureAddBtn({ id, name, onChange }) {
         accept=".jpg, .jpeg"
         style={{ display: 'none' }}
       />
-    </div>
+    </SContainer>
   );
 }
 
@@ -21,6 +21,10 @@ const SLabel = styled.label`
   padding: 25px;
   background-color: ${theme.color.grayScale200};
   border-radius: 7px;
+`;
+
+const SContainer = styled.div`
+  margin-top: 30px;
 `;
 
 export default PictureAddBtn;

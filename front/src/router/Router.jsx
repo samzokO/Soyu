@@ -21,7 +21,7 @@ import Auth from '../components/pages/Auth';
 import ProfileImage from '../components/pages/InsertProfile';
 import KioskPurchase from '../components/pages/Purchase';
 import OpenForSale from '../components/pages/OpenForSale';
-import KioskAccount from '../components/pages/Purchase copy';
+import KioskAccount from '../components/pages/KioskAccount';
 
 const Router = createBrowserRouter([
   {

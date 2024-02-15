@@ -9,8 +9,10 @@ import Button from '../atoms/Button';
 import useChangeNickname from '../../hooks/useChangeNickname';
 
 function insertProfile() {
+  // eslint-disable-next-line
   const data = useMyPage();
   const [nick, setNick] = useState();
+  // eslint-disable-next-line
   const [nickName, changeNickname] = useChangeNickname();
   const controls = useAnimation();
   const [isBouncing, setBouncing] = useState(false);
@@ -27,7 +29,7 @@ function insertProfile() {
       onComplete: () => setBouncing(false),
     });
   };
-
+  // eslint-disable-next-line
   const handleChange = (e) => {
     setNick(e.target.value);
   };

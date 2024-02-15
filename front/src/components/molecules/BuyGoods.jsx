@@ -6,17 +6,14 @@ import Badge from '../atoms/Badge';
 import Favorite from '../../assets/icons/material_24/favorite.svg';
 import Button from '../atoms/Button';
 import theme from '../../styles/theme';
-import { useTimeStamp } from '../../hooks/useTimeStamp';
 import useLoadImg from '../../hooks/useLoadImg';
-import useReservation from '../../hooks/useReservation';
 import useCodeConfirm from '../../hooks/code/useCodeConfirm';
 import { showErrorToast } from '../../utils/toastUtil';
 
 function BuyGoods({ data, list, variants, itemStatus }) {
   const price = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const [img, loadImage] = useLoadImg();
-  const [r, reservation] = useReservation();
-  const [codeData, sellerCode, buyerCode] = useCodeConfirm();
+  const [sellerCode, buyerCode] = useCodeConfirm();
 
   useEffect(() => {
     loadImage(data.imageResponses[0]);

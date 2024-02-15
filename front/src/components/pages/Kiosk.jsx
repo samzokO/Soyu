@@ -10,6 +10,7 @@ import { showErrorToast } from '../../utils/toastUtil';
 
 function Kiosk() {
   const [state, SetState] = useManageTab('sell');
+  // eslint-disable-next-line
   const [data, sell, withdrawal, purchase] = useKiosk();
   const inputRefs = [
     useRef(),
@@ -60,13 +61,21 @@ function Kiosk() {
           showErrorToast('잘못된 코드입니다.');
         });
     } else if (state === 'withdrawal') {
-      withdrawal(combinedValue).then((res) => {
-        console.log(res);
-      });
+      withdrawal(combinedValue)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(() => {
+          showErrorToast('잘못된 코드입니다.');
+        });
     } else if (state === 'buy') {
-      purchase(combinedValue).then((res) => {
-        console.log(res);
-      });
+      purchase(combinedValue)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(() => {
+          showErrorToast('잘못된 코드입니다.');
+        });
     } else {
       showErrorToast('하고싶은 행동을 먼저 선택해주세요');
     }

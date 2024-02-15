@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import TextTag from '../atoms/TextTag';
 import LocalHeader from '../molecules/LocalHeader';
 import BackBtn from '../atoms/BackBtn';
 import BottomNav from '../molecules/BottomNav';

@@ -83,7 +83,7 @@ function ItemDetailPage() {
 
 const SMainContainer = styled(MainContainerWithNav)`
   height: 100%;
-  margin: 10px 0px 53px 0px;
+  margin: 10px auto 53px auto;
   display: flex;
   flex-direction: column;
   gap: 10px;

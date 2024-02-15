@@ -59,9 +59,6 @@ function Login() {
         <SMdiv variants={item}>
           <GoogleLogin />
         </SMdiv>
-        <SMdiv variants={item}>
-          <div>로그인 안할래요</div>
-        </SMdiv>
       </SNav>
     </SWrap>
   );
