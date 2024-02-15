@@ -30,6 +30,7 @@ const SBadgeContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 7px;
+  flex-shrink: 0;
 `;
 
 export default Badge;

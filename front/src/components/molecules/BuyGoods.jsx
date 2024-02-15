@@ -126,7 +126,7 @@ const SImg = styled.img`
 const SH3 = styled.h3`
   ${theme.font.Subtitle};
   margin-bottom: 8px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
   text-overflow: ellipsis;
 `;
