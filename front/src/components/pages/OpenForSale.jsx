@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import { easeIn, easeInOut, easeOut, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { easeOut, motion } from 'framer-motion';
 import theme from '../../styles/theme';
 import Button from '../atoms/Button';
-import { showErrorToast, showSuccessToast } from '../../utils/toastUtil';
+import { showErrorToast } from '../../utils/toastUtil';
 import { makePurchase } from '../../api/apis';
 import Keypad from '../molecules/Keypad';
 import KeypadButton from '../atoms/KeypadButton';
 
-function KioskPurchase() {
-  const { itemId, lockerNumber } = useParams();
+function OpenForSale() {
   const navigate = useNavigate();
+  const { lockerNumber } = useParams();
   const inputRefs = [
     useRef(),
     useRef(),
@@ -20,10 +20,6 @@ function KioskPurchase() {
     useRef(),
     useRef(),
   ];
-  const [inputValues, setInputValues] = useState(['', '', '', '', '', '']);
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-
-  const combineValues = () => {};
 
   const buttons = [
     { type: 'sell', label: '판매' },
@@ -37,7 +33,7 @@ function KioskPurchase() {
       x: 1000,
       y: -500,
       rotate: 90,
-      transition: { easeOut, duration: 0.7 },
+      transition: { easeOut, duration: 0.9 },
     },
     visible: {
       opacity: 1,
@@ -48,39 +44,37 @@ function KioskPurchase() {
     },
   };
 
-  const Buy = () => {
-    makePurchase(true, lockerNumber).then((res) => {
-      navigate(`/kiosk/account`);
-    });
-  };
-
-  const NoBuy = () => {
-    makePurchase(false, lockerNumber).then(() => {
-      showErrorToast('반려되었습니다.');
-      navigate(`/kiosk`);
-    });
-  };
+  useEffect(() => {
+    setTimeout(() => {
+      navigate(-1);
+    }, 20000);
+  }, []);
 
   return (
     <SAb>
-      <SContainer variants={slide} initial="visible" animate="hidden">
-        <SNumberContainer>
-          <SFlexWrap>
-            {buttons.map((button, index) => (
-              <SButton key={index}>{button.label}</SButton>
-            ))}
-          </SFlexWrap>
-          <STitle>확인번호 입력</STitle>
-          <SFlexWrap>
-            {inputRefs.map((ref, index) => (
-              <SInput key={index} />
-            ))}
-          </SFlexWrap>
-          <Button type="0" onClick={combineValues} disabled={!isButtonEnabled}>
-            입력
-          </Button>
-          <SBody1>물건의 확인번호를 입력해주세요.</SBody1>
-        </SNumberContainer>
+      <SContainer
+        variants={slide}
+        initial="visible"
+        animate="hidden"
+        end="visible"
+      >
+        <form action="">
+          <SNumberContainer>
+            <SFlexWrap>
+              {buttons.map((button) => (
+                <SButton>{button.label}</SButton>
+              ))}
+            </SFlexWrap>
+            <STitle>확인번호 입력</STitle>
+            <SFlexWrap>
+              {inputRefs.map(() => (
+                <SInput />
+              ))}
+            </SFlexWrap>
+            <Button type="0">입력</Button>
+            <SBody1>물건의 확인번호를 입력해주세요.</SBody1>
+          </SNumberContainer>
+        </form>
         <Keypad>
           <KeypadButton>1</KeypadButton>
           <KeypadButton>2</KeypadButton>
@@ -96,40 +90,34 @@ function KioskPurchase() {
           <KeypadButton>초기화</KeypadButton>
         </Keypad>
       </SContainer>
-      <SDiv variants={slide} initial="hidden" animate="visible">
-        <SBtn type="button" onClick={() => Buy()}>
-          구매
-        </SBtn>
-        <div />
-        <SBtn type="button" onClick={() => NoBuy()}>
-          반려
-        </SBtn>
-      </SDiv>
+      <SAbsolute
+        variants={slide}
+        initial="hidden"
+        animate="visible"
+        end="hidden"
+      >
+        <div>{lockerNumber}번 보관함이 20초간 열려요!</div>
+      </SAbsolute>
     </SAb>
   );
 }
-
-const SBtn = styled.button`
-  padding: 60px;
-  ${theme.box}
-`;
-
-const SDiv = styled(motion.div)`
-  position: absolute;
-  width: 70%;
-  height: 200px;
-  display: flex;
-  gap: 2em;
-  justify-content: center;
-  align-items: center;
-  ${theme.font.Splash}
-`;
 
 const SAb = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const SAbsolute = styled(motion.div)`
+  position: absolute;
+  width: 70%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${theme.font.Splash}
+  ${theme.box}
 `;
 
 const SButton = styled.button`
@@ -186,4 +174,4 @@ const SNumberContainer = styled.div`
   gap: 2em;
 `;
 
-export default KioskPurchase;
+export default OpenForSale;

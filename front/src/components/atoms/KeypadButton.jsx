@@ -1,15 +1,16 @@
+import { motion } from 'framer-motion';
 import { styled } from 'styled-components';
 import theme from '../../styles/theme';
 
-function KeypadButton({ children, onClick }) {
+function KeypadButton({ children, onClick, variants }) {
   return (
-    <SButton type="button" onClick={onClick}>
+    <SButton type="button" onClick={onClick} variants={variants}>
       {children}
     </SButton>
   );
 }
 
-const SButton = styled.button`
+const SButton = styled(motion.button)`
   width: 100px;
   height: 70px;
   border-radius: 7px;

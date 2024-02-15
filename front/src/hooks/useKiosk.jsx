@@ -10,11 +10,12 @@ function useKiosk() {
   const selling = (code) => {
     try {
       kioskSell(code).then((res) => {
-        console.log(res);
-        console.log(res.data.data.lockerNum);
+        if (res?.data?.data?.lockerNum) {
+          navigate(`/forsale/${res?.data?.data?.lockerNum}`);
+        }
       });
-    } catch (error) {
-      console.error('Error while selling:', error);
+    } catch {
+      console.log();
     }
     return new Promise((resolve, reject) => {
       if (data) {
@@ -27,14 +28,13 @@ function useKiosk() {
 
   const withdrawal = (code) => {
     try {
-      const response = kioskWithdraw(code);
-      const result = response;
-      setData(result);
       kioskWithdraw(code).then((res) => {
-        console.log(res);
+        if (res?.data?.data?.lockerNum) {
+          navigate(`/forsale/${res?.data?.data?.lockerNum}`);
+        }
       });
-    } catch (error) {
-      console.error('Error while withdrawing:', error);
+    } catch {
+      console.log();
     }
     return new Promise((resolve, reject) => {
       if (data) {

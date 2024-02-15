@@ -20,6 +20,8 @@ import AppointmentModal from '../components/pages/AppointmentModal';
 import Auth from '../components/pages/Auth';
 import ProfileImage from '../components/pages/InsertProfile';
 import KioskPurchase from '../components/pages/Purchase';
+import OpenForSale from '../components/pages/OpenForSale';
+import KioskAccount from '../components/pages/Purchase copy';
 
 const Router = createBrowserRouter([
   {
@@ -90,6 +92,14 @@ const Router = createBrowserRouter([
   {
     path: '/kiosk',
     element: <Kiosk />,
+  },
+  {
+    path: '/kiosk/account',
+    element: <KioskAccount />,
+  },
+  {
+    path: '/kiosk/forsale/:lockerNumber',
+    element: <OpenForSale />,
   },
   {
     path: '/kiosk/purchase/:itemId/:lockerNumber',

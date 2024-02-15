@@ -52,9 +52,13 @@ function Kiosk() {
     const combinedValue = inputRefs.map((ref) => ref.current.value).join('');
     clearValues();
     if (state === 'sell') {
-      sell(combinedValue).then((res) => {
-        console.log(res);
-      });
+      sell(combinedValue)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(() => {
+          showErrorToast('잘못된 코드입니다.');
+        });
     } else if (state === 'withdrawal') {
       withdrawal(combinedValue).then((res) => {
         console.log(res);
