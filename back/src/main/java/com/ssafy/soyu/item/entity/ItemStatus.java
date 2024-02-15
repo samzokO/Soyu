@@ -12,11 +12,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * WITHDRAW : 회수 대기 중<br/>
  */
 public enum ItemStatus {
+  TRADE_RESERVE,
+  DP_RESERVE,
+  WITHDRAW,
   ONLINE,
   DP,
-  DP_RESERVE,
-  TRADE_RESERVE,
-  WITHDRAW,
   SOLD,
   DELETED;
   @JsonCreator
