@@ -1,5 +1,8 @@
 package com.ssafy.soyu.notice.dto.response;
 
+import static com.ssafy.soyu.image.controller.ImageController.getImageResponse;
+
+import com.ssafy.soyu.image.dto.response.ImageResponse;
 import com.ssafy.soyu.image.entity.Image;
 import com.ssafy.soyu.item.entity.Item;
 import com.ssafy.soyu.notice.entity.Notice;
@@ -35,14 +38,14 @@ public class NoticeResponseDto {
   private LocalDateTime localDateTime;
 
   @Schema(description = "물품 대표이미지")
-  private List<Image> image;
+  private List<ImageResponse> imageResponses;
 
   public NoticeResponseDto(Notice n) {
     this.noticeId = n.getId();
     this.status = n.getStatus();
     this.type = n.getType();
     this.localDateTime = n.getRegDate();
-    this.image = n.getItem().getImage();
+    this.imageResponses = getImageResponse(n.getItem().getImage());
     if(n.getSender() != null){
       this.senderId = n.getSender().getId();
       this.senderNickName = n.getSender().getNickName();

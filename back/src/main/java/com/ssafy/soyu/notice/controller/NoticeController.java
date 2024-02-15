@@ -43,7 +43,6 @@ public class NoticeController {
   })
   public ResponseEntity<?> selectNotice(HttpServletRequest request) {
     Long memberId = (Long) request.getAttribute("memberId");
-
     return getResponseEntity(SuccessCode.OK, noticeService.findNotice(memberId));
   }
 
