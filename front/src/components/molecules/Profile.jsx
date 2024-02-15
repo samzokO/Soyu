@@ -6,7 +6,10 @@ import defaultImage from '../../assets/icons/material_24/default_account.svg';
 function Profile({ img, nickName, bankName, accountNumber }) {
   return (
     <SFlexWrap>
-      <SImg src={img ?? defaultImage} alt="프로필 이미지" />
+      <SImg
+        src={img ?? 'https://source.unsplash.com/random/250x250/?character'}
+        alt="프로필 이미지"
+      />
       <div>
         {nickName && <SH2>{nickName}</SH2>}
         <SP>

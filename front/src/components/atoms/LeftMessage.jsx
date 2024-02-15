@@ -8,9 +8,15 @@ function LeftMessage({ children, img }) {
   return (
     <SWrap>
       {img ? (
-        <SImg src={img} alt="상대방 프로필 사진" />
+        <SImg
+          src="https://source.unsplash.com/random/250x250/?character"
+          alt="상대방 프로필 사진"
+        />
       ) : (
-        <SImg src={defaultImage} alt="상대방 프로필 사진" />
+        <SImg
+          src="https://source.unsplash.com/random/250x250/?character"
+          alt="상대방 프로필 사진"
+        />
       )}
 
       <SP>{children}</SP>
