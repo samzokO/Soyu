@@ -11,7 +11,7 @@ function useKiosk() {
     try {
       kioskSell(code).then((res) => {
         if (res?.data?.data?.lockerNum) {
-          navigate(`/forsale/${res?.data?.data?.lockerNum}`);
+          navigate(`/kiosk/forsale/${res?.data?.data?.lockerNum}`);
         }
       });
     } catch {
