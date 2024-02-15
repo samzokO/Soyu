@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { getNotice } from '../api/apis';
 
 function useNotification() {
-  const [data, setData] = useState('');
+  const [notices, setNotices] = useState([]);
   useEffect(() => {
-    getNotice().then((res) => {
-      const result = res.data.data;
-      setData(result);
-      return data;
-    });
+    (async () => {
+      const { data } = await getNotice();
+      setNotices(data.data);
+    })();
   }, []);
+  return notices;
 }
 
 export default useNotification;

@@ -8,6 +8,7 @@ import useNotification from '../../hooks/useNotificationList';
 
 function Notification() {
   const data = useNotification();
+
   return (
     <>
       <LocalHeader>
@@ -17,11 +18,9 @@ function Notification() {
       </LocalHeader>
       <MainContainerWithoutNav>
         <SNotiList>
-          <NotificationBox>
-            <SIMG src="/icons/favicon-32x32.png" alt="알림 사진" />
-            <SContent>내 물품이 팔렸어요.</SContent>
-            <STime>{data?.localDateTime}1시간 전</STime>
-          </NotificationBox>
+          {data?.map((notice) => (
+            <NotificationBox key={notice.noticeId} notice={notice} />
+          ))}
         </SNotiList>
       </MainContainerWithoutNav>
     </>
@@ -35,21 +34,4 @@ const SNotiList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-
-const SIMG = styled.img`
-  width: 40px;
-  height: 40px;
-  background-color: blue;
-  border-radius: 7px;
-`;
-
-const SContent = styled.div`
-  ${theme.font.Body1}
-  width: 80%;
-`;
-
-const STime = styled.div`
-  ${theme.font.Body2}
-  white-space: nowrap;
 `;
