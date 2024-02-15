@@ -40,7 +40,7 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
       "WHERE l.item.id = :itemId AND l.status = 'TRADE_READY' ")
   Optional<String> getPurchaseCode(@Param("itemId") Long itemId);
 
-  @Query("SELECT l.code from Locker l "
+  @Query("SELECT l from Locker l "
       + "where l.item.id = :itemId and l.item.member.id = :memberId")
   Optional<Locker> getCode(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
 
