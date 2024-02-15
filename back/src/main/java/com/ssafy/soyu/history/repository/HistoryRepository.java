@@ -10,7 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {
 
-  @Query("select h from History h join fetch h.member m join fetch h.item i where h.member.id = :memberId and i.itemStatus != 'DELETED' order by i.regDate desc")
+  @Query("select h from History h "
+      + "join fetch h.member m join fetch h.item i "
+      + "where h.member.id = :memberId and i.itemStatus != 'DELETED' "
+      + "order by i.regDate desc")
   List<History> findByMemberId(@Param("memberId") Long memberId);
 
   @Modifying
