@@ -36,7 +36,7 @@
 
 ### ① 로그인 및 회원가입
 
-![stack](https://github.com/jaesin463/X10/assets/117919180/918020fe-5694-4b08-8d2d-3749b9521397){: width="50%" height="50%"}
+<img src = "https://github.com/jaesin463/X10/assets/117919180/918020fe-5694-4b08-8d2d-3749b9521397" width="50%" height="height 50%">
 
 - 유저 기능은 **네이버 소셜 회원가입**을 구현하였습니다.
 - 회원 가입시 네이버에서 회원의 정보를 가져와 저장합니다.
@@ -44,7 +44,7 @@
 
 ### ② 채팅
 
-![Untitle2d](https://github.com/jaesin463/X10/assets/117919180/2f14033c-9de5-4eb6-a7fa-c2ecbfa5aa3c){: width="50%" height="50%"}
+<img src = "https://github.com/jaesin463/X10/assets/117919180/2f14033c-9de5-4eb6-a7fa-c2ecbfa5aa3c" width="50%" height="height 50%">
 
 - 물품 상세 정보에서 **채팅방을 생성**하여 판매자와 채팅을 나눌 수 있습니다.
 - **거래 약속하기 버튼**을 통해서 판매자와 비대면 거래를 할 수 있게 됩니다.
@@ -58,8 +58,7 @@
 
 ### ④ 보관함 코드 확인
 
-![Untitl4ed](https://github.com/jaesin463/X10/assets/117919180/0176f783-1dac-46d5-9f02-d8b23e6342be){: width="50%" height="50%"}
-
+<img src = "https://github.com/jaesin463/X10/assets/117919180/0176f783-1dac-46d5-9f02-d8b23e6342be" width="50%" height="height 50%">
 - 오프라인 판매코드 확인하기를 통해 보관함에 입력할 **판매코드**를 확인할 수 있습니다.
 - 판매자가 키오스크에 판매코드를 입력하면 구매자는 이후에 **구매코드**를 구매내역에서 확인할 수 있습니다.
 
